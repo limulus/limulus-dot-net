@@ -1,0 +1,42 @@
+name: Continuous Delivery
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-www:
+    runs-on: ubuntu-latest
+    name: build website
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist-www
+          path: dist/www
+          retention-days: 15
+
+  deploy-www:
+    needs: build-www
+    name: deploy website
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist-www
+          path: www
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::865116139480:role/github-actions-limulus-penumbra
+          aws-region: us-west-2
+      - run: aws s3 sync www s3://limulus-net-penumbra --delete --cache-control max-age=60,public

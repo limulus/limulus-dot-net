@@ -1,0 +1,186 @@
+@font-face {
+  font-family: 'Mona Sans';
+  src:
+    url('../assets/fonts/mona-sans.woff2') format('woff2 supports variations'),
+    url('../assets/fonts/mona-sans.woff2') format('woff2-variations');
+  font-weight: 200 900;
+  font-stretch: 75% 125%;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Monaspace Neon';
+  src:
+    url('../assets/fonts/monaspace-neon.woff2') format('woff2 supports variations'),
+    url('../assets/fonts/monaspace-neon.woff2') format('woff2-variations');
+  font-weight: 200 800;
+  font-display: swap;
+}
+
+/**
+ * Fix variable font inheritance:
+ * https://pixelambacht.nl/2019/fixing-variable-font-inheritance/
+ */
+:root {
+  --var-font-wght: 400;
+  --var-font-slnt: 0;
+}
+* {
+  font-variation-settings:
+    'wght' var(--var-font-wght),
+    'slnt' var(--var-font-slnt);
+}
+body {
+  font-family: 'Mona Sans', sans-serif;
+  --var-font-wght: 400;
+  --var-font-slnt: 0;
+}
+i,
+em {
+  --var-font-slnt: -10;
+  font-synthesis: none;
+}
+b,
+strong,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  --var-font-wght: 700;
+  font-synthesis: none;
+}
+
+html {
+  background-color: #f5f5f5;
+  color: #333;
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-y: scroll;
+}
+body {
+  margin: 0 auto;
+  max-width: 45rem;
+  padding: 0 2rem 2rem 2rem;
+}
+
+a {
+  color: #333;
+}
+a:active {
+  color: #338;
+}
+a:visited {
+  color: #555;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden:not(:focus):not(:active) {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+.visually-hidden:focus {
+  position: absolute;
+}
+
+body > header {
+  display: flex;
+  gap: 1em 0.5em;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 1em 0;
+  font-size: 1.1em;
+}
+body > header .home-link {
+  --var-font-wght: 700;
+  margin-right: 2em;
+}
+body > header .home-link:link:not(:hover) {
+  text-decoration: none;
+}
+
+body > header nav {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+body > header nav li {
+  display: inline-block;
+  margin-right: 1em;
+}
+body > header a[href]:not(:hover) {
+  text-decoration: none;
+}
+
+body > header a:visited {
+  color: #333;
+}
+
+h1.title {
+  margin-top: 0;
+}
+
+code {
+  font-family: 'Monaspace Neon', monospace;
+  /**
+   * Need to put this here instead of @font-face due to a bug in Chromium:
+   * https://bugs.chromium.org/p/chromium/issues/detail?id=443467
+   */
+  font-feature-settings: 'calt', 'dlig', 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06',
+    'ss07', 'ss08';
+  font-size: 0.95em;
+}
+
+pre > code.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.75rem 1rem;
+  border-radius: 0.66666rem;
+  background-color: #fafafa;
+  line-height: 1.5;
+  font-size: 0.9rem;
+}
+
+figure {
+  margin: 0;
+}
+
+sphere-shadow::part(hud-label) {
+  font-family: 'Mona Sans', sans-serif;
+}
+
+sphere-shadow::part(hud-value) {
+  font-family: 'Monaspace Neon', monospace;
+  font-size: 0.9em;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    background-color: rgb(13, 17, 23);
+    color: rgb(201, 209, 217);
+  }
+
+  img:not([src*='.svg']) {
+    filter: grayscale(20%);
+  }
+
+  a,
+  header a {
+    color: rgb(201, 209, 217);
+  }
+  a:visited,
+  body > header a:visited {
+    color: #bbb;
+  }
+
+  pre > code.hljs {
+    background-color: #20212c;
+  }
+}

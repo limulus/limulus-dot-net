@@ -1,0 +1,50 @@
+---
+title: A Web-Centric Ray Tracer Challenge Implementation
+layout: penumbra-page
+teaser: >-
+  A development journal and web-centric implementation of The Ray Tracer Challenge.
+---
+
+<h1 class="title">Penumbra</h1>
+
+<p>
+  <em>Penumbra</em> is a
+  <a href="https://pragprog.com/titles/jbtracer/the-ray-tracer-challenge/"
+    >Ray Tracer Challenge</a
+  >
+  implementation built for the web. It’s a work in progress.
+</p>
+
+<h2>Development Journal</h2>
+
+<p>Follow my progress by subscribing to the <a href="/feed.xml">RSS feed</a>.</p>
+
+<ol class="journal">
+  <li webc:for="entry of collections.journal.reverse()">
+    <article>
+      <time @text="entry.date.toDateString()"></time>
+      <h1><a :href="entry.url" @text="entry.data.title"></a><br /></h1>
+      <p class="teaser" @html="entry.data.teaser"></p>
+    </article>
+  </li>
+</ol>
+
+<style>
+  ol.journal {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  ol.journal h1 {
+    margin: 0;
+    font-size: inherit;
+  }
+
+  ol.journal time {
+    display: block;
+    font-size: 0.8em;
+    --var-font-slnt: -10;
+    color: #666;
+  }
+</style>

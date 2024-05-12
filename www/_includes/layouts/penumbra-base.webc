@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <link
+      rel="preload"
+      href="/assets/fonts/mona-sans.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <script type="module" webc:keep>
+      if (window.location.hostname.endsWith('limulus.net')) {
+        await import('/penumbra/assets/js/rum/index.js')
+      }
+    </script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" :href="getBundleFileUrl('css')" webc:keep />
+
+    <title webc:type="11ty" @11ty:type="liquid" webc:keep>Penumbra | {{ title }}</title>
+
+    <link rel="alternate" type="application/atom+xml" href="/feed.xml" />
+
+    <meta property="og:title" :content="title" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" :content="site.url + page.url" />
+    <meta webc:if="image" property="og:image" :content="site.url + page.url + image" />
+    <meta webc:if="teaser" property="og:description" :content="teaser" />
+
+    <meta webc:if="teaser" name="description" :content="teaser" />
+  </head>
+  <body @raw="content"></body>
+</html>

@@ -1,0 +1,45 @@
+<p>
+  <a href="https://limulus.net/" class="avatar">
+    <eleventy-image
+      src="www/assets/images/eric-in-hawaii.jpeg"
+      width="256"
+      alt="Headshot of Eric"
+    ></eleventy-image>
+  </a>
+  <a rel="author" href="https://limulus.net">Eric McCarthy</a>
+  <time
+    :datetime="date.toISOString()"
+    @text="date.toLocaleDateString('en-us', { dateStyle: 'medium' })"
+  ></time>
+</p>
+
+<style webc:scoped>
+  :host p {
+    overflow: auto;
+    margin-left: 2px;
+  }
+
+  :host img {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  :host a.avatar {
+    display: block;
+    float: left;
+    margin-right: 1em;
+  }
+
+  :host a,
+  :host a:visited,
+  :host a:hover {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  :host time {
+    display: block;
+  }
+</style>
