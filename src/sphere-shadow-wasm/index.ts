@@ -1,4 +1,4 @@
-import { TouchPadMoveEvent } from 'touch-pad'
+import { TouchPadMoveEvent } from 'touch-pad/define'
 
 import {
   SphereShadowInitMessage,
