@@ -1,4 +1,5 @@
-import { TouchPadMoveEvent } from 'touch-pad/define'
+import 'touch-pad/define'
+import type { TouchPadMoveEvent } from 'touch-pad'
 
 import {
   SphereShadowInitMessage,
@@ -74,7 +75,7 @@ export class SphereShadow extends HTMLElement {
       this.worker?.postMessage(message)
     })
 
-    this.worker = new Worker(new URL('./worker.js', import.meta.url))
+    this.worker = new Worker(new URL('./worker.js', import.meta.url), { type: 'module' })
     this.worker.addEventListener(
       'message',
       (event: MessageEvent<SphereShadowFrameMessage>) => {

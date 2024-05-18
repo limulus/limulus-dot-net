@@ -58,7 +58,7 @@
     "media-chrome": "^3.2.1",
     "mkdirp": "^3.0.1",
     "raf": "^3.4.1",
-    "touch-pad": "^1.0.1",
+    "touch-pad": "^1.1.0",
     "typescript": "^5.4.5",
     "ulid": "^2.3.0"
   },
