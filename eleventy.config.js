@@ -1,16 +1,16 @@
-const { EleventyHtmlBasePlugin } = require('@11ty/eleventy')
-const { eleventyImagePlugin } = require('@11ty/eleventy-img')
-const pluginRss = require('@11ty/eleventy-plugin-rss')
-const pluginWebc = require('@11ty/eleventy-plugin-webc')
-const hljs = require('highlight.js')
-const markdownIt = require('markdown-it')
-const markdownItAnchor = require('markdown-it-anchor')
-const markdownItAttrs = require('markdown-it-attrs')
-const markdownItFootnote = require('markdown-it-footnote')
-const markdownItTaskLists = require('markdown-it-task-lists')
+import { EleventyHtmlBasePlugin } from '@11ty/eleventy'
+import { eleventyImagePlugin } from '@11ty/eleventy-img'
+import pluginRss from '@11ty/eleventy-plugin-rss'
+import pluginWebc from '@11ty/eleventy-plugin-webc'
+import highlight from 'highlight.js'
+import markdownIt from 'markdown-it'
+import markdownItAnchor from 'markdown-it-anchor'
+import markdownItAttrs from 'markdown-it-attrs'
+import markdownItFootnote from 'markdown-it-footnote'
+import markdownItTaskLists from 'markdown-it-task-lists'
 
 /** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
-module.exports = function (eleventyConfig) {
+export default function (eleventyConfig) {
   const input = 'www'
   const output = 'dist/www'
   const layouts = '_includes/layouts'
@@ -43,10 +43,10 @@ module.exports = function (eleventyConfig) {
     html: true,
     linkify: true,
     highlight: (str, language) => {
-      if (language && hljs.getLanguage(language)) {
+      if (language && highlight.getLanguage(language)) {
         return (
           '<pre><code class="hljs">' +
-          hljs.highlight(str, { language, ignoreIllegals: true }).value +
+          highlight.inherit(str, { language, ignoreIllegals: true }).value +
           '</code></pre>'
         )
       }

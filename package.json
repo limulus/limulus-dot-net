@@ -14,7 +14,7 @@
     "dev": "concurrently -c auto 'npm:dev:*'",
     "dev:www": "eleventy --serve",
     "dev:esm": "chokidar src --initial --command 'npm run build:esm'",
-    "lint": "eslint *.cjs src",
+    "lint": "eslint *.js src",
     "prepare": "is-ci || husky install",
     "tscc": "tsc --noEmit",
     "verify": "concurrently -c auto npm:lint npm:tscc npm:wwwc",
@@ -35,7 +35,7 @@
   },
   "homepage": "https://github.com/limulus/penumbra-www#readme",
   "dependencies": {
-    "@11ty/eleventy": "^2.0.1",
+    "@11ty/eleventy": "3.0.0-alpha.10",
     "@11ty/eleventy-img": "^4.0.2",
     "@11ty/eleventy-plugin-rss": "^1.2.0",
     "@11ty/eleventy-plugin-webc": "^0.11.2",
