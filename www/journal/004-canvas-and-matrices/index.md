@@ -180,7 +180,7 @@ have to for this exercise: add animated “hands” and perform the rendering in
 
 <figure>
   <figcaption>
-    <a href="https://github.com/limulus/penumbra/blob/main/src/www/pixel-clock/">
+    <a href="https://github.com/limulus/penumbra-www/tree/bb3fc6bc3a35db3e7abe249f3838152e116e79f7/src/pixel-clock">
       <code>&lt;pixel-clock&gt;</code>
     </a>
   </figcaption>

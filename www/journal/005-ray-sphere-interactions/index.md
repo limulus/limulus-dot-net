@@ -122,7 +122,7 @@ can change the position of the light source by dragging from the element.
 
 <figure>
   <figcaption>
-    <a href="https://github.com/limulus/penumbra/blob/main/src/www/sphere-shadow/">
+    <a href="https://github.com/limulus/penumbra-www/tree/bb3fc6bc3a35db3e7abe249f3838152e116e79f7/src/sphere-shadow">
       <code>&lt;sphere-shadow&gt;</code>
     </a>
   </figcaption>

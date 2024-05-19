@@ -19,7 +19,7 @@ projectile on a canvas. Here it is in action:
 
 <figure>
   <figcaption>
-    <a href="https://github.com/limulus/penumbra/blob/main/src/www/projectile-cannon/index.ts"><code>&lt;projectile-cannon&gt;</code></a>
+    <a href="https://github.com/limulus/penumbra-www/blob/bb3fc6bc3a35db3e7abe249f3838152e116e79f7/src/projectile-cannon/index.ts"><code>&lt;projectile-cannon&gt;</code></a>
   </figcaption>
   <projectile-cannon>
     <script>document.write('Loading…')</script>
