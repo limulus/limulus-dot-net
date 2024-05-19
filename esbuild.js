@@ -1,17 +1,24 @@
 import { build } from 'esbuild'
+import { wasmLoader } from 'esbuild-plugin-wasm'
+import { globby } from 'globby'
+import { basename, join, sep, parse } from 'node:path'
 
-const entryPoints = ['src/**/index.ts', 'src/**/worker.ts']
 const outdir = 'dist/www/assets/js'
+const entryPoints = await globby(['src/**/index.ts', 'src/**/worker.ts'])
 
-for (const entryPoint of entryPoints) {
-  const format = entryPoint.includes('worker.ts') ? 'iife' : 'esm'
+await Promise.all(
+  entryPoints.map(async (entryPoint) => {
+    const dir = parse(entryPoint).dir.split(sep).pop()
+    const outfile = join(outdir, dir, `${basename(entryPoint, '.ts')}.js`)
 
-  await build({
-    entryPoints: [entryPoint],
-    outdir,
-    bundle: true,
-    format,
-    minify: true,
-    sourcemap: true,
+    await build({
+      entryPoints: [entryPoint],
+      outfile,
+      bundle: true,
+      format: 'esm',
+      minify: true,
+      sourcemap: true,
+      plugins: [wasmLoader()],
+    })
   })
-}
+)

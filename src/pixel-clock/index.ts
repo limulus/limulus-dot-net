@@ -27,7 +27,7 @@ export class PixelClock extends HTMLElement {
     if (!ctx) throw new Error('Could not get canvas context')
     ctx.imageSmoothingEnabled = false
 
-    this.worker = new Worker(new URL('./worker.js', import.meta.url))
+    this.worker = new Worker(new URL('./worker.js', import.meta.url), { type: 'module' })
     this.worker.addEventListener('message', (event: MessageEvent<PixelClockMessage>) => {
       switch (event.data.type) {
         case PixelClockMessageType.Frame:

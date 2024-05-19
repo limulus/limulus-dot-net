@@ -2,6 +2,7 @@ export enum SphereShadowMessageType {
   Frame = 'frame',
   Init = 'init',
   LightTranslate = 'light-translate',
+  Ready = 'ready',
 }
 
 export interface SphereShadowFrameMessage {
@@ -23,4 +24,6 @@ export interface SphereShadowLightTranslateMessage {
   z: number
 }
 
-export type SphereShadowMessage = SphereShadowFrameMessage | SphereShadowInitMessage
+export interface SphereShadowReadyMessage {
+  type: SphereShadowMessageType.Ready
+}

@@ -1,10 +1,12 @@
 import 'touch-pad/define'
+import type { TouchPadMoveEvent } from 'touch-pad'
 
 import {
   SphereShadowInitMessage,
   SphereShadowFrameMessage,
   SphereShadowMessageType,
   SphereShadowLightTranslateMessage,
+  SphereShadowReadyMessage,
 } from './messages.js'
 
 const template = document.createElement('template')
@@ -77,8 +79,15 @@ export class SphereShadowWasm extends HTMLElement {
     this.worker = new Worker(new URL('./worker.js', import.meta.url), { type: 'module' })
     this.worker.addEventListener(
       'message',
-      (event: MessageEvent<SphereShadowFrameMessage>) => {
+      (event: MessageEvent<SphereShadowFrameMessage | SphereShadowReadyMessage>) => {
         switch (event.data.type) {
+          case SphereShadowMessageType.Ready:
+            this.worker!.postMessage({
+              type: SphereShadowMessageType.Init,
+              width: resolution,
+              height: resolution,
+            } as SphereShadowInitMessage)
+            break
           case SphereShadowMessageType.Frame:
             ctx.drawImage(event.data.bitmap, 0, 0, canvas.width, canvas.height)
             renderTimeEl.textContent = `${event.data.renderTime
@@ -86,16 +95,11 @@ export class SphereShadowWasm extends HTMLElement {
               .padStart(6, ' ')} ms`
             break
           default:
+            // @ts-expect-error
             throw new Error(`Unhandled message type: ${event.data.type}`)
         }
       }
     )
-    const message: SphereShadowInitMessage = {
-      type: SphereShadowMessageType.Init,
-      width: resolution,
-      height: resolution,
-    }
-    this.worker.postMessage(message)
   }
 
   disconnectedCallback() {

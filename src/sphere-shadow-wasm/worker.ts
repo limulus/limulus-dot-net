@@ -2,7 +2,7 @@
 
 import '../raf-polyfill.js'
 
-import init, { SphereShadowRenderer } from '@limulus/penumbra'
+import { SphereShadowRenderer } from '@limulus/penumbra/wasm/simd'
 
 import {
   SphereShadowInitMessage,
@@ -13,6 +13,8 @@ import {
 
 let renderer: SphereShadowRenderer
 let dirty = true
+
+self.postMessage({ type: SphereShadowMessageType.Ready })
 
 self.onmessage = (event) => {
   switch (event.data.type) {
@@ -28,7 +30,6 @@ self.onmessage = (event) => {
 }
 
 async function handleInitMessage(message: SphereShadowInitMessage) {
-  await init('../../wasm/penumbra-simd_bg.wasm')
   renderer = new SphereShadowRenderer(message.width, message.height, 7)
   self.requestAnimationFrame(handleRequestAnimationFrame)
 }

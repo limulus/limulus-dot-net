@@ -39,7 +39,7 @@
     "@11ty/eleventy-plugin-rss": "^1.2.0",
     "@11ty/eleventy-plugin-webc": "^0.11.2",
     "@limulus/eslint-config": "^5.0.0",
-    "@limulus/penumbra": "^1.8.0",
+    "@limulus/penumbra": "^1.9.1",
     "aws-rum-web": "^1.17.2",
     "chokidar-cli": "^3.0.0",
     "concurrently": "^8.2.2",
@@ -63,6 +63,8 @@
     "ulid": "^2.3.0"
   },
   "devDependencies": {
-    "@types/raf": "^3.4.3"
+    "@types/raf": "^3.4.3",
+    "esbuild-plugin-wasm": "^1.1.0",
+    "globby": "^14.0.1"
   }
 }
