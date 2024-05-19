@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build-www:
+  build:
     runs-on: ubuntu-latest
     name: build website
     steps:
@@ -26,8 +26,8 @@ jobs:
           path: dist/www
           retention-days: 15
 
-  deploy-www:
-    needs: build-www
+  deploy:
+    needs: build
     name: deploy website
     runs-on: ubuntu-latest
     permissions:
