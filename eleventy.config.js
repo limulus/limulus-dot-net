@@ -2,7 +2,7 @@ import { EleventyHtmlBasePlugin } from '@11ty/eleventy'
 import { eleventyImagePlugin } from '@11ty/eleventy-img'
 import pluginRss from '@11ty/eleventy-plugin-rss'
 import pluginWebc from '@11ty/eleventy-plugin-webc'
-import highlight from 'highlight.js'
+import hljs from 'highlight.js'
 import markdownIt from 'markdown-it'
 import markdownItAnchor from 'markdown-it-anchor'
 import markdownItAttrs from 'markdown-it-attrs'
@@ -43,10 +43,10 @@ export default function (eleventyConfig) {
     html: true,
     linkify: true,
     highlight: (str, language) => {
-      if (language && highlight.getLanguage(language)) {
+      if (language && hljs.getLanguage(language)) {
         return (
           '<pre><code class="hljs">' +
-          highlight.inherit(str, { language, ignoreIllegals: true }).value +
+          hljs.highlight(str, { language, ignoreIllegals: true }).value +
           '</code></pre>'
         )
       }
