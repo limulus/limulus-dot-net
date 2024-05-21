@@ -28,7 +28,7 @@ template.innerHTML = /* HTML */ `
     }
 
     touch-pad {
-      display: flex;
+      display: inline-block;
     }
   </style>
   <touch-pad>
