@@ -44,7 +44,12 @@ template.innerHTML = /* HTML */ `
 `
 
 export class SphereShadow extends HTMLElement {
+  static get observedAttributes() {
+    return ['resolution']
+  }
+
   worker: Worker | null = null
+  #resolution: number = 100
 
   connectedCallback() {
     const shadow = this.attachShadow({ mode: 'open' })
@@ -60,7 +65,7 @@ export class SphereShadow extends HTMLElement {
     const renderTimeEl = shadow.querySelector('#render-time')
     if (!renderTimeEl) throw new Error('Could not find render time element')
 
-    const resolution = 100
+    this.#resolution = parseInt(this.getAttribute('resolution') ?? '100', 10) || 100
 
     this.addEventListener('touchpadmove', (event) => {
       const {
@@ -68,8 +73,8 @@ export class SphereShadow extends HTMLElement {
       } = event as TouchPadMoveEvent
       const message: SphereShadowLightTranslateMessage = {
         type: SphereShadowMessageType.LightTranslate,
-        x: x * resolution,
-        y: y * resolution,
+        x: x * this.#resolution,
+        y: y * this.#resolution,
         z: 0,
       }
       this.worker?.postMessage(message)
@@ -93,10 +98,25 @@ export class SphereShadow extends HTMLElement {
     )
     const message: SphereShadowInitMessage = {
       type: SphereShadowMessageType.Init,
-      width: resolution,
-      height: resolution,
+      width: this.#resolution,
+      height: this.#resolution,
     }
     this.worker.postMessage(message)
+  }
+
+  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    if (name === 'resolution' && oldValue !== newValue) {
+      const resolution = parseInt(newValue, 10)
+      if (!isNaN(resolution)) {
+        this.#resolution = resolution
+        const message: SphereShadowInitMessage = {
+          type: SphereShadowMessageType.Init,
+          width: this.#resolution,
+          height: this.#resolution,
+        }
+        this.worker?.postMessage(message)
+      }
+    }
   }
 
   disconnectedCallback() {

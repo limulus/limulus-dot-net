@@ -25,16 +25,17 @@ self.onmessage = (event) => {
 }
 
 let canvas: Canvas
+let lightTransform: Matrix
 
 async function handleInitMessage(message: SphereShadowInitMessage) {
   canvas = new Canvas(message.width, message.height)
+  lightTransform = Matrix.identity(4)
   precomputeSensorPoints()
   precomputeBackgroundGradient()
   self.requestAnimationFrame(handleRequestAnimationFrame)
 }
 
 const light = Tuple.point(-5, 0, 0)
-let lightTransform = Matrix.identity(4)
 function handleLightTranslateMessage(message: SphereShadowLightTranslateMessage) {
   const newLightTransform = Matrix.transformation()
     .translate(0, message.y, message.x)
@@ -51,7 +52,7 @@ function handleLightTranslateMessage(message: SphereShadowLightTranslateMessage)
 
 let depsCache: any[] = []
 async function handleRequestAnimationFrame(_time: number) {
-  const deps = [lightTransform]
+  const deps = [lightTransform, canvas.width, canvas.height]
   if (!deps.every((dep, index) => dep === depsCache[index])) {
     const t0 = performance.now()
     renderSphereShadow(lightTransform.mul(light))
@@ -69,9 +70,9 @@ const sensorTransform = Matrix.transformation()
   .rotateX((2 * Math.PI) / 2) // Rotate 180 degrees around the x-axis to account for the canvas being upside-down
   .rotateY((1 * Math.PI) / 2) // Rotate 90 degrees around the y-axis so it faces the light
 
-const sensorPoints: Tuple[] = []
-
+let sensorPoints: Tuple[]
 function precomputeSensorPoints() {
+  sensorPoints = []
   for (let i = 0; i < canvas.width; i++) {
     for (let j = 0; j < canvas.height; j++) {
       const x = (i / canvas.width) * sensorSize

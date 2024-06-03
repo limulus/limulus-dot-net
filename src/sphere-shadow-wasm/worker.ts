@@ -31,6 +31,7 @@ self.onmessage = (event) => {
 
 async function handleInitMessage(message: SphereShadowInitMessage) {
   renderer = new SphereShadowRenderer(message.width, message.height, 7)
+  dirty = true
   self.requestAnimationFrame(handleRequestAnimationFrame)
 }
 
