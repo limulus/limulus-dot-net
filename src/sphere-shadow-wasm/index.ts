@@ -127,3 +127,7 @@ export class SphereShadowWasm extends HTMLElement {
     this.worker?.terminate()
   }
 }
+
+if (!customElements.get('sphere-shadow-wasm')) {
+  customElements.define('sphere-shadow-wasm', SphereShadowWasm)
+}

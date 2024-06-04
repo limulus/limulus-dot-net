@@ -188,12 +188,8 @@ have to for this exercise: add animated “hands” and perform the rendering in
     <script>document.write('Loading…')</script>
     <noscript>Enable JavaScript to view the <code>&lt;pixel-clock&gt;</code> demo.</noscript>
   </pixel-clock>
+  <script type="module" async src="../../assets/js/pixel-clock/index.js"></script>
 </figure>
-
-<script type="module" async>
-  import { PixelClock } from '../../assets/js/pixel-clock/index.js'
-  customElements.define('pixel-clock', PixelClock)
-</script>
 
 Now that I have some hands-on experience with Web Workers I expect to be able to offload the
 work of the ray tracer off the main thread, and possibly even parallelize the work into

@@ -123,3 +123,7 @@ export class SphereShadow extends HTMLElement {
     this.worker?.terminate()
   }
 }
+
+if (!customElements.get('sphere-shadow')) {
+  customElements.define('sphere-shadow', SphereShadow)
+}

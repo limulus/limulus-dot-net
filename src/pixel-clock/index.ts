@@ -44,3 +44,7 @@ export class PixelClock extends HTMLElement {
     this.worker?.terminate()
   }
 }
+
+if (!customElements.get('pixel-clock')) {
+  customElements.define('pixel-clock', PixelClock)
+}

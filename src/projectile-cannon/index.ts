@@ -216,3 +216,7 @@ class Renderer {
     })
   }
 }
+
+if (!customElements.get('projectile-cannon')) {
+  customElements.define('projectile-cannon', ProjectileCannon)
+}

@@ -130,12 +130,8 @@ can change the position of the light source by dragging from the element.
     <script>document.write('Loading…')</script>
     <noscript>Enable JavaScript to view the <code>&lt;sphere-shadow&gt;</code> demo.</noscript>
   </sphere-shadow>
+  <script type="module" async src="../../assets/js/sphere-shadow/index.js"></script>
 </figure>
-
-<script type="module" async>
-  import { SphereShadow } from '../../assets/js/sphere-shadow/index.js'
-  customElements.define('sphere-shadow', SphereShadow)
-</script>
 
 I don’t normally test drive my demo code since it is more exploratory fun than writing code
 I intend to reuse. But I figured I would want to make use of the dragging interaction again,

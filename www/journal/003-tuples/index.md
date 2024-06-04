@@ -25,12 +25,8 @@ projectile on a canvas. Here it is in action:
     <script>document.write('Loading…')</script>
     <noscript>Enable JavaScript to view the &lt;projectile-cannon&gt; demo.</noscript>
   </projectile-cannon>
+  <script type="module" async src="../../assets/js/projectile-cannon/index.js"></script>
 </figure>
-
-<script type="module" async>
-  import { ProjectileCannon } from '../../assets/js/projectile-cannon/index.js'
-  customElements.define('projectile-cannon', ProjectileCannon)
-</script>
 
 I attempted to represent the <math display="inline"><mi>z</mi></math> axis by
 increasing/decreasing the size of the projectile. Something seems off with that though.
