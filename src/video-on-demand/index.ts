@@ -76,9 +76,7 @@ export class VideoOnDemand extends HTMLElement {
   connectedCallback() {
     const vod = this.getAttribute('vod')
     if (!vod) throw new Error('Attribute "vod" is required')
-    const vodUrl = window.sessionStorage.getItem('bunny')
-      ? `https://vod-limulus-net.b-cdn.net/${vod}`
-      : `https://vod.limulus.net/${vod}`
+    const vodUrl = `https://vod.limulus.net/${vod}`
 
     const videoEl = this.shadowRoot!.querySelector<HTMLVideoElement>('video')!
     videoEl.setAttribute('poster', `${vodUrl}/poster.jpeg`)
