@@ -7,6 +7,7 @@ image: poster.jpeg
 teaser: >-
   A six minute video I produced to show how I am using GitHub Copilot as I work on
   my ray tracer, Penumbra. Includes a preview of the upcoming switch to Rust/WebAssembly!
+vod: github-copilot-demo/01HTWVCE0J15PDF91C8969JXHH
 ---
 
 <video-on-demand vod="github-copilot-demo/01HTWVCE0J15PDF91C8969JXHH"></video-on-demand>

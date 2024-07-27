@@ -16,9 +16,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xml:base="{{ metadata.url }}">
   <title>{{ metadata.title }}</title>
-  {% if metadata.subtitle %}
+  {%- if metadata.subtitle %}
     <subtitle>{{ metadata.subtitle }}</subtitle>
-  {% endif %}
+  {%- endif %}
   <link href="{{ permalink | absoluteUrl(metadata.url) }}" rel="self"/>
   <link href="{{ metadata.url }}"/>
   <updated>{{ collections.posts | getNewestCollectionItemDate | dateToRfc3339 }}</updated>
@@ -36,6 +36,13 @@
     <updated>{{ post.date | dateToRfc3339 }}</updated>
     <id>{{ absolutePostUrl }}</id>
     <content xml:lang="{{ metadata.language }}" type="html">{{ post.data.teaser }}</content>
+    {%- if post.data.vod %}
+      <link
+        rel="enclosure"
+        type="application/vnd.apple.mpegurl"
+        href="https://vod.limulus.net/{{ post.data.vod }}/index.m3u8"
+      />
+    {%- endif %}
   </entry>
   {%- endfor %}
 </feed>
