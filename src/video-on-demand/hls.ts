@@ -3,12 +3,8 @@ import Hls from 'hls.js'
 import { VideoOnDemand } from '.'
 import { VODEvent } from './VODEvent'
 
-const shouldUseHlsJs =
-  !document.createElement('video').canPlayType('application/vnd.apple.mpegurl') &&
-  Hls.isSupported()
-
 export const createHlsAndBindEvents = (el: VideoOnDemand): Hls | null => {
-  if (!shouldUseHlsJs) return null
+  if (!Hls.isSupported()) return null
 
   const hls = new Hls()
 
