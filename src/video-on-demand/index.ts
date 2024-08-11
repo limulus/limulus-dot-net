@@ -71,12 +71,14 @@ template.innerHTML = /* HTML */ `
 
 export class VideoOnDemand extends HTMLElement {
   #hls: Hls | null
+  #videoEl: HTMLVideoElement
 
   constructor() {
     super()
-    this.#hls = createHlsAndBindEvents(this)
     this.attachShadow({ mode: 'open' })
     this.shadowRoot!.appendChild(template.content.cloneNode(true))
+    this.#videoEl = this.shadowRoot!.querySelector<HTMLVideoElement>('video')!
+    this.#hls = createHlsAndBindEvents(this, this.#videoEl)
   }
 
   connectedCallback() {
@@ -84,42 +86,44 @@ export class VideoOnDemand extends HTMLElement {
     if (!vod) throw new Error('Attribute "vod" is required')
     const vodUrl = `https://vod.limulus.net/${vod}`
 
-    const videoEl = this.shadowRoot!.querySelector<HTMLVideoElement>('video')!
-    videoEl.setAttribute('poster', `${vodUrl}/poster.jpeg`)
+    this.#videoEl.setAttribute('poster', `${vodUrl}/poster.jpeg`)
 
     if (this.#hls) {
       this.#hls.loadSource(`${vodUrl}/index.m3u8`)
-      this.#hls.attachMedia(videoEl)
+      this.#hls.attachMedia(this.#videoEl)
 
       // Stop loading the HLS stream when AirPlay is active.
       // https://github.com/video-dev/hls.js/issues/6482#issuecomment-2159399478
-      if (videoEl.webkitCurrentPlaybackTargetIsWireless) {
+      if (this.#videoEl.webkitCurrentPlaybackTargetIsWireless) {
         this.#hls.stopLoad()
       }
-      videoEl.addEventListener('webkitcurrentplaybacktargetiswirelesschanged', (_event) => {
-        if (videoEl.webkitCurrentPlaybackTargetIsWireless) {
-          this.#hls!.stopLoad()
-        } else {
-          this.#hls!.startLoad()
+      this.#videoEl.addEventListener(
+        'webkitcurrentplaybacktargetiswirelesschanged',
+        (_event) => {
+          if (this.#videoEl.webkitCurrentPlaybackTargetIsWireless) {
+            this.#hls!.stopLoad()
+          } else {
+            this.#hls!.startLoad()
+          }
         }
-      })
+      )
 
       // Add source attribute for AirPlay
       const hlsSourceEl = document.createElement('source')
       hlsSourceEl.setAttribute('type', 'application/x-mpegURL')
       hlsSourceEl.setAttribute('src', `${vodUrl}/index.m3u8`)
-      videoEl.disableRemotePlayback = false
-      videoEl.appendChild(hlsSourceEl)
-    } else if (videoEl.canPlayType('application/vnd.apple.mpegurl')) {
-      videoEl.setAttribute('src', `${vodUrl}/index.m3u8`)
+      this.#videoEl.disableRemotePlayback = false
+      this.#videoEl.appendChild(hlsSourceEl)
+    } else if (this.#videoEl.canPlayType('application/vnd.apple.mpegurl')) {
+      this.#videoEl.setAttribute('src', `${vodUrl}/index.m3u8`)
     }
 
-    videoEl.addEventListener('error', (event) => {
+    this.#videoEl.addEventListener('error', (event) => {
       const payload = {
         event,
         videoElementLastError: {
-          code: videoEl.error?.code,
-          message: videoEl.error?.message,
+          code: this.#videoEl.error?.code,
+          message: this.#videoEl.error?.message,
         },
       }
       this.dispatchEvent(new VODEvent('error', vod, payload))
@@ -127,16 +131,19 @@ export class VideoOnDemand extends HTMLElement {
     })
 
     let played = false
-    videoEl.addEventListener('play', (event) => {
+    this.#videoEl.addEventListener('play', (event) => {
       if (played) return
       played = true
       this.dispatchEvent(new VODEvent('played', vod, { event }))
     })
 
     let viewed = false
-    videoEl.addEventListener('timeupdate', () => {
+    this.#videoEl.addEventListener('timeupdate', () => {
       if (viewed) return
-      if (videoEl.duration && videoEl.currentTime / videoEl.duration > 0.85) {
+      if (
+        this.#videoEl.duration &&
+        this.#videoEl.currentTime / this.#videoEl.duration > 0.85
+      ) {
         viewed = true
         this.dispatchEvent(new VODEvent('viewed', vod))
       }
