@@ -68,6 +68,7 @@ export default function (eleventyConfig) {
         next()
       },
     ],
+    port: process.env.PORT || 8080,
     watch: ['dist/assets/**/*.{css,js}'],
   })
 
