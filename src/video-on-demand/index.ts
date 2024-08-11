@@ -94,7 +94,13 @@ export class VideoOnDemand extends HTMLElement {
     }
 
     videoEl.addEventListener('error', (event) => {
-      const payload = { event, videoElementLastError: videoEl.error }
+      const payload = {
+        event,
+        videoElementLastError: {
+          code: videoEl.error?.code,
+          message: videoEl.error?.message,
+        },
+      }
       this.dispatchEvent(new VODEvent('error', vod, payload))
       console.error('video-on-demand error', payload)
     })

@@ -7,4 +7,9 @@ export class VODEvent extends CustomEvent<{ vod: string } & Record<string, any>>
       detail: { type: `net.limulus.vod.${type}`, vod, ...detail },
     })
   }
+
+  get message(): string | undefined {
+    if (this.type !== 'error') return undefined
+    return `VODEvent: ${JSON.stringify(this.detail)}`
+  }
 }
