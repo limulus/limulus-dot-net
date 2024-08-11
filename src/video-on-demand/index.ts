@@ -7,7 +7,13 @@ import { createHlsAndBindEvents } from './hls'
 const template = document.createElement('template')
 template.innerHTML = /* HTML */ `
   <media-controller style="aspect-ratio: 16/9; width: 100%">
-    <video crossorigin preload="none" slot="media"></video>
+    <video
+      crossorigin
+      playsinline
+      preload="none"
+      slot="media"
+      x-webkit-airplay="allow"
+    ></video>
     <media-settings-menu hidden anchor="auto">
       <media-settings-menu-item>
         Speed
@@ -82,13 +88,28 @@ export class VideoOnDemand extends HTMLElement {
     videoEl.setAttribute('poster', `${vodUrl}/poster.jpeg`)
 
     if (this.#hls) {
-      const hlsSourceEl = document.createElement('source')
-      hlsSourceEl.setAttribute('type', 'application/vnd.apple.mpegurl')
-      hlsSourceEl.setAttribute('src', `${vodUrl}/index.m3u8`)
-      videoEl.appendChild(hlsSourceEl)
-
-      this.#hls.attachMedia(videoEl)
       this.#hls.loadSource(`${vodUrl}/index.m3u8`)
+      this.#hls.attachMedia(videoEl)
+
+      // Stop loading the HLS stream when AirPlay is active.
+      // https://github.com/video-dev/hls.js/issues/6482#issuecomment-2159399478
+      if (videoEl.webkitCurrentPlaybackTargetIsWireless) {
+        this.#hls.stopLoad()
+      }
+      videoEl.addEventListener('webkitcurrentplaybacktargetiswirelesschanged', (_event) => {
+        if (videoEl.webkitCurrentPlaybackTargetIsWireless) {
+          this.#hls!.stopLoad()
+        } else {
+          this.#hls!.startLoad()
+        }
+      })
+
+      // Add source attribute for AirPlay
+      const hlsSourceEl = document.createElement('source')
+      hlsSourceEl.setAttribute('type', 'application/x-mpegURL')
+      hlsSourceEl.setAttribute('src', `${vodUrl}/index.m3u8`)
+      videoEl.disableRemotePlayback = false
+      videoEl.appendChild(hlsSourceEl)
     } else if (videoEl.canPlayType('application/vnd.apple.mpegurl')) {
       videoEl.setAttribute('src', `${vodUrl}/index.m3u8`)
     }
