@@ -1,8 +1,10 @@
+import 'media-tracks/polyfill'
 import 'media-chrome'
-import Hls from 'hls.js'
+
+import Hls, { Level } from 'hls.js'
 
 import { VODEvent } from './VODEvent'
-import { createHlsAndBindEvents } from './hls'
+import { availableQualityLevels, createHlsAndBindEvents } from './hls'
 
 const template = document.createElement('template')
 template.innerHTML = /* HTML */ `
@@ -16,16 +18,22 @@ template.innerHTML = /* HTML */ `
     ></video>
     <media-settings-menu hidden anchor="auto">
       <media-settings-menu-item>
-        Speed
-        <media-playback-rate-menu slot="submenu" hidden>
-          <div slot="title">Speed</div>
-        </media-playback-rate-menu>
-      </media-settings-menu-item>
-      <media-settings-menu-item>
         Captions
         <media-captions-menu slot="submenu" hidden>
           <div slot="title">Captions</div>
         </media-captions-menu>
+      </media-settings-menu-item>
+      <media-settings-menu-item>
+        Quality
+        <media-rendition-menu slot="submenu" hidden>
+          <div slot="title">Quality</div>
+        </media-rendition-menu>
+      </media-settings-menu-item>
+      <media-settings-menu-item>
+        Speed
+        <media-playback-rate-menu slot="submenu" hidden>
+          <div slot="title">Speed</div>
+        </media-playback-rate-menu>
       </media-settings-menu-item>
     </media-settings-menu>
     <media-control-bar>
@@ -89,6 +97,29 @@ export class VideoOnDemand extends HTMLElement {
     this.#videoEl.setAttribute('poster', `${vodUrl}/poster.jpeg`)
 
     if (this.#hls) {
+      this.#hls.on(Hls.Events.MANIFEST_PARSED, async (_event, data) => {
+        const levelIdMap = new Map<Level, number>(
+          data.levels.map((level, index) => [level, index])
+        )
+        const qualityLevels = await availableQualityLevels(data.levels)
+        this.shadowRoot!.querySelector('media-rendition-menu')!.setAttribute(
+          'mediarenditionlist',
+          qualityLevels
+            .map((level) => `${levelIdMap.get(level)}:${level.width}:${level.height}`)
+            .join(' ')
+        )
+      })
+
+      this.addEventListener('mediarenditionrequest', (event: Event) => {
+        const customEvent = event as CustomEvent<string>
+        if (customEvent.detail === 'auto') {
+          this.#hls!.nextLevel = -1
+        } else {
+          const levelId = parseInt(customEvent.detail, 10)
+          this.#hls!.nextLevel = levelId
+        }
+      })
+
       this.#hls.loadSource(`${vodUrl}/index.m3u8`)
       this.#hls.attachMedia(this.#videoEl)
 
