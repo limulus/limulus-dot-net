@@ -56,7 +56,7 @@
     "markdown-it-attrs": "^4.1.6",
     "markdown-it-footnote": "^4.0.0",
     "markdown-it-task-lists": "^2.1.1",
-    "media-chrome": "^3.2.5",
+    "media-chrome": "^4.1.0",
     "media-tracks": "^0.3.3",
     "mkdirp": "^3.0.1",
     "p-filter": "^4.1.0",

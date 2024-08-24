@@ -1,5 +1,6 @@
 import 'media-tracks/polyfill'
 import 'media-chrome'
+import 'media-chrome/menu'
 
 import Hls, { Level } from 'hls.js'
 
