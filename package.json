@@ -45,7 +45,7 @@
     "chokidar-cli": "^3.0.0",
     "concurrently": "^8.2.2",
     "del-cli": "^5.1.0",
-    "esbuild": "^0.20.2",
+    "esbuild": "^0.23.1",
     "eslint": "^8.57.0",
     "highlight.js": "^11.9.0",
     "hls.js": "^1.5.14",
