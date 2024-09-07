@@ -1,4 +1,4 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
   "postCreateCommand": ".devcontainer/post-create.sh"
 }
