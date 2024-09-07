@@ -15,7 +15,7 @@
     "dev:www": "eleventy --serve",
     "dev:esm": "chokidar src --initial --command 'npm run build:esm'",
     "lint": "eslint *.js src",
-    "prepare": "is-ci || husky install",
+    "prepare": "husky",
     "tscc": "tsc --noEmit",
     "verify": "concurrently -c auto npm:lint npm:tscc npm:wwwc",
     "wwwc": "eleventy --dryrun"
@@ -49,8 +49,6 @@
     "eslint": "^8.57.0",
     "highlight.js": "^11.9.0",
     "hls.js": "^1.5.15",
-    "husky": "^9.0.11",
-    "is-ci": "^3.0.1",
     "markdown-it": "^14.1.0",
     "markdown-it-anchor": "^8.6.7",
     "markdown-it-attrs": "^4.1.6",
@@ -69,6 +67,7 @@
   "devDependencies": {
     "@types/raf": "^3.4.3",
     "esbuild-plugin-wasm": "^1.1.0",
-    "globby": "^14.0.1"
+    "globby": "^14.0.1",
+    "husky": "^9.1.5"
   }
 }
