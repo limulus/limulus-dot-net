@@ -1,13 +1,4 @@
 {
-  "customizations": {
-    "codespaces": {
-      "repositories": {
-        "limulus/*": {
-          "permissions": "write-all"
-        }
-      }
-    }
-  },
   "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
   "postCreateCommand": ".devcontainer/post-create.sh"
 }
