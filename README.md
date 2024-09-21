@@ -1,8 +1,8 @@
-# penumbra-www
+# limulus-dot-net
 
-Source code for the [Penumbra website].
+Source code for [limulus.net], Eric’s personal website.
 
-[penumbra website]: https://limulus.net/penumbra/
+[limulus.net]: https://limulus.net/
 
 ## Running Locally
 
