@@ -7,6 +7,9 @@ jobs:
   infra:
     runs-on: ubuntu-latest
     name: deploy infrastructure
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - uses: actions/checkout@v4
       - uses: aws-actions/configure-aws-credentials@v4
