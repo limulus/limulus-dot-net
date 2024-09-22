@@ -13,7 +13,7 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::865116139480:role/github-actions-limulus-dot-net-cf
           aws-region: us-west-2
-      - uses: aws-actions/cloudformation-github-deploy@v1
+      - uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: limulus-dot-net-${{ github.ref_name }}
           template: infra.yaml
