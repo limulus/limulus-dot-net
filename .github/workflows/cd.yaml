@@ -53,8 +53,8 @@ jobs:
       contents: read
       id-token: write
     steps:
-      - name: Echo StaticSiteBucketName
-        run: echo "StaticSiteBucketName: ${{ needs.infra.outputs.StaticSiteBucketName }}"
+      - run: echo "StaticSiteBucketName ${{ needs.infra.outputs.StaticSiteBucketName }}"
+
       # - uses: actions/download-artifact@v4
       #   with:
       #     name: dist-www
