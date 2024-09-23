@@ -26,6 +26,7 @@ jobs:
             BranchName=${{ github.ref_name }},
             LimulusDotNetZoneId=${{ secrets.LIMULUS_DOT_NET_ZONE_ID }},
             LimulusDotNetCertificateArn=${{ secrets.LIMULUS_DOT_NET_CERTIFICATE_ARN }}
+      - run: echo "::set-output name=StaticSiteBucketName::$(aws cloudformation describe-stacks --stack-name limulus-dot-net-${{ github.ref_name }} --query 'Stacks[0].Outputs[?OutputKey==`StaticSiteBucketName`].OutputValue' --output text)"
 
   build:
     runs-on: ubuntu-latest
