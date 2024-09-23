@@ -10,6 +10,8 @@ jobs:
     permissions:
       contents: read
       id-token: write
+    outputs:
+      StaticSiteBucketName: ${{ steps.deploy.outputs.StaticSiteBucketName }}
     steps:
       - uses: actions/checkout@v4
       - uses: aws-actions/configure-aws-credentials@v4
@@ -26,7 +28,6 @@ jobs:
             BranchName=${{ github.ref_name }},
             LimulusDotNetZoneId=${{ secrets.LIMULUS_DOT_NET_ZONE_ID }},
             LimulusDotNetCertificateArn=${{ secrets.LIMULUS_DOT_NET_CERTIFICATE_ARN }}
-      - run: cat $GITHUB_OUTPUT
 
   build:
     runs-on: ubuntu-latest
@@ -58,13 +59,13 @@ jobs:
       contents: read
       id-token: write
     steps:
-      - run: echo "StaticSiteBucketName ${{ needs.infra.outputs.StaticSiteBucketName.value }}"
-      - uses: actions/download-artifact@v4
-        with:
-          name: dist-www
-          path: www
-      - uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: arn:aws:iam::865116139480:role/github-actions-limulus-penumbra
-          aws-region: us-west-2
-      - run: aws s3 sync www s3://${{ needs.infra.outputs.StaticSiteBucketName.value }} --delete --cache-control max-age=60,public
+      - run: echo "StaticSiteBucketName ${{ needs.infra.outputs.StaticSiteBucketName }}"
+      # - uses: actions/download-artifact@v4
+      #   with:
+      #     name: dist-www
+      #     path: www
+      # - uses: aws-actions/configure-aws-credentials@v4
+      #   with:
+      #     role-to-assume: arn:aws:iam::865116139480:role/github-actions-limulus-penumbra
+      #     aws-region: us-west-2
+      # - run: aws s3 sync www s3://${{ needs.infra.outputs.StaticSiteBucketName }} --delete --cache-control max-age=60,public
