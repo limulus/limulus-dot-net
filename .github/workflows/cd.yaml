@@ -60,13 +60,12 @@ jobs:
       contents: read
       id-token: write
     steps:
-      - run: echo "StaticSiteBucketName ${{ needs.infra.outputs.StaticSiteBucketName }}"
-      # - uses: actions/download-artifact@v4
-      #   with:
-      #     name: dist-www
-      #     path: www
-      # - uses: aws-actions/configure-aws-credentials@v4
-      #   with:
-      #     role-to-assume: arn:aws:iam::865116139480:role/github-actions-limulus-penumbra
-      #     aws-region: us-west-2
-      # - run: aws s3 sync www s3://${{ needs.infra.outputs.StaticSiteBucketName }} --delete --cache-control max-age=60,public
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist-www
+          path: www
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::865116139480:role/github-actions-limulus-dot-net-s3
+          aws-region: us-west-2
+      - run: aws s3 sync www s3://${{ needs.infra.outputs.StaticSiteBucketName }} --delete --cache-control max-age=60,public
