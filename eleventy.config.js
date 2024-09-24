@@ -19,7 +19,7 @@ export default function (eleventyConfig) {
     `${input}/_includes/components/**/*.webc`,
   ]
 
-  eleventyConfig.addGlobalData('site', { url: 'https://limulus.net/penumbra' })
+  eleventyConfig.addGlobalData('site', { url: 'https://limulus.net' })
 
   eleventyConfig.addPassthroughCopy(`${input}/assets`, { expand: true })
   eleventyConfig.addPassthroughCopy(`${input}/**/*.{png,svg,jpg,jpeg}`)
@@ -72,5 +72,5 @@ export default function (eleventyConfig) {
     watch: ['dist/assets/**/*.{css,js}'],
   })
 
-  return { dir: { input, output, layouts }, pathPrefix: '/penumbra/' }
+  return { dir: { input, output, layouts } }
 }

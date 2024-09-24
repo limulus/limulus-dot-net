@@ -28,7 +28,7 @@ have done so far to target WebAssembly using [SIMD] instructions. Here’s the p
       </a>
     </figcaption>
     <sphere-shadow resolution="100"></sphere-shadow>
-    <script type="module" async src="../../assets/js/sphere-shadow/index.js"></script>
+    <script type="module" async src="/assets/js/sphere-shadow/index.js"></script>
   </figure>
 
   <figure class="figure-group">
@@ -40,7 +40,7 @@ have done so far to target WebAssembly using [SIMD] instructions. Here’s the p
       </a>
     </figcaption>
     <sphere-shadow-wasm resolution="100"></sphere-shadow-wasm>
-    <script type="module" async src="../../assets/js/sphere-shadow-wasm/index.js"></script>
+    <script type="module" async src="/assets/js/sphere-shadow-wasm/index.js"></script>
   </figure>
 </div>
 

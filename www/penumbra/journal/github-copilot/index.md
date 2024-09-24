@@ -12,7 +12,7 @@ vod: github-copilot-demo/01HTWVCE0J15PDF91C8969JXHH
 
 <video-on-demand vod="github-copilot-demo/01HTWVCE0J15PDF91C8969JXHH"></video-on-demand>
 
-<script type="module" src="../../assets/js/video-on-demand/index.js"></script>
+<script type="module" src="/assets/js/video-on-demand/index.js"></script>
 
 Above is a video I produced to demo [GitHub Copilot] to my coworkers. If you haven’t yet
 explored using a Large Language Model to you help you code, it is worth a watch. I
