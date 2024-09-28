@@ -11,7 +11,7 @@
     "build:esm": "node esbuild.js",
     "clean": "del-cli *.tsbuildinfo coverage dist",
     "predev": "npm run prebuild",
-    "dev": "concurrently -c auto 'npm:dev:*'",
+    "dev": "concurrently -k -c auto 'npm:dev:*'",
     "dev:www": "eleventy --serve",
     "dev:esm": "chokidar src --initial --command 'npm run build:esm'",
     "lint": "eslint *.js src",
