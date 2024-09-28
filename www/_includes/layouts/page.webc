@@ -6,7 +6,7 @@ layout: base.webc
 <link rel="stylesheet" href="../css/main.css" />
 <link rel="stylesheet" href="../css/hljs-github.css" />
 
-<a href="#skip" class="visually-hidden">Skip to main content</a>
+<a href="#main" class="visually-hidden">Skip to main content</a>
 
 <header>
   <nav>
@@ -28,4 +28,10 @@ layout: base.webc
   </nav>
 </header>
 
-<main id="skip" @raw="content"></main>
+<main id="main" @raw="content"></main>
+
+<style>
+  a[href='#main'] {
+    font-size: 0.6rem;
+  }
+</style>
