@@ -156,6 +156,7 @@ Resources:
       AutoPublish: true
       FunctionCode: !Sub |
         const needsIndexHtmlRe = /(\/[^\/.]+)\/*$/
+        const penumbraJournalRedirectRe = /^\/penumbra\/journal\/00[1-5]-/
 
         function handler(event) {
           const request = event.request
@@ -170,6 +171,18 @@ Resources:
                   value: 'https://limulus.net' + request.uri
                 }
               }
+            }
+          }
+
+          if (penumbraJournalRedirectRe.test(request.uri)) {
+            return {
+              statusCode: 301,
+              statusDescription: 'Moved Permanently',
+              headers: {
+                location: {
+                  value: request.uri.replace(/00[1-5]-/, ''),
+                },
+              },
             }
           }
 
