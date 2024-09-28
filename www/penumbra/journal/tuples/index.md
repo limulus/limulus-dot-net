@@ -1,6 +1,6 @@
 ---
 tags: journal
-layout: penumbra-journal-entry
+layout: article
 title: 'Chapter 1: Tuples'
 date: 2023-11-18 19:51:00 -07:00
 image: projectile-cannon.png

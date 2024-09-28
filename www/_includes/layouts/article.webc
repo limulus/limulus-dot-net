@@ -4,8 +4,8 @@ layout: page
 
 <article>
   <header>
-    <h1 class="title" @text="title"></h2>
-    <journal-entry-meta :date="page.date"></journal-entry-meta>
+    <h1 class="title" @text="title"></h1>
+    <article-meta :date="page.date"></article-meta>
   </header>
 
   <div @raw="content" webc:nokeep></div>

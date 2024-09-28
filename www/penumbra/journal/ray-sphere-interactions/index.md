@@ -1,6 +1,6 @@
 ---
 tags: journal
-layout: penumbra-journal-entry
+layout: article
 title: 'Chapter 5: Ray-Sphere Interactions'
 date: 2023-12-29 14:00:00 -07:00
 image: sphere-shadow.jpeg

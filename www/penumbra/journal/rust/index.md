@@ -1,6 +1,6 @@
 ---
 tags: journal
-layout: penumbra-journal-entry
+layout: article
 title: 'The Twist You Possibly Expected: Rust'
 date: 2024-06-04 13:20:00 -07:00
 image: preview.jpeg

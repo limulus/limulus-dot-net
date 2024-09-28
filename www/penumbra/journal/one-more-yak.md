@@ -1,6 +1,6 @@
 ---
 tags: journal
-layout: penumbra-journal-entry
+layout: article
 title: One More Yak to Shave
 date: 2023-11-11 15:20:00 -07:00
 teaser: >-
