@@ -94,33 +94,27 @@ a:visited {
 }
 
 body > header {
-  display: flex;
-  gap: 1em 0.5em;
-  flex-wrap: wrap;
-  align-items: center;
-  padding: 1em 0;
-  font-size: 1.1em;
-}
-body > header .home-link {
+  /* padding: 0 0 1rem 0; */
+  font-size: 1rem;
   --var-font-wght: 700;
-  margin-right: 2em;
-}
-body > header .home-link:link:not(:hover) {
-  text-decoration: none;
+  font-synthesis: none;
 }
 
 body > header nav {
   display: flex;
-  padding: 0;
-  margin: 0;
-  list-style: none;
 }
 body > header nav li {
   display: inline-block;
-  margin-right: 1em;
+  text-wrap: nowrap;
 }
-body > header a[href]:not(:hover) {
-  text-decoration: none;
+body > header nav li::after {
+  content: '/';
+  margin: 0 0.5em;
+}
+body > header nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
 }
 
 body > header a:visited {
@@ -189,12 +183,24 @@ sphere-shadow::part(hud-value) {
   header a {
     color: rgb(201, 209, 217);
   }
-  a:visited,
-  body > header a:visited {
+  a:visited {
     color: #bbb;
+  }
+  body > header a:visited {
+    color: rgb(201, 209, 217);
   }
 
   pre > code.hljs {
     background-color: var(--code-background-color);
+  }
+}
+
+@media (max-width: 600px) {
+  html {
+    font-size: 18px;
+  }
+
+  body {
+    padding: 0 1rem 1rem 1rem;
   }
 }

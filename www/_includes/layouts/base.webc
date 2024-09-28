@@ -20,7 +20,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" :href="getBundleFileUrl('css')" webc:keep />
 
-    <title webc:type="11ty" @11ty:type="liquid" webc:keep>Penumbra | {{ title }}</title>
+    <script webc:type="js">
+      if (page.url === '/') {
+        ;`<title>limulus.net</title>`
+      } else {
+        ;`<title>limulus.net ${page.url.replace(/\/$/, '').replaceAll('/', ' / ')}</title>`
+      }
+    </script>
 
     <link rel="alternate" type="application/atom+xml" href="/feed.xml" />
 

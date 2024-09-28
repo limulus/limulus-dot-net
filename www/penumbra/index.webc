@@ -1,6 +1,6 @@
 ---
 title: A Web-Centric Ray Tracer Challenge Implementation
-layout: penumbra-page
+layout: page
 teaser: >-
   A development journal and web-centric implementation of The Ray Tracer Challenge.
 ---
@@ -18,6 +18,12 @@ teaser: >-
 <h2>Development Journal</h2>
 
 <p>Follow my progress by subscribing to the <a href="/feed.xml">RSS feed</a>.</p>
+
+<!--
+Add these links somewhere:
+<li><a href="https://github.com/limulus/penumbra">Source</a></li>
+<li><a href="/feed.xml">RSS</a></li>
+-->
 
 <ol class="journal">
   <li webc:for="entry of collections.journal.reverse()">
