@@ -57,7 +57,7 @@ Resources:
           - ErrorCachingMinTTL: 30
             ErrorCode: 404
             ResponseCode: 404
-            ResponsePagePath: /404.html
+            ResponsePagePath: /404/index.html
         DefaultCacheBehavior:
           CachePolicyId: !Ref CloudFrontDistributionDefaultCachePolicy
           FunctionAssociations:
