@@ -25,32 +25,4 @@ Add these links somewhere:
 <li><a href="/feed.xml">RSS</a></li>
 -->
 
-<ol class="journal">
-  <li webc:for="entry of collections.journal.reverse()">
-    <article>
-      <time @text="entry.date.toDateString()"></time>
-      <h1><a :href="entry.url" @text="entry.data.title"></a><br /></h1>
-      <p class="teaser" @html="entry.data.teaser"></p>
-    </article>
-  </li>
-</ol>
-
-<style>
-  ol.journal {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  ol.journal h1 {
-    margin: 0;
-    font-size: inherit;
-  }
-
-  ol.journal time {
-    display: block;
-    font-size: 0.8em;
-    --var-font-slnt: -10;
-    color: #666;
-  }
-</style>
+<article-list :@articles="collections.journal"></article-list>

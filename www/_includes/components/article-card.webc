@@ -1,0 +1,19 @@
+<article>
+  <time @text="article.date.toDateString()"></time>
+  <h1><a :href="article.url" @text="article.data.title"></a><br /></h1>
+  <p class="teaser" @html="article.data.teaser"></p>
+</article>
+
+<style webc:scoped>
+  :host h1 {
+    margin: 0;
+    font-size: inherit;
+  }
+
+  :host time {
+    display: block;
+    font-size: 0.8em;
+    --var-font-slnt: -10;
+    color: #666;
+  }
+</style>

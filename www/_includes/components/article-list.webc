@@ -1,0 +1,25 @@
+<script webc:setup>
+  const sorts = {
+    chron: (a, b) => a.date - b.date,
+    'reverse-chron': (a, b) => b.date - a.date,
+  }
+
+  const collate = ({ articles, order = 'reverse-chron', limit = Infinity }) => {
+    limit = typeof limit === 'number' ? limit : parseInt(limit, 10)
+    return articles.slice().sort(sorts[order]).slice(0, limit)
+  }
+</script>
+
+<ol>
+  <li webc:for="article of collate({ articles, order, limit })">
+    <article-card :@article="article"></article-card>
+  </li>
+</ol>
+
+<style webc:scoped>
+  :host ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+</style>

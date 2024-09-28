@@ -1,0 +1,10 @@
+---
+title: Penumbra Development Journal
+layout: page
+---
+
+<header>
+  <h1>Penumbra Development Journal</h1>
+</header>
+
+<article-list :@articles="collections.journal"></article-list>
