@@ -4,7 +4,7 @@ layout: page
 
 <article>
   <header>
-    <h1 class="title" @text="title"></h1>
+    <h1 @text="title"></h1>
     <article-meta :date="page.date"></article-meta>
   </header>
 

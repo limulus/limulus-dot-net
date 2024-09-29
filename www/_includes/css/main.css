@@ -93,6 +93,10 @@ a:visited {
   position: absolute;
 }
 
+h1:first-of-type {
+  margin-top: 0;
+}
+
 body > header {
   /* padding: 0 0 1rem 0; */
   font-size: 1rem;
@@ -119,10 +123,6 @@ body > header nav ul {
 
 body > header a:visited {
   color: #333;
-}
-
-h1.title {
-  margin-top: 0;
 }
 
 code {

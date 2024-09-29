@@ -3,8 +3,6 @@ title: Not Found
 layout: page
 ---
 
-<header>
-  <h1 class="title">Not Found</h1>
-</header>
+<h1 @text="title"></h1>
 
 <p>Sorry, the resource you were looking for could not be found.</p>
