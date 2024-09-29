@@ -4,6 +4,7 @@ layout: article
 title: 'Chapters 2–4: Canvas and Matrices'
 date: 2023-12-08 18:30:00 -07:00
 image: pixel-clock.jpeg
+imageAlt: Screenshot of the pixel-clock component demo
 teaser: >-
   An overdue and long update covering 3 chapters! The site has moved to its permanent home
   and the demo for these chapters is a neat little animated clock.

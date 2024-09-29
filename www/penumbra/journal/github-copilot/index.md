@@ -4,6 +4,9 @@ layout: article
 title: 'How I Am Using GitHub Copilot'
 date: 2024-03-23 15:15:00 -07:00
 image: poster.jpeg
+imageAlt: >-
+  Screenshot of the JavaScript and WebAssembly versions of the sphere-shadow components.
+  Copilot, the GitHub Copilot mascot, looks up at the demo.
 teaser: >-
   A six minute video I produced to show how I am using GitHub Copilot as I work on
   my ray tracer, Penumbra. Includes a preview of the upcoming switch to Rust/WebAssembly!

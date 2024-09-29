@@ -4,6 +4,10 @@ layout: article
 title: 'The Twist You Possibly Expected: Rust'
 date: 2024-06-04 13:20:00 -07:00
 image: preview.jpeg
+imageAlt: >-
+  Screenshot of the JavaScript and WebAssembly versions of the sphere-shadow components
+  side-by-side. There is also a dropdown menu to select the resolution that the components
+  will render.
 teaser: >-
   Switching from JavaScript to Rust/WebAssembly has (unsuprisingly) significantly increased
   performance!
