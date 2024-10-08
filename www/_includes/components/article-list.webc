@@ -10,16 +10,20 @@
   }
 </script>
 
-<ol>
+<ul>
   <li webc:for="article of collate({ articles, order, limit })">
     <article-card :@article="article"></article-card>
   </li>
-</ol>
+</ul>
 
 <style webc:scoped>
-  :host ol {
+  :host ul {
     list-style: none;
     margin: 0;
     padding: 0;
+  }
+
+  :host li + li {
+    margin-top: 1rem;
   }
 </style>
