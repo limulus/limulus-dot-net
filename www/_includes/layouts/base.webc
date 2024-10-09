@@ -36,6 +36,12 @@
     <meta webc:if="image" property="og:image" :content="site.url + page.url + image" />
     <meta webc:if="teaser" property="og:description" :content="teaser" />
 
+    <meta
+      webc:if="authors[author]?.fediverse"
+      name="fediverse:creator"
+      :content="authors[author].fediverse"
+    />
+
     <meta webc:if="teaser" name="description" :content="teaser" />
   </head>
   <body @raw="content"></body>
