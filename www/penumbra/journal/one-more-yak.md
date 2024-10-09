@@ -1,6 +1,7 @@
 ---
 tags: journal
 layout: article
+author: eric
 title: One More Yak to Shave
 date: 2023-11-11 15:20:00 -07:00
 teaser: >-

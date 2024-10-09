@@ -1,6 +1,7 @@
 ---
 tags: journal
 layout: article
+author: eric
 title: 'How I Am Using GitHub Copilot'
 date: 2024-03-23 15:15:00 -07:00
 image: poster.jpeg

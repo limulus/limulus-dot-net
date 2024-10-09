@@ -1,6 +1,7 @@
 ---
 tags: journal
 layout: article
+author: eric
 date: 2023-10-31 15:52:00 -07:00
 title: Getting Nerd Sniped
 teaser: >-

@@ -1,6 +1,7 @@
 ---
 tags: journal
 layout: article
+author: eric
 title: 'Chapter 5: Ray-Sphere Interactions'
 date: 2023-12-29 14:00:00 -07:00
 image: sphere-shadow.jpeg

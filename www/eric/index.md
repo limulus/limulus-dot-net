@@ -10,8 +10,6 @@ teaser: >-
 I’m a web-centric software engineer living in Tucson, Arizona. This site, [limulus.net], is
 my personal website.
 
-<!-- TODO: Recent Posts Section -->
-
 ## Contact
 
 The best way to contact me is by email, at [eric@limulus.net].
@@ -45,3 +43,9 @@ I also have currently inactive accounts here:
 [facebook]: https://www.facebook.com/theLimulus
 [twitter]: https://twitter.com/limulus
 [flickr]: https://www.flickr.com/photos/limulus/
+
+## Recent Posts
+
+{% renderTemplate 'webc' %}
+<article-list :@articles="collections.all" author="eric" limit="4"></article-list>
+{% endrenderTemplate %}

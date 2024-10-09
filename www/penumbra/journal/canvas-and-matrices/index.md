@@ -1,6 +1,7 @@
 ---
 tags: journal
 layout: article
+author: eric
 title: 'Chapters 2–4: Canvas and Matrices'
 date: 2023-12-08 18:30:00 -07:00
 image: pixel-clock.jpeg

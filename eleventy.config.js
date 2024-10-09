@@ -1,4 +1,4 @@
-import { EleventyHtmlBasePlugin } from '@11ty/eleventy'
+import { EleventyRenderPlugin } from '@11ty/eleventy'
 import { eleventyImagePlugin } from '@11ty/eleventy-img'
 import pluginRss from '@11ty/eleventy-plugin-rss'
 import pluginWebc from '@11ty/eleventy-plugin-webc'
@@ -24,7 +24,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy(`${input}/assets`, { expand: true })
   eleventyConfig.addPassthroughCopy(`${input}/**/*.{png,svg,jpg,jpeg}`)
 
-  eleventyConfig.addPlugin(EleventyHtmlBasePlugin)
+  eleventyConfig.addPlugin(EleventyRenderPlugin, { accessGlobalData: true })
   eleventyConfig.addPlugin(pluginRss)
   eleventyConfig.addPlugin(pluginWebc, { components })
 

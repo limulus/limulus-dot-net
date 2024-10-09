@@ -4,14 +4,17 @@
     'reverse-chron': (a, b) => b.date - a.date,
   }
 
-  const collate = ({ articles, order = 'reverse-chron', limit = Infinity }) => {
+  const collate = ({ articles, author, order = 'reverse-chron', limit = Infinity }) => {
     limit = typeof limit === 'number' ? limit : parseInt(limit, 10)
+    articles = author
+      ? articles.filter(({ data: { author: a } }) => a === author)
+      : articles
     return articles.slice().sort(sorts[order]).slice(0, limit)
   }
 </script>
 
 <ul>
-  <li webc:for="article of collate({ articles, order, limit })">
+  <li webc:for="article of collate({ articles, author, order, limit })">
     <article-card :@article="article"></article-card>
   </li>
 </ul>
