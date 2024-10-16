@@ -1,0 +1,36 @@
+---
+layout: base
+title: limulus.net
+teaser: >-
+  Eric McCarthy’s projects, writing, videos, and photos. If I make it for myself, I put it
+  here.
+---
+
+<script webc:setup>
+  const getTeaser = (collection, url) =>
+    collection.find(({ url: u }) => u === url).data.teaser
+</script>
+
+<main>
+  <h1>limulus.net</h1>
+
+  <p @text="teaser"></p>
+
+  <h2><a href="/eric/">eric</a></h2>
+
+  <p @text="getTeaser(collections.all, '/eric/')"></p>
+
+  <h2><a href="/penumbra/">penumbra</a></h2>
+
+  <p @text="getTeaser(collections.all, '/penumbra/')"></p>
+</main>
+
+<style webc:scoped>
+  :host h1:first-of-type {
+    margin: 1rem 0;
+  }
+
+  :host :is(h1, h2, h3)::after {
+    content: ' /';
+  }
+</style>
