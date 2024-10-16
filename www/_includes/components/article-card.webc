@@ -1,10 +1,82 @@
 <article>
-  <time @text="article.date.toDateString()"></time>
-  <h1><a :href="article.url" @text="article.data.title"></a><br /></h1>
-  <p class="teaser" @html="article.data.teaser"></p>
+  <a :href="article.url">
+    <eleventy-image
+      webc:if="article.data.image"
+      :src="`www${article.url}${article.data.image}`"
+      width="512"
+      :alt="article.data.imageAlt"
+    ></eleventy-image>
+    <div class="text-content">
+      <header>
+        <time
+          :datetime="article.date.toISOString()"
+          @text="article.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })"
+        ></time>
+        <h1 @text="article.data.title"></h1>
+      </header>
+      <p class="teaser" @text="article.data.teaser"></p>
+    </div>
+  </a>
 </article>
 
 <style webc:scoped>
+  :host a {
+    text-decoration: none;
+  }
+  :host a:visited {
+    color: unset;
+  }
+
+  :host a {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: var(--card-background-color);
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--card-box-shadow);
+  }
+
+  :host article {
+    container-type: inline-size;
+  }
+
+  :host picture {
+    background-color: black;
+  }
+
+  :host img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  @container (min-width: 500px) {
+    :host a {
+      flex-direction: row;
+      height: 100%;
+    }
+
+    :host picture {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    :host img {
+      width: 40cqi;
+    }
+  }
+
+  :host .text-content {
+    padding: var(--card-padding);
+    font-size: 0.9rem;
+  }
+
+  :host h1 {
+    font-size: 1.2em;
+    margin: 0;
+  }
+
   :host h1 {
     margin: 0;
     font-size: inherit;
@@ -12,8 +84,13 @@
 
   :host time {
     display: block;
+    margin-bottom: 0.5em;
     font-size: 0.8em;
     --var-font-slnt: -10;
     color: #666;
+  }
+
+  :host p {
+    margin: 0;
   }
 </style>

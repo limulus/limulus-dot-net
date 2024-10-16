@@ -53,14 +53,17 @@ h6 {
 }
 
 :root {
-  --code-background-color: #fafafa;
+  --card-background-color: #f6f6f6;
+  --card-border-radius: 0.66666rem;
+  --card-box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
+  --card-padding: 0.75rem 1rem;
 }
 
 html {
   background-color: #f3f3f3;
   color: #333;
   font-size: 16px;
-  line-height: 1.7;
+  line-height: 1.4;
   overflow-y: scroll;
 }
 body {
@@ -95,6 +98,10 @@ a:visited {
 
 h1:first-of-type {
   margin-top: 0;
+}
+
+p {
+  line-height: 1.7;
 }
 
 body > header {
@@ -137,17 +144,18 @@ code {
 }
 
 p code {
-  padding: 0.33333em 0.5em;
-  border-radius: 0.66666em;
-  background-color: var(--code-background-color);
+  padding: 0.33333rem 0.5rem;
+  border-radius: 0.66666rem;
+  background-color: var(--card-background-color);
 }
 
 pre > code.hljs {
   display: block;
   overflow-x: auto;
-  padding: 0.75rem 1rem;
-  border-radius: 0.66666rem;
-  background-color: var(--code-background-color);
+  padding: var(--card-padding);
+  border-radius: var(--card-border-radius);
+  box-shadow: var(--card-box-shadow);
+  background-color: var(--card-background-color);
   line-height: 1.5;
   font-size: 0.8rem;
 }
@@ -167,7 +175,8 @@ sphere-shadow::part(hud-value) {
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --code-background-color: #20212c;
+    --card-background-color: #20212c;
+    --card-box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.8);
   }
 
   html {
@@ -189,13 +198,13 @@ sphere-shadow::part(hud-value) {
   body > header a:visited {
     color: rgb(201, 209, 217);
   }
-
-  pre > code.hljs {
-    background-color: var(--code-background-color);
-  }
 }
 
 @media (max-width: 600px) {
+  :root {
+    --card-padding: 0.5rem 0.75rem;
+  }
+
   html {
     font-size: 18px;
   }
