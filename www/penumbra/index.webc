@@ -6,6 +6,8 @@ teaser: >-
   A development journal and web-centric implementation of The Ray Tracer Challenge.
 ---
 
+<h1 @text="title"></h1>
+
 <p>
   <em>Penumbra</em> is a
   <a href="https://pragprog.com/titles/jbtracer/the-ray-tracer-challenge/"
@@ -22,6 +24,8 @@ teaser: >-
 Add these links somewhere:
 <li><a href="https://github.com/limulus/penumbra">Source</a></li>
 <li><a href="/feed.xml">RSS</a></li>
+
+Add the most recent demo component here too.
 -->
 
 <article-list :@articles="collections.journal"></article-list>
