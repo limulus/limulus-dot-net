@@ -43,6 +43,10 @@
     />
 
     <meta webc:if="teaser" name="description" :content="teaser" />
+
+    <link rel="stylesheet" href="../css/normalize.css" />
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/hljs-github.css" />
   </head>
   <body @raw="content"></body>
 </html>

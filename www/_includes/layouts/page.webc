@@ -2,10 +2,6 @@
 layout: base.webc
 ---
 
-<link rel="stylesheet" href="../css/normalize.css" />
-<link rel="stylesheet" href="../css/main.css" />
-<link rel="stylesheet" href="../css/hljs-github.css" />
-
 <a href="#main" class="visually-hidden">Skip to main content</a>
 
 <header>
