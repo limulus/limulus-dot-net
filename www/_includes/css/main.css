@@ -75,11 +75,11 @@ body {
 a {
   color: #333;
 }
-a:active {
-  color: #338;
-}
 a:visited {
-  color: #555;
+  color: inherit;
+}
+a:active {
+  color: #777;
 }
 
 /* https://www.a11yproject.com/posts/how-to-hide-content/ */
@@ -126,10 +126,6 @@ body > header nav ul {
   display: flex;
   flex-wrap: wrap;
   padding: 0;
-}
-
-body > header a:visited {
-  color: #333;
 }
 
 code {
@@ -188,15 +184,11 @@ sphere-shadow::part(hud-value) {
     filter: grayscale(20%);
   }
 
-  a,
-  header a {
+  a {
     color: rgb(201, 209, 217);
   }
-  a:visited {
+  a:active {
     color: #bbb;
-  }
-  body > header a:visited {
-    color: rgb(201, 209, 217);
   }
 }
 
