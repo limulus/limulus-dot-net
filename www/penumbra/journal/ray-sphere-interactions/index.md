@@ -1,5 +1,7 @@
 ---
-tags: journal
+tags:
+  - article
+  - journal
 layout: article
 author: eric
 title: 'Chapter 5: Ray-Sphere Interactions'

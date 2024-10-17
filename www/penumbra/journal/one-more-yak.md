@@ -1,5 +1,7 @@
 ---
-tags: journal
+tags:
+  - article
+  - journal
 layout: article
 author: eric
 title: One More Yak to Shave

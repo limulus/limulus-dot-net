@@ -1,5 +1,7 @@
 ---
-tags: journal
+tags:
+  - article
+  - journal
 layout: article
 author: eric
 title: 'How I Am Using GitHub Copilot'

@@ -1,0 +1,12 @@
+---
+title: The limulus.net Feed
+layout: page
+teaser: >-
+  Every article on limulus.net.
+---
+
+<h1 @text="title"></h1>
+
+<p @text="teaser"></p>
+
+<article-list :@articles="collections.article"></article-list>

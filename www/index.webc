@@ -20,6 +20,10 @@ teaser: >-
 
   <p @text="getTeaser(collections.all, '/eric/')"></p>
 
+  <h2><a href="/feed/">feed</a></h2>
+
+  <p @text="getTeaser(collections.all, '/feed/')"></p>
+
   <h2><a href="/penumbra/">penumbra</a></h2>
 
   <p @text="getTeaser(collections.all, '/penumbra/')"></p>
