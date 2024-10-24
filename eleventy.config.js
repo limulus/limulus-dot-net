@@ -1,6 +1,6 @@
 import { EleventyRenderPlugin } from '@11ty/eleventy'
 import { eleventyImagePlugin } from '@11ty/eleventy-img'
-import pluginRss from '@11ty/eleventy-plugin-rss'
+import { feedPlugin } from '@11ty/eleventy-plugin-rss'
 import pluginWebc from '@11ty/eleventy-plugin-webc'
 import hljs from 'highlight.js'
 import markdownIt from 'markdown-it'
@@ -19,14 +19,49 @@ export default function (eleventyConfig) {
     `${input}/_includes/components/**/*.webc`,
   ]
 
-  eleventyConfig.addGlobalData('site', { url: 'https://limulus.net' })
-
   eleventyConfig.addPassthroughCopy(`${input}/assets`, { expand: true })
   eleventyConfig.addPassthroughCopy(`${input}/**/*.{png,svg,jpg,jpeg}`)
 
   eleventyConfig.addPlugin(EleventyRenderPlugin, { accessGlobalData: true })
-  eleventyConfig.addPlugin(pluginRss)
   eleventyConfig.addPlugin(pluginWebc, { components })
+
+  eleventyConfig.addPlugin(feedPlugin, {
+    type: 'atom',
+    outputPath: '/feed.xml',
+    collection: {
+      name: 'article',
+      limit: 0,
+    },
+    metadata: {
+      title: 'limulus.net',
+      subtitle: 'Every article on limulus.net.',
+      language: 'en',
+      base: 'https://limulus.net',
+      author: {
+        name: 'Eric McCarthy',
+        email: 'eric@limulus.net',
+      },
+    },
+  })
+
+  eleventyConfig.addPlugin(feedPlugin, {
+    type: 'atom',
+    outputPath: '/penumbra/feed.xml',
+    collection: {
+      name: 'penumbra',
+      limit: 0,
+    },
+    metadata: {
+      title: 'Penumbra Development Journal',
+      subtitle: 'Tracking the development of Penumbra, a web-centric ray tracer.',
+      language: 'en',
+      base: 'https://limulus.net/penumbra',
+      author: {
+        name: 'Eric McCarthy',
+        email: 'eric@limulus.net',
+      },
+    },
+  })
 
   eleventyConfig.addPlugin(eleventyImagePlugin, {
     formats: ['avif', 'jpeg'],

@@ -1,7 +1,7 @@
 ---
 tags:
   - article
-  - journal
+  - penumbra
 layout: article
 author: eric
 title: 'The Twist You Possibly Expected: Rust'

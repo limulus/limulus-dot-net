@@ -1,7 +1,7 @@
 ---
 tags:
   - article
-  - journal
+  - penumbra
 layout: article
 author: eric
 title: 'Chapters 2–4: Canvas and Matrices'

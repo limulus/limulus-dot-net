@@ -28,7 +28,7 @@
       }
     </script>
 
-    <link rel="alternate" type="application/atom+xml" href="/feed.xml" />
+    <link rel="alternate" type="application/atom+xml" :href="feedUrl ?? site.feedUrl" />
 
     <meta property="og:title" :content="title" />
     <meta property="og:type" content="website" />

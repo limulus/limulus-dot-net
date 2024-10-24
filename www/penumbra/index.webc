@@ -28,4 +28,4 @@ Add these links somewhere:
 Add the most recent demo component here too.
 -->
 
-<article-list :@articles="collections.journal"></article-list>
+<article-list :@articles="collections.penumbra"></article-list>
