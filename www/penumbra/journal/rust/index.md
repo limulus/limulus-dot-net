@@ -12,7 +12,7 @@ imageAlt: >-
   side-by-side. There is also a dropdown menu to select the resolution that the components
   will render.
 teaser: >-
-  Switching from JavaScript to Rust/WebAssembly has (unsuprisingly) significantly increased
+  Switching from JavaScript to Rust/WebAssembly has (unsurprisingly) significantly increased
   performance!
 ---
 
@@ -99,7 +99,8 @@ have done so far to target WebAssembly using [SIMD] instructions. Here’s the p
 </script>
 
 Click and drag (or touch and drag) to change the position of the light source, and thus
-change the shape of the sphere’s shadow. Change the resolution via the dropdown to observe the effect on render times.
+change the shape of the sphere’s shadow. Change the resolution via the dropdown to observe
+the effect on render times.
 
 ## Eschewing AssemblyScript
 
