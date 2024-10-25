@@ -2,6 +2,10 @@
 layout: base.webc
 ---
 
+<div webc:for="script of [scripts].flat()" webc:nokeep>
+  <script type="module" :src="script" async webc:keep></script>
+</div>
+
 <a href="#main" class="visually-hidden">Skip to main content</a>
 
 <header>
