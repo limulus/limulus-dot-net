@@ -13,7 +13,7 @@
     "predev": "npm run prebuild",
     "dev": "concurrently -k -c auto 'npm:dev:*'",
     "dev:www": "eleventy --serve",
-    "dev:esm": "chokidar src --initial --command 'npm run build:esm'",
+    "dev:esm": "chokidar src www/**/*.ts --initial --command 'npm run build:esm'",
     "lint": "eslint *.js src",
     "prepare": "husky",
     "tscc": "tsc --noEmit",
