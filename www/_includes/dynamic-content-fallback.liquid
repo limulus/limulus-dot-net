@@ -1,0 +1,15 @@
+{% assign fallbackHtml = '<p><em>View this dynamic content on the website with JavaScript enabled.</em></p>' %}
+
+<noscript>
+  {{ fallbackHtml }}
+</noscript>
+<script>
+  // Ensure that syndicated copies of this content don’t show a "Loading…" message. This is
+  // necessary because some feed readers try to execute JavaScript.
+  const firstPartyHosts = ['limulus.net', 'localhost', '127.0.0.1']
+  if (firstPartyHosts.some((host) => window.location.host.includes(host))) {
+    document.write('<p><em>Loading…</em></p>')
+  } else {
+    document.write('{{ fallbackHtml | replace: "'", "\\'" }}')
+  }
+</script>
