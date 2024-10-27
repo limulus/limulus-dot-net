@@ -58,14 +58,14 @@ Resources:
             Compress: true
             OriginRequestPolicyId: 88a5eaf4-2fd4-4709-b370-b4c650ea3fcf
             TargetOriginId: static-site-bucket-origin
-            ResponseHeadersPolicyId: !Ref CloudFrontResponseHeadersPolicy
+            ResponseHeadersPolicyId: !Ref CloudFrontImmutableResponseHeadersPolicy
             ViewerProtocolPolicy: redirect-to-https
           - PathPattern: /*.????????.*
             CachePolicyId: !Ref CloudFrontDistributionForeverCachePolicy
             Compress: true
             OriginRequestPolicyId: 88a5eaf4-2fd4-4709-b370-b4c650ea3fcf
             TargetOriginId: static-site-bucket-origin
-            ResponseHeadersPolicyId: !Ref CloudFrontResponseHeadersPolicy
+            ResponseHeadersPolicyId: !Ref CloudFrontImmutableResponseHeadersPolicy
             ViewerProtocolPolicy: redirect-to-https
         CustomErrorResponses:
           - ErrorCachingMinTTL: 30
@@ -74,6 +74,7 @@ Resources:
             ResponsePagePath: /404/index.html
         DefaultCacheBehavior:
           CachePolicyId: !Ref CloudFrontDistributionDefaultCachePolicy
+          Compress: true
           FunctionAssociations:
             - EventType: viewer-request
               FunctionARN: !GetAtt CloudFrontRequestFunction.FunctionMetadata.FunctionARN
@@ -132,7 +133,7 @@ Resources:
     Properties:
       CachePolicyConfig:
         Name: !Sub 'limulus-dot-net-forever-cache-${BranchName}'
-        Comment: Cache policy for static assets
+        Comment: Cache policy for immutable assets
         DefaultTTL: 31536000
         MaxTTL: 31536000
         MinTTL: 31536000
@@ -180,6 +181,18 @@ Resources:
             - Header: Cross-Origin-Embedder-Policy
               Override: false
               Value: require-corp
+
+  CloudFrontImmutableResponseHeadersPolicy:
+    Type: AWS::CloudFront::ResponseHeadersPolicy
+    Properties:
+      ResponseHeadersPolicyConfig:
+        Name: !Sub 'limulus-dot-net-immutable-response-headers-${BranchName}'
+        Comment: Add headers to cache resources forever
+        CustomHeadersConfig:
+          Items:
+            - Header: Cache-Control
+              Override: true
+              Value: 'public, max-age=31536000, immutable'
 
   CloudFrontRequestFunction:
     Type: AWS::CloudFront::Function
