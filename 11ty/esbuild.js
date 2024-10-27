@@ -10,77 +10,76 @@ export default async function (eleventyConfig) {
 
   let hashes
 
-  eleventyConfig.on('eleventy.before', async () => {
+  eleventyConfig.on('eleventy.before', async function () {
     hashes = await bundle(await globby(['www/**/index.ts', 'www/**/worker.ts']))
   })
 
   eleventyConfig.addTransform('esbuild-translate-hashes', function (content) {
-    return translateHashes(this.page.url, content, hashes) ?? content
-  })
-}
-
-async function bundle(entryPoints) {
-  const { metafile } = await build({
-    assetNames: 'assets/immutable/11ty-esbuild/[name].[hash]',
-    bundle: true,
-    entryNames: '[dir]/[name].[hash]',
-    entryPoints,
-    external: ['/lib/*'],
-    format: 'esm',
-    metafile: true,
-    minify: true,
-    outbase: 'www',
-    outdir: 'dist/www',
-    plugins: [wasmLoader()],
-    sourcemap: true,
+    return translateHashes(this.page.inputPath, this.page.url, hashes, content) ?? content
   })
 
-  const hashes = Object.entries(metafile.outputs).reduce(
-    (acc, [outputPath, outputInfo]) => {
-      if (outputInfo.entryPoint) {
-        acc[outputInfo.entryPoint.replace(/^www/, '').replace(/\.ts$/, '.js')] =
-          outputPath.match(/\.([^.]+)\.js$/)[1]
+  async function bundle(entryPoints) {
+    const { metafile } = await build({
+      assetNames: 'assets/immutable/11ty-esbuild/[name].[hash]',
+      bundle: true,
+      entryNames: '[dir]/[name].[hash]',
+      entryPoints,
+      external: ['/lib/*'],
+      format: 'esm',
+      metafile: true,
+      minify: true,
+      outbase: 'www',
+      outdir: 'dist/www',
+      plugins: [wasmLoader()],
+      sourcemap: true,
+    })
+
+    const hashes = Object.entries(metafile.outputs).reduce(
+      (acc, [outputPath, outputInfo]) => {
+        if (outputInfo.entryPoint) {
+          acc[outputInfo.entryPoint.replace(/^www/, '').replace(/\.ts$/, '.js')] =
+            outputPath.match(/\.([^.]+)\.js$/)[1]
+        }
+        return acc
+      },
+      {}
+    )
+
+    await Promise.all([
+      ...Object.entries(hashes).map(async ([path, hash]) => {
+        const content = `export * from '${path.replace(/\.js$/, `.${hash}.js`)}'`
+        await writeFile(`dist/www${path}`, content)
+      }),
+
+      ...Object.entries(hashes).map(async ([base, hash]) => {
+        const filePath = `dist/www${base.replace(/\.js$/, `.${hash}.js`)}`
+        let content = await readFile(filePath, 'utf-8')
+        content = translateHashes(filePath, base, hashes, content)
+        if (content) {
+          await writeFile(filePath, content)
+        }
+      }),
+    ])
+
+    return hashes
+  }
+
+  function translateHashes(inputPath, base, hashes, content) {
+    let matched = false
+
+    content = content.replace(/(["'])([^"']+\.X{8}\.js)\1/g, (match, del, path) => {
+      path = path.replace(/\.X{8}\.js$/, '.js')
+      const hash = hashes[resolve(base, path)]
+      if (hash) {
+        matched = true
+        return `${del}${path.replace(/\.js$/, `.${hash}.js`)}${del}`
+      } else {
+        throw new Error(`Could not find hash for ${match} found in ${inputPath}`)
       }
-      return acc
-    },
-    {}
-  )
+    })
 
-  await Promise.all([
-    ...Object.entries(hashes).map(async ([path, hash]) => {
-      const content = `export * from '${path.replace(/\.js$/, `.${hash}.js`)}'`
-      await writeFile(`dist/www${path}`, content)
-    }),
-
-    ...Object.entries(hashes).map(async ([base, hash]) => {
-      const filePath = `dist/www${base.replace(/\.js$/, `.${hash}.js`)}`
-      let content = await readFile(filePath, 'utf-8')
-      content = translateHashes(base, content, hashes)
-      if (content) {
-        await writeFile(filePath, content)
-      }
-    }),
-  ])
-
-  return hashes
-}
-
-function translateHashes(base, content, hashes) {
-  let matched = false
-
-  content = content.replace(/(["'])([^"']+\.X{8}\.js)\1/g, (match, del, path) => {
-    path = path.replace(/\.X{8}\.js$/, '.js')
-    const hash = hashes[resolve(base, path)]
-    if (hash) {
-      matched = true
-      return `${del}${path.replace(/\.js$/, `.${hash}.js`)}${del}`
-    } else {
-      console.warn(`Could not find hash for ${match}. Skipping.`)
-      return match
+    if (matched) {
+      return content
     }
-  })
-
-  if (matched) {
-    return content
   }
 }
