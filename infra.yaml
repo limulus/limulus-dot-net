@@ -193,6 +193,12 @@ Resources:
             - Header: Cache-Control
               Override: true
               Value: 'public, max-age=31536000, immutable'
+            - Header: Cross-Origin-Opener-Policy
+              Override: false
+              Value: same-origin
+            - Header: Cross-Origin-Embedder-Policy
+              Override: false
+              Value: require-corp
 
   CloudFrontRequestFunction:
     Type: AWS::CloudFront::Function
