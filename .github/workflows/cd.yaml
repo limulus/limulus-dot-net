@@ -68,4 +68,4 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::865116139480:role/github-actions-limulus-dot-net-s3
           aws-region: us-west-2
-      - run: aws s3 sync www s3://${{ needs.infra.outputs.StaticSiteBucketName }} --delete --cache-control max-age=60,public
+      - run: aws s3 sync www s3://${{ needs.infra.outputs.StaticSiteBucketName }} --cache-control max-age=60,public
