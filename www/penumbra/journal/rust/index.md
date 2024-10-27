@@ -14,6 +14,7 @@ imageAlt: >-
 teaser: >-
   Switching from JavaScript to Rust/WebAssembly has (unsurprisingly) significantly increased
   performance!
+scripts: ./lib/index.js
 ---
 
 I’ve [previously] [mentioned] my intention to eventually switch from targeting JavaScript to
@@ -27,76 +28,11 @@ have done so far to target WebAssembly using [SIMD] instructions. Here’s the p
 [simd]: https://en.wikipedia.org/wiki/Single_instruction,_multiple_data
 [sphere’s shadow demo]: ../005-ray-sphere-interactions/#demo
 
-<div class="figures">
-  <figure class="figure-group">
-    <figcaption>
-      <a href="https://github.com/limulus/penumbra-www/tree/542b248/src/sphere-shadow">
-        <code>&lt;sphere-shadow&gt;</code>
-      </a>
-    </figcaption>
-    <sphere-shadow resolution="100"></sphere-shadow>
-    <script type="module" async src="/assets/js/sphere-shadow/index.js"></script>
-  </figure>
-
-  <figure class="figure-group">
-    <figcaption>
-      <a
-        href="https://github.com/limulus/penumbra-www/tree/542b248/src/sphere-shadow-wasm"
-      >
-        <code>&lt;sphere-shadow-wasm&gt;</code>
-      </a>
-    </figcaption>
-    <sphere-shadow-wasm resolution="100"></sphere-shadow-wasm>
-    <script type="module" async src="/assets/js/sphere-shadow-wasm/index.js"></script>
-  </figure>
+<div>
+  <sphere-shadow-js-vs-wasm>
+    {% include 'dynamic-content-fallback' %}
+  </sphere-shadow-js-vs-wasm>
 </div>
-
-<form class="resolution-selector">
-  <label>
-    Resolution:
-    <select name="resolution" list>
-      <option value="10">10x10</option>
-      <option value="20">20x20</option>
-      <option value="50">50x50</option>
-      <option value="100" selected>100x100</option>
-      <option value="200">200x200</option>
-      <option value="300">300x300</option>
-      <option value="400">400x400</option>
-      <option value="500">500x500</option>
-    </select>
-  </label>
-</form>
-
-<style>
-  .figures {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    gap: 20px;
-  }
-
-  .figures figure {
-    width: max-content;
-  }
-
-  form.resolution-selector {
-    text-align: center;
-  }
-</style>
-
-<script type="module">
-  const components = [
-    document.querySelector('sphere-shadow'),
-    document.querySelector('sphere-shadow-wasm'),
-  ]
-  const formEl = document.querySelector('form.resolution-selector')
-  formEl.addEventListener('change', () => {
-    const data = new FormData(formEl)
-    components.forEach(component => {
-      component.setAttribute('resolution', data.get('resolution'))
-    })
-  })
-</script>
 
 Click and drag (or touch and drag) to change the position of the light source, and thus
 change the shape of the sphere’s shadow. Change the resolution via the dropdown to observe

@@ -10,6 +10,7 @@ image: sphere-shadow.jpeg
 imageAlt: Screenshot of the sphere-shadow component demo.
 teaser: >-
   Finally! Ray casting! Plus an interactive demo of a sphere’s shadow.
+scripts: ./lib/index.js
 ---
 
 In chapter 5 of [The Ray Tracer Challenge] you finally get to implement something that
@@ -124,18 +125,11 @@ The exercise at the end of the chapter is to render the shadow of a sphere by ca
 from a light source onto a “wall”. I’ve implemented that here, with the addition that you
 can change the position of the light source by dragging from the element.
 
-<figure>
-  <figcaption>
-    <a href="https://github.com/limulus/penumbra-www/tree/bb3fc6bc3a35db3e7abe249f3838152e116e79f7/src/sphere-shadow">
-      <code>&lt;sphere-shadow&gt;</code>
-    </a>
-  </figcaption>
-  <sphere-shadow>
-    <script>document.write('Loading…')</script>
-    <noscript>Enable JavaScript to view the <code>&lt;sphere-shadow&gt;</code> demo.</noscript>
-  </sphere-shadow>
-  <script type="module" async src="/lib/sphere-shadow/index.js"></script>
-</figure>
+<div>
+  <sphere-shadow-demo>
+    {% include 'dynamic-content-fallback' %}
+  </sphere-sahdow-demo>
+</div>
 
 I don’t normally test drive my demo code since it is more exploratory fun than writing code
 I intend to reuse. But I figured I would want to make use of the dragging interaction again,

@@ -11,6 +11,7 @@ imageAlt: Screenshot of the pixel-clock component demo
 teaser: >-
   An overdue and long update covering 3 chapters! The site has moved to its permanent home
   and the demo for these chapters is a neat little animated clock.
+scripts: ./lib/index.js
 ---
 
 In the [previous post][003] I went a little further than the exercise at the end of the
@@ -182,18 +183,11 @@ have to for this exercise: add animated “hands” and perform the rendering in
 
 [web worker]: https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API
 
-<figure>
-  <figcaption>
-    <a href="https://github.com/limulus/penumbra-www/tree/bb3fc6bc3a35db3e7abe249f3838152e116e79f7/src/pixel-clock">
-      <code>&lt;pixel-clock&gt;</code>
-    </a>
-  </figcaption>
-  <pixel-clock>
-    <script>document.write('Loading…')</script>
-    <noscript>Enable JavaScript to view the <code>&lt;pixel-clock&gt;</code> demo.</noscript>
-  </pixel-clock>
-  <script type="module" async src="/lib/pixel-clock/index.js"></script>
-</figure>
+<div>
+  <pixel-clock-demo>
+    {% include 'dynamic-content-fallback' %}
+  </pixel-clock-demo>
+</div>
 
 Now that I have some hands-on experience with Web Workers I expect to be able to offload the
 work of the ray tracer off the main thread, and possibly even parallelize the work into
