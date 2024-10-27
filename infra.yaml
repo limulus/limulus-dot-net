@@ -122,7 +122,8 @@ Resources:
         ParametersInCacheKeyAndForwardedToOrigin:
           CookiesConfig:
             CookieBehavior: none
-          EnableAcceptEncodingGzip: false
+          EnableAcceptEncodingGzip: true
+          EnableAcceptEncodingBrotli: true
           HeadersConfig:
             HeaderBehavior: none
           QueryStringsConfig:
@@ -140,7 +141,8 @@ Resources:
         ParametersInCacheKeyAndForwardedToOrigin:
           CookiesConfig:
             CookieBehavior: none
-          EnableAcceptEncodingGzip: false
+          EnableAcceptEncodingGzip: true
+          EnableAcceptEncodingBrotli: true
           HeadersConfig:
             HeaderBehavior: none
           QueryStringsConfig:
