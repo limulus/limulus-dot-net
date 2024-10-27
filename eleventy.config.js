@@ -111,7 +111,6 @@ export default function (eleventyConfig) {
       },
     ],
     port: process.env.PORT || 8080,
-    watch: ['dist/assets/**/*.{css,js}'],
   })
 
   return { dir: { input, output, layouts } }

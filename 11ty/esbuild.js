@@ -6,6 +6,8 @@ import { resolve } from 'node:url'
 
 /** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
 export default async function (eleventyConfig) {
+  eleventyConfig.addWatchTarget('www/**/*.ts')
+
   let hashes
 
   eleventyConfig.on('eleventy.before', async () => {
