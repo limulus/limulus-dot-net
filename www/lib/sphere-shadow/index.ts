@@ -80,7 +80,9 @@ export class SphereShadow extends HTMLElement {
       this.worker?.postMessage(message)
     })
 
-    this.worker = new Worker(new URL('./worker.js', import.meta.url), { type: 'module' })
+    this.worker = new Worker(new URL('./worker.XXXXXXXX.js', import.meta.url), {
+      type: 'module',
+    })
     this.worker.addEventListener(
       'message',
       (event: MessageEvent<SphereShadowFrameMessage>) => {

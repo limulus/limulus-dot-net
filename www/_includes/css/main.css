@@ -1,8 +1,8 @@
 @font-face {
   font-family: 'Mona Sans';
   src:
-    url('../assets/fonts/mona-sans.woff2') format('woff2 supports variations'),
-    url('../assets/fonts/mona-sans.woff2') format('woff2-variations');
+    url('/assets/fonts/mona-sans.woff2') format('woff2 supports variations'),
+    url('/assets/fonts/mona-sans.woff2') format('woff2-variations');
   font-weight: 200 900;
   font-stretch: 75% 125%;
   font-display: swap;
@@ -11,8 +11,8 @@
 @font-face {
   font-family: 'Monaspace Neon';
   src:
-    url('../assets/fonts/monaspace-neon.woff2') format('woff2 supports variations'),
-    url('../assets/fonts/monaspace-neon.woff2') format('woff2-variations');
+    url('/assets/fonts/monaspace-neon.woff2') format('woff2 supports variations'),
+    url('/assets/fonts/monaspace-neon.woff2') format('woff2-variations');
   font-weight: 200 800;
   font-display: swap;
 }

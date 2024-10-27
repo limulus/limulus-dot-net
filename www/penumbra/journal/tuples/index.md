@@ -29,7 +29,7 @@ projectile on a canvas. Here it is in action:
     <script>document.write('Loading…')</script>
     <noscript>Enable JavaScript to view the &lt;projectile-cannon&gt; demo.</noscript>
   </projectile-cannon>
-  <script type="module" async src="/assets/js/projectile-cannon/index.js"></script>
+  <script type="module" async src="/lib/projectile-cannon/index.js"></script>
 </figure>
 
 I attempted to represent the <math display="inline"><mi>z</mi></math> axis by

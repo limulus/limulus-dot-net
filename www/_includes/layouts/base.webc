@@ -13,7 +13,7 @@
 
     <script type="module" webc:keep>
       if (window.location.hostname.endsWith('limulus.net')) {
-        await import('/assets/js/rum/index.js')
+        await import('/lib/rum/index.XXXXXXXX.js')
       }
     </script>
 

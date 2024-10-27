@@ -134,7 +134,7 @@ can change the position of the light source by dragging from the element.
     <script>document.write('Loading…')</script>
     <noscript>Enable JavaScript to view the <code>&lt;sphere-shadow&gt;</code> demo.</noscript>
   </sphere-shadow>
-  <script type="module" async src="/assets/js/sphere-shadow/index.js"></script>
+  <script type="module" async src="/lib/sphere-shadow/index.js"></script>
 </figure>
 
 I don’t normally test drive my demo code since it is more exploratory fun than writing code

@@ -9,6 +9,8 @@ import markdownItAttrs from 'markdown-it-attrs'
 import markdownItFootnote from 'markdown-it-footnote'
 import markdownItTaskLists from 'markdown-it-task-lists'
 
+import esbuild from './11ty/esbuild.js'
+
 /** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
 export default function (eleventyConfig) {
   const input = 'www'
@@ -23,7 +25,10 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy(`${input}/**/*.{png,svg,jpg,jpeg}`)
 
   eleventyConfig.addPlugin(EleventyRenderPlugin, { accessGlobalData: true })
-  eleventyConfig.addPlugin(pluginWebc, { components })
+  eleventyConfig.addPlugin(pluginWebc, {
+    bundlePluginOptions: { toFileDirectory: 'assets/immutable/11ty-bundle/' },
+    components,
+  })
 
   eleventyConfig.addPlugin(feedPlugin, {
     type: 'atom',
@@ -65,8 +70,8 @@ export default function (eleventyConfig) {
 
   eleventyConfig.addPlugin(eleventyImagePlugin, {
     formats: ['avif', 'jpeg'],
-    outputDir: `${output}/assets/images/`,
-    urlPath: `/assets/images/`,
+    outputDir: `${output}/assets/immutable/11ty-img/`,
+    urlPath: `/assets/immutable/11ty-img/`,
     defaultAttributes: {
       loading: 'lazy',
       decoding: 'async',
@@ -93,6 +98,8 @@ export default function (eleventyConfig) {
   md.use(markdownItAttrs)
   md.use(markdownItAnchor)
   eleventyConfig.setLibrary('md', md)
+
+  eleventyConfig.addPlugin(esbuild)
 
   eleventyConfig.setServerOptions({
     domDiff: false,

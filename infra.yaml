@@ -53,6 +53,20 @@ Resources:
             OriginRequestPolicyId: 216adef6-5c7f-47e4-b989-5492eafa07d3
             TargetOriginId: mastodon.limulus.net
             ViewerProtocolPolicy: redirect-to-https
+          - PathPattern: /assets/immutable/*
+            CachePolicyId: !Ref CloudFrontDistributionForeverCachePolicy
+            Compress: true
+            OriginRequestPolicyId: 88a5eaf4-2fd4-4709-b370-b4c650ea3fcf
+            TargetOriginId: static-site-bucket-origin
+            ResponseHeadersPolicyId: !Ref CloudFrontResponseHeadersPolicy
+            ViewerProtocolPolicy: redirect-to-https
+          - PathPattern: /*.????????.*
+            CachePolicyId: !Ref CloudFrontDistributionForeverCachePolicy
+            Compress: true
+            OriginRequestPolicyId: 88a5eaf4-2fd4-4709-b370-b4c650ea3fcf
+            TargetOriginId: static-site-bucket-origin
+            ResponseHeadersPolicyId: !Ref CloudFrontResponseHeadersPolicy
+            ViewerProtocolPolicy: redirect-to-https
         CustomErrorResponses:
           - ErrorCachingMinTTL: 30
             ErrorCode: 404
@@ -104,6 +118,24 @@ Resources:
         DefaultTTL: 60
         MaxTTL: 31536000
         MinTTL: 0
+        ParametersInCacheKeyAndForwardedToOrigin:
+          CookiesConfig:
+            CookieBehavior: none
+          EnableAcceptEncodingGzip: false
+          HeadersConfig:
+            HeaderBehavior: none
+          QueryStringsConfig:
+            QueryStringBehavior: none
+
+  CloudFrontDistributionForeverCachePolicy:
+    Type: AWS::CloudFront::CachePolicy
+    Properties:
+      CachePolicyConfig:
+        Name: !Sub 'limulus-dot-net-forever-cache-${BranchName}'
+        Comment: Cache policy for static assets
+        DefaultTTL: 31536000
+        MaxTTL: 31536000
+        MinTTL: 31536000
         ParametersInCacheKeyAndForwardedToOrigin:
           CookiesConfig:
             CookieBehavior: none
