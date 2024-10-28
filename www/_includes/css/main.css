@@ -156,6 +156,10 @@ pre > code.hljs {
   font-size: 0.8rem;
 }
 
+article p {
+  text-wrap-style: pretty;
+}
+
 figure {
   margin: 0;
 }
