@@ -81,7 +81,6 @@ export default function (eleventyConfig) {
 
   const md = markdownIt({
     html: true,
-    linkify: true,
     highlight: (str, language) => {
       if (language && hljs.getLanguage(language)) {
         return (
