@@ -15,7 +15,7 @@
             @text="article.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })"
           ></time>
         </header>
-        <p class="teaser" @text="article.data.teaser"></p>
+        <p @text="article.data.teaser"></p>
       </div>
     </a>
   </article>
@@ -62,7 +62,6 @@
 
   :host p {
     margin: 0;
-    text-wrap-style: balance;
   }
 
   @media (min-width: 600px) {
