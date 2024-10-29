@@ -30,6 +30,7 @@
     display: block;
     overflow: hidden;
     padding: 0.5rem;
+    border: var(--card-border);
     background-color: var(--card-background-color);
     border-radius: var(--card-border-radius);
     box-shadow: var(--card-box-shadow);
@@ -39,8 +40,9 @@
     display: block;
     width: 100%;
     height: auto;
-    margin: 0 0 1rem 0;
+    border: var(--card-border);
     border-radius: var(--card-border-radius);
+    box-shadow: var(--card-box-shadow);
   }
 
   :host .text-content {
@@ -76,7 +78,7 @@
     }
 
     :host .text-content {
-      margin: 0;
+      margin: 0.2rem 0.5rem;
     }
   }
 </style>
