@@ -67,7 +67,7 @@ html {
   background-color: #f3f3f3;
   color: #333;
   font-size: 18px;
-  line-height: 1.4;
+  line-height: 1.6;
   overflow-y: scroll;
 }
 body {
@@ -102,10 +102,6 @@ a:active {
 
 h1:first-of-type {
   margin-top: 0;
-}
-
-p {
-  line-height: 1.7;
 }
 
 body > header {
