@@ -29,7 +29,6 @@
   :host a {
     display: block;
     overflow: hidden;
-    padding: 0.5rem;
     border: var(--card-border);
     background-color: var(--card-background-color);
     border-radius: var(--card-border-radius);
@@ -40,13 +39,11 @@
     display: block;
     width: 100%;
     height: auto;
-    border: var(--card-border);
-    border-radius: var(--card-border-radius);
-    box-shadow: var(--card-box-shadow);
+    border-bottom: var(--card-border);
   }
 
   :host .text-content {
-    margin: 0.5rem 0.2rem;
+    margin: 0.3rem 0.7rem 0.5rem 0.7rem;
   }
 
   :host h1 {
@@ -72,13 +69,17 @@
     }
 
     :host img {
-      width: 40cqi;
+      border-bottom: unset;
+      border: var(--card-border);
+      border-radius: var(--card-border-radius);
+      box-shadow: var(--card-box-shadow);
       float: left;
-      margin: 0 1rem 0 0;
+      margin: 0.5rem 1rem 0.5rem 0.5rem;
+      width: 40cqi;
     }
 
     :host .text-content {
-      margin: 0.2rem 0.5rem;
+      margin: 0.3rem 0.8rem 0.6rem 0.8rem;
     }
   }
 </style>
