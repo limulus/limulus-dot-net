@@ -2,6 +2,7 @@
   "recommendations": [
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
+    "sissel.shopify-liquid",
     "Tobermory.es6-string-html"
   ]
 }
