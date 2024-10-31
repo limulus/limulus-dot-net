@@ -26,7 +26,7 @@ export default function (eleventyConfig) {
 
   eleventyConfig.addPlugin(EleventyRenderPlugin, { accessGlobalData: true })
   eleventyConfig.addPlugin(pluginWebc, {
-    bundlePluginOptions: { toFileDirectory: 'assets/immutable/11ty-bundle/' },
+    bundlePluginOptions: { toFileDirectory: 'assets/immutable/11ty/bundle/' },
     components,
   })
 
@@ -70,8 +70,8 @@ export default function (eleventyConfig) {
 
   eleventyConfig.addPlugin(eleventyImagePlugin, {
     formats: ['avif', 'jpeg'],
-    outputDir: `${output}/assets/immutable/11ty-img/`,
-    urlPath: `/assets/immutable/11ty-img/`,
+    outputDir: `${output}/assets/immutable/11ty/img/`,
+    urlPath: `/assets/immutable/11ty/img/`,
     defaultAttributes: {
       loading: 'lazy',
       decoding: 'async',

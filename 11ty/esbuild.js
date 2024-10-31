@@ -20,7 +20,7 @@ export default async function (eleventyConfig) {
 
   async function bundle(entryPoints) {
     const { metafile } = await build({
-      assetNames: 'assets/immutable/11ty-esbuild/[name].[hash]',
+      assetNames: 'assets/immutable/11ty/esbuild/[name].[hash]',
       bundle: true,
       entryNames: '[dir]/[name].[hash]',
       entryPoints,
