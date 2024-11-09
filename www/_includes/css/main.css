@@ -188,10 +188,6 @@ sphere-shadow::part(hud-value) {
     color: rgb(201, 209, 217);
   }
 
-  img:not([src*='.svg']) {
-    filter: grayscale(20%);
-  }
-
   a {
     color: rgb(201, 209, 217);
   }
