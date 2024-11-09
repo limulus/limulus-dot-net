@@ -53,6 +53,8 @@ h6 {
 }
 
 :root {
+  --body-padding: 2rem;
+  --body-max-width: 55rem;
   --card-background-color: #f6f6f6;
   --card-border: var(--hairline-pixels) solid var(--card-border-color);
   --card-border-color: #999;
@@ -72,8 +74,8 @@ html {
 }
 body {
   margin: 0 auto;
-  max-width: 55rem;
-  padding: 0 2rem 2rem 2rem;
+  max-width: var(--body-max-width);
+  padding: 0 var(--body-padding) var(--body-padding) var(--body-padding);
 }
 
 a {
@@ -208,7 +210,7 @@ sphere-shadow::part(hud-value) {
   }
 
   body {
-    padding: 0 1rem 1rem 1rem;
+    --body-padding: 1rem;
   }
 }
 

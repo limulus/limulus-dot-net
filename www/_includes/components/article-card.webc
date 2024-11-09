@@ -1,12 +1,18 @@
 <article-card>
   <article>
     <a :href="article.url">
-      <eleventy-image
-        webc:if="article.data.image"
-        :src="`www${article.url}${article.data.image}`"
-        width="1024"
-        :alt="article.data.imageAlt"
-      ></eleventy-image>
+      <pho-picture
+        webc:if="article.data.image || (article.data.hero?.type === 'pho')"
+        :@id="article.data.image ?? article.data.hero.id"
+        @renditions="md"
+      ></pho-picture>
+      <img-fallback
+        webc:if="article.data.hero?.type === 'vod'"
+        :src="`https://vod.limulus.net/${article.data.hero.id}/poster.jpeg`"
+        width="1280"
+        height="720"
+        :alt="article.data.hero.alt"
+      ></img-fallback>
       <div class="text-content">
         <header>
           <h1 @text="article.data.title"></h1>

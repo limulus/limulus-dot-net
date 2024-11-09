@@ -1,0 +1,37 @@
+<picture>
+  <script webc:type="js">
+    const { photos } = this.$data
+    const { id, renditions } = webc.attributes
+    const wantedRenditions = renditions.split(/\s*,\s*/)
+
+    const srcset = ({ format: wantedFormat }) => {
+      return photos[id].renditions
+        .filter(
+          ({ name, format }) => wantedRenditions.includes(name) && format === wantedFormat
+        )
+        .sort(({ width: a }, { width: b }) => b - a)
+        .map(({ url, width }) => `${url} ${width}w`)
+        .join(', ')
+    }
+
+    const src = () => {
+      return photos[id].renditions.find(
+        ({ name, format }) => name === 'md' && format === 'jpeg'
+      ).url
+    }
+
+    const html = /* HTML */ `
+      <source srcset="${srcset({ format: 'avif' })}" type="image/avif" />
+      <source srcset="${srcset({ format: 'jpeg' })}" type="image/jpeg" />
+      <img-fallback
+        src="${src({ id })}"
+        alt="${photos[id].description}"
+        width="${photos[id].width}"
+        height="${photos[id].height}"
+        ${webc.renderAttributes(webc.attributes)}
+      />
+    `
+
+    html
+  </script>
+</picture>

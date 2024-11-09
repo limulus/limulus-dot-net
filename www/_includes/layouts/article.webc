@@ -4,9 +4,72 @@ layout: page
 
 <article>
   <header>
-    <h1 @text="title"></h1>
+    <article-photo
+      webc:if="hero && hero.type === 'pho'"
+      :@id="hero.id"
+      class="hero"
+    ></article-photo>
+
+    <article-vod
+      webc:if="hero && hero.type === 'vod'"
+      :@id="hero.id"
+      :alt="hero.alt"
+      class="hero"
+    ></article-vod>
+
+    <hgroup>
+      <h1 @text="title"></h1>
+      <p webc:if="subhead" @text="subhead"></p>
+    </hgroup>
+
     <article-meta :date="page.date"></article-meta>
   </header>
 
   <div @raw="content" webc:nokeep></div>
 </article>
+
+<style webc:scoped>
+  :host hgroup {
+    margin: 0 0 1rem 0;
+  }
+
+  :host hgroup h1 {
+    margin: 0;
+  }
+
+  :host hgroup p {
+    margin: 0;
+    font-size: 1.25rem;
+    --var-font-wght: 400;
+    --var-font-slnt: -10;
+    font-synthesis: none;
+  }
+
+  :host header img.hero,
+  :host header video-on-demand.hero {
+    display: block;
+    margin-left: calc(var(--body-padding) * -1);
+    max-width: 100vw;
+    width: calc(100% + var(--body-padding) * 2);
+    height: auto;
+  }
+
+  :host header video-on-demand.hero img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  :host header figure {
+    margin: 1rem 0;
+  }
+
+  :host header figcaption {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+    text-align: right;
+    --var-font-wght: 400;
+    --var-font-slnt: -10;
+    font-synthesis: none;
+  }
+</style>

@@ -1,0 +1,6 @@
+<figure>
+  <pho-picture :@id="id" @renditions="lg, md" @attributes></pho-picture>
+  <figcaption>
+    <span @text="$data.photos[id].title"></span>
+  </figcaption>
+</figure>

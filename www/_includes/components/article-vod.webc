@@ -1,0 +1,37 @@
+<figure>
+  <video-on-demand :vod="id" @attributes>
+    <img-fallback
+      :src="`https://vod.limulus.net/${id}/poster.jpeg`"
+      width="1280"
+      height="720"
+      :alt="alt"
+      onload="this.classList.add('loadingAnimation')"
+    ></img-fallback>
+    <noscript>
+      <p>Enable JavaScript to Watch</p>
+    </noscript>
+  </video-on-demand>
+</figure>
+
+<script type="module" src="/lib/video-on-demand/index.XXXXXXXX.js" async webc:keep></script>
+
+<style webc:scoped>
+  :host noscript p {
+    text-align: center;
+  }
+
+  :host img.loadingAnimation {
+    animation: throbbing-fade 1.5s infinite;
+    animation-delay: 0.5s;
+  }
+
+  @keyframes throbbing-fade {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+</style>

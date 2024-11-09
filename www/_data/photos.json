@@ -1,0 +1,351 @@
+{
+  "Ww6fbpTu": {
+    "baseUrl": "https://pho.limulus.net/Ww6fbpTu",
+    "original": "DSC_0013.png",
+    "width": 6000,
+    "height": 4000,
+    "aspectRatio": 1.5,
+    "title": "Letchworth State Park, Upper Falls",
+    "description": "A waterfall in a gorge, surrounded by trees beginning to take on fall colors. The midday sun brightly lights the falls and the mist filling the gorge. A long train bridge spans the gorge over the falls.",
+    "date": "2024-10-17T12:55:37-04:00",
+    "make": "NIKON CORPORATION",
+    "camera": "NIKON D5600",
+    "lens": "AF-S DX Nikkor 35mm f/1.8G",
+    "focalLength": "35 mm",
+    "exposureTime": "1/400",
+    "fNumber": "f/9",
+    "iso": 200,
+    "flash": "Flash did not fire, compulsory flash mode",
+    "exposureMode": "Auto exposure",
+    "whiteBalance": "Auto white balance",
+    "location": {
+      "latitude": 42.58007222222223,
+      "longitude": -78.04695555555556,
+      "altitude": 320
+    },
+    "renditions": [
+      {
+        "name": "xl",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/Ww6fbpTu/xl.qb0syDHN.jpeg",
+        "file": "xl.qb0syDHN.jpeg",
+        "width": 6000,
+        "height": 4000,
+        "size": 3350052
+      },
+      {
+        "name": "lg",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/Ww6fbpTu/lg.W6s_p8hi.jpeg",
+        "file": "lg.W6s_p8hi.jpeg",
+        "width": 3000,
+        "height": 2000,
+        "size": 1028518
+      },
+      {
+        "name": "md",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/Ww6fbpTu/md.d-foDQsm.jpeg",
+        "file": "md.d-foDQsm.jpeg",
+        "width": 1500,
+        "height": 1000,
+        "size": 280562
+      },
+      {
+        "name": "md",
+        "format": "avif",
+        "url": "https://pho.limulus.net/Ww6fbpTu/md.toylB1tO.avif",
+        "file": "md.toylB1tO.avif",
+        "width": 1500,
+        "height": 1000,
+        "size": 177710
+      },
+      {
+        "name": "lg",
+        "format": "avif",
+        "url": "https://pho.limulus.net/Ww6fbpTu/lg.AtYQJPC7.avif",
+        "file": "lg.AtYQJPC7.avif",
+        "width": 3000,
+        "height": 2000,
+        "size": 600548
+      },
+      {
+        "name": "xl",
+        "format": "avif",
+        "url": "https://pho.limulus.net/Ww6fbpTu/xl.jn0qSb4O.avif",
+        "file": "xl.jn0qSb4O.avif",
+        "width": 6000,
+        "height": 4000,
+        "size": 1479122
+      }
+    ]
+  },
+  "zJZ_CG1d": {
+    "baseUrl": "https://pho.limulus.net/zJZ_CG1d",
+    "original": "pixel-clock.png",
+    "width": 1050,
+    "height": 734,
+    "aspectRatio": 1.430517711171662,
+    "title": "<pixel-clock>",
+    "description": "A screenshot of the <pixel-clock> demo. A square with a colorful background has 12 white pixelated dots in a circle, with 3 other dots inside. If it were a moving image, it would be obvious that the three inside dots correspond to an hour, minute, and second hands of a clock.",
+    "date": "2024-11-06T22:10:04-07:00",
+    "location": null,
+    "renditions": [
+      {
+        "name": "xl",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/zJZ_CG1d/xl.SXII1SVO.jpeg",
+        "file": "xl.SXII1SVO.jpeg",
+        "width": 1050,
+        "height": 734,
+        "size": 21895
+      },
+      {
+        "name": "lg",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/zJZ_CG1d/lg.SXII1SVO.jpeg",
+        "file": "lg.SXII1SVO.jpeg",
+        "width": 1050,
+        "height": 734,
+        "size": 21895
+      },
+      {
+        "name": "md",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/zJZ_CG1d/md.SXII1SVO.jpeg",
+        "file": "md.SXII1SVO.jpeg",
+        "width": 1050,
+        "height": 734,
+        "size": 21895
+      },
+      {
+        "name": "xl",
+        "format": "avif",
+        "url": "https://pho.limulus.net/zJZ_CG1d/xl.JtQb-F06.avif",
+        "file": "xl.JtQb-F06.avif",
+        "width": 1050,
+        "height": 734,
+        "size": 3486
+      },
+      {
+        "name": "md",
+        "format": "avif",
+        "url": "https://pho.limulus.net/zJZ_CG1d/md.JtQb-F06.avif",
+        "file": "md.JtQb-F06.avif",
+        "width": 1050,
+        "height": 734,
+        "size": 3486
+      },
+      {
+        "name": "lg",
+        "format": "avif",
+        "url": "https://pho.limulus.net/zJZ_CG1d/lg.JtQb-F06.avif",
+        "file": "lg.JtQb-F06.avif",
+        "width": 1050,
+        "height": 734,
+        "size": 3486
+      }
+    ]
+  },
+  "7GibfMtF": {
+    "baseUrl": "https://pho.limulus.net/7GibfMtF",
+    "original": "sphere-shadow.png",
+    "width": 1224,
+    "height": 806,
+    "aspectRatio": 1.5186104218362282,
+    "title": "<sphere-shadow>",
+    "description": "A screenshot of the sphere-shadow demo component. A box with a colorful background contains a pixelated black circle, which is the rendering of a sphere’s shadow. Below it is the text “Render time: 17.26 ms”.",
+    "date": "2024-11-08T20:40:50-07:00",
+    "location": null,
+    "renditions": [
+      {
+        "name": "lg",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/7GibfMtF/lg.07ToQ7Sm.jpeg",
+        "file": "lg.07ToQ7Sm.jpeg",
+        "width": 1224,
+        "height": 806,
+        "size": 28435
+      },
+      {
+        "name": "xl",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/7GibfMtF/xl.07ToQ7Sm.jpeg",
+        "file": "xl.07ToQ7Sm.jpeg",
+        "width": 1224,
+        "height": 806,
+        "size": 28435
+      },
+      {
+        "name": "md",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/7GibfMtF/md.07ToQ7Sm.jpeg",
+        "file": "md.07ToQ7Sm.jpeg",
+        "width": 1224,
+        "height": 806,
+        "size": 28435
+      },
+      {
+        "name": "xl",
+        "format": "avif",
+        "url": "https://pho.limulus.net/7GibfMtF/xl.JCoc_RoX.avif",
+        "file": "xl.JCoc_RoX.avif",
+        "width": 1224,
+        "height": 806,
+        "size": 5621
+      },
+      {
+        "name": "lg",
+        "format": "avif",
+        "url": "https://pho.limulus.net/7GibfMtF/lg.JCoc_RoX.avif",
+        "file": "lg.JCoc_RoX.avif",
+        "width": 1224,
+        "height": 806,
+        "size": 5621
+      },
+      {
+        "name": "md",
+        "format": "avif",
+        "url": "https://pho.limulus.net/7GibfMtF/md.JCoc_RoX.avif",
+        "file": "md.JCoc_RoX.avif",
+        "width": 1224,
+        "height": 806,
+        "size": 5621
+      }
+    ]
+  },
+  "h9GqVnA8": {
+    "baseUrl": "https://pho.limulus.net/h9GqVnA8",
+    "original": "sphere-shadow-wasm.png",
+    "width": 2560,
+    "height": 1440,
+    "aspectRatio": 1.7777777777777777,
+    "title": "<sphere-shadow> and <sphere-shadow-wasm>",
+    "description": "A screenshot of the sphere-shadow and sphere-shadow-wasm demo components. Two colorful boxes are side-by-side, both containing a pixelated oval. Under the sphere-shadow box is the text “Render time: 6.44 ms”. Under the sphere-shadow-wasm box is the text “Render time: 0.90 ms”. Underneath both is a “Resolution” selection menu, currently set at “50x50”.",
+    "date": "2024-11-08T20:48:06-07:00",
+    "location": null,
+    "renditions": [
+      {
+        "name": "xl",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/h9GqVnA8/xl.J4hBJScw.jpeg",
+        "file": "xl.J4hBJScw.jpeg",
+        "width": 2560,
+        "height": 1440,
+        "size": 77162
+      },
+      {
+        "name": "lg",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/h9GqVnA8/lg.J4hBJScw.jpeg",
+        "file": "lg.J4hBJScw.jpeg",
+        "width": 2560,
+        "height": 1440,
+        "size": 77162
+      },
+      {
+        "name": "md",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/h9GqVnA8/md.2hkBN3qG.jpeg",
+        "file": "md.2hkBN3qG.jpeg",
+        "width": 1500,
+        "height": 844,
+        "size": 50459
+      },
+      {
+        "name": "md",
+        "format": "avif",
+        "url": "https://pho.limulus.net/h9GqVnA8/md.WluV6moM.avif",
+        "file": "md.WluV6moM.avif",
+        "width": 1500,
+        "height": 844,
+        "size": 10230
+      },
+      {
+        "name": "xl",
+        "format": "avif",
+        "url": "https://pho.limulus.net/h9GqVnA8/xl.D_-NoC4W.avif",
+        "file": "xl.D_-NoC4W.avif",
+        "width": 2560,
+        "height": 1440,
+        "size": 14429
+      },
+      {
+        "name": "lg",
+        "format": "avif",
+        "url": "https://pho.limulus.net/h9GqVnA8/lg.D_-NoC4W.avif",
+        "file": "lg.D_-NoC4W.avif",
+        "width": 2560,
+        "height": 1440,
+        "size": 14429
+      }
+    ]
+  },
+  "ZGT50bMU": {
+    "baseUrl": "https://pho.limulus.net/ZGT50bMU",
+    "original": "projectile-cannon.png",
+    "width": 1462,
+    "height": 1042,
+    "aspectRatio": 1.4030710172744723,
+    "title": "<projectile-cannon>",
+    "description": "A screenshot of the projectile-cannon demo component. A black box contains 4 white squares of various sizes along the bottom edge. At the top of the box is 4 log lines corresponding to the coordinates of each square. Below the box are UI controls: X, Y, and Z sliders; and Fire and Clear buttons.",
+    "date": "2024-11-08T20:54:12-07:00",
+    "location": null,
+    "renditions": [
+      {
+        "name": "xl",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/ZGT50bMU/xl.Xx4WRpjp.jpeg",
+        "file": "xl.Xx4WRpjp.jpeg",
+        "width": 1462,
+        "height": 1042,
+        "size": 48771
+      },
+      {
+        "name": "lg",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/ZGT50bMU/lg.Xx4WRpjp.jpeg",
+        "file": "lg.Xx4WRpjp.jpeg",
+        "width": 1462,
+        "height": 1042,
+        "size": 48771
+      },
+      {
+        "name": "md",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/ZGT50bMU/md.Xx4WRpjp.jpeg",
+        "file": "md.Xx4WRpjp.jpeg",
+        "width": 1462,
+        "height": 1042,
+        "size": 48771
+      },
+      {
+        "name": "xl",
+        "format": "avif",
+        "url": "https://pho.limulus.net/ZGT50bMU/xl.-uAc20NS.avif",
+        "file": "xl.-uAc20NS.avif",
+        "width": 1462,
+        "height": 1042,
+        "size": 12946
+      },
+      {
+        "name": "md",
+        "format": "avif",
+        "url": "https://pho.limulus.net/ZGT50bMU/md.-uAc20NS.avif",
+        "file": "md.-uAc20NS.avif",
+        "width": 1462,
+        "height": 1042,
+        "size": 12946
+      },
+      {
+        "name": "lg",
+        "format": "avif",
+        "url": "https://pho.limulus.net/ZGT50bMU/lg.-uAc20NS.avif",
+        "file": "lg.-uAc20NS.avif",
+        "width": 1462,
+        "height": 1042,
+        "size": 12946
+      }
+    ]
+  }
+}

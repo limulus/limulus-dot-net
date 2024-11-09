@@ -6,8 +6,7 @@ layout: article
 author: eric
 title: 'Chapter 5: Ray-Sphere Interactions'
 date: 2023-12-29 14:00:00 -07:00
-image: sphere-shadow.jpeg
-imageAlt: Screenshot of the sphere-shadow component demo.
+image: 7GibfMtF
 teaser: >-
   Finally! Ray casting! Plus an interactive demo of a sphere’s shadow.
 scripts: ./lib/index.js

@@ -6,22 +6,16 @@ layout: article
 author: eric
 title: 'How I Am Using GitHub Copilot'
 date: 2024-03-23 15:15:00 -07:00
-image: poster.jpeg
-imageAlt: >-
-  Screenshot of the JavaScript and WebAssembly versions of the sphere-shadow components.
-  Copilot, the GitHub Copilot mascot, looks up at the demo.
+hero:
+  type: vod
+  id: github-copilot-demo/01HTWVCE0J15PDF91C8969JXHH
+  alt: >-
+    Screenshot of the JavaScript and WebAssembly versions of the sphere-shadow components.
+    Copilot, the GitHub Copilot mascot, looks up at the demo.
 teaser: >-
   A six minute video I produced to show how I am using GitHub Copilot as I work on
   my ray tracer, Penumbra. Includes a preview of the upcoming switch to Rust/WebAssembly!
-vod: github-copilot-demo/01HTWVCE0J15PDF91C8969JXHH
-scripts: /lib/video-on-demand/index.js
 ---
-
-<div>
-  <video-on-demand vod="github-copilot-demo/01HTWVCE0J15PDF91C8969JXHH">
-    {% include 'dynamic-content-fallback' %}
-  </video-on-demand>
-</div>
 
 Above is a video I produced to demo [GitHub Copilot] to my coworkers. If you haven’t yet
 explored using a Large Language Model to you help you code, it is worth a watch. I
