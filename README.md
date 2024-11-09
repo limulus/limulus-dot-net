@@ -1,8 +1,9 @@
 # limulus-dot-net
 
-Source code for [limulus.net], @limulus’s personal website.
+Source code for [limulus.net], [Eric]’s personal website.
 
 [limulus.net]: https://limulus.net/
+[eric]: https://limulus.net/eric/
 
 ## Tech
 
