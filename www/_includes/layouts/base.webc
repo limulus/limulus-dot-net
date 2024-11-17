@@ -89,10 +89,4 @@
     />
   </head>
   <body @raw="content"></body>
-
-  <script type="module" webc:keep>
-    if (window.location.hostname.endsWith('limulus.net')) {
-      import('/lib/rum/index.XXXXXXXX.js')
-    }
-  </script>
 </html>

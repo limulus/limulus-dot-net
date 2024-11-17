@@ -40,3 +40,9 @@ layout: base.webc
     font-size: 0.6rem;
   }
 </style>
+
+<script type="module" webc:keep>
+  if (window.location.hostname.endsWith('limulus.net')) {
+    import('/lib/rum/index.XXXXXXXX.js')
+  }
+</script>
