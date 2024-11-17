@@ -1,4 +1,5 @@
 {
   "feedUrl": "/feed.xml",
-  "url": "https://limulus.net"
+  "url": "https://limulus.net",
+  "name": "limulus.net"
 }
