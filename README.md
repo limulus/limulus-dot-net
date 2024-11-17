@@ -64,15 +64,17 @@ Most content should be written in a Markdown file under the `www` directory.
   - `penumbra`: For Penumbra Development Journal entries
 - `author`: The author identifier, from the [authors database]
 - `title`: The title of the article or page
-- `subhead`: A subhead or alternate title
+- `subhead`: A subhead or alternate title that appears below the title of an article. It is
+  used as the page meta description if present.
 - `date`: The publication date, in ISO 8601 format
 - `image`: Photo identifier used only for the preview images on article cards and Open Graph
   tags
+- `teaser`: A short description of the article or page used in previews and page metadata.
+  Note that if `subhead` is present this will be used for the page meta description instead.
 - `hero`: An object containing the following properties:
   - `type`: The type of media, either `pho` or `vod`
   - `id`: The identifier of the media
   - `alt`: For vods only, the alt text for the poster image
-- `teaser`: A short description of the article or page used in previews and Open Graph tags
 
 [authors database]: www/_data/authors.json
 
