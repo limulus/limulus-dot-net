@@ -33,7 +33,11 @@
     <meta property="og:title" :content="title" />
     <meta property="og:type" content="website" />
     <meta property="og:url" :content="site.url + page.url" />
-    <meta webc:if="teaser" property="og:description" :content="teaser" />
+    <meta
+      webc:if="subhead || teaser"
+      property="og:description"
+      :content="subhead ?? teaser"
+    />
 
     <script webc:type="js">
       const getPreviewImage = (id) => {
