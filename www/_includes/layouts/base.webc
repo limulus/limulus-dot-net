@@ -11,14 +11,12 @@
       crossorigin
     />
 
-    <script type="module" webc:keep>
-      if (window.location.hostname.endsWith('limulus.net')) {
-        import('/lib/rum/index.XXXXXXXX.js')
-      }
-    </script>
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <link rel="stylesheet" :href="getBundleFileUrl('css')" webc:keep />
+    <link rel="stylesheet" href="../css/normalize.css" />
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/hljs-github.css" />
 
     <script webc:type="js">
       if (page.url === '/') {
@@ -32,7 +30,7 @@
 
     <meta property="og:title" :content="title" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" :content="site.url + page.url" />
+    <meta property="og:url" :content="$data.site.url + page.url" />
     <meta
       webc:if="subhead || teaser"
       property="og:description"
@@ -40,40 +38,61 @@
     />
 
     <script webc:type="js">
-      const getPreviewImage = (id) => {
-        return this.$data.photos[id].renditions.find(
-          ({ name, format }) => name === 'md' && format === 'jpeg'
-        ).url
+      const getPreviewPhoto = (id) => {
+        const photo = this.$data.photos[id]
+        return {
+          description: photo.description,
+          mime: 'image/jpeg',
+          ...photo.renditions.find(
+            ({ name, format }) => name === 'md' && format === 'jpeg'
+          ),
+        }
       }
 
       const render = () => {
         if (image) {
-          var content = getPreviewImage(image)
+          var photo = getPreviewPhoto(image)
         } else if (hero?.type === 'pho') {
-          content = getPreviewImage(hero.id)
+          photo = getPreviewPhoto(hero.id)
         } else if (hero?.type === 'vod') {
-          content = `https://vod.limulus.net/${hero.id}/poster.jpeg`
+          if (!hero.alt) throw new Error('Missing alt text for video-on-demand hero')
+          photo = {
+            url: `https://vod.limulus.net/${hero.id}/poster.jpeg`,
+            width: 3840,
+            height: 2160,
+            description: hero.alt,
+          }
         } else {
           return ''
         }
 
-        return /* HTML */ `<meta property="og:image" content="${content}" />`
+        return /* HTML */ `
+          <meta property="og:image" content="${photo.url}" />
+          <meta property="og:image:type" content="${photo.mime}" />
+          <meta property="og:image:width" content="${photo.width}" />
+          <meta property="og:image:height" content="${photo.height}" />
+          <meta
+            property="og:image:alt"
+            content="${webc.escapeAttribute(photo.description)}"
+          />
+        `
       }
 
       render()
     </script>
 
+    <meta webc:if="subhead || teaser" name="description" :content="subhead ?? teaser" />
     <meta
-      webc:if="authors[author]?.fediverse"
+      webc:if="$data.authors[author]?.fediverse"
       name="fediverse:creator"
-      :content="authors[author].fediverse"
+      :content="$data.authors[author].fediverse"
     />
-
-    <meta webc:if="teaser" name="description" :content="teaser" />
-
-    <link rel="stylesheet" href="../css/normalize.css" />
-    <link rel="stylesheet" href="../css/main.css" />
-    <link rel="stylesheet" href="../css/hljs-github.css" />
   </head>
   <body @raw="content"></body>
+
+  <script type="module" webc:keep>
+    if (window.location.hostname.endsWith('limulus.net')) {
+      import('/lib/rum/index.XXXXXXXX.js')
+    }
+  </script>
 </html>
