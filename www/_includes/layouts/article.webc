@@ -26,6 +26,15 @@ layout: page
   </header>
 
   <div @raw="content" webc:nokeep></div>
+
+  <footer>
+    <h2 class="recent">Recent Articles</h2>
+
+    <article-list
+      :articles="collections.article.filter((article) => article.url !== page.url)"
+      limit="5"
+    ></article-list>
+  </footer>
 </article>
 
 <style webc:scoped>
@@ -61,5 +70,9 @@ layout: page
 
   :host header figure {
     margin: 1rem 0;
+  }
+
+  :host footer {
+    margin: 4rem 0;
   }
 </style>
