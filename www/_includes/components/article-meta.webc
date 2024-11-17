@@ -1,12 +1,12 @@
 <p>
-  <a href="https://limulus.net/" class="avatar">
+  <a href="/eric/" class="avatar">
     <eleventy-image
       src="www/assets/images/eric-in-hawaii.jpeg"
       width="256"
       alt="Headshot of Eric"
     ></eleventy-image>
   </a>
-  <a rel="author" href="https://limulus.net">Eric McCarthy</a>
+  <a rel="author" href="/eric/">Eric McCarthy</a>
   <time
     :datetime="date.toISOString()"
     @text="date.toLocaleDateString('en-us', { dateStyle: 'medium' })"
