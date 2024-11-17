@@ -7,7 +7,7 @@ layout: page
     <article-photo
       webc:if="hero && hero.type === 'pho'"
       :@id="hero.id"
-      class="hero"
+      placement="hero"
     ></article-photo>
 
     <article-vod
@@ -45,7 +45,6 @@ layout: page
     font-synthesis: none;
   }
 
-  :host header img.hero,
   :host header video-on-demand.hero {
     display: block;
     margin-left: calc(var(--body-padding) * -1);
@@ -62,14 +61,5 @@ layout: page
 
   :host header figure {
     margin: 1rem 0;
-  }
-
-  :host header figcaption {
-    margin: 0.5rem 0;
-    font-size: 0.9rem;
-    text-align: right;
-    --var-font-wght: 400;
-    --var-font-slnt: -10;
-    font-synthesis: none;
   }
 </style>
