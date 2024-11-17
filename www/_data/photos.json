@@ -428,5 +428,167 @@
         "size": 940519
       }
     ]
+  },
+  "nSzUcPUP": {
+    "baseUrl": "https://pho.limulus.net/nSzUcPUP",
+    "original": "genesee-arch-bridge-base.png",
+    "width": 3024,
+    "height": 4032,
+    "aspectRatio": 0.75,
+    "title": "Base of the Genesee Arch Bridge, Letchworth State Park",
+    "description": "A telephoto shot of the eastern base of the Genesee Arch Bridge (also known as the Portage Viaduct). The red steel arch extends beyond the frame. The base is embedded into an area likely excavated out of the gorge’s wall. Various stairs and catwalks line the sides of the base.",
+    "date": "2024-10-17T13:30:17-04:00",
+    "make": "Apple",
+    "camera": "iPhone 16 Pro",
+    "lens": "iPhone 16 Pro back triple camera 15.66mm f/2.8",
+    "focalLength": "15.659999847383 mm",
+    "exposureTime": "1/99",
+    "fNumber": "f/2.8",
+    "iso": 64,
+    "flash": "Flash did not fire, compulsory flash mode",
+    "exposureMode": "Auto exposure",
+    "whiteBalance": "Auto white balance",
+    "location": {
+      "latitude": 42.57803333333334,
+      "longitude": -78.05007222222221,
+      "altitude": 380.78695073235684
+    },
+    "renditions": [
+      {
+        "name": "xl",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/nSzUcPUP/xl.U_Ec31Tt.jpeg",
+        "file": "xl.U_Ec31Tt.jpeg",
+        "width": 3024,
+        "height": 4032,
+        "size": 2854602
+      },
+      {
+        "name": "lg",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/nSzUcPUP/lg.LNM1jfbn.jpeg",
+        "file": "lg.LNM1jfbn.jpeg",
+        "width": 3000,
+        "height": 4000,
+        "size": 2808147
+      },
+      {
+        "name": "md",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/nSzUcPUP/md.r11GUhPR.jpeg",
+        "file": "md.r11GUhPR.jpeg",
+        "width": 1500,
+        "height": 2000,
+        "size": 912150
+      },
+      {
+        "name": "md",
+        "format": "avif",
+        "url": "https://pho.limulus.net/nSzUcPUP/md.j8nL2T9T.avif",
+        "file": "md.j8nL2T9T.avif",
+        "width": 1500,
+        "height": 2000,
+        "size": 518823
+      },
+      {
+        "name": "lg",
+        "format": "avif",
+        "url": "https://pho.limulus.net/nSzUcPUP/lg.xsupwnTp.avif",
+        "file": "lg.xsupwnTp.avif",
+        "width": 3000,
+        "height": 4000,
+        "size": 1225384
+      },
+      {
+        "name": "xl",
+        "format": "avif",
+        "url": "https://pho.limulus.net/nSzUcPUP/xl.gELOIJae.avif",
+        "file": "xl.gELOIJae.avif",
+        "width": 3024,
+        "height": 4032,
+        "size": 1290692
+      }
+    ]
+  },
+  "vz6BJKDO": {
+    "baseUrl": "https://pho.limulus.net/vz6BJKDO",
+    "original": "mist.png",
+    "width": 4032,
+    "height": 3024,
+    "aspectRatio": 1.3333333333333333,
+    "title": "Mist, Middle Falls, Letchworth State Park",
+    "description": "Sun-lit mist scatters in the foreground. A blurry person in a hat with a backpack uses their phone to take a photograph of a waterfall.",
+    "date": "2024-10-17T14:15:18-04:00",
+    "make": "Apple",
+    "camera": "iPhone 16 Pro",
+    "lens": "iPhone 16 Pro back triple camera 6.765mm f/1.78",
+    "focalLength": "6.764999865652793 mm",
+    "exposureTime": "1/2667",
+    "fNumber": "f/1.7799999713880652",
+    "iso": 64,
+    "flash": "Flash did not fire, compulsory flash mode",
+    "exposureMode": "Auto exposure",
+    "whiteBalance": "Auto white balance",
+    "location": {
+      "latitude": 42.58379444444445,
+      "longitude": -78.04259444444445,
+      "altitude": 309.9357495881384
+    },
+    "renditions": [
+      {
+        "name": "xl",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/vz6BJKDO/xl.EX76G7QU.jpeg",
+        "file": "xl.EX76G7QU.jpeg",
+        "width": 4032,
+        "height": 3024,
+        "size": 1113307
+      },
+      {
+        "name": "lg",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/vz6BJKDO/lg.ZIkUMdbZ.jpeg",
+        "file": "lg.ZIkUMdbZ.jpeg",
+        "width": 3000,
+        "height": 2250,
+        "size": 692289
+      },
+      {
+        "name": "md",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/vz6BJKDO/md.AQXrjoVG.jpeg",
+        "file": "md.AQXrjoVG.jpeg",
+        "width": 1500,
+        "height": 1125,
+        "size": 226042
+      },
+      {
+        "name": "md",
+        "format": "avif",
+        "url": "https://pho.limulus.net/vz6BJKDO/md.XcKB0Kvz.avif",
+        "file": "md.XcKB0Kvz.avif",
+        "width": 1500,
+        "height": 1125,
+        "size": 70770
+      },
+      {
+        "name": "lg",
+        "format": "avif",
+        "url": "https://pho.limulus.net/vz6BJKDO/lg.seEf1r41.avif",
+        "file": "lg.seEf1r41.avif",
+        "width": 3000,
+        "height": 2250,
+        "size": 158404
+      },
+      {
+        "name": "xl",
+        "format": "avif",
+        "url": "https://pho.limulus.net/vz6BJKDO/xl.8RvmkEht.avif",
+        "file": "xl.8RvmkEht.avif",
+        "width": 4032,
+        "height": 3024,
+        "size": 225317
+      }
+    ]
   }
 }

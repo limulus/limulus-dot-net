@@ -21,7 +21,7 @@
             @text="article.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })"
           ></time>
         </header>
-        <p @text="article.data.teaser"></p>
+        <p @text="article.data.subhead ?? article.data.teaser"></p>
       </div>
     </a>
   </article>
