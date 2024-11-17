@@ -127,7 +127,7 @@ can change the position of the light source by dragging from the element.
 <div>
   <sphere-shadow-demo>
     {% include 'dynamic-content-fallback' %}
-  </sphere-sahdow-demo>
+  </sphere-shadow-demo>
 </div>
 
 I don’t normally test drive my demo code since it is more exploratory fun than writing code

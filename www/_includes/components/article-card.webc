@@ -1,4 +1,4 @@
-<article-card>
+<article-card webc:root>
   <article>
     <a :href="article.url">
       <pho-picture

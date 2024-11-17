@@ -10,6 +10,7 @@ import markdownItFootnote from 'markdown-it-footnote'
 import markdownItTaskLists from 'markdown-it-task-lists'
 
 import esbuild from './11ty/esbuild.js'
+import prettierPlugin from './11ty/prettier.js'
 
 /** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
 export default function (eleventyConfig) {
@@ -99,9 +100,9 @@ export default function (eleventyConfig) {
   eleventyConfig.setLibrary('md', md)
 
   eleventyConfig.addPlugin(esbuild)
+  eleventyConfig.addPlugin(prettierPlugin)
 
   eleventyConfig.setServerOptions({
-    domDiff: false,
     middleware: [
       (_req, res, next) => {
         res.setHeader('Cross-Origin-Opener-Policy', 'same-origin')
@@ -111,6 +112,7 @@ export default function (eleventyConfig) {
     ],
     port: process.env.PORT || 8080,
   })
+  eleventyConfig.setServerPassthroughCopyBehavior('passthrough')
 
   return { dir: { input, output, layouts } }
 }
