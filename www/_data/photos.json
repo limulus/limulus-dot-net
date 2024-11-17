@@ -1,85 +1,4 @@
 {
-  "Ww6fbpTu": {
-    "baseUrl": "https://pho.limulus.net/Ww6fbpTu",
-    "original": "DSC_0013.png",
-    "width": 6000,
-    "height": 4000,
-    "aspectRatio": 1.5,
-    "title": "Letchworth State Park, Upper Falls",
-    "description": "A waterfall in a gorge, surrounded by trees beginning to take on fall colors. The midday sun brightly lights the falls and the mist filling the gorge. A long train bridge spans the gorge over the falls.",
-    "date": "2024-10-17T12:55:37-04:00",
-    "make": "NIKON CORPORATION",
-    "camera": "NIKON D5600",
-    "lens": "AF-S DX Nikkor 35mm f/1.8G",
-    "focalLength": "35 mm",
-    "exposureTime": "1/400",
-    "fNumber": "f/9",
-    "iso": 200,
-    "flash": "Flash did not fire, compulsory flash mode",
-    "exposureMode": "Auto exposure",
-    "whiteBalance": "Auto white balance",
-    "location": {
-      "latitude": 42.58007222222223,
-      "longitude": -78.04695555555556,
-      "altitude": 320
-    },
-    "renditions": [
-      {
-        "name": "xl",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/Ww6fbpTu/xl.qb0syDHN.jpeg",
-        "file": "xl.qb0syDHN.jpeg",
-        "width": 6000,
-        "height": 4000,
-        "size": 3350052
-      },
-      {
-        "name": "lg",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/Ww6fbpTu/lg.W6s_p8hi.jpeg",
-        "file": "lg.W6s_p8hi.jpeg",
-        "width": 3000,
-        "height": 2000,
-        "size": 1028518
-      },
-      {
-        "name": "md",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/Ww6fbpTu/md.d-foDQsm.jpeg",
-        "file": "md.d-foDQsm.jpeg",
-        "width": 1500,
-        "height": 1000,
-        "size": 280562
-      },
-      {
-        "name": "md",
-        "format": "avif",
-        "url": "https://pho.limulus.net/Ww6fbpTu/md.toylB1tO.avif",
-        "file": "md.toylB1tO.avif",
-        "width": 1500,
-        "height": 1000,
-        "size": 177710
-      },
-      {
-        "name": "lg",
-        "format": "avif",
-        "url": "https://pho.limulus.net/Ww6fbpTu/lg.AtYQJPC7.avif",
-        "file": "lg.AtYQJPC7.avif",
-        "width": 3000,
-        "height": 2000,
-        "size": 600548
-      },
-      {
-        "name": "xl",
-        "format": "avif",
-        "url": "https://pho.limulus.net/Ww6fbpTu/xl.jn0qSb4O.avif",
-        "file": "xl.jn0qSb4O.avif",
-        "width": 6000,
-        "height": 4000,
-        "size": 1479122
-      }
-    ]
-  },
   "zJZ_CG1d": {
     "baseUrl": "https://pho.limulus.net/zJZ_CG1d",
     "original": "pixel-clock.png",
@@ -345,6 +264,168 @@
         "width": 1462,
         "height": 1042,
         "size": 12946
+      }
+    ]
+  },
+  "YZKnYR16": {
+    "baseUrl": "https://pho.limulus.net/YZKnYR16",
+    "original": "letchworth-middle-falls.png",
+    "width": 4032,
+    "height": 3024,
+    "aspectRatio": 1.3333333333333333,
+    "title": "Middle Falls, Letchworth State Park",
+    "description": "The Genesee River flows over the Middle Falls in Letchworth State Park. Trees on the bank of the river are turning to fall covers as the low sun illuminates them. In the foreground, several people stand on an overlook photographing the falls. One of them is somewhat precariously standing on a wet rock wall with a tripod.",
+    "date": "2024-10-17T17:39:12-04:00",
+    "make": "Apple",
+    "camera": "iPhone 16 Pro",
+    "lens": "iPhone 16 Pro back triple camera 6.765mm f/1.78",
+    "focalLength": "6.764999865652793 mm",
+    "exposureTime": "1/549",
+    "fNumber": "f/1.7799999713880652",
+    "iso": 80,
+    "flash": "Flash did not fire, compulsory flash mode",
+    "exposureMode": "Auto exposure",
+    "whiteBalance": "Auto white balance",
+    "location": {
+      "latitude": 42.583911111111114,
+      "longitude": -78.04248055555556,
+      "altitude": 291.89978494623654
+    },
+    "renditions": [
+      {
+        "name": "xl",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/YZKnYR16/xl.1gwYGTi6.jpeg",
+        "file": "xl.1gwYGTi6.jpeg",
+        "width": 4032,
+        "height": 3024,
+        "size": 2191495
+      },
+      {
+        "name": "lg",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/YZKnYR16/lg.iVk7LqSp.jpeg",
+        "file": "lg.iVk7LqSp.jpeg",
+        "width": 3000,
+        "height": 2250,
+        "size": 1390773
+      },
+      {
+        "name": "md",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/YZKnYR16/md.jMmPeAi6.jpeg",
+        "file": "md.jMmPeAi6.jpeg",
+        "width": 1500,
+        "height": 1125,
+        "size": 423281
+      },
+      {
+        "name": "md",
+        "format": "avif",
+        "url": "https://pho.limulus.net/YZKnYR16/md.TRvCbsR5.avif",
+        "file": "md.TRvCbsR5.avif",
+        "width": 1500,
+        "height": 1125,
+        "size": 236570
+      },
+      {
+        "name": "lg",
+        "format": "avif",
+        "url": "https://pho.limulus.net/YZKnYR16/lg.ycP_OzkT.avif",
+        "file": "lg.ycP_OzkT.avif",
+        "width": 3000,
+        "height": 2250,
+        "size": 600055
+      },
+      {
+        "name": "xl",
+        "format": "avif",
+        "url": "https://pho.limulus.net/YZKnYR16/xl.wfKEU-a6.avif",
+        "file": "xl.wfKEU-a6.avif",
+        "width": 4032,
+        "height": 3024,
+        "size": 831869
+      }
+    ]
+  },
+  "__2_jhqG": {
+    "baseUrl": "https://pho.limulus.net/__2_jhqG",
+    "original": "letchworth-upper-falls.png",
+    "width": 6000,
+    "height": 4000,
+    "aspectRatio": 1.5,
+    "title": "Upper Falls, Letchworth State Park",
+    "description": "A waterfall in a gorge, surrounded by trees beginning to take on fall colors. The midday sun brightly lights the falls and the mist filling the gorge. A long train bridge spans the gorge over the falls.",
+    "date": "2024-10-17T12:55:37-04:00",
+    "make": "NIKON CORPORATION",
+    "camera": "NIKON D5600",
+    "lens": "AF-S DX Nikkor 35mm f/1.8G",
+    "focalLength": "35 mm",
+    "exposureTime": "1/400",
+    "fNumber": "f/9",
+    "iso": 200,
+    "flash": "Flash did not fire, compulsory flash mode",
+    "exposureMode": "Auto exposure",
+    "whiteBalance": "Auto white balance",
+    "location": {
+      "latitude": 42.58007222222223,
+      "longitude": -78.04695555555556,
+      "altitude": 320
+    },
+    "renditions": [
+      {
+        "name": "xl",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/__2_jhqG/xl.icnsaPdc.jpeg",
+        "file": "xl.icnsaPdc.jpeg",
+        "width": 6000,
+        "height": 4000,
+        "size": 2832889
+      },
+      {
+        "name": "lg",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/__2_jhqG/lg.X_uMg1CR.jpeg",
+        "file": "lg.X_uMg1CR.jpeg",
+        "width": 3000,
+        "height": 2000,
+        "size": 912036
+      },
+      {
+        "name": "md",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/__2_jhqG/md.BkjIgtum.jpeg",
+        "file": "md.BkjIgtum.jpeg",
+        "width": 1500,
+        "height": 1000,
+        "size": 259182
+      },
+      {
+        "name": "md",
+        "format": "avif",
+        "url": "https://pho.limulus.net/__2_jhqG/md.7NToVrQr.avif",
+        "file": "md.7NToVrQr.avif",
+        "width": 1500,
+        "height": 1000,
+        "size": 127821
+      },
+      {
+        "name": "lg",
+        "format": "avif",
+        "url": "https://pho.limulus.net/__2_jhqG/lg.b5zFVunl.avif",
+        "file": "lg.b5zFVunl.avif",
+        "width": 3000,
+        "height": 2000,
+        "size": 403426
+      },
+      {
+        "name": "xl",
+        "format": "avif",
+        "url": "https://pho.limulus.net/__2_jhqG/xl.fdIwBtuK.avif",
+        "file": "xl.fdIwBtuK.avif",
+        "width": 6000,
+        "height": 4000,
+        "size": 940519
       }
     ]
   }
