@@ -52,6 +52,16 @@ h6 {
   font-synthesis: none;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+header nav {
+  font-stretch: semi-expanded;
+}
+
 :root {
   --body-padding: 2rem;
   --body-max-width: 55rem;
