@@ -1,1 +1,14 @@
-"@limulus/eslint-config/prettier"
+{
+  "printWidth": 92,
+  "semi": false,
+  "singleQuote": true,
+  "trailingComma": "es5",
+  "overrides": [
+    {
+      "files": "*.webc",
+      "options": {
+        "parser": "html"
+      }
+    }
+  ]
+}
