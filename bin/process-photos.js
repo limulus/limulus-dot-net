@@ -18,6 +18,8 @@ const presets = [
   { name: 'lg', width: 3000, format: 'jpeg' },
   { name: 'md', width: 1500, format: 'avif' },
   { name: 'md', width: 1500, format: 'jpeg' },
+  { name: 'sm', width: 750, format: 'avif' },
+  { name: 'sm', width: 750, format: 'jpeg' },
 ]
 
 const files = process.argv.slice(2)

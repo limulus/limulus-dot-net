@@ -1,12 +1,8 @@
 <p>
-  <a href="/eric/" class="avatar">
-    <eleventy-image
-      src="www/assets/images/eric-in-hawaii.jpeg"
-      width="256"
-      alt="Headshot of Eric"
-    ></eleventy-image>
+  <a :href="author.url" class="avatar">
+    <pho-picture :@id="author.photo" @renditions="sm"></pho-picture>
   </a>
-  <a rel="author" href="/eric/">Eric McCarthy</a>
+  <a rel="author" :href="author.url" @text="author.name"></a>
   <time
     :datetime="date.toISOString()"
     @text="date.toLocaleDateString('en-us', { dateStyle: 'medium' })"
@@ -22,6 +18,7 @@
   :host img {
     width: 64px;
     height: 64px;
+    object-fit: cover;
     border-radius: 50%;
     overflow: hidden;
   }

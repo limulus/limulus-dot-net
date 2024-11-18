@@ -1,5 +1,4 @@
 import { EleventyRenderPlugin } from '@11ty/eleventy'
-import { eleventyImagePlugin } from '@11ty/eleventy-img'
 import { feedPlugin } from '@11ty/eleventy-plugin-rss'
 import pluginWebc from '@11ty/eleventy-plugin-webc'
 import hljs from 'highlight.js'
@@ -17,10 +16,7 @@ export default function (eleventyConfig) {
   const input = 'www'
   const output = 'dist/www'
   const layouts = '_includes/layouts'
-  const components = [
-    'npm:@11ty/eleventy-img/*.webc',
-    `${input}/_includes/components/**/*.webc`,
-  ]
+  const components = [`${input}/_includes/components/**/*.webc`]
 
   eleventyConfig.addPassthroughCopy(`${input}/assets`, { expand: true })
   eleventyConfig.addPassthroughCopy(`${input}/**/*.{png,svg,jpg,jpeg}`)
@@ -66,17 +62,6 @@ export default function (eleventyConfig) {
         name: 'Eric McCarthy',
         email: 'eric@limulus.net',
       },
-    },
-  })
-
-  eleventyConfig.addPlugin(eleventyImagePlugin, {
-    formats: ['avif', 'jpeg'],
-    outputDir: `${output}/assets/immutable/11ty/img/`,
-    urlPath: `/assets/immutable/11ty/img/`,
-    defaultAttributes: {
-      loading: 'lazy',
-      decoding: 'async',
-      sizes: '100vw',
     },
   })
 

@@ -33,7 +33,6 @@
   "homepage": "https://github.com/limulus/penumbra-www#readme",
   "dependencies": {
     "@11ty/eleventy": "^3.0.0",
-    "@11ty/eleventy-img": "^4.0.2",
     "@11ty/eleventy-plugin-rss": "^2.0.2",
     "@11ty/eleventy-plugin-webc": "^0.11.2",
     "@limulus/eslint-config": "^5.0.0",
