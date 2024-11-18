@@ -590,5 +590,86 @@
         "size": 225317
       }
     ]
+  },
+  "JSZqsyty": {
+    "baseUrl": "https://pho.limulus.net/JSZqsyty",
+    "original": "DSC_0057.png",
+    "width": 5870,
+    "height": 3301,
+    "aspectRatio": 1.7782490154498636,
+    "title": "Eric on His Honeymoon, Maui, Hawaiʻi",
+    "description": "An outdoor portrait of Eric McCarthy, a white male. He’s looking at the camera and smiling while wearing glasses and a red collared button up T-shirt. Behind him are out-of-focus palm trees, a body of water, and what might be a few white sailboats.",
+    "date": "2018-06-10T17:09:14-10:00",
+    "make": "NIKON CORPORATION",
+    "camera": "NIKON D5600",
+    "lens": "AF-S DX Nikkor 35mm f/1.8G",
+    "focalLength": "35 mm",
+    "exposureTime": "1/320",
+    "fNumber": "f/9",
+    "iso": 200,
+    "flash": "Flash did not fire, auto mode",
+    "exposureMode": "Auto exposure",
+    "whiteBalance": "Auto white balance",
+    "location": {
+      "latitude": 20.91263611111111,
+      "longitude": -156.69230277777777,
+      "altitude": 20
+    },
+    "renditions": [
+      {
+        "name": "xl",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/JSZqsyty/xl.yF64KpTt.jpeg",
+        "file": "xl.yF64KpTt.jpeg",
+        "width": 5870,
+        "height": 3301,
+        "size": 1488938
+      },
+      {
+        "name": "lg",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/JSZqsyty/lg.cxf868mj.jpeg",
+        "file": "lg.cxf868mj.jpeg",
+        "width": 3000,
+        "height": 1687,
+        "size": 471489
+      },
+      {
+        "name": "md",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/JSZqsyty/md.aU_5t4Rz.jpeg",
+        "file": "md.aU_5t4Rz.jpeg",
+        "width": 1500,
+        "height": 844,
+        "size": 140978
+      },
+      {
+        "name": "md",
+        "format": "avif",
+        "url": "https://pho.limulus.net/JSZqsyty/md.3m8KaATM.avif",
+        "file": "md.3m8KaATM.avif",
+        "width": 1500,
+        "height": 844,
+        "size": 45470
+      },
+      {
+        "name": "lg",
+        "format": "avif",
+        "url": "https://pho.limulus.net/JSZqsyty/lg.ocUCcRRC.avif",
+        "file": "lg.ocUCcRRC.avif",
+        "width": 3000,
+        "height": 1687,
+        "size": 125811
+      },
+      {
+        "name": "xl",
+        "format": "avif",
+        "url": "https://pho.limulus.net/JSZqsyty/xl.JMwO5t7H.avif",
+        "file": "xl.JMwO5t7H.avif",
+        "width": 5870,
+        "height": 3301,
+        "size": 333092
+      }
+    ]
   }
 }
