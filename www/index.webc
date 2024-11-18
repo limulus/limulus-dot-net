@@ -6,6 +6,18 @@ teaser: >-
   here.
 ---
 
+<script webc:type="js" webc:nokeep>
+  webc.helpers.html(
+    /* HTML */ `
+      <link rel="me" href="https://github.com/limulus/" />
+      <link rel="me" href="https://www.npmjs.org/~limulus/" />
+      <link rel="me" href="https://www.linkedin.com/in/limulus/" />
+      <link rel="me" href="https://www.facebook.com/theLimulus" />
+    `,
+    'head'
+  )
+</script>
+
 <script webc:setup>
   const getTeaser = (collection, url) =>
     collection.find(({ url: u }) => u === url).data.teaser

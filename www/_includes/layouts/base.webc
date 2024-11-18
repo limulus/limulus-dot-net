@@ -94,7 +94,11 @@
       :content="authors[author].fediverse"
     />
 
-    <meta name="generator" content="{{ eleventy.generator }}" />
+    <meta name="generator" :content="eleventy.generator" />
+
+    <script webc:type="js">
+      getBundle('html', 'head')
+    </script>
   </head>
   <body @raw="content"></body>
 </html>
