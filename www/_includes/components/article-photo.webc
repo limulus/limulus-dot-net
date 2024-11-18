@@ -36,9 +36,15 @@
       margin-left: calc(var(--body-padding) / -2);
       margin-right: 1.5rem;
     }
+
+    :host[placement='left'] figcaption,
+    :host[placement='right'] figcaption {
+      padding-right: 1rem;
+    }
   }
 
   :host figcaption {
+    box-sizing: border-box;
     margin: 0.5rem 0;
     font-size: 0.9rem;
     text-align: right;
