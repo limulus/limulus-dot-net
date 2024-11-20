@@ -1,0 +1,86 @@
+<header webc:root="override">
+  <nav>
+    <h2 class="visually-hidden">Top level navigation menu</h2>
+    <ul>
+      <li><a href="/">limulus.net</a></li>
+      <script webc:type="js">
+        let path = '/'
+        page.url
+          .split('/')
+          .filter((dir) => dir !== '')
+          .map((dir) => {
+            path = `${path}${dir}/`
+            return `<li><a href="${path}">${dir}</a></li>\n`
+          })
+          .join('')
+      </script>
+    </ul>
+  </nav>
+
+  <section class="engagement">
+    <h2 class="visually-hidden">Please Engage</h2>
+    <ul>
+      <li>
+        <share-button>
+          <pill-button @icon="arrow-up-from-bracket-solid" :href="page.url"
+            >Share</pill-button
+          >
+        </share-button>
+      </li>
+      <li><pill-button @icon="bell-solid" href="/feed.xml">Subscribe</pill-button></li>
+    </ul>
+  </section>
+</header>
+
+<style webc:scoped>
+  :host {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 2rem 0;
+    font-size: 1.2rem;
+    --var-font-wght: 700;
+    font-synthesis: none;
+  }
+
+  :host ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  :host nav ul {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  :host li {
+    display: block;
+    text-wrap: nowrap;
+    white-space: nowrap;
+  }
+
+  :host nav,
+  :host section {
+    display: flex;
+  }
+
+  :host nav li::after {
+    content: '/';
+    margin: 0 0.5em;
+  }
+
+  :host section.engagement {
+    margin-left: auto;
+  }
+
+  :host section.engagement li + li {
+    margin-left: 0.5em;
+  }
+
+  :host section.engagement ul {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+</style>

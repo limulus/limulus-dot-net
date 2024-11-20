@@ -63,6 +63,7 @@ header nav {
 }
 
 :root {
+  --background-color: #f3f3f3;
   --body-padding: 2rem;
   --body-max-width: 55rem;
   --card-background-color: #f6f6f6;
@@ -72,12 +73,13 @@ header nav {
   --card-box-shadow: 0 0 0.2rem var(--card-box-shadow-color);
   --card-box-shadow-color: rgba(0, 0, 0, 0.2);
   --card-padding: 0.75rem 1rem;
+  --color: #333;
   --hairline-pixels: 1px;
 }
 
 html {
-  background-color: #f3f3f3;
-  color: #333;
+  background-color: var(--background-color);
+  color: var(--color);
   font-size: 18px;
   line-height: 1.6;
   overflow-y: scroll;
@@ -114,30 +116,6 @@ a:active {
 
 h1:first-of-type {
   margin-top: 0;
-}
-
-body > header {
-  /* padding: 0 0 1rem 0; */
-  font-size: 1rem;
-  --var-font-wght: 700;
-  font-synthesis: none;
-}
-
-body > header nav {
-  display: flex;
-}
-body > header nav li {
-  display: inline-block;
-  text-wrap: nowrap;
-}
-body > header nav li::after {
-  content: '/';
-  margin: 0 0.5em;
-}
-body > header nav ul {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0;
 }
 
 code {
@@ -188,14 +166,11 @@ sphere-shadow::part(hud-value) {
 
 @media (prefers-color-scheme: dark) {
   :root {
+    --background-color: rgb(13, 17, 23);
     --card-background-color: #20212c;
     --card-border-color: #444;
     --card-box-shadow-color: rgba(0, 0, 0, 0.7);
-  }
-
-  html {
-    background-color: rgb(13, 17, 23);
-    color: rgb(201, 209, 217);
+    --color: rgb(201, 209, 217);
   }
 
   a {
