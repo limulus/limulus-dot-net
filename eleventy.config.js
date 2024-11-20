@@ -1,6 +1,7 @@
 import { EleventyRenderPlugin } from '@11ty/eleventy'
 import { feedPlugin } from '@11ty/eleventy-plugin-rss'
 import pluginWebc from '@11ty/eleventy-plugin-webc'
+import svgSprite from 'eleventy-plugin-svg-sprite'
 import hljs from 'highlight.js'
 import markdownIt from 'markdown-it'
 import markdownItAnchor from 'markdown-it-anchor'
@@ -19,7 +20,11 @@ export default function (eleventyConfig) {
   const components = [`${input}/_includes/components/**/*.webc`]
 
   eleventyConfig.addPassthroughCopy(`${input}/assets`, { expand: true })
-  eleventyConfig.addPassthroughCopy(`${input}/**/*.{png,svg,jpg,jpeg}`)
+  eleventyConfig.addPassthroughCopy(`${input}/**/*.{png,svg,jpg,jpeg,xsl}`)
+
+  eleventyConfig.addPlugin(svgSprite, {
+    path: `${input}/assets/svg`,
+  })
 
   eleventyConfig.addPlugin(EleventyRenderPlugin, { accessGlobalData: true })
   eleventyConfig.addPlugin(pluginWebc, {
@@ -28,12 +33,13 @@ export default function (eleventyConfig) {
   })
 
   eleventyConfig.addPlugin(feedPlugin, {
-    type: 'atom',
+    type: 'rss',
     outputPath: '/feed.xml',
     collection: {
       name: 'article',
       limit: 0,
     },
+    stylesheet: '/feed.xsl',
     metadata: {
       title: 'limulus.net',
       subtitle: 'Every article on limulus.net.',
