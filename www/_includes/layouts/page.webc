@@ -11,27 +11,13 @@ layout: base.webc
   ></script>
 </div>
 
+<script webc:type="js">
+  this.svgsprite()
+</script>
+
 <a href="#main" class="visually-hidden">Skip to main content</a>
 
-<header>
-  <nav>
-    <h2 class="visually-hidden">Top level navigation menu</h2>
-    <ul>
-      <li><a href="/">limulus.net</a></li>
-      <script webc:type="js">
-        let path = '/'
-        page.url
-          .split('/')
-          .filter((dir) => dir !== '')
-          .map((dir) => {
-            path = `${path}${dir}/`
-            return `<li><a href="${path}">${dir}</a></li>\n`
-          })
-          .join('')
-      </script>
-    </ul>
-  </nav>
-</header>
+<ldn-header :@page="page"></ldn-header>
 
 <main id="main" @raw="content"></main>
 
@@ -41,8 +27,4 @@ layout: base.webc
   }
 </style>
 
-<script type="module" webc:keep>
-  if (window.location.hostname.endsWith('limulus.net')) {
-    import('/lib/rum/index.XXXXXXXX.js')
-  }
-</script>
+<script type="module" src="/lib/common/index.XXXXXXXX.js" async webc:keep></script>
