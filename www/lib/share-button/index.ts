@@ -12,10 +12,10 @@ export class ShareButton extends HTMLElement {
         title,
         url: location.href,
       })
+    } else {
+      await navigator.clipboard.writeText(location.href)
     }
   }
-
-  // TODO: Fallback to copying the URL to the clipboard
 }
 
 if (!customElements.get('share-button')) {
