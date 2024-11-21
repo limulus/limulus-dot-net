@@ -5,7 +5,7 @@ template.innerHTML = /* HTML */ `
   <figure>
     <figcaption>
       <a
-        href="https://github.com/limulus/penumbra-www/blob/bb3fc6bc3a35db3e7abe249f3838152e116e79f7/src/projectile-cannon/index.ts"
+        href="https://github.com/limulus/limulus-dot-net/blob/bb3fc6bc3a35db3e7abe249f3838152e116e79f7/src/projectile-cannon/index.ts"
         ><code>&lt;projectile-cannon&gt;</code></a
       >
     </figcaption>

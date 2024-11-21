@@ -216,10 +216,14 @@ breaking apart the repository into three repositories. There’s now the [penumb
 the core library, [penumbra-www] for this website, and [touch-pad] which is now available as
 an independent [npm package].
 
+_Update 2024-11-20: The `penumbra-www` repo has been promoted to the main repo for all of
+limulus.net! It’s been renamed to [limulus-dot-net]._
+
 [penumbra]: https://github.com/limulus/penumbra
-[penumbra-www]: https://github.com/limulus/penumbra
+[penumbra-www]: https://github.com/limulus/penumbra-www
 [touch-pad]: https://github.com/limulus/touch-pad
 [npm package]: https://www.npmjs.com/package/touch-pad
+[limulus-dot-net]: https://github.com/limulus/limulus-dot-net
 
 ## What’s Next?
 

@@ -6,7 +6,7 @@ template.innerHTML = /* HTML */ `
   <div class="figures">
     <figure>
       <figcaption>
-        <a href="https://github.com/limulus/penumbra-www/tree/542b248/src/sphere-shadow">
+        <a href="https://github.com/limulus/limulus-dot-net/tree/542b248/src/sphere-shadow">
           <code>&lt;sphere-shadow&gt;</code>
         </a>
       </figcaption>
@@ -16,7 +16,7 @@ template.innerHTML = /* HTML */ `
     <figure>
       <figcaption>
         <a
-          href="https://github.com/limulus/penumbra-www/tree/542b248/src/sphere-shadow-wasm"
+          href="https://github.com/limulus/limulus-dot-net/tree/542b248/src/sphere-shadow-wasm"
         >
           <code>&lt;sphere-shadow-wasm&gt;</code>
         </a>
