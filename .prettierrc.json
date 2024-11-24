@@ -10,5 +10,6 @@
         "parser": "html"
       }
     }
-  ]
+  ],
+  "plugins": ["@prettier/plugin-xml"]
 }
