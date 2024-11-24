@@ -143,7 +143,7 @@ A more technical article about how I am building this site with [Eleventy] and o
 will inevitably come later. But working on this article and working through some of the
 remaining technical challenges has helped alleviate some of my election-outcome despair. I
 am back to feeling like there is some hope. A lot of that hope is coming from the potential
-the web has to make a rebound after something of a capitalism-induced ice-age.
+the web has to make a rebound after a capitalism-induced ice-age.
 
 [web feeds]: https://aboutfeeds.com/
 [a substack]: https://www.anildash.com/2024/11/19/dont-call-it-a-substack/
