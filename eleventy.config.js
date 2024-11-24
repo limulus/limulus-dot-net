@@ -23,7 +23,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy(`${input}/**/*.{png,svg,jpg,jpeg,xsl}`)
 
   eleventyConfig.addPlugin(svgSprite, {
-    path: `${input}/assets/svg`,
+    path: `${input}/assets/svg/lib`,
   })
 
   eleventyConfig.addPlugin(EleventyRenderPlugin, { accessGlobalData: true })
