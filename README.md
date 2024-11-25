@@ -66,7 +66,11 @@ Most content should be written in a Markdown file under the `www` directory.
 - `title`: The title of the article or page
 - `subhead`: A subhead or alternate title that appears below the title of an article. It is
   used as the page meta description if present.
-- `date`: The publication date, in ISO 8601 format
+- `date`: The most recent publication date, in ISO 8601 format
+- `history`: ⚠️ Not yet implemented, but the idea would be to have an annotated log of
+  significant updates to a page, which would include dates of each publication. RSS,
+  sitemap, and Open Graph metadata could reference the most recent entry and the article
+  itself could include the changelog.
 - `image`: Photo identifier used only for the preview images on article cards and Open Graph
   tags
 - `teaser`: A short description of the article or page used in previews and page metadata.
