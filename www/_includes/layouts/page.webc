@@ -2,15 +2,6 @@
 layout: base.webc
 ---
 
-<div webc:for="script of scripts ? [scripts].flat() : []" webc:nokeep>
-  <script
-    type="module"
-    :src="script.replace(/\.js$/, '.XXXXXXXX.js')"
-    async
-    webc:keep
-  ></script>
-</div>
-
 <script webc:type="js">
   this.svgsprite()
 </script>
@@ -29,4 +20,12 @@ layout: base.webc
   }
 </style>
 
+<div webc:for="script of scripts ? [scripts].flat() : []" webc:nokeep>
+  <script
+    type="module"
+    :src="script.replace(/\.js$/, '.XXXXXXXX.js')"
+    async
+    webc:keep
+  ></script>
+</div>
 <script type="module" src="/lib/common/index.XXXXXXXX.js" async webc:keep></script>
