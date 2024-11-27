@@ -12,11 +12,47 @@ layout: base.webc
 
 <main id="main" @raw="content"></main>
 
+<footer>
+  <p class="copyright" xmlns:cc="http://creativecommons.org/ns#">
+    This work by
+    <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="/eric/"
+      >Eric McCarthy</a
+    >
+    is licensed under
+    <a
+      href="https://creativecommons.org/licenses/by/4.0/"
+      target="_blank"
+      rel="license noopener noreferrer"
+      >CC BY 4.0
+      <script webc:type="js">
+        this.svg('creative-commons') + this.svg('creative-commons-by')
+      </script>
+    </a>
+  </p>
+</footer>
+
 <style>
   a[href='#main'] {
     position: absolute;
     top: 8px;
     left: 8px;
+  }
+
+  footer p.copyright {
+    margin: 3rem 0 2rem 0;
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    stroke: var(--color);
+    fill: var(--color);
+  }
+
+  footer p.copyright svg {
+    display: inline-block;
+    vertical-align: text-bottom;
+    height: 1.4em;
+    width: 1.4em;
+    margin: 0 0.3em;
   }
 </style>
 
