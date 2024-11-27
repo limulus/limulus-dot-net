@@ -14,16 +14,20 @@ layout: base.webc
 
 <footer>
   <p class="copyright" xmlns:cc="http://creativecommons.org/ns#">
-    This work by
-    <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="/eric/"
-      >Eric McCarthy</a
-    >
-    is licensed under
-    <a
-      href="https://creativecommons.org/licenses/by/4.0/"
-      target="_blank"
-      rel="license noopener noreferrer"
-      >CC BY 4.0
+    <span>
+      This work by
+      <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="/eric/"
+        >Eric McCarthy</a
+      >
+      is licensed under
+      <a
+        href="https://creativecommons.org/licenses/by/4.0/"
+        target="_blank"
+        rel="license noopener noreferrer"
+        >CC BY 4.0</a
+      >.
+    </span>
+    <a class="cc-icons" href="https://creativecommons.org/licenses/by/4.0/">
       <script webc:type="js">
         this.svg('creative-commons') + this.svg('creative-commons-by')
       </script>
@@ -39,6 +43,9 @@ layout: base.webc
   }
 
   footer p.copyright {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin: 3rem 0 2rem 0;
     padding: 1rem;
     text-align: center;
@@ -47,12 +54,16 @@ layout: base.webc
     fill: var(--color);
   }
 
+  footer p.copyright a.cc-icons {
+    margin: 0.5rem 0;
+  }
+
   footer p.copyright svg {
     display: inline-block;
     vertical-align: text-bottom;
-    height: 1.4em;
-    width: 1.4em;
-    margin: 0 0.3em;
+    height: 2em;
+    width: 2em;
+    margin: 0 0.25em;
   }
 </style>
 
