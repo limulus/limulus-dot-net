@@ -2,7 +2,7 @@
   <figure>
     <pho-picture :@id="id" @renditions="lg, md" @attributes></pho-picture>
     <figcaption>
-      <span @text="$data.photos[id].title"></span>
+      <span @text="this.getPhoto(id).title"></span>
     </figcaption>
   </figure>
 </template>
