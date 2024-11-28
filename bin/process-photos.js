@@ -106,6 +106,7 @@ async function processFile(file) {
   ])
 
   const json = {
+    id,
     baseUrl: `${baseUrl}/${id}`,
     original,
     width,
@@ -114,6 +115,7 @@ async function processFile(file) {
     title: meta.xmp.title.description,
     description: meta.xmp.description.description,
     date: meta.xmp.DateCreated.description,
+    tags: meta.xmp.subject.value.map(({ value }) => value),
     make: meta.exif.Make?.description,
     camera: meta.exif.Model?.description,
     lens: meta.xmp.Lens?.description ?? meta.exif.LensModel?.description,
@@ -191,7 +193,7 @@ async function processFile(file) {
       task: async () => {
         const index = JSON.parse(await readFile('./www/_data/photos.json', 'utf8'))
         index[id] = json
-        await writeFile('./www/_data/photos.json', JSON.stringify(index, null, 2))
+        await writeFile('./www/_data/photos.json', JSON.stringify(index, null, 2) + '\n')
       },
     },
   ])

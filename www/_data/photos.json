@@ -1,5 +1,6 @@
 {
   "zJZ_CG1d": {
+    "id": "zJZ_CG1d",
     "baseUrl": "https://pho.limulus.net/zJZ_CG1d",
     "original": "pixel-clock.png",
     "width": 1050,
@@ -67,6 +68,7 @@
     ]
   },
   "7GibfMtF": {
+    "id": "7GibfMtF",
     "baseUrl": "https://pho.limulus.net/7GibfMtF",
     "original": "sphere-shadow.png",
     "width": 1224,
@@ -134,6 +136,7 @@
     ]
   },
   "h9GqVnA8": {
+    "id": "h9GqVnA8",
     "baseUrl": "https://pho.limulus.net/h9GqVnA8",
     "original": "sphere-shadow-wasm.png",
     "width": 2560,
@@ -201,6 +204,7 @@
     ]
   },
   "ZGT50bMU": {
+    "id": "ZGT50bMU",
     "baseUrl": "https://pho.limulus.net/ZGT50bMU",
     "original": "projectile-cannon.png",
     "width": 1462,
@@ -268,6 +272,7 @@
     ]
   },
   "YZKnYR16": {
+    "id": "YZKnYR16",
     "baseUrl": "https://pho.limulus.net/YZKnYR16",
     "original": "letchworth-middle-falls.png",
     "width": 4032,
@@ -349,6 +354,7 @@
     ]
   },
   "__2_jhqG": {
+    "id": "__2_jhqG",
     "baseUrl": "https://pho.limulus.net/__2_jhqG",
     "original": "letchworth-upper-falls.png",
     "width": 6000,
@@ -430,6 +436,7 @@
     ]
   },
   "nSzUcPUP": {
+    "id": "nSzUcPUP",
     "baseUrl": "https://pho.limulus.net/nSzUcPUP",
     "original": "genesee-arch-bridge-base.png",
     "width": 3024,
@@ -511,6 +518,7 @@
     ]
   },
   "vz6BJKDO": {
+    "id": "vz6BJKDO",
     "baseUrl": "https://pho.limulus.net/vz6BJKDO",
     "original": "mist.png",
     "width": 4032,
@@ -592,6 +600,7 @@
     ]
   },
   "JSZqsyty": {
+    "id": "JSZqsyty",
     "baseUrl": "https://pho.limulus.net/JSZqsyty",
     "original": "DSC_0057.png",
     "width": 5870,
