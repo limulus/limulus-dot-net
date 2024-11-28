@@ -13,14 +13,14 @@ import sharp from 'sharp'
 const baseUrl = `https://pho.limulus.net`
 
 const presets = [
-  { name: 'xl', width: null, format: 'avif' },
-  { name: 'xl', width: null, format: 'jpeg' },
-  { name: 'lg', width: 3000, format: 'avif' },
-  { name: 'lg', width: 3000, format: 'jpeg' },
-  { name: 'md', width: 1500, format: 'avif' },
-  { name: 'md', width: 1500, format: 'jpeg' },
-  { name: 'sm', width: 750, format: 'avif' },
-  { name: 'sm', width: 750, format: 'jpeg' },
+  { name: 'xl', width: null, format: 'avif', keepMeta: true },
+  { name: 'xl', width: null, format: 'jpeg', keepMeta: true },
+  { name: 'lg', width: 3000, format: 'avif', keepMeta: true },
+  { name: 'lg', width: 3000, format: 'jpeg', keepMeta: true },
+  { name: 'md', width: 1500, format: 'avif', keepMeta: true },
+  { name: 'md', width: 1500, format: 'jpeg', keepMeta: true },
+  { name: 'sm', width: 750, format: 'avif', keepMeta: false },
+  { name: 'sm', width: 750, format: 'jpeg', keepMeta: false },
 ]
 
 const files = process.argv.slice(2)
@@ -111,7 +111,7 @@ async function processFile(file) {
 
   uploadQueue.write({ id, name: original, file })
 
-  const photo = sharp(file)
+  const photo = sharp(file).keepMetadata()
   const [meta, { width, height }] = await Promise.all([
     ExifReader.load(file, { expanded: true }),
     photo.metadata(),
