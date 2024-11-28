@@ -9,7 +9,7 @@ subhead: >-
 date: 2024-11-24 11:35:00 -07:00
 hero:
   type: pho
-  id: __2_jhqG
+  id: upper-falls-letchworth-state-park
 ---
 
 This used to be a proper website.
@@ -27,7 +27,7 @@ little homepage with some hand-written HTML. I even [410ed] my blog.
 [410ed]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/410
 
 {% renderTemplate 'webc' %}
-<article-photo id="YZKnYR16" placement="right"></article-photo>
+<article-photo id="middle-falls-letchworth-state-park" placement="right"></article-photo>
 {% endrenderTemplate %}
 
 ## The Last Glacial Period
@@ -65,7 +65,7 @@ to make decentralization work and open-source social media server software like 
 was proving it out.
 
 {% renderTemplate 'webc' %}
-<article-photo id="vz6BJKDO" placement="left"></article-photo>
+<article-photo id="mist-middle-falls-letchworth-state-park" placement="left"></article-photo>
 {% endrenderTemplate %}
 
 Getting on Mastodon awakened in me a renewed enthusiasm for the web and having a place of my
@@ -111,7 +111,7 @@ populace with an agreement on basic facts — so they seek to destroy even that.
 [right-wing entertainment machine]: https://en.wikipedia.org/wiki/List_of_assets_owned_by_News_Corp
 
 {% renderTemplate 'webc' %}
-<article-photo id="nSzUcPUP" placement="right"></article-photo>
+<article-photo id="base-of-the-genesee-arch-bridge-letchworth-state-park" placement="right"></article-photo>
 {% endrenderTemplate %}
 
 ## A Fair and Famous Stream

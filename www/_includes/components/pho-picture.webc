@@ -3,9 +3,10 @@
     const { photos } = this.$data
     const { id, renditions } = webc.attributes
     const wantedRenditions = renditions.split(/\s*,\s*/)
+    const photo = this.getPhoto(id)
 
     const srcset = ({ format: wantedFormat }) => {
-      return photos[id].renditions
+      return photo.renditions
         .filter(
           ({ name, format }) => wantedRenditions.includes(name) && format === wantedFormat
         )
@@ -15,9 +16,8 @@
     }
 
     const src = () => {
-      return photos[id].renditions.find(
-        ({ name, format }) => name === 'md' && format === 'jpeg'
-      ).url
+      return photo.renditions.find(({ name, format }) => name === 'md' && format === 'jpeg')
+        .url
     }
 
     const html = /* HTML */ `
@@ -25,9 +25,9 @@
       <source srcset="${srcset({ format: 'jpeg' })}" type="image/jpeg" />
       <img-fallback
         src="${src({ id })}"
-        alt="${photos[id].description}"
-        width="${photos[id].width}"
-        height="${photos[id].height}"
+        alt="${photo.description}"
+        width="${photo.width}"
+        height="${photo.height}"
         ${webc.renderAttributes(webc.attributes)}
       />
     `

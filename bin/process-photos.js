@@ -1,3 +1,4 @@
+import slugify from '@sindresorhus/slugify'
 import { Client } from 'basic-ftp'
 import ExifReader from 'exifreader'
 import intoStream from 'into-stream'
@@ -23,9 +24,12 @@ const presets = [
 ]
 
 const files = process.argv.slice(2)
+const photosDb = './www/_data/photos.json'
 
 const ftp = new Client(60000)
 const uploadQueue = new PassThrough({ objectMode: true })
+
+const report = []
 
 const tasks = new Listr(
   [
@@ -63,12 +67,19 @@ const tasks = new Listr(
           {
             title: 'Upload Files',
             task: async (_, task) => {
-              for await (const { id, name, data, file } of uploadQueue) {
-                task.output = `${id}/${name}: Uploading...`
-                await ftp.ensureDir(id)
-                await ftp.uploadFrom(file ?? intoStream(data), name)
+              for await (const { id, name, data, file, force } of uploadQueue) {
+                const path = `${id}/${name}`
+                task.output = `${path}: Preparing...`
+                const [remoteFileSize, buffer] = await Promise.all([
+                  ftp.ensureDir(id).then(() => (force ? 0 : ftp.size(name).catch(() => 0))),
+                  data ?? readFile(file),
+                ])
+                if (remoteFileSize !== buffer.length) {
+                  task.output = `${path}: Uploading...`
+                  await ftp.uploadFrom(file ?? intoStream(data), name)
+                }
                 await ftp.cd('..')
-                task.output = `${id}/${name}: Complete`
+                task.output = `${path}: Complete`
               }
             },
           },
@@ -85,6 +96,7 @@ const tasks = new Listr(
 )
 
 await tasks.run()
+console.log(report.map(({ id, alias, title }) => `${id}: ${alias}`).join('\n'))
 
 async function getHash(fileOrBuffer) {
   const buffer =
@@ -105,14 +117,17 @@ async function processFile(file) {
     photo.metadata(),
   ])
 
+  const title = meta.xmp.title.description
+  const alias = slugify(title)
+
   const json = {
     id,
+    alias,
     baseUrl: `${baseUrl}/${id}`,
     original,
     width,
     height,
-    aspectRatio: width / height,
-    title: meta.xmp.title.description,
+    title,
     description: meta.xmp.description.description,
     date: meta.xmp.DateCreated.description,
     tags: meta.xmp.subject.value.map(({ value }) => value),
@@ -180,20 +195,31 @@ async function processFile(file) {
     {
       title: 'index.json',
       task: async () => {
-        json.renditions = renditions
+        json.renditions = renditions.slice().sort((a, b) => {
+          const indexA = presets.findIndex(
+            (preset) => preset.name === a.name && preset.format === a.format
+          )
+          const indexB = presets.findIndex(
+            (preset) => preset.name === b.name && preset.format === b.format
+          )
+          return indexA - indexB
+        })
         uploadQueue.write({
           id,
           name: 'index.json',
           data: Buffer.from(JSON.stringify({ ...json, renditions }, null, 2)),
+          force: true,
         })
       },
     },
     {
       title: 'Update Photo Database',
       task: async () => {
-        const index = JSON.parse(await readFile('./www/_data/photos.json', 'utf8'))
+        const index = JSON.parse(await readFile(photosDb, 'utf8'))
+        index[alias] = id
         index[id] = json
-        await writeFile('./www/_data/photos.json', JSON.stringify(index, null, 2) + '\n')
+        await writeFile(photosDb, JSON.stringify(index, null, 2) + '\n')
+        report.push({ id, alias })
       },
     },
   ])

@@ -93,6 +93,15 @@ export default function (eleventyConfig) {
   eleventyConfig.addPlugin(esbuild)
   eleventyConfig.addPlugin(prettierPlugin)
 
+  eleventyConfig.addShortcode('getPhoto', function (id) {
+    const { photos } = this.$data
+    const photo = typeof photos[id] === 'string' ? photos[photos[id]] : photos[id]
+    if (!photo) {
+      throw new Error(`Photo with id "${id}" not found.`)
+    }
+    return photo
+  })
+
   eleventyConfig.setServerOptions({
     middleware: [
       (_req, res, next) => {

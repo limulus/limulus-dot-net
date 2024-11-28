@@ -47,7 +47,7 @@
 
     <script webc:type="js">
       const getPreviewPhoto = (id) => {
-        const photo = this.$data.photos[id]
+        const photo = this.getPhoto(id)
         return {
           description: photo.description,
           mime: 'image/jpeg',

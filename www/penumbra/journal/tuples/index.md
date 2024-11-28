@@ -6,7 +6,7 @@ layout: article
 author: eric
 title: 'Chapter 1: Tuples'
 date: 2023-11-18 19:51:00 -07:00
-image: ZGT50bMU
+image: projectile-cannon
 imageAlt: Screenshot of the projectile-cannon component demo.
 teaser: >-
   An interactive web component already!
