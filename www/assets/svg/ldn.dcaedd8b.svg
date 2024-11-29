@@ -6,6 +6,27 @@
   xmlns="http://www.w3.org/2000/svg"
   xmlns:xlink="http://www.w3.org/1999/xlink"
 >
+  <style>
+    /* Work around svgsprite removing logo-p3 */
+    @supports not (color: oklch(0% 0 0)) {
+      g#logo-p3 {
+        display: none;
+      }
+    }
+
+    @supports (color: oklch(0% 0 0)) {
+      @media (color-gamut: p3) {
+        g#logo-srgb {
+          display: none;
+        }
+
+        g#logo-p3 {
+          display: block;
+        }
+      }
+    }
+  </style>
+
   <defs>
     <mask id="dot-mask">
       <rect x="0" y="0" width="2800" height="2800" fill="white" />
@@ -39,6 +60,7 @@
       </g>
     </mask>
 
+    <!-- sRGB Gradients -->
     <linearGradient id="tl-br" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#ffffff" />
       <stop offset="100%" stop-color="white" stop-opacity="0" />
@@ -55,13 +77,39 @@
       <stop offset="0%" stop-color="#ff00e1" />
       <stop offset="100%" stop-color="#ff00e1" stop-opacity="0" />
     </linearGradient>
+
+    <!-- P3 Gradients -->
+    <linearGradient id="tl-br-p3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="oklch(100% 0 0)" />
+      <stop offset="100%" stop-color="oklch(100% 0 0 / 0%)" />
+    </linearGradient>
+    <linearGradient id="tr-bl-p3" x1="100%" y1="0%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="oklch(85.61% 0.2015 167.18)" />
+      <stop offset="100%" stop-color="oklch(85.61% 0.2015 167.18 / 0%)" />
+    </linearGradient>
+    <linearGradient id="br-tl-p3" x1="100%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="oklch(47.03% 0.3106 265.65)" />
+      <stop offset="100%" stop-color="oklch(47.03% 0.3106 265.65 / 0%)" />
+    </linearGradient>
+    <linearGradient id="bl-tr-p3" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="oklch(68.5% 0.3343 335.14)" />
+      <stop offset="100%" stop-color="oklch(68.5% 0.3343 335.14 / 0%)" />
+    </linearGradient>
   </defs>
 
-  <g id="gradient" mask="url(#ldn-mask)">
+  <g id="logo-srgb" mask="url(#ldn-mask)">
     <rect x="0" y="0" width="2800" height="2800" fill="black" />
     <rect x="0" y="0" width="2800" height="2800" fill="url(#tl-br)" />
     <rect x="0" y="0" width="2800" height="2800" fill="url(#tr-bl)" />
     <rect x="0" y="0" width="2800" height="2800" fill="url(#br-tl)" />
     <rect x="0" y="0" width="2800" height="2800" fill="url(#bl-tr)" />
+  </g>
+
+  <g id="logo-p3" mask="url(#ldn-mask)">
+    <rect x="0" y="0" width="2800" height="2800" fill="black" />
+    <rect x="0" y="0" width="2800" height="2800" fill="url(#tl-br-p3)" />
+    <rect x="0" y="0" width="2800" height="2800" fill="url(#tr-bl-p3)" />
+    <rect x="0" y="0" width="2800" height="2800" fill="url(#br-tl-p3)" />
+    <rect x="0" y="0" width="2800" height="2800" fill="url(#bl-tr-p3)" />
   </g>
 </svg>
