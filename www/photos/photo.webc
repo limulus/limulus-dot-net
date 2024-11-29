@@ -1,0 +1,24 @@
+---js
+const layout = 'page'
+const pagination = {
+  data: 'photos',
+  size: 1,
+  resolve: 'values',
+  alias: 'photo',
+  before: (photos) => photos.filter((photo) => photo.tags?.includes('limulus.net/photos')),
+}
+
+function permalink({ photo }) {
+  return `/photos/${this.slugify(photo.title)}/`
+}
+
+const eleventyComputed = {
+  title: ({ photo }) => photo.title,
+  image: ({ photo }) => photo.id,
+}
+---
+
+<article>
+  <h1 class="visually-hidden" @text="title"></h1>
+  <article-photo :@id="photo.id" @nolink="true"></article-photo>
+</article>

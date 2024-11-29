@@ -90,7 +90,11 @@ Photos are hosted on `pho.limulus.net`. They are not stored in this repository. 
 publishing an article with a photo, prepare the photo by following these steps:
 
 1. Ensure the photo is in your Apple Photos library. Give the photo a title and caption. The
-   caption will be used as the alt text for the photo.
+   caption will be used as the alt text for the photo. Also set the following tags:
+
+   - `limulus.net`: Tracks if the photo is used on limulus.net.
+   - `limulus.net/photos`: Indicates photo should have a photo page.
+   - `license:cc-by`: CC-BY license.
 
 2. Export the photo from Apple Photos. Use the following settings:
 
@@ -106,7 +110,7 @@ publishing an article with a photo, prepare the photo by following these steps:
 
    - Read the photos from the `photos` directory.
    - Generate hashes to use as an identifier for each photo.
-   - Extract metadata using `ExifReader`.
+   - Extract metadata using `sharp`.
    - Generate multiple renditions of each photo using `sharp`.
    - Upload the photos to `pho.limulus.net`.
    - Create a JSON file with the metadata for each photo and uploads it as `index.json`.

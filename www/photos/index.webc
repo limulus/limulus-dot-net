@@ -1,0 +1,59 @@
+---
+layout: page
+title: Photos
+image: spiny-side-eye
+teaser: >-
+  A collection of Eric McCarthy’s photos.
+---
+
+<script webc:setup>
+  function allPhotos() {
+    return Object.values(this.$data.photos)
+      .filter((photo) => photo.tags?.includes('limulus.net/photos'))
+      .sort((a, b) => b.date.localeCompare(a.date))
+  }
+</script>
+
+<h1 @text="title"></h1>
+
+<div>
+  <ul>
+    <li webc:for="photo of allPhotos()">
+      <article>
+        <a :href="`/photos/${photo.alias}/`">
+          <header>
+            <h1 class="visually-hidden" webc:text="photo.title"></h1>
+          </header>
+          <pho-picture :@id="photo.id" @renditions="sm"></pho-picture>
+        </a>
+      </article>
+    </li>
+  </ul>
+</div>
+
+<style webc:scoped>
+  :host ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+    grid-template-rows: masonry;
+    grid-auto-flow: dense;
+    gap: 1rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  :host img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: var(--card-border-radius);
+  }
+
+  @supports not (grid-template-rows: masonry) {
+    :host img {
+      object-fit: cover;
+      aspect-ratio: 1 / 1;
+    }
+  }
+</style>

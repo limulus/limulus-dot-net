@@ -39,6 +39,10 @@ teaser: >-
   <h2><a href="/penumbra/">penumbra</a></h2>
 
   <p @text="getTeaser(collections.all, '/penumbra/')"></p>
+
+  <h2><a href="/photos/">photos</a></h2>
+
+  <p @text="getTeaser(collections.all, '/photos/')"></p>
 </main>
 
 <style webc:scoped>
