@@ -18,7 +18,7 @@
     width: calc(100% + var(--body-padding) * 2);
     height: auto;
     max-height: calc(100vh - 4rem);
-    object-fit: scale-down;
+    object-fit: contain;
   }
 
   @media (min-width: 600px) {
