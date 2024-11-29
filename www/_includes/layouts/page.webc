@@ -8,7 +8,7 @@ layout: base.webc
 
 <a href="#main" class="visually-hidden">Skip to main content</a>
 
-<ldn-header :@page="page"></ldn-header>
+<ldn-header :@page="page" :@nav="nav"></ldn-header>
 
 <main id="main" @raw="content"></main>
 

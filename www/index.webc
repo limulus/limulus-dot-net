@@ -1,5 +1,6 @@
 ---
-layout: base
+layout: page
+nav: false
 title: limulus.net
 teaser: >-
   Eric McCarthy’s projects, writing, videos, and photos. If I make it for myself, I put it
@@ -24,7 +25,12 @@ teaser: >-
 </script>
 
 <main>
-  <h1>limulus.net</h1>
+  <header>
+    <script webc:type="js">
+      this.svg('ldn')
+    </script>
+    <h1>limulus.net</h1>
+  </header>
 
   <p @text="teaser"></p>
 
@@ -46,11 +52,34 @@ teaser: >-
 </main>
 
 <style webc:scoped>
-  :host h1:first-of-type {
+  :host {
+    max-width: 40rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  :host header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  :host header h1 {
     margin: 1rem 0;
+  }
+
+  :host header svg {
+    width: 6rem;
+    height: 6rem;
   }
 
   :host :is(h1, h2, h3)::after {
     content: ' /';
+  }
+
+  /* Keep the text content centered */
+  :host header h1::before {
+    content: ' /';
+    visibility: hidden;
   }
 </style>
