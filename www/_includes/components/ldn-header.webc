@@ -1,8 +1,17 @@
 <header webc:root="override">
-  <nav>
+  <nav webc:if="nav ?? true">
     <h2 class="visually-hidden">Top level navigation menu</h2>
     <ul>
-      <li><a href="/">limulus.net</a></li>
+      <li>
+        <a href="/"
+          ><script webc:type="js">
+            this.svg('ldn')
+          </script></a
+        >
+      </li>
+      <li>
+        <a href="/">limulus.net</a>
+      </li>
       <script webc:type="js">
         let path = '/'
         page.url
@@ -65,11 +74,42 @@
   :host nav,
   :host section {
     display: flex;
+    align-items: center;
   }
 
-  :host nav li::after {
+  :host nav li + li::after {
     content: '/';
     margin: 0 0.5em;
+  }
+
+  :host nav li:nth-of-type(3)::before {
+    content: '/';
+    margin: 0 0.5em 0 0.2em;
+  }
+
+  :host nav li:nth-of-type(2) {
+    display: none;
+  }
+
+  :host nav svg {
+    display: block;
+    width: 1.5em;
+    height: 1.5em;
+    margin-right: 0.5em;
+  }
+
+  @media (min-width: 600px) {
+    :host nav li:nth-of-type(2) {
+      display: unset;
+    }
+
+    :host nav li:nth-of-type(3)::before {
+      content: none;
+    }
+
+    :host nav svg {
+      margin-right: 0.8em;
+    }
   }
 
   :host section.engagement {
