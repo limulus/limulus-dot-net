@@ -8,6 +8,7 @@
         page.url
           .split('/')
           .filter((dir) => dir !== '')
+          .slice(0, -1)
           .map((dir) => {
             path = `${path}${dir}/`
             return `<li><a href="${path}">${dir}</a></li>\n`
