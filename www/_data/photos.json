@@ -998,5 +998,97 @@
         "size": 77798
       }
     ]
+  },
+  "photos-page-2024-11-29": "1i3Fb4Wt",
+  "1i3Fb4Wt": {
+    "id": "1i3Fb4Wt",
+    "alias": "photos-page-2024-11-29",
+    "baseUrl": "https://pho.limulus.net/1i3Fb4Wt",
+    "original": "photos-page-2024-11-29.png",
+    "width": 1418,
+    "height": 1418,
+    "title": "photos-page-2024-11-29",
+    "description": "Four cropped-square photos on a black background. They are various photos taken at Letchworth State Park, New York.",
+    "date": "2024-11-29T08:52:57-07:00",
+    "tags": [
+      "screenshot",
+      "limulus.net",
+      "license:cc-by"
+    ],
+    "location": null,
+    "renditions": [
+      {
+        "name": "xl",
+        "format": "avif",
+        "url": "https://pho.limulus.net/1i3Fb4Wt/xl._3YBaoWv.avif",
+        "file": "xl._3YBaoWv.avif",
+        "width": 1418,
+        "height": 1418,
+        "size": 191637
+      },
+      {
+        "name": "xl",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/1i3Fb4Wt/xl.CAsg1jec.jpeg",
+        "file": "xl.CAsg1jec.jpeg",
+        "width": 1418,
+        "height": 1418,
+        "size": 390539
+      },
+      {
+        "name": "lg",
+        "format": "avif",
+        "url": "https://pho.limulus.net/1i3Fb4Wt/lg._3YBaoWv.avif",
+        "file": "lg._3YBaoWv.avif",
+        "width": 1418,
+        "height": 1418,
+        "size": 191637
+      },
+      {
+        "name": "lg",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/1i3Fb4Wt/lg.CAsg1jec.jpeg",
+        "file": "lg.CAsg1jec.jpeg",
+        "width": 1418,
+        "height": 1418,
+        "size": 390539
+      },
+      {
+        "name": "md",
+        "format": "avif",
+        "url": "https://pho.limulus.net/1i3Fb4Wt/md._3YBaoWv.avif",
+        "file": "md._3YBaoWv.avif",
+        "width": 1418,
+        "height": 1418,
+        "size": 191637
+      },
+      {
+        "name": "md",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/1i3Fb4Wt/md.CAsg1jec.jpeg",
+        "file": "md.CAsg1jec.jpeg",
+        "width": 1418,
+        "height": 1418,
+        "size": 390539
+      },
+      {
+        "name": "sm",
+        "format": "avif",
+        "url": "https://pho.limulus.net/1i3Fb4Wt/sm.32qPeAS6.avif",
+        "file": "sm.32qPeAS6.avif",
+        "width": 750,
+        "height": 750,
+        "size": 67694
+      },
+      {
+        "name": "sm",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/1i3Fb4Wt/sm.nxygSr1S.jpeg",
+        "file": "sm.nxygSr1S.jpeg",
+        "width": 750,
+        "height": 750,
+        "size": 126739
+      }
+    ]
   }
 }
