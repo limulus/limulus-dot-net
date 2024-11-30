@@ -30,6 +30,13 @@
   <section class="engagement">
     <h2 class="visually-hidden">Please Engage</h2>
     <ul>
+      <li webc:if="page.inputPath">
+        <pill-button
+          @icon="code-solid"
+          :href="new URL(page.inputPath, 'https://github.com/limulus/limulus-dot-net/blob/main/')"
+          >Source</pill-button
+        >
+      </li>
       <li>
         <share-button>
           <pill-button @icon="arrow-up-from-bracket-solid" :href="page.url"
