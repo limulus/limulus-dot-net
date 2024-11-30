@@ -14,12 +14,15 @@
 <style webc:scoped>
   :host ul {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     grid-template-rows: masonry;
     grid-auto-flow: dense;
     gap: 1rem;
-    padding: 0;
+    box-sizing: border-box;
+    padding: 1rem;
     margin: 0;
+    margin-left: calc(var(--body-padding) * -1);
+    width: calc(100% + var(--body-padding) * 2);
     list-style: none;
   }
 
