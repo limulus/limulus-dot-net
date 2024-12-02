@@ -19,6 +19,44 @@ const eleventyComputed = {
 ---
 
 <article>
-  <h1 class="visually-hidden" @text="title"></h1>
-  <article-photo :@id="photo.id" @nolink="true"></article-photo>
+  <figure>
+    <figcaption>
+      <h1 @text="title"></h1>
+    </figcaption>
+    <pho-picture :@id="photo.id" @renditions="lg, md"></pho-picture>
+  </figure>
 </article>
+
+<style webc:scoped>
+  :host figure {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  :host img {
+    display: block;
+    margin-left: calc(var(--body-padding) * -1);
+    max-width: 100vw;
+    width: calc(100% + var(--body-padding) * 2);
+    height: auto;
+    max-height: calc(100vh - 4rem);
+    object-fit: contain;
+  }
+
+  :host figcaption {
+    box-sizing: border-box;
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+    text-align: right;
+    --var-font-wght: 400;
+    --var-font-slnt: -10;
+    font-synthesis: none;
+  }
+
+  :host figcaption h1 {
+    font-size: inherit;
+    font-weight: inherit;
+    --var-font-wght: inherit;
+    font-synthesis: none;
+  }
+</style>
