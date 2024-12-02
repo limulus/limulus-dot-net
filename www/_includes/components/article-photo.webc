@@ -1,11 +1,11 @@
 <template webc:root>
   <figure>
     <a
-      :href="!nolink && this.getPhoto(id).tags.includes('limulus.net/photos') && `/photos/${this.getPhoto(id).alias}/`"
+      :href="this.getPhoto(id).tags.includes('limulus.net/photos') && `/photos/${this.getPhoto(id).alias}/`"
       ><pho-picture :@id="id" @renditions="lg, md" @attributes></pho-picture
     ></a>
     <figcaption>
-      <span @text="this.getPhoto(id).title"></span>
+      <slot><span @text="this.getPhoto(id).title"></span></slot>
     </figcaption>
   </figure>
 </template>
