@@ -22,9 +22,16 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy(`${input}/assets`, { expand: true })
   eleventyConfig.addPassthroughCopy(`${input}/**/*.{png,svg,jpg,jpeg,xsl,txt}`)
 
-  eleventyConfig.addPlugin(svgSprite, {
-    path: `${input}/assets/svg/lib`,
-  })
+  eleventyConfig.addPlugin(svgSprite, [
+    {
+      path: `${input}/assets/svg/common`,
+      svgSpriteShortcode: 'svgspriteCommon',
+    },
+    {
+      path: `${input}/assets/svg/photos`,
+      svgSpriteShortcode: 'svgspritePhotos',
+    },
+  ])
 
   eleventyConfig.addPlugin(EleventyRenderPlugin, { accessGlobalData: true })
   eleventyConfig.addPlugin(pluginWebc, {

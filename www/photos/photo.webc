@@ -15,8 +15,33 @@ function permalink({ photo }) {
 const eleventyComputed = {
   title: ({ photo }) => photo.title,
   image: ({ photo }) => photo.id,
+  fullSizeUrl: ({ photo }) => photo.renditions.find(
+    ( { name, format }) => name === 'xl' && format === 'avif'
+  )?.url,
 }
 ---
+
+<script webc:type="js" webc:nokeep>
+  if (pagination.href.next) {
+    webc.helpers.html(
+      /* HTML */ `
+        <link rel="next" href="${webc.escapeAttribute(pagination.href.next)}" />
+      `,
+      'head'
+    )
+  }
+
+  if (pagination.href.previous) {
+    webc.helpers.html(
+      /* HTML */ `
+        <link rel="prev" href="${webc.escapeAttribute(pagination.href.previous)}" />
+      `,
+      'head'
+    )
+  }
+
+  this.svgspritePhotos()
+</script>
 
 <article>
   <figure>
@@ -25,9 +50,57 @@ const eleventyComputed = {
     </figcaption>
     <pho-picture :@id="photo.id" @renditions="lg, md"></pho-picture>
   </figure>
+
+  <footer>
+    <nav>
+      <ul>
+        <li>
+          <pill-button
+            webc:if="pagination.href.previous"
+            @icon="angle-left-solid"
+            :href="pagination.href.previous"
+            :title="pagination.page.previous.title"
+            rel="prev"
+            >Previous</pill-button
+          >
+        </li>
+        <li webc:if="fullSizeUrl">
+          <pill-button @icon="file-image-solid" :href="fullSizeUrl">Full Size</pill-button>
+        </li>
+        <li>
+          <pill-button
+            webc:if="pagination.href.next"
+            @icon="angle-right-solid"
+            :href="pagination.href.next"
+            :title="pagination.page.next.title"
+            rel="next"
+            >Next</pill-button
+          >
+        </li>
+      </ul>
+    </nav>
+  </footer>
 </article>
 
 <style webc:scoped>
+  :host nav {
+    margin: 1rem 0;
+    font-size: 1.2rem;
+  }
+
+  :host nav ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 0;
+    list-style: none;
+  }
+
+  :host nav li {
+    margin: 0 0.5rem;
+    width: 1.5em;
+  }
+
   :host figure {
     display: flex;
     flex-direction: column-reverse;

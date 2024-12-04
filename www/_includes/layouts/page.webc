@@ -3,7 +3,7 @@ layout: base.webc
 ---
 
 <script webc:type="js">
-  this.svgsprite()
+  this.svgspriteCommon()
 </script>
 
 <a href="#main" class="visually-hidden">Skip to main content</a>
