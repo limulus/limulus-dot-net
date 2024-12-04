@@ -5,7 +5,9 @@ const pagination = {
   size: 1,
   resolve: 'values',
   alias: 'photo',
-  before: (photos) => photos.filter((photo) => photo.tags?.includes('limulus.net/photos')),
+  before: (photos) => photos
+    .filter((photo) => photo.tags?.includes('limulus.net/photos'))
+    .sort((a, b) => b.date.localeCompare(a.date)),
 }
 
 function permalink({ photo }) {
