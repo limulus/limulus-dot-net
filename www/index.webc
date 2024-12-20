@@ -25,61 +25,59 @@ image: limulus-dot-net-2024-11-29
     collection.find(({ url: u }) => u === url).data.teaser
 </script>
 
-<main>
-  <header>
-    <script webc:type="js">
-      this.svg('ldn')
-    </script>
-    <h1>limulus.net</h1>
-  </header>
+<header>
+  <script webc:type="js">
+    this.svg('ldn')
+  </script>
+  <h1>limulus.net</h1>
+</header>
 
-  <p @text="teaser"></p>
+<p @text="teaser"></p>
 
-  <h2><a href="/eric/">eric</a></h2>
+<h2><a href="/eric/">eric</a></h2>
 
-  <p @text="getTeaser(collections.all, '/eric/')"></p>
+<p @text="getTeaser(collections.all, '/eric/')"></p>
 
-  <h2><a href="/feed/">feed</a></h2>
+<h2><a href="/feed/">feed</a></h2>
 
-  <p @text="getTeaser(collections.all, '/feed/')"></p>
+<p @text="getTeaser(collections.all, '/feed/')"></p>
 
-  <h2><a href="/penumbra/">penumbra</a></h2>
+<h2><a href="/penumbra/">penumbra</a></h2>
 
-  <p @text="getTeaser(collections.all, '/penumbra/')"></p>
+<p @text="getTeaser(collections.all, '/penumbra/')"></p>
 
-  <h2><a href="/photos/">photos</a></h2>
+<h2><a href="/photos/">photos</a></h2>
 
-  <p @text="getTeaser(collections.all, '/photos/')"></p>
-</main>
+<p @text="getTeaser(collections.all, '/photos/')"></p>
 
-<style webc:scoped>
-  :host {
+<style>
+  main {
     max-width: 40rem;
     margin-left: auto;
     margin-right: auto;
   }
 
-  :host header {
+  main header {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
 
-  :host header h1 {
+  main header h1 {
     margin: 1rem 0;
   }
 
-  :host header svg {
+  main header svg {
     width: 6rem;
     height: 6rem;
   }
 
-  :host :is(h1, h2, h3)::after {
+  main :is(h1, h2, h3)::after {
     content: ' /';
   }
 
   /* Keep the text content centered */
-  :host header h1::before {
+  main header h1::before {
     content: ' /';
     visibility: hidden;
   }
