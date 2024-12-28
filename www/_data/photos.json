@@ -11,7 +11,11 @@
     "title": "Base of the Genesee Arch Bridge, Letchworth State Park",
     "description": "A telephoto shot of the eastern base of the Genesee Arch Bridge (also known as the Portage Viaduct). The red steel arch extends beyond the frame. The base is embedded into an area likely excavated out of the gorge’s wall. Various stairs and catwalks line the sides of the base.",
     "date": "2024-10-17T13:30:17-04:00",
-    "tags": ["license:cc-by", "limulus.net", "limulus.net/photos"],
+    "tags": [
+      "license:cc-by",
+      "limulus.net",
+      "limulus.net/photos"
+    ],
     "make": "Apple",
     "camera": "iPhone 16 Pro",
     "lens": "iPhone 16 Pro back triple camera 15.66mm f/2.8",
@@ -113,7 +117,11 @@
     "title": "Mist, Middle Falls, Letchworth State Park",
     "description": "Sun-lit mist scatters in the foreground. A blurry person in a hat with a backpack uses their phone to take a photograph of a waterfall.",
     "date": "2024-10-17T14:15:18-04:00",
-    "tags": ["license:cc-by", "limulus.net", "limulus.net/photos"],
+    "tags": [
+      "license:cc-by",
+      "limulus.net",
+      "limulus.net/photos"
+    ],
     "make": "Apple",
     "camera": "iPhone 16 Pro",
     "lens": "iPhone 16 Pro back triple camera 6.765mm f/1.78",
@@ -215,7 +223,11 @@
     "title": "Middle Falls, Letchworth State Park",
     "description": "The Genesee River flows over the Middle Falls in Letchworth State Park. Trees on the bank of the river are turning to fall covers as the low sun illuminates them. In the foreground, several people stand on an overlook photographing the falls. One of them is somewhat precariously standing on a wet rock wall with a tripod.",
     "date": "2024-10-17T17:39:12-04:00",
-    "tags": ["license:cc-by", "limulus.net", "limulus.net/photos"],
+    "tags": [
+      "license:cc-by",
+      "limulus.net",
+      "limulus.net/photos"
+    ],
     "make": "Apple",
     "camera": "iPhone 16 Pro",
     "lens": "iPhone 16 Pro back triple camera 6.765mm f/1.78",
@@ -317,7 +329,12 @@
     "title": "Upper Falls, Letchworth State Park",
     "description": "A waterfall in a gorge, surrounded by trees beginning to take on fall colors. The midday sun brightly lights the falls and the mist filling the gorge. A long train bridge spans the gorge over the falls.",
     "date": "2024-10-17T12:55:37-04:00",
-    "tags": ["Pixelmator", "license:cc-by", "limulus.net/photos", "limulus.net"],
+    "tags": [
+      "Pixelmator",
+      "license:cc-by",
+      "limulus.net/photos",
+      "limulus.net"
+    ],
     "make": "NIKON CORPORATION",
     "camera": "NIKON D5600",
     "lens": "AF-S DX Nikkor 35mm f/1.8G",
@@ -419,7 +436,11 @@
     "title": "<pixel-clock>",
     "description": "A screenshot of the <pixel-clock> demo. A square with a colorful background has 12 white pixelated dots in a circle, with 3 other dots inside. If it were a moving image, it would be obvious that the three inside dots correspond to an hour, minute, and second hands of a clock.",
     "date": "2024-11-06T22:10:04-07:00",
-    "tags": ["screenshot", "limulus.net", "license:cc-by"],
+    "tags": [
+      "screenshot",
+      "limulus.net",
+      "license:cc-by"
+    ],
     "location": null,
     "renditions": [
       {
@@ -507,7 +528,11 @@
     "title": "<projectile-cannon>",
     "description": "A screenshot of the projectile-cannon demo component. A black box contains 4 white squares of various sizes along the bottom edge. At the top of the box is 4 log lines corresponding to the coordinates of each square. Below the box are UI controls: X, Y, and Z sliders; and Fire and Clear buttons.",
     "date": "2024-11-08T20:54:12-07:00",
-    "tags": ["screenshot", "limulus.net", "license:cc-by"],
+    "tags": [
+      "screenshot",
+      "limulus.net",
+      "license:cc-by"
+    ],
     "location": null,
     "renditions": [
       {
@@ -595,7 +620,11 @@
     "title": "<sphere-shadow> and <sphere-shadow-wasm>",
     "description": "A screenshot of the sphere-shadow and sphere-shadow-wasm demo components. Two colorful boxes are side-by-side, both containing a pixelated oval. Under the sphere-shadow box is the text “Render time: 6.44 ms”. Under the sphere-shadow-wasm box is the text “Render time: 0.90 ms”. Underneath both is a “Resolution” selection menu, currently set at “50x50”.",
     "date": "2024-11-08T20:48:06-07:00",
-    "tags": ["screenshot", "limulus.net", "license:cc-by"],
+    "tags": [
+      "screenshot",
+      "limulus.net",
+      "license:cc-by"
+    ],
     "location": null,
     "renditions": [
       {
@@ -683,7 +712,11 @@
     "title": "<sphere-shadow>",
     "description": "A screenshot of the sphere-shadow demo component. A box with a colorful background contains a pixelated black circle, which is the rendering of a sphere’s shadow. Below it is the text “Render time: 17.26 ms”.",
     "date": "2024-11-08T20:40:50-07:00",
-    "tags": ["screenshot", "limulus.net", "license:cc-by"],
+    "tags": [
+      "screenshot",
+      "limulus.net",
+      "license:cc-by"
+    ],
     "location": null,
     "renditions": [
       {
@@ -771,7 +804,11 @@
     "title": "Spiny Side Eye",
     "description": "A low perspective telephoto side profile of a Desert Spiny Lizard as it sits on top of a small rock under a bush. Its eye looks to the far right.",
     "date": "2023-05-17T17:38:09-07:00",
-    "tags": ["license:cc-by", "limulus.net", "limulus.net/photos"],
+    "tags": [
+      "license:cc-by",
+      "limulus.net",
+      "limulus.net/photos"
+    ],
     "make": "NIKON CORPORATION",
     "camera": "NIKON D5600",
     "lens": "AF-S VR Zoom-Nikkor 70-300mm f/4.5-5.6G IF-ED",
@@ -869,7 +906,11 @@
     "title": "photos-page-2024-11-29",
     "description": "Four cropped-square photos on a black background. They are various photos taken at Letchworth State Park, New York.",
     "date": "2024-11-29T08:52:57-07:00",
-    "tags": ["screenshot", "limulus.net", "license:cc-by"],
+    "tags": [
+      "screenshot",
+      "limulus.net",
+      "license:cc-by"
+    ],
     "location": null,
     "renditions": [
       {
@@ -957,7 +998,11 @@
     "title": "limulus-dot-net-2024-11-29",
     "description": "A screenshot of the limulus.net logo and “limulus.net /” header. The logo is an abstract lines that form a box missing a top with a diagonal line. A circle sits in the center. It is shaded magenta, purple, and blue.",
     "date": "2024-11-29T13:41:39-07:00",
-    "tags": ["screenshot", "limulus.net", "license:cc-by"],
+    "tags": [
+      "screenshot",
+      "limulus.net",
+      "license:cc-by"
+    ],
     "location": null,
     "renditions": [
       {
@@ -1044,7 +1089,11 @@
     "title": "Eric on His Honeymoon, Maui, Hawaiʻi",
     "description": "An outdoor portrait of Eric McCarthy, a white male. He’s looking at the camera and smiling while wearing glasses and a red collared button up T-shirt. Behind him are out-of-focus palm trees, a body of water, and what might be a few white sailboats.",
     "date": "2018-06-10T17:09:14-10:00",
-    "tags": ["license:cc-by", "limulus.net", "limulus.net/photos"],
+    "tags": [
+      "license:cc-by",
+      "limulus.net",
+      "limulus.net/photos"
+    ],
     "make": "NIKON CORPORATION",
     "camera": "NIKON D5600",
     "lens": "AF-S DX Nikkor 35mm f/1.8G",
@@ -1132,6 +1181,111 @@
         "width": 750,
         "height": 422,
         "size": 52162
+      }
+    ]
+  },
+  "rainbow-selfie-letchworth-state-park": "2LL07kay",
+  "2LL07kay": {
+    "id": "2LL07kay",
+    "alias": "rainbow-selfie-letchworth-state-park",
+    "baseUrl": "https://pho.limulus.net/2LL07kay",
+    "original": "IMG_6505.png",
+    "width": 4032,
+    "height": 2268,
+    "title": "Rainbow Selfie, Letchworth State Park",
+    "description": "A selfie of Eric and Rebecca, smiling and wearing sunglasses. They are near the top of a gorge and a waterfall, framed by a rainbow.",
+    "date": "2024-10-17T14:05:09-04:00",
+    "tags": [
+      "license:cc-by",
+      "limulus.net"
+    ],
+    "make": "Apple",
+    "camera": "iPhone 16 Pro",
+    "lens": "iPhone 16 Pro front TrueDepth camera 2.69mm f/1.9",
+    "focalLength": "2.690000057250488 mm",
+    "exposureTime": "1/347",
+    "fNumber": "f/1.9",
+    "iso": 40,
+    "flash": "Flash did not fire, compulsory flash mode",
+    "exposureMode": "Auto exposure",
+    "whiteBalance": "Auto white balance",
+    "location": {
+      "latitude": 42.58318611111111,
+      "longitude": -78.04321388888889,
+      "altitude": 311.67080781912387
+    },
+    "renditions": [
+      {
+        "name": "xl",
+        "format": "avif",
+        "url": "https://pho.limulus.net/2LL07kay/xl.5ULeTe00.avif",
+        "file": "xl.5ULeTe00.avif",
+        "width": 4032,
+        "height": 2268,
+        "size": 512594
+      },
+      {
+        "name": "xl",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/2LL07kay/xl.CeWFjDlL.jpeg",
+        "file": "xl.CeWFjDlL.jpeg",
+        "width": 4032,
+        "height": 2268,
+        "size": 1482264
+      },
+      {
+        "name": "lg",
+        "format": "avif",
+        "url": "https://pho.limulus.net/2LL07kay/lg.rTQcJ5c4.avif",
+        "file": "lg.rTQcJ5c4.avif",
+        "width": 3000,
+        "height": 1688,
+        "size": 369514
+      },
+      {
+        "name": "lg",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/2LL07kay/lg.P7Sb6t93.jpeg",
+        "file": "lg.P7Sb6t93.jpeg",
+        "width": 3000,
+        "height": 1688,
+        "size": 933194
+      },
+      {
+        "name": "md",
+        "format": "avif",
+        "url": "https://pho.limulus.net/2LL07kay/md.Jo0jAeBz.avif",
+        "file": "md.Jo0jAeBz.avif",
+        "width": 1500,
+        "height": 844,
+        "size": 160480
+      },
+      {
+        "name": "md",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/2LL07kay/md.nUTsLb1m.jpeg",
+        "file": "md.nUTsLb1m.jpeg",
+        "width": 1500,
+        "height": 844,
+        "size": 302724
+      },
+      {
+        "name": "sm",
+        "format": "avif",
+        "url": "https://pho.limulus.net/2LL07kay/sm.8DLwn2KA.avif",
+        "file": "sm.8DLwn2KA.avif",
+        "width": 750,
+        "height": 422,
+        "size": 55850
+      },
+      {
+        "name": "sm",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/2LL07kay/sm.pz-3vPiw.jpeg",
+        "file": "sm.pz-3vPiw.jpeg",
+        "width": 750,
+        "height": 422,
+        "size": 91272
       }
     ]
   }
