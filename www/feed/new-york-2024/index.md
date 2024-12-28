@@ -16,14 +16,14 @@ hero:
 ---
 
 In October Rebecca and I visited my parents on Long Island and took a week to drive around
-to various parks in upstate New York. It was a great trip!
+to various parks in upstate New York. It was a great trip! We took over 3 hours of video
+which I edited down to 25 minutes to create the above travelogue.
 
-At some point in the future I’ll get around to making linkable chapter marks in videos, but
-here’s what you can expect if you watch the entire 25 minute video:
+At some point in the future I’ll get around to making linkable chapters in videos, but
+here’s what you can expect if you watch the entire thing:
 
-- We milled around [Bailie Beach] (I always called it Bailie’s Beach, but the official site
-  suggests otherwise). There’s an interesting structure seemingly made from driftwood which
-  was presumably constructed by the beachfront property owners.
+- We milled around [Bailie Beach]. There’s an interesting structure seemingly made from
+  driftwood which was presumably constructed by the beachfront property owners.
 - Some still shots from the Aurora Borealis which was visible to the naked eye, but shows up
   impressively on cell phone cameras. The last two photos are also from Bailie Beach.
 - A bit of footage from our voyage on the P.T. Barnum of the [Port Jefferson Ferry] from
