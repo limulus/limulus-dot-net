@@ -7,7 +7,7 @@
         @renditions="md"
       ></pho-picture>
       <img-fallback
-        webc:if="article.data.hero?.type === 'vod'"
+        webc:if="!article.data.image && article.data.hero?.type === 'vod'"
         :src="`https://vod.limulus.net/${article.data.hero.id}/poster.jpeg`"
         width="1280"
         height="720"
