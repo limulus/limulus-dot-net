@@ -46,14 +46,7 @@ const eleventyComputed = {
 </script>
 
 <article>
-  <figure>
-    <figcaption>
-      <h1 @text="title"></h1>
-    </figcaption>
-    <pho-picture :@id="photo.id" @renditions="lg, md"></pho-picture>
-  </figure>
-
-  <footer>
+  <section>
     <nav>
       <ul>
         <li>
@@ -81,7 +74,16 @@ const eleventyComputed = {
         </li>
       </ul>
     </nav>
-  </footer>
+
+    <figure>
+      <figcaption>
+        <h1 @text="title"></h1>
+      </figcaption>
+      <pho-picture :@id="photo.id" @renditions="lg, md"></pho-picture>
+    </figure>
+  </section>
+
+  <photo-meta :@photo="photo"></photo-meta>
 </article>
 
 <style webc:scoped>
