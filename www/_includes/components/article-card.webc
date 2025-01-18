@@ -2,16 +2,16 @@
   <article>
     <a :href="article.url">
       <pho-picture
-        webc:if="article.data.image || (article.data.hero?.type === 'pho')"
-        :@id="article.data.image ?? article.data.hero.id"
+        webc:if="article.data.image || article.data.hero"
+        :@id="article.data.image ?? article.data.hero"
         @renditions="md"
       ></pho-picture>
       <img-fallback
-        webc:if="!article.data.image && article.data.hero?.type === 'vod'"
-        :src="`https://vod.limulus.net/${article.data.hero.id}/poster.jpeg`"
+        webc:if="!article.data.image && article.data.vod"
+        :src="`https://vod.limulus.net/${article.data.vod.id}/poster.jpeg`"
         width="1280"
         height="720"
-        :alt="article.data.hero.alt"
+        :alt="article.data.vod.alt"
       ></img-fallback>
       <div class="text-content">
         <header>

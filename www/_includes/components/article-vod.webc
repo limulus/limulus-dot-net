@@ -1,17 +1,15 @@
-<figure>
-  <video-on-demand :vod="id" @attributes>
-    <img-fallback
-      :src="`https://vod.limulus.net/${id}/poster.jpeg`"
-      width="1280"
-      height="720"
-      :alt="alt"
-      onload="this.classList.add('loadingAnimation')"
-    ></img-fallback>
-    <noscript>
-      <p>Enable JavaScript to Watch</p>
-    </noscript>
-  </video-on-demand>
-</figure>
+<video-on-demand :vod="id" @attributes>
+  <img-fallback
+    :src="`https://vod.limulus.net/${id}/poster.jpeg`"
+    width="1280"
+    height="720"
+    :alt="alt"
+    onload="this.classList.add('loadingAnimation')"
+  ></img-fallback>
+  <noscript>
+    <p>Enable JavaScript to Watch</p>
+  </noscript>
+</video-on-demand>
 
 <script type="module" src="/lib/video-on-demand/index.XXXXXXXX.js" async webc:keep></script>
 

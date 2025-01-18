@@ -18,13 +18,14 @@ eleventyExcludeFromCollections: true
     {% else %}
     <lastmod>{{ page.date | dateToRfc3339 }}</lastmod>
 		{% endif %}
-    {%- if page.data.hero and page.data.hero.type == 'vod' %}
+    {%- if page.data.vod %}
     <video:video>
-      <video:thumbnail_loc>https://vod.limulus.net/{{ page.data.hero.id }}/poster.jpeg</video:thumbnail_loc>
+      <video:thumbnail_loc>https://vod.limulus.net/{{ page.data.vod.id }}/poster.jpeg</video:thumbnail_loc>
       <video:title>{{ page.data.title }}</video:title>
       <video:description>{{ page.data.subhead or page.data.teaser }}</video:description>
-      <video:content_loc>https://vod.limulus.net/{{ page.data.hero.id }}/index.m3u8</video:content_loc>
+      <video:content_loc>https://vod.limulus.net/{{ page.data.vod.id }}/index.m3u8</video:content_loc>
       <video:publication_date>{{ page.date | dateToRfc3339 }}</video:publication_date>
+      <video:duration>{{ page.data.vod.duration }}</video:duration>
       <video:requires_subscription>no</video:requires_subscription>
       <video:live>no</video:live>
     </video:video>

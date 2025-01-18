@@ -7,9 +7,7 @@ title: The Rebound
 subhead: >-
   I’m rebuilding limulus.net. It’s way past time to have a website again.
 date: 2024-11-24 11:35:00 -07:00
-hero:
-  type: pho
-  id: upper-falls-letchworth-state-park
+hero: upper-falls-letchworth-state-park
 ---
 
 This used to be a proper website.

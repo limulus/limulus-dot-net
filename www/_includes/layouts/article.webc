@@ -10,13 +10,6 @@ layout: page
       placement="hero"
     ></article-photo>
 
-    <article-vod
-      webc:if="hero && hero.type === 'vod'"
-      :@id="hero.id"
-      :alt="hero.alt"
-      class="hero"
-    ></article-vod>
-
     <hgroup>
       <h1 @text="title"></h1>
       <p webc:if="subhead" @text="subhead"></p>
@@ -54,20 +47,6 @@ layout: page
     --var-font-wght: 400;
     --var-font-slnt: -10;
     font-synthesis: none;
-  }
-
-  :host header video-on-demand.hero {
-    display: block;
-    margin-left: calc(var(--body-padding) * -1);
-    max-width: 100vw;
-    width: calc(100% + var(--body-padding) * 2);
-    height: auto;
-  }
-
-  :host header video-on-demand.hero img {
-    display: block;
-    width: 100%;
-    height: auto;
   }
 
   :host header figure {

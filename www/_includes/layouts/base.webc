@@ -61,15 +61,16 @@
       const render = () => {
         if (image) {
           var photo = getPreviewPhoto(image)
-        } else if (hero?.type === 'pho') {
-          photo = getPreviewPhoto(hero.id)
-        } else if (hero?.type === 'vod') {
-          if (!hero.alt) throw new Error('Missing alt text for video-on-demand hero')
+        } else if (hero) {
+          photo = getPreviewPhoto(hero)
+        } else if (vod) {
+          if (!vod.alt) throw new Error('Missing alt text for video-on-demand hero')
           photo = {
-            url: `https://vod.limulus.net/${hero.id}/poster.jpeg`,
+            url: `https://vod.limulus.net/${vod.id}/poster.jpeg`,
             width: 3840,
             height: 2160,
-            description: hero.alt,
+            description: vod.alt,
+            mime: 'image/jpeg',
           }
         } else {
           return ''

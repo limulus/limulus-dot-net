@@ -56,12 +56,16 @@ Most content should be written in a Markdown file under the `www` directory.
 
 #### Frontmatter Properties
 
-- `layout`: Standard Eleventy property, for any article use `article`. For pages, use
-  `page`.
+- `layout`: Standard Eleventy property to determine the page layout. Can be any of the following:
+  - `article`: For text based articles.
+  - `video`: For video watch pages.
+  - `pages`: Bare-bones layout for things like home pages and indices.
 - `tags`: Standard Eleventy property for creating collections. Possible values:
-  - `article`: For any article and blog post
+  - `article`: For any article and blog post. Anything that can be syndicated is an article,
+    including videos!
   - `development`: For articles about software development
   - `penumbra`: For Penumbra Development Journal entries
+  - `video`: For video watch pages.
 - `author`: The author identifier, from the [authors database]
 - `title`: The title of the article or page
 - `subhead`: A subhead or alternate title that appears below the title of an article. It is
@@ -75,10 +79,11 @@ Most content should be written in a Markdown file under the `www` directory.
   tags
 - `teaser`: A short description of the article or page used in previews and page metadata.
   Note that if `subhead` is present this will be used for the page meta description instead.
-- `hero`: An object containing the following properties:
-  - `type`: The type of media, either `pho` or `vod`
-  - `id`: The identifier of the media
-  - `alt`: For vods only, the alt text for the poster image
+- `hero`: The identifier of the photo in the [photos database] to use as the hero image
+- `vod`: Data for a video:
+  - `id`: The identifier of the video on `vod.limulus.net`
+  - `alt`: Alternate text for the poster image
+  - `duration`: The duration in seconds of the video
 
 [authors database]: www/_data/authors.json
 
@@ -114,11 +119,11 @@ publishing an article with a photo, prepare the photo by following these steps:
    - Generate multiple renditions of each photo using `sharp`.
    - Upload the photos to `pho.limulus.net`.
    - Create a JSON file with the metadata for each photo and uploads it as `index.json`.
-   - Update the repository’s [photo database] with the new entries.
+   - Update the repository’s [photos database] with the new entries.
 
 5. Retrieve the ids for the photos from the photos database file.
 
-[photo database]: www/_data/photos.json
+[photos database]: www/_data/photos.json
 
 It is up to you to commit the changes to the photos database. If you don’t, the uploaded
 photos will effectively be orphaned.

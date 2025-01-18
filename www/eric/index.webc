@@ -3,14 +3,11 @@ layout: page
 title: About Eric McCarthy
 teaser: >-
   Eric McCarthy is a web-centric software engineer living in Tucson, Arizona.
-hero:
-  type: pho
-  id: eric-on-his-honeymoon-maui-hawaii
-  alt: Eric McCarthy
+hero: eric-on-his-honeymoon-maui-hawaii
 ---
 
 <header>
-  <article-photo :@id="hero.id" placement="hero"></article-photo>
+  <article-photo :@id="hero" placement="hero"></article-photo>
   <h1 @text="title"></h1>
 </header>
 

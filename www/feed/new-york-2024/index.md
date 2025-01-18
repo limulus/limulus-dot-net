@@ -1,15 +1,16 @@
 ---
 tags:
   - article
-layout: article
+  - video
+layout: video
 author: eric
 title: New York 2024
 subhead: We saw lots of falling leaves and water.
 date: 2024-12-27 23:05:00 -07:00
 image: rainbow-selfie-letchworth-state-park
-hero:
-  type: vod
+vod:
   id: new-york-2024/01JG4RGXBXAPPM185KWFR9A8G1
+  duration: 1490
   alt: >-
     A selfie of Eric and Rebecca, smiling and wearing sunglasses. They are near the top of a
     gorge and a waterfall, framed by a rainbow.

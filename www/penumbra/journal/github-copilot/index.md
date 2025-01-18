@@ -2,13 +2,14 @@
 tags:
   - article
   - penumbra
-layout: article
+  - video
+layout: video
 author: eric
 title: 'How I Am Using GitHub Copilot'
 date: 2024-03-23 15:15:00 -07:00
-hero:
-  type: vod
+vod:
   id: github-copilot-demo/01HTWVCE0J15PDF91C8969JXHH
+  duration: 378
   alt: >-
     Screenshot of the JavaScript and WebAssembly versions of the sphere-shadow components.
     Copilot, the GitHub Copilot mascot, looks up at the demo.
