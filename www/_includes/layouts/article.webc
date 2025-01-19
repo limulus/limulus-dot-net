@@ -3,20 +3,13 @@ layout: page
 ---
 
 <article>
-  <header>
-    <article-photo
-      webc:if="hero && hero.type === 'pho'"
-      :@id="hero.id"
-      placement="hero"
-    ></article-photo>
-
-    <hgroup>
-      <h1 @text="title"></h1>
-      <p webc:if="subhead" @text="subhead"></p>
-    </hgroup>
-
-    <article-meta :@author="authors[author]" :@date="page.date"></article-meta>
-  </header>
+  <article-header
+    :@hero="hero"
+    :@title="title"
+    :@subhead="subhead"
+    :@author="$data.authors[author]"
+    :@date="$data.page.date"
+  ></article-header>
 
   <div @raw="content" webc:nokeep></div>
 
@@ -33,26 +26,6 @@ layout: page
 </article>
 
 <style webc:scoped>
-  :host hgroup {
-    margin: 0 0 1rem 0;
-  }
-
-  :host hgroup h1 {
-    margin: 0;
-  }
-
-  :host hgroup p {
-    margin: 0;
-    font-size: 1.25rem;
-    --var-font-wght: 400;
-    --var-font-slnt: -10;
-    font-synthesis: none;
-  }
-
-  :host header figure {
-    margin: 1rem 0;
-  }
-
   :host footer {
     border-top: var(--card-border);
     margin: 4rem 0;

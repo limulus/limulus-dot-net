@@ -1,0 +1,72 @@
+<header webc:root="override">
+  <article-photo webc:if="hero" :@id="hero" placement="hero"></article-photo>
+
+  <hgroup>
+    <h1 @text="title"></h1>
+    <p webc:if="subhead" @text="subhead"></p>
+  </hgroup>
+
+  <p class="meta">
+    <a :href="author.url" class="avatar">
+      <pho-picture :@id="author.photo" @renditions="sm"></pho-picture>
+    </a>
+    <a rel="author" :href="author.url" @text="author.name"></a>
+    <time
+      :datetime="date.toISOString()"
+      @text="date.toLocaleDateString('en-us', { dateStyle: 'medium' })"
+    ></time>
+  </p>
+</header>
+
+<style webc:scoped>
+  :host article-photo {
+    display: block;
+    margin: 1rem 0;
+  }
+
+  :host hgroup {
+    margin: 0 0 1rem 0;
+  }
+
+  :host hgroup h1 {
+    margin: 0;
+  }
+
+  :host hgroup p {
+    margin: 0;
+    font-size: 1.25rem;
+    --var-font-wght: 400;
+    --var-font-slnt: -10;
+    font-synthesis: none;
+  }
+
+  :host p.meta {
+    overflow: auto;
+    margin-left: 2px;
+  }
+
+  :host a.avatar img {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  :host a.avatar {
+    display: block;
+    float: left;
+    margin-right: 1em;
+  }
+
+  :host a,
+  :host a:visited,
+  :host a:hover {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  :host time {
+    display: block;
+  }
+</style>
