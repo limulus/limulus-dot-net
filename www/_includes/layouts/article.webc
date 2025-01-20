@@ -3,13 +3,7 @@ layout: page
 ---
 
 <article>
-  <article-header
-    :@hero="hero"
-    :@title="title"
-    :@subhead="subhead"
-    :@author="$data.authors[author]"
-    :@date="$data.page.date"
-  ></article-header>
+  <article-header :@article="$data"></article-header>
 
   <div @raw="content" webc:nokeep></div>
 

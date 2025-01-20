@@ -1,19 +1,30 @@
 <header webc:root="override">
-  <article-photo webc:if="hero" :@id="hero" placement="hero"></article-photo>
+  <article-photo
+    webc:if="article.hero"
+    :@id="article.hero"
+    placement="hero"
+  ></article-photo>
 
   <hgroup>
-    <h1 @text="title"></h1>
-    <p webc:if="subhead" @text="subhead"></p>
+    <h1 @text="article.title"></h1>
+    <p webc:if="article.subhead" @text="article.subhead"></p>
   </hgroup>
 
   <p class="meta">
-    <a :href="author.url" class="avatar">
-      <pho-picture :@id="author.photo" @renditions="sm"></pho-picture>
+    <a :href="$data.authors[article.author].url" class="avatar">
+      <pho-picture
+        :@id="$data.authors[article.author].photo"
+        @renditions="sm"
+      ></pho-picture>
     </a>
-    <a rel="author" :href="author.url" @text="author.name"></a>
+    <a
+      rel="author"
+      :href="$data.authors[article.author].url"
+      @text="$data.authors[article.author].name"
+    ></a>
     <time
-      :datetime="date.toISOString()"
-      @text="date.toLocaleDateString('en-us', { dateStyle: 'medium' })"
+      :datetime="article.page.date.toISOString()"
+      @text="article.page.date.toLocaleDateString('en-us', { dateStyle: 'medium' })"
     ></time>
   </p>
 </header>
