@@ -73,6 +73,7 @@ header nav {
   --card-box-shadow: 0 0 0.2rem var(--card-box-shadow-color);
   --card-box-shadow-color: rgba(0, 0, 0, 0.2);
   --card-padding: 0.75rem 1rem;
+  --chip-background-color: #e0e0e0;
   --color: #333;
   --hairline-pixels: 1px;
 }
@@ -170,6 +171,7 @@ sphere-shadow::part(hud-value) {
     --card-background-color: #20212c;
     --card-border-color: #444;
     --card-box-shadow-color: rgba(0, 0, 0, 0.7);
+    --chip-background-color: #20212c;
     --color: rgb(201, 209, 217);
   }
 

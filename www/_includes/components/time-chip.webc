@@ -1,0 +1,18 @@
+<data-chip
+  :@icon="article.data.vod ? 'film-solid' : 'scroll-solid'"
+  :@seconds="article.data.vod?.duration ?? article.data.readingTime"
+  :@action="article.data.vod ? 'watch' : 'read'"
+>
+  <script webc:type="js">
+    function secondsToMinutes(seconds) {
+      let minutes = Math.floor(seconds / 60)
+      const remainingSeconds = seconds % 60
+      if (remainingSeconds >= 15 || minutes === 0) {
+        minutes += 1
+      }
+      return minutes
+    }
+
+    ;`${secondsToMinutes(seconds)} min ${action}`
+  </script>
+</data-chip>

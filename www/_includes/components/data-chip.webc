@@ -1,0 +1,25 @@
+<template webc:root>
+  <script webc:type="js">
+    this.svg(icon)
+  </script>
+  <slot></slot>
+</template>
+
+<style webc:scoped>
+  :host {
+    display: inline-block;
+    padding: 0.15em 0.75em;
+    border: none;
+    background-color: var(--chip-background-color);
+    border-radius: 1.5em;
+  }
+
+  :host svg {
+    display: inline-block;
+    vertical-align: text-bottom;
+    width: 1.3em;
+    height: 1.3em;
+    margin: 0.2em 0.25em 0 0;
+    fill: var(--color);
+  }
+</style>

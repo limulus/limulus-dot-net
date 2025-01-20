@@ -16,10 +16,27 @@
       <div class="text-content">
         <header>
           <h1 @text="article.data.title"></h1>
-          <time
-            :datetime="article.date.toISOString()"
-            @text="article.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })"
-          ></time>
+          <ul class="chips">
+            <li>
+              <data-chip @icon="newspaper-solid">
+                <time
+                  :datetime="article.date.toISOString()"
+                  :title="article.date.toUTCString()"
+                >
+                  <script webc:type="js">
+                    article.date.toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })
+                  </script>
+                </time>
+              </data-chip>
+            </li>
+            <li>
+              <time-chip :@article="article"></time-chip>
+            </li>
+          </ul>
         </header>
         <p @text="article.data.subhead ?? article.data.teaser"></p>
       </div>
@@ -57,12 +74,14 @@
     font-size: 1.2rem;
   }
 
-  :host time {
-    display: block;
-    margin-bottom: 0.5em;
-    font-size: 0.8em;
-    --var-font-slnt: -10;
-    color: #666;
+  :host ul.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+    font-size: 0.7rem;
   }
 
   :host p {
@@ -86,6 +105,12 @@
 
     :host .text-content {
       margin: 0.3rem 0.8rem 0.6rem 0.8rem;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :host ul.chips {
+      --chip-background-color: var(--background-color);
     }
   }
 </style>
