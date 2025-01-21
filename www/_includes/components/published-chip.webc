@@ -1,0 +1,7 @@
+<data-chip @icon="newspaper-solid" :@article="article">
+  <time
+    :datetime="article.date.toISOString()"
+    :title="article.date.toUTCString()"
+    @text="article.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', })"
+  ></time>
+</data-chip>

@@ -5,6 +5,7 @@
         webc:if="article.data.image || article.data.hero"
         :@id="article.data.image ?? article.data.hero"
         @renditions="md"
+        class="preview"
       ></pho-picture>
       <img-fallback
         webc:if="!article.data.image && article.data.vod"
@@ -12,26 +13,14 @@
         width="1280"
         height="720"
         :alt="article.data.vod.alt"
+        class="preview"
       ></img-fallback>
       <div class="text-content">
         <header>
           <h1 @text="article.data.title"></h1>
           <ul class="chips">
             <li>
-              <data-chip @icon="newspaper-solid">
-                <time
-                  :datetime="article.date.toISOString()"
-                  :title="article.date.toUTCString()"
-                >
-                  <script webc:type="js">
-                    article.date.toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    })
-                  </script>
-                </time>
-              </data-chip>
+              <published-chip :@article="article"></published-chip>
             </li>
             <li>
               <time-chip :@article="article"></time-chip>
@@ -58,7 +47,7 @@
     box-shadow: var(--card-box-shadow);
   }
 
-  :host img {
+  :host img.preview {
     display: block;
     width: 100%;
     height: auto;
@@ -93,7 +82,7 @@
       container-type: inline-size;
     }
 
-    :host img {
+    :host img.preview {
       border-bottom: unset;
       border: var(--card-border);
       border-radius: var(--card-border-radius);

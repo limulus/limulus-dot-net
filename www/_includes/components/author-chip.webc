@@ -1,0 +1,6 @@
+<data-chip :@pho="$data.authors[article.data.author].photo" :@article="article">
+  <a
+    :href="$data.authors[article.data.author].url"
+    @text="$data.authors[article.data.author].name"
+  ></a>
+</data-chip>

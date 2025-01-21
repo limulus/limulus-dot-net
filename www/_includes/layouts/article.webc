@@ -3,7 +3,11 @@ layout: page
 ---
 
 <article>
-  <article-header :@article="$data"></article-header>
+  <header>
+    <article-header
+      :@article="collections.article.find(({ url }) => url === page.url)"
+    ></article-header>
+  </header>
 
   <div @raw="content" webc:nokeep></div>
 

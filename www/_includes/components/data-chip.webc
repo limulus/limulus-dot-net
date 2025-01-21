@@ -1,25 +1,41 @@
 <template webc:root>
-  <script webc:type="js">
+  <script webc:if="icon" webc:type="js">
     this.svg(icon)
   </script>
+  <pho-picture webc:if="pho" :@id="pho" @renditions="xs" @alt=""></pho-picture>
   <slot></slot>
 </template>
 
 <style webc:scoped>
   :host {
-    display: inline-block;
-    padding: 0.15em 0.75em;
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 0.5em;
+    padding: 0.15em 0.7em;
     border: none;
     background-color: var(--chip-background-color);
     border-radius: 1.5em;
   }
 
   :host svg {
-    display: inline-block;
-    vertical-align: text-bottom;
-    width: 1.3em;
-    height: 1.3em;
-    margin: 0.2em 0.25em 0 0;
+    width: 1.2em;
+    height: 1.2em;
     fill: var(--color);
+  }
+
+  :host picture {
+    display: flex;
+  }
+
+  :host img {
+    margin: 0 -0.1em 0 -0.1em;
+    width: 1.2em;
+    height: 1.2em;
+    object-fit: cover;
+    border-radius: 0.4em;
+    border: 0.12em solid var(--color);
+    overflow: hidden;
+    filter: grayscale(100%);
   }
 </style>

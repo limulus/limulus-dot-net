@@ -1,33 +1,27 @@
-<header webc:root="override">
-  <article-photo
-    webc:if="article.hero"
-    :@id="article.hero"
-    placement="hero"
-  ></article-photo>
+<article-photo
+  webc:if="article.data.hero"
+  :@id="article.data.hero"
+  placement="hero"
+></article-photo>
 
-  <hgroup>
-    <h1 @text="article.title"></h1>
-    <p webc:if="article.subhead" @text="article.subhead"></p>
-  </hgroup>
+<hgroup>
+  <h1 @text="article.data.title"></h1>
+  <p webc:if="article.data.subhead" @text="article.data.subhead"></p>
+</hgroup>
 
-  <p class="meta">
-    <a :href="$data.authors[article.author].url" class="avatar">
-      <pho-picture
-        :@id="$data.authors[article.author].photo"
-        @renditions="sm"
-      ></pho-picture>
-    </a>
-    <a
-      rel="author"
-      :href="$data.authors[article.author].url"
-      @text="$data.authors[article.author].name"
-    ></a>
-    <time
-      :datetime="article.page.date.toISOString()"
-      @text="article.page.date.toLocaleDateString('en-us', { dateStyle: 'medium' })"
-    ></time>
-  </p>
-</header>
+<ul class="chips">
+  <li>
+    <author-chip :@article="article"></author-chip>
+  </li>
+
+  <li>
+    <published-chip :@article="article"></published-chip>
+  </li>
+
+  <li>
+    <time-chip :@article="article"></time-chip>
+  </li>
+</ul>
 
 <style webc:scoped>
   :host article-photo {
@@ -43,6 +37,15 @@
     margin: 0;
   }
 
+  :host ul.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+  }
+
   :host hgroup p {
     margin: 0;
     font-size: 1.25rem;
@@ -56,23 +59,9 @@
     margin-left: 2px;
   }
 
-  :host a.avatar img {
-    width: 64px;
-    height: 64px;
-    object-fit: cover;
-    border-radius: 50%;
-    overflow: hidden;
-  }
-
-  :host a.avatar {
-    display: block;
-    float: left;
-    margin-right: 1em;
-  }
-
-  :host a,
-  :host a:visited,
-  :host a:hover {
+  :host ul.chips a,
+  :host ul.chips a:visited,
+  :host ul.chips a:hover {
     text-decoration: none;
     color: inherit;
   }

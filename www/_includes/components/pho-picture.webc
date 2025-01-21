@@ -25,7 +25,7 @@
       <source srcset="${srcset({ format: 'jpeg' })}" type="image/jpeg" />
       <img-fallback
         src="${src({ id })}"
-        alt="${photo.description}"
+        alt="${alt ?? photo.description}"
         width="${photo.width}"
         height="${photo.height}"
         ${webc.renderAttributes(webc.attributes)}
