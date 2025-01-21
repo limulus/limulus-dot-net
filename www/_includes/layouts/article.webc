@@ -12,14 +12,9 @@ layout: page
   <div @raw="content" webc:nokeep></div>
 
   <footer>
-    <section>
-      <h2>You Might Enjoy…</h2>
-
-      <article-list
-        :@articles="collections.article.filter((article) => article.url !== page.url)"
-        @limit="5"
-      ></article-list>
-    </section>
+    <article-footer
+      :@article="collections.article.find(({ url }) => url === page.url)"
+    ></article-footer>
   </footer>
 </article>
 

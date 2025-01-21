@@ -12,6 +12,12 @@ layout: page
   </header>
 
   <div @raw="content" webc:nokeep></div>
+
+  <footer>
+    <article-footer
+      :@article="$data.collections.article.find(({ url }) => url === $data.page.url)"
+    ></article-footer>
+  </footer>
 </article>
 
 <style webc:scoped>
