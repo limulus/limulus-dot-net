@@ -21,6 +21,8 @@ const presets = [
   { name: 'md', width: 1500, format: 'jpeg', keepMeta: true },
   { name: 'sm', width: 750, format: 'avif', keepMeta: false },
   { name: 'sm', width: 750, format: 'jpeg', keepMeta: false },
+  { name: 'xs', width: 325, format: 'avif', keepMeta: false },
+  { name: 'xs', width: 325, format: 'jpeg', keepMeta: false },
 ]
 
 const files = process.argv.slice(2)
