@@ -20,6 +20,9 @@
           <h1 @text="article.data.title"></h1>
           <ul class="chips">
             <li>
+              <author-chip :@article="article" @nolink="true"></author-chip>
+            </li>
+            <li>
               <published-chip :@article="article"></published-chip>
             </li>
             <li>
@@ -34,11 +37,11 @@
 </article-card>
 
 <style webc:scoped>
-  :host a {
+  :host > article > a {
     text-decoration: none;
   }
 
-  :host a {
+  :host > article > a {
     display: block;
     overflow: hidden;
     border: var(--card-border);

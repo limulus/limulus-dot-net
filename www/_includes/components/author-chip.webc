@@ -1,6 +1,9 @@
-<data-chip :@pho="$data.authors[article.data.author].photo" :@article="article">
-  <a
-    :href="$data.authors[article.data.author].url"
-    @text="$data.authors[article.data.author].name"
-  ></a>
-</data-chip>
+<script webc:type="js">
+  const chip = /* HTML */ `
+    <data-chip :@pho="$data.authors[article.data.author].photo" :@article="article">
+      ${$data.authors[article.data.author].name}
+    </data-chip>
+  `
+
+  nolink ? chip : `<a href="${$data.authors[article.data.author].url}">${chip}</a>`
+</script>
