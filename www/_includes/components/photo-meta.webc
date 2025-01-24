@@ -1,0 +1,103 @@
+<section>
+  <h2 class="visually-hidden">Photo Metadata</h2>
+
+  <script webc:type="js">
+    const datetime = (photo) => {
+      return new Date(photo.date.replace(/([+-]\d{2}:\d{2}|Z)$/, '')).toLocaleDateString(
+        'en-US',
+        {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+        }
+      )
+    }
+
+    const camera = (photo) => {
+      return photo.camera.replace('NIKON', 'Nikon')
+    }
+
+    const lens = (photo) => {
+      const lenses = {
+        'iPhone 16 Pro back triple camera 6.765mm f/1.78': '1x Fusion',
+        'iPhone 16 Pro back triple camera 15.66mm f/2.8': '5x Telephoto',
+        'AF-S DX Nikkor 35mm f/1.8G': 'AF-S DX NIKKOR 35mm ƒ/1.8G',
+        'AF-S VR Zoom-Nikkor 70-300mm f/4.5-5.6G IF-ED':
+          'AF-S VR Zoom-NIKKOR 70-300mm ƒ/4.5-5.6G IF-ED',
+      }
+
+      if (!lenses[photo.lens]) {
+        throw new Error(`Lens not found: "${photo.lens}"`)
+      }
+
+      return lenses[photo.lens]
+    }
+
+    const focalLength = (photo) => {
+      return `${parseFloat(photo.focalLength)
+        .toFixed(2)
+        .replace(/(?:.0)?0$/, '')}mm`
+    }
+
+    const fNumber = (photo) => {
+      const fNum = parseFloat(photo.fNumber.replace('f/', ''))
+      return `ƒ/${fNum.toFixed(2).replace(/(?:.0)?0$/, '')}`
+    }
+
+    const exposureTime = (photo) => {
+      return `${photo.exposureTime} sec`
+    }
+
+    const iso = (photo) => {
+      return `ISO ${photo.iso}`
+    }
+
+    const render = (photo) => /* HTML */ `
+      <ul class="chips">
+        <li>
+          <data-chip @icon="calendar-clock" :title="photo.date"
+            >${datetime(photo)}</data-chip
+          >
+        </li>
+        <li>
+          <data-chip @icon="photo-camera">${camera(photo)}</data-chip>
+        </li>
+        <li>
+          <data-chip @icon="circle">${lens(photo)}</data-chip>
+        </li>
+        <li>
+          <data-chip @icon="frame-inspect">${focalLength(photo)}</data-chip>
+        </li>
+        <li>
+          <data-chip @icon="camera">${fNumber(photo)}</data-chip>
+        </li>
+        <li>
+          <data-chip @icon="shutter-speed">${exposureTime(photo)}</data-chip>
+        </li>
+        <li>
+          <data-chip @icon="camera-roll">${iso(photo)}</data-chip>
+        </li>
+      </ul>
+    `
+
+    render(photo)
+  </script>
+</section>
+
+<style webc:scoped>
+  :host section {
+    margin-top: 2rem;
+  }
+
+  :host ul.chips {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+</style>
