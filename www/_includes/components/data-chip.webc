@@ -22,10 +22,12 @@
     width: 1.2em;
     height: 1.2em;
     fill: var(--color);
+    flex-shrink: 0;
   }
 
   :host picture {
     display: flex;
+    flex-shrink: 0;
   }
 
   :host img {
