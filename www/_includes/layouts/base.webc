@@ -44,6 +44,11 @@
 
     <template webc:if="tags?.includes('article')" webc:nokeep>
       <meta property="article:published_time" :content="date.toISOString()" />
+      <meta
+        webc:if="history"
+        property="article:modified_time"
+        :content="history[0].date.toISOString()"
+      />
     </template>
 
     <script webc:type="js">
