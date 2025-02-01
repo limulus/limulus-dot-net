@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-  <head>
+  <head prefix="og: https://ogp.me/ns# article: https://ogp.me/ns/article#">
     <meta charset="utf-8" />
 
     <link
