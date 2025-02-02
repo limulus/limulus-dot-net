@@ -22,6 +22,9 @@ export default async function (eleventyConfig) {
     const { metafile } = await build({
       assetNames: 'assets/immutable/11ty/esbuild/[name].[hash]',
       bundle: true,
+      define: {
+        'process.env.MAPBOX_PUBLIC_TOKEN': JSON.stringify(process.env.MAPBOX_PUBLIC_TOKEN),
+      },
       entryNames: '[dir]/[name].[hash]',
       entryPoints,
       external: ['/lib/*'],

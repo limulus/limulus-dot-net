@@ -1,0 +1,60 @@
+<template webc:root class="loading">
+  <div class="loading">
+    <script webc:type="js">
+      this.svg('octicon-globe')
+    </script>
+    <noscript>
+      <p>Enable JavaScript to view the location on the map.</p>
+    </noscript>
+  </div>
+</template>
+
+<link rel="stylesheet" href="../../../node_modules/mapbox-gl/dist/mapbox-gl.css" />
+
+<script type="module" webc:keep>
+  const mapBoxElement = document.querySelector('map-box:last-of-type')
+
+  const observer = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          import('/lib/map-box/index.XXXXXXXX.js')
+          observer.unobserve(entry.target)
+        }
+      })
+    },
+    {
+      threshold: 0.666,
+    }
+  )
+
+  observer.observe(mapBoxElement)
+</script>
+
+<style webc:scoped>
+  :host {
+    position: relative;
+    display: block;
+    height: 66.67vh;
+    margin: 4rem auto 1rem auto;
+    border-radius: var(--card-border-radius);
+    background-color: var(--chip-background-color);
+    overflow: hidden;
+  }
+
+  :host .loading {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    fill: var(--color);
+  }
+
+  :host .loading svg {
+    width: 8rem;
+    height: 8rem;
+  }
+</style>

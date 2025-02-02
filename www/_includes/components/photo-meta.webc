@@ -54,33 +54,51 @@
       return `ISO ${photo.iso}`
     }
 
-    const render = (photo) => /* HTML */ `
-      <ul class="chips">
-        <li>
-          <data-chip @icon="calendar-clock" :title="photo.date"
-            >${datetime(photo)}</data-chip
-          >
-        </li>
-        <li>
-          <data-chip @icon="photo-camera">${camera(photo)}</data-chip>
-        </li>
-        <li>
-          <data-chip @icon="circle">${lens(photo)}</data-chip>
-        </li>
-        <li>
-          <data-chip @icon="frame-inspect">${focalLength(photo)}</data-chip>
-        </li>
-        <li>
-          <data-chip @icon="camera">${fNumber(photo)}</data-chip>
-        </li>
-        <li>
-          <data-chip @icon="shutter-speed">${exposureTime(photo)}</data-chip>
-        </li>
-        <li>
-          <data-chip @icon="camera-roll">${iso(photo)}</data-chip>
-        </li>
-      </ul>
-    `
+    const location = (photo) => {
+      return `[${photo.location.longitude}, ${photo.location.latitude}]`
+    }
+
+    const render = (photo) => {
+      let html = /* HTML */ `
+        <ul class="chips">
+          <li>
+            <data-chip @icon="calendar-clock" :title="photo.date"
+              >${datetime(photo)}</data-chip
+            >
+          </li>
+          <li>
+            <data-chip @icon="photo-camera">${camera(photo)}</data-chip>
+          </li>
+          <li>
+            <data-chip @icon="circle">${lens(photo)}</data-chip>
+          </li>
+          <li>
+            <data-chip @icon="frame-inspect">${focalLength(photo)}</data-chip>
+          </li>
+          <li>
+            <data-chip @icon="camera">${fNumber(photo)}</data-chip>
+          </li>
+          <li>
+            <data-chip @icon="shutter-speed">${exposureTime(photo)}</data-chip>
+          </li>
+          <li>
+            <data-chip @icon="camera-roll">${iso(photo)}</data-chip>
+          </li>
+        </ul>
+      `
+
+      if (photo.location) {
+        html += /* HTML */ `
+          <map-box
+            marker="${location(photo)}"
+            center="${location(photo)}"
+            zoom="11"
+          ></map-box>
+        `
+      }
+
+      return html
+    }
 
     render(photo)
   </script>

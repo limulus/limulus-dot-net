@@ -53,6 +53,7 @@
     "hls.js": "^1.5.18",
     "into-stream": "^8.0.1",
     "listr": "^0.14.3",
+    "mapbox-gl": "^3.9.4",
     "markdown-it": "^14.1.0",
     "markdown-it-anchor": "^8.6.7",
     "markdown-it-attrs": "^4.1.6",
