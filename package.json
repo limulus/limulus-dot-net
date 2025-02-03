@@ -74,6 +74,7 @@
   },
   "devDependencies": {
     "@types/raf": "^3.4.3",
+    "dotenv": "^16.4.7",
     "esbuild-plugin-wasm": "^1.1.0",
     "globby": "^14.0.1",
     "husky": "^9.1.5"
