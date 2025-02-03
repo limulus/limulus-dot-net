@@ -32,6 +32,7 @@ export class MapBox extends HTMLElement {
     })
 
     this.map.on('load', () => {
+      this.dispatchEvent(new CustomEvent('load'))
       this.container.style.opacity = '1'
     })
 

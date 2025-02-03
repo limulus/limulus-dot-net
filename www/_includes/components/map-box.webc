@@ -1,5 +1,5 @@
-<template webc:root class="loading">
-  <div class="loading">
+<template webc:root>
+  <div class="placeholder">
     <script webc:type="js">
       this.svg('octicon-globe')
     </script>
@@ -14,12 +14,22 @@
 <script type="module" webc:keep>
   const mapBoxElement = document.querySelector('map-box:last-of-type')
 
+  const loadMapBox = async () => {
+    mapBoxElement.classList.add('loading')
+    const loadHandler = () => {
+      mapBoxElement.classList.remove('loading')
+      mapBoxElement.removeEventListener('load', loadHandler)
+    }
+    mapBoxElement.addEventListener('load', loadHandler)
+    await import('/lib/map-box/index.XXXXXXXX.js')
+  }
+
   const observer = new IntersectionObserver(
     (entries, observer) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          import('/lib/map-box/index.XXXXXXXX.js')
           observer.unobserve(entry.target)
+          loadMapBox()
         }
       })
     },
@@ -42,7 +52,7 @@
     overflow: hidden;
   }
 
-  :host .loading {
+  :host .placeholder {
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -53,8 +63,22 @@
     fill: var(--color);
   }
 
-  :host .loading svg {
+  :host .placeholder svg {
     width: 8rem;
     height: 8rem;
+  }
+
+  :host.loading .placeholder {
+    animation: map-box-throbbing-fade 1.5s infinite;
+  }
+
+  @keyframes map-box-throbbing-fade {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
   }
 </style>
