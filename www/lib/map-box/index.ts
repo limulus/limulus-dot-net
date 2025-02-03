@@ -3,6 +3,7 @@ import mapboxgl from 'mapbox-gl'
 export class MapBox extends HTMLElement {
   private container = document.createElement('div')
   private map: mapboxgl.Map | null = null
+  private interactionShield = document.createElement('div')
 
   constructor() {
     super()
@@ -10,10 +11,17 @@ export class MapBox extends HTMLElement {
     this.container.style.height = '100%'
     this.container.style.transition = 'opacity 0.5s'
     this.container.style.opacity = '0'
+
+    this.interactionShield.style.position = 'absolute'
+    this.interactionShield.style.top = '0'
+    this.interactionShield.style.left = '0'
+    this.interactionShield.style.width = '100%'
+    this.interactionShield.style.height = '100%'
   }
 
   connectedCallback() {
     this.appendChild(this.container)
+    this.appendChild(this.interactionShield)
 
     this.map = new mapboxgl.Map({
       accessToken: process.env.MAPBOX_PUBLIC_TOKEN,
@@ -25,6 +33,10 @@ export class MapBox extends HTMLElement {
 
     this.map.on('load', () => {
       this.container.style.opacity = '1'
+    })
+
+    this.container.addEventListener('transitionend', () => {
+      this.interactionShield.remove()
     })
 
     const markerCoords = this.getAttribute('marker')
