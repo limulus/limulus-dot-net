@@ -1571,5 +1571,128 @@
         "size": 32049
       }
     ]
+  },
+  "punk-and-trash": "qhCg333k",
+  "qhCg333k": {
+    "id": "qhCg333k",
+    "alias": "punk-and-trash",
+    "baseUrl": "https://pho.limulus.net/qhCg333k",
+    "original": "IMG_0358.png",
+    "width": 3024,
+    "height": 3024,
+    "title": "Punk and Trash",
+    "description": "Close-up of a raw, rebellious piece of street art on a weathered blue wall. A black-and-white stencil of a square face with intense, smudged eyes stares out, its heavy eyeliner dripping like tears. Below it, graffiti in bold green and white reads “PUNK AND TRASH,” with an arrow pointing the way toward the entryway of the building — a worn blue metal door.",
+    "date": "2015-10-11T14:39:38-07:01",
+    "tags": [
+      "license:cc-by",
+      "limulus.net",
+      "limulus.net/photos"
+    ],
+    "make": "Apple",
+    "camera": "iPhone 6s",
+    "lens": "iPhone 6s back camera 4.15mm f/2.2",
+    "focalLength": "4.15 mm",
+    "exposureTime": "1/174",
+    "fNumber": "f/2.2",
+    "iso": 25,
+    "flash": "Flash did not fire, compulsory flash mode",
+    "exposureMode": "Auto exposure",
+    "whiteBalance": "Auto white balance",
+    "location": {
+      "latitude": 29.07883888888889,
+      "longitude": -110.9545138888889
+    },
+    "renditions": [
+      {
+        "name": "xl",
+        "format": "avif",
+        "url": "https://pho.limulus.net/qhCg333k/xl.yHGkyRHy.avif",
+        "file": "xl.yHGkyRHy.avif",
+        "width": 3024,
+        "height": 3024,
+        "size": 1091335
+      },
+      {
+        "name": "xl",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/qhCg333k/xl.o0Xd5Zi8.jpeg",
+        "file": "xl.o0Xd5Zi8.jpeg",
+        "width": 3024,
+        "height": 3024,
+        "size": 2159933
+      },
+      {
+        "name": "lg",
+        "format": "avif",
+        "url": "https://pho.limulus.net/qhCg333k/lg.dRFHQ0j8.avif",
+        "file": "lg.dRFHQ0j8.avif",
+        "width": 3000,
+        "height": 3000,
+        "size": 1033773
+      },
+      {
+        "name": "lg",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/qhCg333k/lg.bGTHOQtc.jpeg",
+        "file": "lg.bGTHOQtc.jpeg",
+        "width": 3000,
+        "height": 3000,
+        "size": 2121164
+      },
+      {
+        "name": "md",
+        "format": "avif",
+        "url": "https://pho.limulus.net/qhCg333k/md.kb44TZRB.avif",
+        "file": "md.kb44TZRB.avif",
+        "width": 1500,
+        "height": 1500,
+        "size": 413081
+      },
+      {
+        "name": "md",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/qhCg333k/md.SPloLCKP.jpeg",
+        "file": "md.SPloLCKP.jpeg",
+        "width": 1500,
+        "height": 1500,
+        "size": 664419
+      },
+      {
+        "name": "sm",
+        "format": "avif",
+        "url": "https://pho.limulus.net/qhCg333k/sm.9boMSXnQ.avif",
+        "file": "sm.9boMSXnQ.avif",
+        "width": 750,
+        "height": 750,
+        "size": 111664
+      },
+      {
+        "name": "sm",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/qhCg333k/sm.Tn937qES.jpeg",
+        "file": "sm.Tn937qES.jpeg",
+        "width": 750,
+        "height": 750,
+        "size": 172739
+      },
+      {
+        "name": "xs",
+        "format": "avif",
+        "url": "https://pho.limulus.net/qhCg333k/xs.0Yhjq-tf.avif",
+        "file": "xs.0Yhjq-tf.avif",
+        "width": 325,
+        "height": 325,
+        "size": 25315
+      },
+      {
+        "name": "xs",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/qhCg333k/xs.GAcTP1EP.jpeg",
+        "file": "xs.GAcTP1EP.jpeg",
+        "width": 325,
+        "height": 325,
+        "size": 37874
+      }
+    ]
   }
 }

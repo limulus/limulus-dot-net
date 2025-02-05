@@ -21,6 +21,7 @@
 
     const lens = (photo) => {
       const lenses = {
+        'iPhone 6s back camera 4.15mm f/2.2': 'Rear Camera',
         'iPhone 16 Pro back triple camera 6.765mm f/1.78': '1x Fusion',
         'iPhone 16 Pro back triple camera 15.66mm f/2.8': '5x Telephoto',
         'AF-S DX Nikkor 35mm f/1.8G': 'AF-S DX NIKKOR 35mm ƒ/1.8G',
