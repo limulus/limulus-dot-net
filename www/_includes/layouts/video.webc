@@ -39,4 +39,9 @@ layout: page
     width: 100%;
     height: auto;
   }
+
+  :host footer {
+    border-top: var(--card-border);
+    margin: 4rem 0;
+  }
 </style>
