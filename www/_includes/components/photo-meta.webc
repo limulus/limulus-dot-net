@@ -20,7 +20,7 @@
         'iPhone 16 Pro back triple camera 6.765mm f/1.78': 3.55,
         'iPhone 16 Pro back triple camera 15.66mm f/2.8': 7.66,
       },
-      'NIKON D5600': 1.52,
+      'NIKON D5600': 1.5,
     }
 
     const datetime = (photo) => {
