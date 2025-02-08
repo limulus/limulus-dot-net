@@ -2,6 +2,27 @@
   <h2 class="visually-hidden">Photo Metadata</h2>
 
   <script webc:type="js">
+    const lenses = {
+      'iPhone 6s back camera 4.15mm f/2.2': 'Rear Camera',
+      'iPhone 16 Pro back triple camera 6.765mm f/1.78': '1x Fusion',
+      'iPhone 16 Pro back triple camera 15.66mm f/2.8': '5x Telephoto',
+      'AF-S DX Nikkor 35mm f/1.8G': 'AF-S DX NIKKOR 35mm ƒ/1.8G',
+      'AF-S VR Zoom-Nikkor 70-300mm f/4.5-5.6G IF-ED':
+        'AF-S VR Zoom-NIKKOR 70-300mm ƒ/4.5-5.6G IF-ED',
+    }
+
+    const cropFactors = {
+      'iPhone 6s': {
+        'iPhone 6s back camera 4.15mm f/2.2': 7,
+      },
+      'iPhone 16 Pro': {
+        'iPhone 16 Pro front TrueDepth camera 2.69mm f/1.9': 8.55,
+        'iPhone 16 Pro back triple camera 6.765mm f/1.78': 3.55,
+        'iPhone 16 Pro back triple camera 15.66mm f/2.8': 7.66,
+      },
+      'NIKON D5600': 1.52,
+    }
+
     const datetime = (photo) => {
       return new Date(photo.date.replace(/([+-]\d{2}:\d{2}|Z)$/, '')).toLocaleDateString(
         'en-US',
@@ -20,15 +41,6 @@
     }
 
     const lens = (photo) => {
-      const lenses = {
-        'iPhone 6s back camera 4.15mm f/2.2': 'Rear Camera',
-        'iPhone 16 Pro back triple camera 6.765mm f/1.78': '1x Fusion',
-        'iPhone 16 Pro back triple camera 15.66mm f/2.8': '5x Telephoto',
-        'AF-S DX Nikkor 35mm f/1.8G': 'AF-S DX NIKKOR 35mm ƒ/1.8G',
-        'AF-S VR Zoom-Nikkor 70-300mm f/4.5-5.6G IF-ED':
-          'AF-S VR Zoom-NIKKOR 70-300mm ƒ/4.5-5.6G IF-ED',
-      }
-
       if (!lenses[photo.lens]) {
         throw new Error(`Lens not found: "${photo.lens}"`)
       }
@@ -37,9 +49,10 @@
     }
 
     const focalLength = (photo) => {
-      return `${parseFloat(photo.focalLength)
-        .toFixed(2)
-        .replace(/(?:.0)?0$/, '')}mm`
+      const focalLength = parseFloat(photo.focalLength)
+      const cropFactor = cropFactors[photo.camera][photo.lens] ?? cropFactors[photo.camera]
+      const thirtyFiveEquiv = focalLength * cropFactor
+      return `${Math.round(focalLength)}mm (${Math.round(thirtyFiveEquiv)}mm)`
     }
 
     const fNumber = (photo) => {
@@ -48,7 +61,7 @@
     }
 
     const exposureTime = (photo) => {
-      return `${photo.exposureTime} sec`
+      return `${photo.exposureTime}s`
     }
 
     const iso = (photo) => {
