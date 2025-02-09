@@ -20,6 +20,7 @@
         'iPhone 16 Pro back triple camera 6.765mm f/1.78': 3.55,
         'iPhone 16 Pro back triple camera 15.66mm f/2.8': 7.66,
       },
+      'FinePix T400': 5.62,
       'NIKON D5600': 1.5,
     }
 
@@ -37,20 +38,36 @@
     }
 
     const camera = (photo) => {
-      return photo.camera.replace('NIKON', 'Nikon')
+      return photo.camera
+        .replace('NIKON', 'Nikon')
+        .replace('FinePix T400', 'FujiFilm FinePix T400')
     }
 
     const lens = (photo) => {
+      if (['FinePix T400'].includes(photo.camera)) {
+        return ''
+      }
+
       if (!lenses[photo.lens]) {
         throw new Error(`Lens not found: "${photo.lens}"`)
       }
 
-      return lenses[photo.lens]
+      return /* HTML */ `
+        <li>
+          <data-chip @icon="circle">${lenses[photo.lens]}</data-chip>
+        </li>
+      `
     }
 
     const focalLength = (photo) => {
+      const cropFactor =
+        cropFactors[photo.camera]?.[photo.lens] ?? cropFactors[photo.camera]
+
+      if (!cropFactor) {
+        throw new Error(`Crop factor not found: "${photo.camera}"`)
+      }
+
       const focalLength = parseFloat(photo.focalLength)
-      const cropFactor = cropFactors[photo.camera][photo.lens] ?? cropFactors[photo.camera]
       const thirtyFiveEquiv = focalLength * cropFactor
       return `${Math.round(focalLength)}mm (${Math.round(thirtyFiveEquiv)}mm)`
     }
@@ -83,9 +100,7 @@
           <li>
             <data-chip @icon="photo-camera">${camera(photo)}</data-chip>
           </li>
-          <li>
-            <data-chip @icon="circle">${lens(photo)}</data-chip>
-          </li>
+          ${lens(photo)}
           <li>
             <data-chip @icon="frame-inspect">${focalLength(photo)}</data-chip>
           </li>
