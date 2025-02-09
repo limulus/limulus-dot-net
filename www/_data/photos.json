@@ -1694,5 +1694,128 @@
         "size": 37874
       }
     ]
+  },
+  "capitol-restoration": "UGHjtSJr",
+  "UGHjtSJr": {
+    "id": "UGHjtSJr",
+    "alias": "capitol-restoration",
+    "baseUrl": "https://pho.limulus.net/UGHjtSJr",
+    "original": "DSCF2401.png",
+    "width": 4274,
+    "height": 3053,
+    "title": "Capitol Restoration",
+    "description": "A slightly-askew black and white photo of the east side of the U.S. Capitol Building, taken from its lowest steps. The Capitol Dome is covered in scaffolding as it undergoes a restoration project.",
+    "date": "2015-06-02T15:48:49-04:00",
+    "tags": [
+      "license:cc-by",
+      "limulus.net/photos",
+      "limulus.net",
+      "photographer:rebecca"
+    ],
+    "make": "FUJIFILM",
+    "camera": "FinePix T400",
+    "focalLength": "5 mm",
+    "exposureTime": "1/100",
+    "fNumber": "f/8.4",
+    "iso": 100,
+    "flash": "Flash did not fire, compulsory flash mode",
+    "exposureMode": "Auto exposure",
+    "whiteBalance": "Auto white balance",
+    "location": {
+      "latitude": 38.889602777777775,
+      "longitude": -77.01050833333333
+    },
+    "renditions": [
+      {
+        "name": "xl",
+        "format": "avif",
+        "url": "https://pho.limulus.net/UGHjtSJr/xl.c1EPDOfV.avif",
+        "file": "xl.c1EPDOfV.avif",
+        "width": 4274,
+        "height": 3053,
+        "size": 248792
+      },
+      {
+        "name": "xl",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/UGHjtSJr/xl.4ivSjpUP.jpeg",
+        "file": "xl.4ivSjpUP.jpeg",
+        "width": 4274,
+        "height": 3053,
+        "size": 1130343
+      },
+      {
+        "name": "lg",
+        "format": "avif",
+        "url": "https://pho.limulus.net/UGHjtSJr/lg.Li5n8ok1.avif",
+        "file": "lg.Li5n8ok1.avif",
+        "width": 3000,
+        "height": 2143,
+        "size": 169466
+      },
+      {
+        "name": "lg",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/UGHjtSJr/lg.xCIDY-Rj.jpeg",
+        "file": "lg.xCIDY-Rj.jpeg",
+        "width": 3000,
+        "height": 2143,
+        "size": 649759
+      },
+      {
+        "name": "md",
+        "format": "avif",
+        "url": "https://pho.limulus.net/UGHjtSJr/md.ZepfrdND.avif",
+        "file": "md.ZepfrdND.avif",
+        "width": 1500,
+        "height": 1071,
+        "size": 73989
+      },
+      {
+        "name": "md",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/UGHjtSJr/md.py1EnoZP.jpeg",
+        "file": "md.py1EnoZP.jpeg",
+        "width": 1500,
+        "height": 1071,
+        "size": 208164
+      },
+      {
+        "name": "sm",
+        "format": "avif",
+        "url": "https://pho.limulus.net/UGHjtSJr/sm.rV2yA2sD.avif",
+        "file": "sm.rV2yA2sD.avif",
+        "width": 750,
+        "height": 536,
+        "size": 30019
+      },
+      {
+        "name": "sm",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/UGHjtSJr/sm.VaDjPLyW.jpeg",
+        "file": "sm.VaDjPLyW.jpeg",
+        "width": 750,
+        "height": 536,
+        "size": 66654
+      },
+      {
+        "name": "xs",
+        "format": "avif",
+        "url": "https://pho.limulus.net/UGHjtSJr/xs.LmB20K_y.avif",
+        "file": "xs.LmB20K_y.avif",
+        "width": 325,
+        "height": 232,
+        "size": 13125
+      },
+      {
+        "name": "xs",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/UGHjtSJr/xs.H_PznODh.jpeg",
+        "file": "xs.H_PznODh.jpeg",
+        "width": 325,
+        "height": 232,
+        "size": 20517
+      }
+    ]
   }
 }
