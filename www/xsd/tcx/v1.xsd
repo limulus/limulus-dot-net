@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema
+  xmlns="https://limulus.net/xsd/tcx/v1"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="https://limulus.net/xsd/tcx/v1"
+  elementFormDefault="qualified"
+>
+
+  <xsd:annotation>
+    <xsd:documentation>
+      This schema defines extensions to the Garmin Training Center Database format
+      for additional data from HealthKit/CoreLocation.
+    </xsd:documentation>
+  </xsd:annotation>
+
+  <!-- EndTime extension for Distance trackpoints -->
+  <xsd:element name="EndTime" type="xsd:dateTime">
+    <xsd:annotation>
+      <xsd:documentation>
+        The end time of a distance measurement interval.
+      </xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+
+  <!-- Position-related extensions -->
+  <xsd:element name="SpeedMetersSec" type="xsd:double">
+    <xsd:annotation>
+      <xsd:documentation>
+        Speed in meters per second.
+      </xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+
+  <xsd:element name="CourseDegrees" type="xsd:double">
+    <xsd:annotation>
+      <xsd:documentation>
+        Heading in degrees relative to true north, where 0 is north, 90 is east, 180 is
+        south, and 270 is west.
+      </xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+
+  <xsd:element name="HorizontalAccuracyMeters" type="xsd:double">
+    <xsd:annotation>
+      <xsd:documentation>
+        The accuracy of the latitude and longitude coordinates in meters.
+      </xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+
+  <xsd:element name="VerticalAccuracyMeters" type="xsd:double">
+    <xsd:annotation>
+      <xsd:documentation>
+        The accuracy of the altitude value in meters.
+      </xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+
+  <xsd:element name="SpeedAccuracyMetersSec" type="xsd:double">
+    <xsd:annotation>
+      <xsd:documentation>
+        The accuracy of the speed value in meters per second.
+      </xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+
+  <xsd:element name="CourseAccuracyDegrees" type="xsd:double">
+    <xsd:annotation>
+      <xsd:documentation>
+        The accuracy of the course/heading value in degrees.
+      </xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+
+  <!-- Extension groups -->
+  <xsd:group name="TrackPointExtensions">
+    <xsd:choice>
+      <xsd:sequence>
+        <!-- Distance trackpoint extensions -->
+        <xsd:element ref="EndTime" minOccurs="0" />
+      </xsd:sequence>
+      <xsd:sequence>
+        <!-- Position trackpoint extensions -->
+        <xsd:element ref="SpeedMetersSec" minOccurs="0" />
+        <xsd:element ref="CourseDegrees" minOccurs="0" />
+        <xsd:element ref="HorizontalAccuracyMeters" minOccurs="0" />
+        <xsd:element ref="VerticalAccuracyMeters" minOccurs="0" />
+        <xsd:element ref="SpeedAccuracyMetersSec" minOccurs="0" />
+        <xsd:element ref="CourseAccuracyDegrees" minOccurs="0" />
+      </xsd:sequence>
+    </xsd:choice>
+  </xsd:group>
+
+</xsd:schema>

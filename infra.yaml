@@ -211,6 +211,7 @@ Resources:
         const needsIndexHtmlRe = /(\/[^\/.]+)\/*$/
         const penumbraJournalRedirectRe = /^\/penumbra\/journal\/00[1-5]-/
         const mastodonProfileRedirectRe = /^\/@eric\/?/
+        const xsdRewriteRe = /^\/xsd\/([^\/]+)\/v(\d+)$/
 
         function handler(event) {
           const request = event.request
@@ -252,6 +253,7 @@ Resources:
             }
           }
 
+          request.uri = request.uri.replace(xsdRewriteRe, '/xsd/$1/v$2.xsd')
           request.uri = request.uri.replace(needsIndexHtmlRe, '$1/index.html')
           return request
         }
