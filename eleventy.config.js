@@ -21,8 +21,10 @@ export default function (eleventyConfig) {
   const layouts = '_includes/layouts'
   const components = [`${input}/_includes/components/**/*.webc`]
 
-  eleventyConfig.addPassthroughCopy(`${input}/assets`, { expand: true })
-  eleventyConfig.addPassthroughCopy(`${input}/**/*.{png,svg,jpg,jpeg,xsd,xsl,txt}`)
+  eleventyConfig.addPassthroughCopy(
+    `{${input}/assets/**/*,${input}/**/*.{png,svg,jpg,jpeg,xsd,xsl,txt}}`,
+    { expand: true }
+  )
 
   eleventyConfig.addPlugin(svgSprite, [
     {
