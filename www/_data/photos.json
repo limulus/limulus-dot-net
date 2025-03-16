@@ -1817,5 +1817,114 @@
         "size": 20517
       }
     ]
+  },
+  "workout-exporter-development": "GIfv_p2A",
+  "GIfv_p2A": {
+    "id": "GIfv_p2A",
+    "alias": "workout-exporter-development",
+    "baseUrl": "https://pho.limulus.net/GIfv_p2A",
+    "original": "Workout Exporter Development.png",
+    "width": 5120,
+    "height": 2880,
+    "title": "Workout Exporter Development",
+    "description": "A collage of screenshots. One is an iOS app showing a list of workouts to choose from. Another shows an iOS share sheet. And a third is a screenshot of a macOS desktop running Claude Code in Terminal.app and Xcode showing the code and XML output of the exported workout.",
+    "date": "2025-03-15T20:49:48-07:00",
+    "tags": [
+      "screenshot",
+      "limulus.net"
+    ],
+    "location": null,
+    "renditions": [
+      {
+        "name": "xl",
+        "format": "avif",
+        "url": "https://pho.limulus.net/GIfv_p2A/xl.OrHULXJa.avif",
+        "file": "xl.OrHULXJa.avif",
+        "width": 5120,
+        "height": 2880,
+        "size": 325546
+      },
+      {
+        "name": "xl",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/GIfv_p2A/xl.4oY50cWs.jpeg",
+        "file": "xl.4oY50cWs.jpeg",
+        "width": 5120,
+        "height": 2880,
+        "size": 1029154
+      },
+      {
+        "name": "lg",
+        "format": "avif",
+        "url": "https://pho.limulus.net/GIfv_p2A/lg.hepOsO4c.avif",
+        "file": "lg.hepOsO4c.avif",
+        "width": 3000,
+        "height": 1688,
+        "size": 186694
+      },
+      {
+        "name": "lg",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/GIfv_p2A/lg.ELStKqyo.jpeg",
+        "file": "lg.ELStKqyo.jpeg",
+        "width": 3000,
+        "height": 1688,
+        "size": 512278
+      },
+      {
+        "name": "md",
+        "format": "avif",
+        "url": "https://pho.limulus.net/GIfv_p2A/md.E18AnKLN.avif",
+        "file": "md.E18AnKLN.avif",
+        "width": 1500,
+        "height": 844,
+        "size": 77081
+      },
+      {
+        "name": "md",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/GIfv_p2A/md.ETc8BcIx.jpeg",
+        "file": "md.ETc8BcIx.jpeg",
+        "width": 1500,
+        "height": 844,
+        "size": 182149
+      },
+      {
+        "name": "sm",
+        "format": "avif",
+        "url": "https://pho.limulus.net/GIfv_p2A/sm.B1nrWHt9.avif",
+        "file": "sm.B1nrWHt9.avif",
+        "width": 750,
+        "height": 422,
+        "size": 25881
+      },
+      {
+        "name": "sm",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/GIfv_p2A/sm.7fG90NSI.jpeg",
+        "file": "sm.7fG90NSI.jpeg",
+        "width": 750,
+        "height": 422,
+        "size": 54713
+      },
+      {
+        "name": "xs",
+        "format": "avif",
+        "url": "https://pho.limulus.net/GIfv_p2A/xs.BpXBfdZz.avif",
+        "file": "xs.BpXBfdZz.avif",
+        "width": 325,
+        "height": 183,
+        "size": 8676
+      },
+      {
+        "name": "xs",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/GIfv_p2A/xs.FfelhVeu.jpeg",
+        "file": "xs.FfelhVeu.jpeg",
+        "width": 325,
+        "height": 183,
+        "size": 15230
+      }
+    ]
   }
 }
