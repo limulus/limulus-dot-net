@@ -40,7 +40,7 @@ here’s what you can expect if you watch the entire thing:
 - Then we visited [Niagara Falls] and went on the Nikola Tesla, a [Maid of the Mist] boat.
 - Finally we went [Behind the Falls] after crossing the [Rainbow Bridge] into Ontario.
 
-Most of this was shot on my iPhone 16 Pro in 4K or my GoPro Hero 12 in 4K, with some HD
+Most of this was shot on my iPhone 16 Pro in 4K or my GoPro HERO12 Black in 4K, with some HD
 footage from my phone or Rebecca’s iPhone 14 Pro. I edited it in Final Cut Pro and got it
 ready for hosting here with the help of my [media tools].
 
