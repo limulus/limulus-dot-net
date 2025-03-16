@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 STAGED_FILES=$(git diff --name-only --cached)
-STAGED_FILES=$(echo "$STAGED_FILES" | grep -v -e package-lock.json -e photos.json)
+STAGED_FILES=$(echo "$STAGED_FILES" | grep -v -e package-lock.json -e photos.json -e CLAUDE.md)
 
 for FILE in $STAGED_FILES
 do
