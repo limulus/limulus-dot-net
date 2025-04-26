@@ -22,7 +22,7 @@ export default function (eleventyConfig) {
   const components = [`${input}/_includes/components/**/*.webc`]
 
   eleventyConfig.addPassthroughCopy(
-    `{${input}/assets/**/*,${input}/**/*.{png,svg,jpg,jpeg,xsd,xsl,txt}}`,
+    `{${input}/assets/**/*,${input}/**/*.{png,svg,jpg,jpeg,xsd,xsl,txt,pdf}}`,
     { expand: true }
   )
 
