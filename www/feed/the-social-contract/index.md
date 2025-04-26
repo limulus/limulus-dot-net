@@ -6,7 +6,7 @@ author: eric
 title: The Social Contract
 subhead: >-
   As with any meaningful contract, violating it should carry consequences.
-date: 2025-04-20 12:35:00 -07:00
+date: 2025-04-26 11:12:00 -07:00
 hero: comte-de-rochambeau
 ---
 
