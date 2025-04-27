@@ -1,5 +1,6 @@
 import slugify from '@sindresorhus/slugify'
 import { Client } from 'basic-ftp'
+import { encode as encodeBlurHash } from 'blurhash'
 import ExifReader from 'exifreader'
 import intoStream from 'into-stream'
 import Listr from 'listr'
@@ -107,6 +108,17 @@ async function getHash(fileOrBuffer) {
   return hash.slice(0, 8)
 }
 
+async function generateBlurHash(photo) {
+  const { data, info } = await photo
+    .clone()
+    .resize(750, null, { withoutEnlargement: true })
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true })
+  const pixels = new Uint8ClampedArray(data)
+  return encodeBlurHash(pixels, info.width, info.height, 4, 3)
+}
+
 async function processFile(file) {
   const id = await getHash(file)
   const original = basename(file)
@@ -114,9 +126,10 @@ async function processFile(file) {
   uploadQueue.write({ id, name: original, file })
 
   const photo = sharp(file).keepMetadata()
-  const [meta, { width, height }] = await Promise.all([
+  const [meta, { width, height }, blurhash] = await Promise.all([
     ExifReader.load(file, { expanded: true }),
     photo.metadata(),
+    generateBlurHash(photo),
   ])
 
   const title = meta.xmp.title.description
@@ -143,6 +156,7 @@ async function processFile(file) {
     flash: meta.exif.Flash?.description,
     exposureMode: meta.exif.ExposureMode?.description,
     whiteBalance: meta.exif.WhiteBalance?.description,
+    blurhash,
     location: meta.gps
       ? {
           latitude: meta.gps.Latitude,

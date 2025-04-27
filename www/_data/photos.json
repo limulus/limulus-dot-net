@@ -104,7 +104,8 @@
         "height": 1000,
         "size": 263754
       }
-    ]
+    ],
+    "blurhash": "LFG8o]yV?tnO}n%fS0xGx]oynPWA"
   },
   "mist-middle-falls-letchworth-state-park": "PlumNgPF",
   "PlumNgPF": {
@@ -210,7 +211,8 @@
         "height": 563,
         "size": 78899
       }
-    ]
+    ],
+    "blurhash": "LGDl~9_NE14n-:RPofxusiIUM|tR"
   },
   "middle-falls-letchworth-state-park": "9S_9E3mC",
   "9S_9E3mC": {
@@ -316,7 +318,8 @@
         "height": 563,
         "size": 115163
       }
-    ]
+    ],
+    "blurhash": "LLF$eQ%2M{oe}OMIWWt7^hs;t7V?"
   },
   "upper-falls-letchworth-state-park": "ogMP7Pbu",
   "ogMP7Pbu": {
@@ -423,7 +426,8 @@
         "height": 500,
         "size": 76930
       }
-    ]
+    ],
+    "blurhash": "LWEo}iNg00t6.A%NVrIUkZogxtf+"
   },
   "pixel-clock": "Srq_na9c",
   "Srq_na9c": {
@@ -515,7 +519,8 @@
         "height": 524,
         "size": 17220
       }
-    ]
+    ],
+    "blurhash": "LD9jve]o4T1vYrbHi7jGI*OCs@wd"
   },
   "projectile-cannon": "D-STK6Qy",
   "D-STK6Qy": {
@@ -607,7 +612,8 @@
         "height": 535,
         "size": 22918
       }
-    ]
+    ],
+    "blurhash": "L25hfHIo?b-;9G?bIU9F-;~qofM{"
   },
   "sphere-shadow-and-sphere-shadow-wasm": "S7e9ZsqX",
   "S7e9ZsqX": {
@@ -699,7 +705,8 @@
         "height": 422,
         "size": 24698
       }
-    ]
+    ],
+    "blurhash": "L67ws.wd00}ZUNN^MJs9CUJRQ=Or"
   },
   "sphere-shadow": "wrbbesgD",
   "wrbbesgD": {
@@ -791,7 +798,8 @@
         "height": 494,
         "size": 17700
       }
-    ]
+    ],
+    "blurhash": "LA7nU$=K4m1uueoKU|S3TnSgVawJ"
   },
   "spiny-side-eye": "_Eh10XTl",
   "_Eh10XTl": {
@@ -893,7 +901,8 @@
         "height": 422,
         "size": 77798
       }
-    ]
+    ],
+    "blurhash": "LEC?r#~p%wbE5NNY%e%2IVNGRQV["
   },
   "photos-page-2024-11-29": "1i3Fb4Wt",
   "1i3Fb4Wt": {
@@ -985,7 +994,8 @@
         "height": 750,
         "size": 126739
       }
-    ]
+    ],
+    "blurhash": "LBEo=D$xMw?^xt-;IAVrQ*RkxFDh"
   },
   "limulus-dot-net-2024-11-29": "9yvwHsT8",
   "9yvwHsT8": {
@@ -1077,7 +1087,8 @@
         "height": 528,
         "size": 18641
       }
-    ]
+    ],
+    "blurhash": "L77d3Bwc0vAtIDspo@OABuSO;Y#*"
   },
   "2TUDan0y": {
     "id": "2TUDan0y",
@@ -1200,7 +1211,8 @@
         "height": 183,
         "size": 19717
       }
-    ]
+    ],
+    "blurhash": "LcEfy%oHJ.tRyZo#aebIIUV?s.V@"
   },
   "rainbow-selfie-letchworth-state-park": "2LL07kay",
   "2LL07kay": {
@@ -1323,7 +1335,8 @@
         "height": 183,
         "size": 24548
       }
-    ]
+    ],
+    "blurhash": "LHJ7%EVG4r~C~1^%VtD-tm9u--9u"
   },
   "one-long-cut": "tmj9u7Ht",
   "1_e2YuOe": {
@@ -1570,7 +1583,8 @@
         "height": 217,
         "size": 32049
       }
-    ]
+    ],
+    "blurhash": "L3EMLC|m00n;8^0200tR00tp9Yxn"
   },
   "punk-and-trash": "qhCg333k",
   "qhCg333k": {
@@ -1693,7 +1707,8 @@
         "height": 325,
         "size": 37874
       }
-    ]
+    ],
+    "blurhash": "LBC?_-^+0Mt,pfb_599brVxV$yIB"
   },
   "capitol-restoration": "UGHjtSJr",
   "UGHjtSJr": {
@@ -1816,7 +1831,8 @@
         "height": 232,
         "size": 20517
       }
-    ]
+    ],
+    "blurhash": "LsJkl#t7RjM{~qj[ayRjt7RjM{of"
   },
   "workout-exporter-development": "GIfv_p2A",
   "GIfv_p2A": {
@@ -1925,7 +1941,8 @@
         "height": 183,
         "size": 15230
       }
-    ]
+    ],
+    "blurhash": "LS6H~XngoOniW,WFadjXg9ngawa#"
   },
   "comte-de-rochambeau": "6yftaf4Z",
   "6yftaf4Z": {
@@ -1952,6 +1969,7 @@
     "flash": "Flash did not fire, compulsory flash mode",
     "exposureMode": "Auto exposure",
     "whiteBalance": "Auto white balance",
+    "blurhash": "LmKx6pM{ofxu~q%MRjM{RjfQM{WB",
     "location": {
       "latitude": 38.898916666666665,
       "longitude": -77.03771388888889

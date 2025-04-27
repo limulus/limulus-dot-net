@@ -41,6 +41,7 @@
     "@types/node": "^20.0.0",
     "aws-rum-web": "^1.19.0",
     "basic-ftp": "^5.0.5",
+    "blurhash": "^2.0.5",
     "chokidar-cli": "^3.0.0",
     "concurrently": "^8.2.2",
     "date-fns": "^4.1.0",
