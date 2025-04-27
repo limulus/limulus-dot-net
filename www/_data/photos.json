@@ -1927,14 +1927,14 @@
       }
     ]
   },
-  "comte-de-rochambeau": "I2nKSYoA",
-  "I2nKSYoA": {
-    "id": "I2nKSYoA",
+  "comte-de-rochambeau": "6yftaf4Z",
+  "6yftaf4Z": {
+    "id": "6yftaf4Z",
     "alias": "comte-de-rochambeau",
-    "baseUrl": "https://pho.limulus.net/I2nKSYoA",
+    "baseUrl": "https://pho.limulus.net/6yftaf4Z",
     "original": "DSCF2333.png",
-    "width": 3236,
-    "height": 1940,
+    "width": 3274,
+    "height": 1962,
     "title": "Comte de Rochambeau",
     "description": "A tilted black and white photo of the statue Major General Comte Jean de Rochambeau in Lafayette Square in Washington, D.C., across the street from the White House. Rochambeau stands above Lady Liberty, pointing ahead.",
     "date": "2015-06-02T10:41:41-04:00",
@@ -1960,92 +1960,92 @@
       {
         "name": "xl",
         "format": "avif",
-        "url": "https://pho.limulus.net/I2nKSYoA/xl.5azlNbLO.avif",
-        "file": "xl.5azlNbLO.avif",
-        "width": 3236,
-        "height": 1940,
-        "size": 94763
+        "url": "https://pho.limulus.net/6yftaf4Z/xl.C92LoSQ4.avif",
+        "file": "xl.C92LoSQ4.avif",
+        "width": 3274,
+        "height": 1962,
+        "size": 99438
       },
       {
         "name": "xl",
         "format": "jpeg",
-        "url": "https://pho.limulus.net/I2nKSYoA/xl.ZZyh6iL4.jpeg",
-        "file": "xl.ZZyh6iL4.jpeg",
-        "width": 3236,
-        "height": 1940,
-        "size": 513832
+        "url": "https://pho.limulus.net/6yftaf4Z/xl.Bn1hJhCs.jpeg",
+        "file": "xl.Bn1hJhCs.jpeg",
+        "width": 3274,
+        "height": 1962,
+        "size": 534438
       },
       {
         "name": "lg",
         "format": "avif",
-        "url": "https://pho.limulus.net/I2nKSYoA/lg.LekU77Rl.avif",
-        "file": "lg.LekU77Rl.avif",
+        "url": "https://pho.limulus.net/6yftaf4Z/lg.zSXbK5r1.avif",
+        "file": "lg.zSXbK5r1.avif",
         "width": 3000,
-        "height": 1799,
-        "size": 87071
+        "height": 1798,
+        "size": 90649
       },
       {
         "name": "lg",
         "format": "jpeg",
-        "url": "https://pho.limulus.net/I2nKSYoA/lg.INK5_P_l.jpeg",
-        "file": "lg.INK5_P_l.jpeg",
+        "url": "https://pho.limulus.net/6yftaf4Z/lg.6-oUs-0z.jpeg",
+        "file": "lg.6-oUs-0z.jpeg",
         "width": 3000,
-        "height": 1799,
-        "size": 452593
+        "height": 1798,
+        "size": 463173
       },
       {
         "name": "md",
         "format": "avif",
-        "url": "https://pho.limulus.net/I2nKSYoA/md.kD7cMgyf.avif",
-        "file": "md.kD7cMgyf.avif",
+        "url": "https://pho.limulus.net/6yftaf4Z/md.gdE7VcUN.avif",
+        "file": "md.gdE7VcUN.avif",
         "width": 1500,
         "height": 899,
-        "size": 44074
+        "size": 45997
       },
       {
         "name": "md",
         "format": "jpeg",
-        "url": "https://pho.limulus.net/I2nKSYoA/md.k5GDbHhD.jpeg",
-        "file": "md.k5GDbHhD.jpeg",
+        "url": "https://pho.limulus.net/6yftaf4Z/md.hCDPWfSb.jpeg",
+        "file": "md.hCDPWfSb.jpeg",
         "width": 1500,
         "height": 899,
-        "size": 135178
+        "size": 138960
       },
       {
         "name": "sm",
         "format": "avif",
-        "url": "https://pho.limulus.net/I2nKSYoA/sm.8rmPgU2U.avif",
-        "file": "sm.8rmPgU2U.avif",
+        "url": "https://pho.limulus.net/6yftaf4Z/sm.ChZt6WML.avif",
+        "file": "sm.ChZt6WML.avif",
         "width": 750,
-        "height": 450,
-        "size": 20536
+        "height": 449,
+        "size": 20971
       },
       {
         "name": "sm",
         "format": "jpeg",
-        "url": "https://pho.limulus.net/I2nKSYoA/sm.zUF64bzX.jpeg",
-        "file": "sm.zUF64bzX.jpeg",
+        "url": "https://pho.limulus.net/6yftaf4Z/sm.iDIRyess.jpeg",
+        "file": "sm.iDIRyess.jpeg",
         "width": 750,
-        "height": 450,
-        "size": 42479
+        "height": 449,
+        "size": 43701
       },
       {
         "name": "xs",
         "format": "avif",
-        "url": "https://pho.limulus.net/I2nKSYoA/xs.vZEqSIx8.avif",
-        "file": "xs.vZEqSIx8.avif",
+        "url": "https://pho.limulus.net/6yftaf4Z/xs.QtJ05mcU.avif",
+        "file": "xs.QtJ05mcU.avif",
         "width": 325,
         "height": 195,
-        "size": 10861
+        "size": 10968
       },
       {
         "name": "xs",
         "format": "jpeg",
-        "url": "https://pho.limulus.net/I2nKSYoA/xs.jROop3f7.jpeg",
-        "file": "xs.jROop3f7.jpeg",
+        "url": "https://pho.limulus.net/6yftaf4Z/xs.9wle9i15.jpeg",
+        "file": "xs.9wle9i15.jpeg",
         "width": 325,
         "height": 195,
-        "size": 15609
+        "size": 15731
       }
     ]
   }
