@@ -1,16 +1,21 @@
-<picture>
+<pho-picture webc:root>
   <script webc:type="js">
     const { photos } = this.$data
     const { id, renditions } = webc.attributes
     const wantedRenditions = renditions.split(/\s*,\s*/)
     const photo = this.getPhoto(id)
 
-    const srcset = ({ format: wantedFormat }) => {
+    /** @returns {Array<{ name: string, format: string, width: number, url: string }>} */
+    const getRenditions = (wantedFormat) => {
       return photo.renditions
         .filter(
-          ({ name, format }) => wantedRenditions.includes(name) && format === wantedFormat
+          ({ name, format: f }) => wantedRenditions.includes(name) && f === wantedFormat
         )
         .sort(({ width: a }, { width: b }) => b - a)
+    }
+
+    const srcset = ({ format: wantedFormat }) => {
+      return getRenditions(wantedFormat)
         .map(({ url, width }) => `${url} ${width}w`)
         .join(', ')
     }
@@ -20,18 +25,47 @@
         .url
     }
 
+    const largest = getRenditions('jpeg').shift()
+
     const html = /* HTML */ `
-      <source srcset="${srcset({ format: 'avif' })}" type="image/avif" />
-      <source srcset="${srcset({ format: 'jpeg' })}" type="image/jpeg" />
-      <img-fallback
-        src="${src({ id })}"
-        alt="${alt ?? photo.description}"
-        width="${photo.width}"
-        height="${photo.height}"
-        ${webc.renderAttributes(webc.attributes)}
-      />
+      <blur-hash
+        blurhash="${photo.blurhash}"
+        width="${largest.width}"
+        height="${largest.height}"
+      >
+        <picture>
+          <source
+            srcset="${srcset({ format: 'avif' })}"
+            type="image/avif"
+            width="${largest.width}"
+            height="${largest.height}"
+          />
+          <source
+            srcset="${srcset({ format: 'jpeg' })}"
+            type="image/jpeg"
+            width="${largest.width}"
+            height="${largest.height}"
+          />
+          <img-fallback
+            src="${largest.url}"
+            srcset="${srcset({ format: 'jpeg' })}"
+            alt="${alt ?? photo.description}"
+            width="${largest.width}"
+            height="${largest.height}"
+            ${webc.renderAttributes(webc.attributes)}
+          />
+        </picture>
+      </blur-hash>
     `
 
     html
   </script>
-</picture>
+</pho-picture>
+
+<style>
+  pho-picture img {
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+</style>
