@@ -113,6 +113,7 @@
 
     <meta name="generator" :content="eleventy.generator" />
 
+    <script type="module" src="/lib/common/index.XXXXXXXX.js" async webc:keep></script>
     <script webc:type="js">
       getBundle('html', 'head')
     </script>

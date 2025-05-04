@@ -75,4 +75,9 @@ layout: base.webc
     webc:keep
   ></script>
 </div>
-<script type="module" src="/lib/common/index.XXXXXXXX.js" async webc:keep></script>
+
+<script type="module" async webc:keep>
+  if (window.location.hostname.endsWith('limulus.net')) {
+    import('/lib/rum/index.XXXXXXXX.js')
+  }
+</script>
