@@ -157,7 +157,7 @@ async function processFile(file) {
     exposureMode: meta.exif.ExposureMode?.description,
     whiteBalance: meta.exif.WhiteBalance?.description,
     sourceExposureTimesOfCompositeImage:
-      meta.exif.SourceExposureTimesOfCompositeImage?.description,
+      meta.xmp?.SourceExposureTimesOfCompositeImage?.description,
     blurhash,
     location: meta.gps
       ? {
