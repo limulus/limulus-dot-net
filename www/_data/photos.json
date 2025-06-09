@@ -2468,6 +2468,7 @@
     "flash": "Flash did not fire, compulsory flash mode",
     "exposureMode": "Auto exposure",
     "whiteBalance": "Auto white balance",
+    "sourceExposureTimesOfCompositeImage": "0; 33298/9605; 0; 14151/65311; 0; 14151/65311; 0; 0",
     "blurhash": "LGEui-,E{z6%ogn%#lw|1^n%J,bH",
     "location": {
       "latitude": 32.44250555555555,

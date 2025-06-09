@@ -156,6 +156,8 @@ async function processFile(file) {
     flash: meta.exif.Flash?.description,
     exposureMode: meta.exif.ExposureMode?.description,
     whiteBalance: meta.exif.WhiteBalance?.description,
+    sourceExposureTimesOfCompositeImage:
+      meta.exif.SourceExposureTimesOfCompositeImage?.description,
     blurhash,
     location: meta.gps
       ? {

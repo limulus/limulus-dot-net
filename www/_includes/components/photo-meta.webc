@@ -78,6 +78,15 @@
     }
 
     const exposureTime = (photo) => {
+      if (photo.sourceExposureTimesOfCompositeImage) {
+        const times = photo.sourceExposureTimesOfCompositeImage.split(';')
+        if (times.length >= 2) {
+          const [numerator, denominator] = times[1].split('/')
+          const exposureValue = parseFloat(numerator) / parseFloat(denominator)
+          return `${exposureValue.toFixed(1)}s`
+        }
+      }
+
       return `${photo.exposureTime}s`
     }
 
