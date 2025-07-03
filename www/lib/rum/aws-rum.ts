@@ -1,7 +1,7 @@
 import { AwsRum, AwsRumConfig } from 'aws-rum-web'
 
 const config: AwsRumConfig = {
-  sessionSampleRate: 1,
+  sessionSampleRate: 0.05,
   guestRoleArn:
     'arn:aws:iam::865116139480:role/RUM-Monitor-us-west-2-865116139480-6394798381171-Unauth',
   identityPoolId: 'us-west-2:074a9839-ab68-4f88-9461-fc5b39119ecf',
