@@ -28,7 +28,8 @@ jobs:
           parameter-overrides: >-
             BranchName=${{ github.ref_name }},
             LimulusDotNetZoneId=${{ secrets.LIMULUS_DOT_NET_ZONE_ID }},
-            LimulusDotNetCertificateArn=${{ secrets.LIMULUS_DOT_NET_CERTIFICATE_ARN }}
+            LimulusDotNetCertificateArn=${{ secrets.LIMULUS_DOT_NET_CERTIFICATE_ARN }},
+            LogProcessingSqsQueueArn=${{ secrets.LOG_PROCESSING_SQS_QUEUE_ARN }}
 
   build:
     runs-on: ubuntu-latest
