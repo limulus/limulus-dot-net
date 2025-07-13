@@ -8,9 +8,6 @@ Parameters:
   LimulusDotNetCertificateArn:
     Type: String
     Description: The ARN of the certificate for limulus.net (and www and *)
-  LogProcessingSqsQueueArn:
-    Type: String
-    Description: The ARN of the SQS queue for processing CloudFront logs
 
 Outputs:
   StaticSiteBucketName:
@@ -19,6 +16,9 @@ Outputs:
   CloudFrontDistributionLogsBucketName:
     Description: 'Name of the CloudFront distribution logs S3 bucket'
     Value: !Ref CloudFrontDistributionLogsBucket
+  LogProcessingSqsQueueArn:
+    Description: 'ARN of the SQS queue for processing CloudFront logs'
+    Value: !GetAtt LogProcessingSqsQueue.Arn
 
 Conditions:
   IsMainBranch:
@@ -174,7 +174,7 @@ Resources:
       NotificationConfiguration:
         QueueConfigurations:
           - Event: s3:ObjectCreated:*
-            Queue: !Ref LogProcessingSqsQueueArn
+            Queue: !GetAtt LogProcessingSqsQueue.Arn
             Filter:
               S3Key:
                 Rules:
@@ -350,3 +350,37 @@ Resources:
             Effect: Allow
             Principal:
               Service: cloudfront.amazonaws.com
+
+  LogProcessingSqsQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: !Sub 'limulus-dot-net-log-processing-${BranchName}'
+      MessageRetentionPeriod: 1209600
+      VisibilityTimeout: 300
+      RedrivePolicy:
+        deadLetterTargetArn: !GetAtt LogProcessingSqsDeadLetterQueue.Arn
+        maxReceiveCount: 3
+
+  LogProcessingSqsDeadLetterQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: !Sub 'limulus-dot-net-log-processing-dlq-${BranchName}'
+      MessageRetentionPeriod: 1209600
+
+  LogProcessingSqsQueuePolicy:
+    Type: AWS::SQS::QueuePolicy
+    Properties:
+      Queues:
+        - !Ref LogProcessingSqsQueue
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: AllowS3ToSendMessage
+            Effect: Allow
+            Principal:
+              Service: s3.amazonaws.com
+            Action: sqs:SendMessage
+            Resource: !GetAtt LogProcessingSqsQueue.Arn
+            Condition:
+              StringEquals:
+                aws:SourceAccount: !Ref AWS::AccountId
