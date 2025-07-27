@@ -272,7 +272,7 @@ Resources:
               statusDescription: 'Found',
               headers: {
                 location: {
-                  value: 'https://limulus.net/feed/')
+                  value: 'https://limulus.net/feed/'
                 }
               }
             }
