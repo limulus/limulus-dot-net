@@ -220,10 +220,11 @@ Resources:
       Name: !Sub 'limulus-dot-net-rewrite-${BranchName}'
       AutoPublish: true
       FunctionCode: !Sub |
-        const needsIndexHtmlRe = /(\/[^\/.]+)\/*$/
         const penumbraJournalRedirectRe = /^\/penumbra\/journal\/00[1-5]-/
         const mastodonProfileRedirectRe = /^\/@eric\/?/
+        const blogRedirectRe = /^\/blog\/eric\/?$/
         const xsdRewriteRe = /^\/xsd\/([^\/]+)\/v(\d+)$/
+        const needsIndexHtmlRe = /(\/[^\/.]+)\/*$/
 
         function handler(event) {
           const request = event.request
@@ -260,6 +261,18 @@ Resources:
               headers: {
                 location: {
                   value: 'https://mastodon.limulus.net' + request.uri
+                }
+              }
+            }
+          }
+
+          if (blogRedirectRe.test(request.uri)) {
+            return {
+              statusCode: 302,
+              statusDescription: 'Found',
+              headers: {
+                location: {
+                  value: 'https://limulus.net/feed/')
                 }
               }
             }
