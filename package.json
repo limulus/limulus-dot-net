@@ -32,8 +32,8 @@
   },
   "homepage": "https://github.com/limulus/limulus-dot-net#readme",
   "dependencies": {
-    "@11ty/eleventy": "^3.0.0",
-    "@11ty/eleventy-plugin-rss": "^2.0.2",
+    "@11ty/eleventy": "^3.1.2",
+    "@11ty/eleventy-plugin-rss": "^2.0.4",
     "@11ty/eleventy-plugin-webc": "^0.11.2",
     "@limulus/eslint-config": "^5.0.0",
     "@limulus/penumbra": "^1.9.1",
