@@ -19,6 +19,8 @@ jobs:
           node-version: 20
           cache: 'npm'
       - run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::865116139480:role/github-actions-limulus-dot-net-cf
