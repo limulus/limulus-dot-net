@@ -9,6 +9,13 @@
 - Verify all: `npm run verify`
 - Clean build artifacts: `npm run clean`
 
+## Infrastructure Commands
+
+- Synthesize CDK template: `npm run cdkc`
+- Deploy infrastructure: `npx cdk deploy`
+- Diff infrastructure: `npx cdk diff`
+- Destroy infrastructure: `npx cdk destroy`
+
 ## Code Style Guidelines
 
 - TypeScript with strict typing
@@ -25,3 +32,7 @@
 - `/www/_includes`: WebC components and layouts
 - `/www/lib`: TypeScript source for client-side features
 - `/11ty`: Custom Eleventy plugins
+- `/infra`: AWS CDK infrastructure code
+- `/infra/lib`: CDK stack definitions
+- `/infra/functions`: CloudFront Functions (JS)
+- `/infra/test`: Infrastructure tests

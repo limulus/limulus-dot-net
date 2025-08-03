@@ -1,0 +1,3084 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`LimulusDotNetStack > feature branch creates expected resources 1`] = `
+{
+  "Mappings": {
+    "AWSCloudFrontPartitionHostedZoneIdMap": {
+      "aws": {
+        "zoneId": "Z2FDTNDATAQYW2",
+      },
+      "aws-cn": {
+        "zoneId": "Z3RFFRIM2A3IF5",
+      },
+    },
+    "LatestNodeRuntimeMap": {
+      "af-south-1": {
+        "value": "nodejs22.x",
+      },
+      "ap-east-1": {
+        "value": "nodejs22.x",
+      },
+      "ap-east-2": {
+        "value": "nodejs22.x",
+      },
+      "ap-northeast-1": {
+        "value": "nodejs22.x",
+      },
+      "ap-northeast-2": {
+        "value": "nodejs22.x",
+      },
+      "ap-northeast-3": {
+        "value": "nodejs22.x",
+      },
+      "ap-south-1": {
+        "value": "nodejs22.x",
+      },
+      "ap-south-2": {
+        "value": "nodejs22.x",
+      },
+      "ap-southeast-1": {
+        "value": "nodejs22.x",
+      },
+      "ap-southeast-2": {
+        "value": "nodejs22.x",
+      },
+      "ap-southeast-3": {
+        "value": "nodejs22.x",
+      },
+      "ap-southeast-4": {
+        "value": "nodejs22.x",
+      },
+      "ap-southeast-5": {
+        "value": "nodejs22.x",
+      },
+      "ap-southeast-6": {
+        "value": "nodejs22.x",
+      },
+      "ap-southeast-7": {
+        "value": "nodejs22.x",
+      },
+      "ca-central-1": {
+        "value": "nodejs22.x",
+      },
+      "ca-west-1": {
+        "value": "nodejs22.x",
+      },
+      "cn-north-1": {
+        "value": "nodejs22.x",
+      },
+      "cn-northwest-1": {
+        "value": "nodejs22.x",
+      },
+      "eu-central-1": {
+        "value": "nodejs22.x",
+      },
+      "eu-central-2": {
+        "value": "nodejs22.x",
+      },
+      "eu-isoe-west-1": {
+        "value": "nodejs18.x",
+      },
+      "eu-north-1": {
+        "value": "nodejs22.x",
+      },
+      "eu-south-1": {
+        "value": "nodejs22.x",
+      },
+      "eu-south-2": {
+        "value": "nodejs22.x",
+      },
+      "eu-west-1": {
+        "value": "nodejs22.x",
+      },
+      "eu-west-2": {
+        "value": "nodejs22.x",
+      },
+      "eu-west-3": {
+        "value": "nodejs22.x",
+      },
+      "eusc-de-east-1": {
+        "value": "nodejs22.x",
+      },
+      "il-central-1": {
+        "value": "nodejs22.x",
+      },
+      "me-central-1": {
+        "value": "nodejs22.x",
+      },
+      "me-south-1": {
+        "value": "nodejs22.x",
+      },
+      "mx-central-1": {
+        "value": "nodejs22.x",
+      },
+      "sa-east-1": {
+        "value": "nodejs22.x",
+      },
+      "us-east-1": {
+        "value": "nodejs22.x",
+      },
+      "us-east-2": {
+        "value": "nodejs22.x",
+      },
+      "us-gov-east-1": {
+        "value": "nodejs22.x",
+      },
+      "us-gov-west-1": {
+        "value": "nodejs22.x",
+      },
+      "us-iso-east-1": {
+        "value": "nodejs18.x",
+      },
+      "us-iso-west-1": {
+        "value": "nodejs18.x",
+      },
+      "us-isob-east-1": {
+        "value": "nodejs18.x",
+      },
+      "us-isob-west-1": {
+        "value": "nodejs18.x",
+      },
+      "us-west-1": {
+        "value": "nodejs22.x",
+      },
+      "us-west-2": {
+        "value": "nodejs22.x",
+      },
+    },
+  },
+  "Metadata": {
+    "cdk_nag": {
+      "rules_to_suppress": [
+        {
+          "applies_to": [
+            "Policy::arn:<AWS::Partition>:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+          ],
+          "id": "AwsSolutions-IAM4",
+          "reason": "AWS managed policy AWSLambdaBasicExecutionRole is appropriate for auto-generated S3 notification handler",
+        },
+        {
+          "applies_to": [
+            "Resource::*",
+          ],
+          "id": "AwsSolutions-IAM5",
+          "reason": "Wildcard permissions are required for auto-generated S3 notification handler to access CloudWatch logs",
+        },
+      ],
+    },
+  },
+  "Outputs": {
+    "CloudFrontDistributionLogsBucketName": {
+      "Description": "Name of the CloudFront distribution logs S3 bucket",
+      "Value": {
+        "Ref": "CloudFrontDistributionLogsBucketA229EF73",
+      },
+    },
+    "LogProcessingSqsQueueArn": {
+      "Description": "ARN of the SQS queue for processing CloudFront logs",
+      "Value": {
+        "Fn::GetAtt": [
+          "LogProcessingSqsQueueEB4F57A0",
+          "Arn",
+        ],
+      },
+    },
+    "StaticSiteBucketName": {
+      "Description": "Name of the static site S3 bucket",
+      "Value": {
+        "Ref": "StaticSiteBucket8958EE3F",
+      },
+    },
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "BranchAliasRecord6D790B76": {
+      "Properties": {
+        "AliasTarget": {
+          "DNSName": {
+            "Fn::GetAtt": [
+              "CloudFrontDistributionBA64CE3A",
+              "DomainName",
+            ],
+          },
+          "HostedZoneId": {
+            "Fn::FindInMap": [
+              "AWSCloudFrontPartitionHostedZoneIdMap",
+              {
+                "Ref": "AWS::Partition",
+              },
+              "zoneId",
+            ],
+          },
+        },
+        "HostedZoneId": "Z123456789ABCDEFGH",
+        "Name": "cdk.limulus.net.",
+        "Type": "A",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "BranchAliasRecordAAAADD566540": {
+      "Properties": {
+        "AliasTarget": {
+          "DNSName": {
+            "Fn::GetAtt": [
+              "CloudFrontDistributionBA64CE3A",
+              "DomainName",
+            ],
+          },
+          "HostedZoneId": {
+            "Fn::FindInMap": [
+              "AWSCloudFrontPartitionHostedZoneIdMap",
+              {
+                "Ref": "AWS::Partition",
+              },
+              "zoneId",
+            ],
+          },
+        },
+        "HostedZoneId": "Z123456789ABCDEFGH",
+        "Name": "cdk.limulus.net.",
+        "Type": "AAAA",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "BucketNotificationsHandler050a0587b7544547bf325f094a3db8347ECC3691": {
+      "DependsOn": [
+        "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleDefaultPolicy2CF63D36",
+        "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleB6FB88EC",
+      ],
+      "Properties": {
+        "Code": {
+          "ZipFile": "import boto3  # type: ignore
+import json
+import logging
+import urllib.request
+
+s3 = boto3.client("s3")
+
+EVENTBRIDGE_CONFIGURATION = 'EventBridgeConfiguration'
+CONFIGURATION_TYPES = ["TopicConfigurations", "QueueConfigurations", "LambdaFunctionConfigurations"]
+
+def handler(event: dict, context):
+  response_status = "SUCCESS"
+  error_message = ""
+  try:
+    props = event["ResourceProperties"]
+    notification_configuration = props["NotificationConfiguration"]
+    managed = props.get('Managed', 'true').lower() == 'true'
+    skipDestinationValidation = props.get('SkipDestinationValidation', 'false').lower() == 'true'
+    stack_id = event['StackId']
+    old = event.get("OldResourceProperties", {}).get("NotificationConfiguration", {})
+    if managed:
+      config = handle_managed(event["RequestType"], notification_configuration)
+    else:
+      config = handle_unmanaged(props["BucketName"], stack_id, event["RequestType"], notification_configuration, old)
+    s3.put_bucket_notification_configuration(Bucket=props["BucketName"], NotificationConfiguration=config, SkipDestinationValidation=skipDestinationValidation)
+  except Exception as e:
+    logging.exception("Failed to put bucket notification configuration")
+    response_status = "FAILED"
+    error_message = f"Error: {str(e)}. "
+  finally:
+    submit_response(event, context, response_status, error_message)
+
+def handle_managed(request_type, notification_configuration):
+  if request_type == 'Delete':
+    return {}
+  return notification_configuration
+
+def handle_unmanaged(bucket, stack_id, request_type, notification_configuration, old):
+  def get_id(n):
+    n['Id'] = ''
+    sorted_notifications = sort_filter_rules(n)
+    strToHash=json.dumps(sorted_notifications, sort_keys=True).replace('"Name": "prefix"', '"Name": "Prefix"').replace('"Name": "suffix"', '"Name": "Suffix"')
+    return f"{stack_id}-{hash(strToHash)}"
+  def with_id(n):
+    n['Id'] = get_id(n)
+    return n
+
+  external_notifications = {}
+  existing_notifications = s3.get_bucket_notification_configuration(Bucket=bucket)
+  for t in CONFIGURATION_TYPES:
+    if request_type == 'Update':
+        old_incoming_ids = [get_id(n) for n in old.get(t, [])]
+        external_notifications[t] = [n for n in existing_notifications.get(t, []) if not get_id(n) in old_incoming_ids]      
+    elif request_type == 'Delete':
+        external_notifications[t] = [n for n in existing_notifications.get(t, []) if not n['Id'].startswith(f"{stack_id}-")]
+    elif request_type == 'Create':
+        external_notifications[t] = [n for n in existing_notifications.get(t, [])]
+  if EVENTBRIDGE_CONFIGURATION in existing_notifications:
+    external_notifications[EVENTBRIDGE_CONFIGURATION] = existing_notifications[EVENTBRIDGE_CONFIGURATION]
+
+  if request_type == 'Delete':
+    return external_notifications
+
+  notifications = {}
+  for t in CONFIGURATION_TYPES:
+    external = external_notifications.get(t, [])
+    incoming = [with_id(n) for n in notification_configuration.get(t, [])]
+    notifications[t] = external + incoming
+
+  if EVENTBRIDGE_CONFIGURATION in notification_configuration:
+    notifications[EVENTBRIDGE_CONFIGURATION] = notification_configuration[EVENTBRIDGE_CONFIGURATION]
+  elif EVENTBRIDGE_CONFIGURATION in external_notifications:
+    notifications[EVENTBRIDGE_CONFIGURATION] = external_notifications[EVENTBRIDGE_CONFIGURATION]
+
+  return notifications
+
+def submit_response(event: dict, context, response_status: str, error_message: str):
+  response_body = json.dumps(
+    {
+      "Status": response_status,
+      "Reason": f"{error_message}See the details in CloudWatch Log Stream: {context.log_stream_name}",
+      "PhysicalResourceId": event.get("PhysicalResourceId") or event["LogicalResourceId"],
+      "StackId": event["StackId"],
+      "RequestId": event["RequestId"],
+      "LogicalResourceId": event["LogicalResourceId"],
+      "NoEcho": False,
+    }
+  ).encode("utf-8")
+  headers = {"content-type": "", "content-length": str(len(response_body))}
+  try:
+    req = urllib.request.Request(url=event["ResponseURL"], headers=headers, data=response_body, method="PUT")
+    with urllib.request.urlopen(req) as response:
+      print(response.read().decode("utf-8"))
+    print("Status code: " + response.reason)
+  except Exception as e:
+      print("send(..) failed executing request.urlopen(..): " + str(e))
+
+def sort_filter_rules(json_obj):
+  if not isinstance(json_obj, dict):
+      return json_obj
+  for key, value in json_obj.items():
+      if isinstance(value, dict):
+          json_obj[key] = sort_filter_rules(value)
+      elif isinstance(value, list):
+          json_obj[key] = [sort_filter_rules(item) for item in value]
+  if "Filter" in json_obj and "Key" in json_obj["Filter"] and "FilterRules" in json_obj["Filter"]["Key"]:
+      filter_rules = json_obj["Filter"]["Key"]["FilterRules"]
+      sorted_filter_rules = sorted(filter_rules, key=lambda x: x["Name"])
+      json_obj["Filter"]["Key"]["FilterRules"] = sorted_filter_rules
+  return json_obj",
+        },
+        "Description": "AWS CloudFormation handler for "Custom::S3BucketNotifications" resources (@aws-cdk/aws-s3)",
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleB6FB88EC",
+            "Arn",
+          ],
+        },
+        "Runtime": "python3.11",
+        "Timeout": 300,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleB6FB88EC": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleDefaultPolicy2CF63D36": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "s3:PutBucketNotification",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleDefaultPolicy2CF63D36",
+        "Roles": [
+          {
+            "Ref": "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleB6FB88EC",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "CloudFrontDistributionBA64CE3A": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-CFR1",
+              "reason": "Geo restrictions not required for public static website",
+            },
+            {
+              "id": "AwsSolutions-CFR2",
+              "reason": "WAF not required for static website content without dynamic application logic",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "DistributionConfig": {
+          "Aliases": [
+            "cdk.limulus.net",
+          ],
+          "CacheBehaviors": [
+            {
+              "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+              "Compress": true,
+              "OriginRequestPolicyId": "88a5eaf4-2fd4-4709-b370-b4c650ea3fcf",
+              "PathPattern": "/.well-known/webfinger",
+              "TargetOriginId": "TestStackCloudFrontDistributionOrigin2141047F8",
+              "ViewerProtocolPolicy": "redirect-to-https",
+            },
+            {
+              "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+              "Compress": true,
+              "OriginRequestPolicyId": "88a5eaf4-2fd4-4709-b370-b4c650ea3fcf",
+              "PathPattern": "/.well-known/host-meta",
+              "TargetOriginId": "TestStackCloudFrontDistributionOrigin3385189FF",
+              "ViewerProtocolPolicy": "redirect-to-https",
+            },
+            {
+              "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+              "Compress": true,
+              "OriginRequestPolicyId": "88a5eaf4-2fd4-4709-b370-b4c650ea3fcf",
+              "PathPattern": "/.well-known/nodeinfo",
+              "TargetOriginId": "TestStackCloudFrontDistributionOrigin4ABD8BCAB",
+              "ViewerProtocolPolicy": "redirect-to-https",
+            },
+            {
+              "CachePolicyId": {
+                "Ref": "CloudFrontDistributionForeverCachePolicy7E1BBE93",
+              },
+              "Compress": true,
+              "PathPattern": "/assets/immutable/*",
+              "ResponseHeadersPolicyId": {
+                "Ref": "CloudFrontImmutableResponseHeadersPolicyC2635014",
+              },
+              "TargetOriginId": "TestStackCloudFrontDistributionOrigin5EE1C52A8",
+              "ViewerProtocolPolicy": "redirect-to-https",
+            },
+            {
+              "CachePolicyId": {
+                "Ref": "CloudFrontDistributionForeverCachePolicy7E1BBE93",
+              },
+              "Compress": true,
+              "PathPattern": "/*.????????.*",
+              "ResponseHeadersPolicyId": {
+                "Ref": "CloudFrontImmutableResponseHeadersPolicyC2635014",
+              },
+              "TargetOriginId": "TestStackCloudFrontDistributionOrigin62B891E0A",
+              "ViewerProtocolPolicy": "redirect-to-https",
+            },
+          ],
+          "Comment": "limulus-dot-net cdk",
+          "CustomErrorResponses": [
+            {
+              "ErrorCachingMinTTL": 30,
+              "ErrorCode": 404,
+              "ResponseCode": 404,
+              "ResponsePagePath": "/404/index.html",
+            },
+          ],
+          "DefaultCacheBehavior": {
+            "CachePolicyId": {
+              "Ref": "CloudFrontDistributionDefaultCachePolicy62CD01AF",
+            },
+            "Compress": true,
+            "FunctionAssociations": [
+              {
+                "EventType": "viewer-request",
+                "FunctionARN": {
+                  "Fn::GetAtt": [
+                    "CloudFrontRequestFunction8D53A99A",
+                    "FunctionARN",
+                  ],
+                },
+              },
+            ],
+            "ResponseHeadersPolicyId": {
+              "Ref": "CloudFrontResponseHeadersPolicyAE075C65",
+            },
+            "TargetOriginId": "TestStackCloudFrontDistributionOrigin1E693558A",
+            "ViewerProtocolPolicy": "redirect-to-https",
+          },
+          "DefaultRootObject": "index.html",
+          "Enabled": true,
+          "HttpVersion": "http2and3",
+          "IPV6Enabled": true,
+          "Logging": {
+            "Bucket": {
+              "Fn::GetAtt": [
+                "CloudFrontDistributionLogsBucketA229EF73",
+                "RegionalDomainName",
+              ],
+            },
+            "IncludeCookies": false,
+            "Prefix": "limulus-dot-net/",
+          },
+          "Origins": [
+            {
+              "DomainName": {
+                "Fn::GetAtt": [
+                  "StaticSiteBucket8958EE3F",
+                  "RegionalDomainName",
+                ],
+              },
+              "Id": "TestStackCloudFrontDistributionOrigin1E693558A",
+              "OriginAccessControlId": {
+                "Fn::GetAtt": [
+                  "StaticSiteOAC0E9675D5",
+                  "Id",
+                ],
+              },
+              "S3OriginConfig": {
+                "OriginAccessIdentity": "",
+              },
+            },
+            {
+              "CustomOriginConfig": {
+                "HTTPPort": 80,
+                "HTTPSPort": 443,
+                "OriginProtocolPolicy": "https-only",
+                "OriginSSLProtocols": [
+                  "TLSv1.2",
+                ],
+              },
+              "DomainName": "mastodon.limulus.net",
+              "Id": "TestStackCloudFrontDistributionOrigin2141047F8",
+            },
+            {
+              "CustomOriginConfig": {
+                "HTTPPort": 80,
+                "HTTPSPort": 443,
+                "OriginProtocolPolicy": "https-only",
+                "OriginSSLProtocols": [
+                  "TLSv1.2",
+                ],
+              },
+              "DomainName": "mastodon.limulus.net",
+              "Id": "TestStackCloudFrontDistributionOrigin3385189FF",
+            },
+            {
+              "CustomOriginConfig": {
+                "HTTPPort": 80,
+                "HTTPSPort": 443,
+                "OriginProtocolPolicy": "https-only",
+                "OriginSSLProtocols": [
+                  "TLSv1.2",
+                ],
+              },
+              "DomainName": "mastodon.limulus.net",
+              "Id": "TestStackCloudFrontDistributionOrigin4ABD8BCAB",
+            },
+            {
+              "DomainName": {
+                "Fn::GetAtt": [
+                  "StaticSiteBucket8958EE3F",
+                  "RegionalDomainName",
+                ],
+              },
+              "Id": "TestStackCloudFrontDistributionOrigin5EE1C52A8",
+              "OriginAccessControlId": {
+                "Fn::GetAtt": [
+                  "StaticSiteOAC0E9675D5",
+                  "Id",
+                ],
+              },
+              "S3OriginConfig": {
+                "OriginAccessIdentity": "",
+              },
+            },
+            {
+              "DomainName": {
+                "Fn::GetAtt": [
+                  "StaticSiteBucket8958EE3F",
+                  "RegionalDomainName",
+                ],
+              },
+              "Id": "TestStackCloudFrontDistributionOrigin62B891E0A",
+              "OriginAccessControlId": {
+                "Fn::GetAtt": [
+                  "StaticSiteOAC0E9675D5",
+                  "Id",
+                ],
+              },
+              "S3OriginConfig": {
+                "OriginAccessIdentity": "",
+              },
+            },
+          ],
+          "PriceClass": "PriceClass_All",
+          "ViewerCertificate": {
+            "AcmCertificateArn": "arn:aws:acm:us-east-1:123456789012:certificate/test-cert-id",
+            "MinimumProtocolVersion": "TLSv1.2_2021",
+            "SslSupportMethod": "sni-only",
+          },
+        },
+      },
+      "Type": "AWS::CloudFront::Distribution",
+    },
+    "CloudFrontDistributionDefaultCachePolicy62CD01AF": {
+      "Properties": {
+        "CachePolicyConfig": {
+          "Comment": "Default cache policy for limulus.net",
+          "DefaultTTL": 60,
+          "MaxTTL": 31536000,
+          "MinTTL": 0,
+          "Name": "limulus-dot-net-cache-cdk",
+          "ParametersInCacheKeyAndForwardedToOrigin": {
+            "CookiesConfig": {
+              "CookieBehavior": "none",
+            },
+            "EnableAcceptEncodingBrotli": true,
+            "EnableAcceptEncodingGzip": true,
+            "HeadersConfig": {
+              "HeaderBehavior": "none",
+            },
+            "QueryStringsConfig": {
+              "QueryStringBehavior": "none",
+            },
+          },
+        },
+      },
+      "Type": "AWS::CloudFront::CachePolicy",
+    },
+    "CloudFrontDistributionForeverCachePolicy7E1BBE93": {
+      "Properties": {
+        "CachePolicyConfig": {
+          "Comment": "Cache policy for immutable assets",
+          "DefaultTTL": 31536000,
+          "MaxTTL": 31536000,
+          "MinTTL": 31536000,
+          "Name": "limulus-dot-net-forever-cache-cdk",
+          "ParametersInCacheKeyAndForwardedToOrigin": {
+            "CookiesConfig": {
+              "CookieBehavior": "none",
+            },
+            "EnableAcceptEncodingBrotli": true,
+            "EnableAcceptEncodingGzip": true,
+            "HeadersConfig": {
+              "HeaderBehavior": "none",
+            },
+            "QueryStringsConfig": {
+              "QueryStringBehavior": "none",
+            },
+          },
+        },
+      },
+      "Type": "AWS::CloudFront::CachePolicy",
+    },
+    "CloudFrontDistributionLogsBucketA229EF73": {
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-S1",
+              "reason": "Overkill for static site",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256",
+              },
+            },
+          ],
+        },
+        "LifecycleConfiguration": {
+          "Rules": [
+            {
+              "Id": "MoveToInfrequentAccess",
+              "Status": "Enabled",
+              "Transitions": [
+                {
+                  "StorageClass": "STANDARD_IA",
+                  "TransitionInDays": 30,
+                },
+              ],
+            },
+          ],
+        },
+        "OwnershipControls": {
+          "Rules": [
+            {
+              "ObjectOwnership": "BucketOwnerEnforced",
+            },
+          ],
+        },
+        "Tags": [
+          {
+            "Key": "aws-cdk:auto-delete-objects",
+            "Value": "true",
+          },
+        ],
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "CloudFrontDistributionLogsBucketAutoDeleteObjectsCustomResourceB08B9614": {
+      "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "CloudFrontDistributionLogsBucketPolicy2C8E4618",
+      ],
+      "Properties": {
+        "BucketName": {
+          "Ref": "CloudFrontDistributionLogsBucketA229EF73",
+        },
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::S3AutoDeleteObjects",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "CloudFrontDistributionLogsBucketNotifications6FBD14DB": {
+      "DependsOn": [
+        "CloudFrontDistributionLogsBucketPolicy2C8E4618",
+        "LogProcessingSqsQueuePolicy8F193BCD",
+        "LogProcessingSqsQueueEB4F57A0",
+      ],
+      "Properties": {
+        "BucketName": {
+          "Ref": "CloudFrontDistributionLogsBucketA229EF73",
+        },
+        "Managed": true,
+        "NotificationConfiguration": {
+          "QueueConfigurations": [
+            {
+              "Events": [
+                "s3:ObjectCreated:*",
+              ],
+              "Filter": {
+                "Key": {
+                  "FilterRules": [
+                    {
+                      "Name": "prefix",
+                      "Value": "limulus-dot-net/",
+                    },
+                  ],
+                },
+              },
+              "QueueArn": {
+                "Fn::GetAtt": [
+                  "LogProcessingSqsQueueEB4F57A0",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+        },
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "BucketNotificationsHandler050a0587b7544547bf325f094a3db8347ECC3691",
+            "Arn",
+          ],
+        },
+        "SkipDestinationValidation": false,
+      },
+      "Type": "Custom::S3BucketNotifications",
+    },
+    "CloudFrontDistributionLogsBucketPolicy2C8E4618": {
+      "Properties": {
+        "Bucket": {
+          "Ref": "CloudFrontDistributionLogsBucketA229EF73",
+        },
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "s3:*",
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": "false",
+                },
+              },
+              "Effect": "Deny",
+              "Principal": {
+                "AWS": "*",
+              },
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "CloudFrontDistributionLogsBucketA229EF73",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "CloudFrontDistributionLogsBucketA229EF73",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": [
+                "s3:PutBucketPolicy",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::GetAtt": [
+                    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+                    "Arn",
+                  ],
+                },
+              },
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "CloudFrontDistributionLogsBucketA229EF73",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "CloudFrontDistributionLogsBucketA229EF73",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::S3::BucketPolicy",
+    },
+    "CloudFrontImmutableResponseHeadersPolicyC2635014": {
+      "Properties": {
+        "ResponseHeadersPolicyConfig": {
+          "Comment": "Add headers to cache resources forever",
+          "CustomHeadersConfig": {
+            "Items": [
+              {
+                "Header": "Cache-Control",
+                "Override": true,
+                "Value": "public, max-age=31536000, immutable",
+              },
+              {
+                "Header": "Cross-Origin-Opener-Policy",
+                "Override": false,
+                "Value": "same-origin",
+              },
+              {
+                "Header": "Cross-Origin-Embedder-Policy",
+                "Override": false,
+                "Value": "require-corp",
+              },
+            ],
+          },
+          "Name": "limulus-dot-net-immutable-response-headers-cdk",
+        },
+      },
+      "Type": "AWS::CloudFront::ResponseHeadersPolicy",
+    },
+    "CloudFrontRequestFunction8D53A99A": {
+      "Properties": {
+        "AutoPublish": true,
+        "FunctionCode": "/// <reference types="@types/aws-cloudfront-function" />
+
+/**
+ * CloudFront Request Function for limulus.net
+ *
+ * Handles URL rewrites and redirects for the limulus.net website.
+ * This function runs at CloudFront edge locations for low-latency processing.
+ *
+ * @see https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-functions.html
+ */
+
+/**
+ * Regular expressions for URL matching
+ * Compiled once for performance
+ */
+const PENUMBRA_JOURNAL_REDIRECT_RE = /^\\/penumbra\\/journal\\/00[1-5]-/
+const MASTODON_PROFILE_REDIRECT_RE = /^\\/@eric\\/?/
+const BLOG_REDIRECT_RE = /^\\/blog\\/eric\\/?$/
+const XSD_REWRITE_RE = /^\\/xsd\\/([^/]+)\\/v(\\d+)$/
+const NEEDS_INDEX_HTML_RE = /(\\/[^/.]+)\\/*$/
+
+/**
+ * Main handler function for CloudFront requests
+ *
+ * @param {AWSCloudFrontFunction.Event} event - CloudFront event object containing request details
+ * @returns {AWSCloudFrontFunction.Request | AWSCloudFrontFunction.Response} Modified request object or redirect response
+ */
+function handler(event) {
+  const request = event.request
+  const host = request.headers.host
+
+  // Redirect www.limulus.net to limulus.net
+  if (host && host.value === 'www.limulus.net') {
+    return createRedirectResponse(
+      301,
+      'Moved Permanently',
+      'https://limulus.net' + request.uri
+    )
+  }
+
+  // Handle Penumbra journal legacy URLs with numbered prefixes
+  // Redirect /penumbra/journal/001-foo to /penumbra/journal/foo
+  if (PENUMBRA_JOURNAL_REDIRECT_RE.test(request.uri)) {
+    const newUri = request.uri.replace(/00[1-5]-/, '')
+    return createRedirectResponse(301, 'Moved Permanently', newUri)
+  }
+
+  // Redirect Mastodon profile requests to the actual Mastodon instance
+  if (MASTODON_PROFILE_REDIRECT_RE.test(request.uri)) {
+    return createRedirectResponse(
+      302,
+      'Found',
+      'https://mastodon.limulus.net' + request.uri
+    )
+  }
+
+  // Redirect old blog URL to RSS feed
+  if (BLOG_REDIRECT_RE.test(request.uri)) {
+    return createRedirectResponse(302, 'Found', 'https://limulus.net/feed/')
+  }
+
+  // Rewrite XSD version URLs
+  // Transform /xsd/tcx/v1 to /xsd/tcx/v1.xsd
+  request.uri = request.uri.replace(XSD_REWRITE_RE, '/xsd/$1/v$2.xsd')
+
+  // Add index.html to directory paths
+  request.uri = request.uri.replace(NEEDS_INDEX_HTML_RE, '$1/index.html')
+
+  return request
+}
+
+/**
+ * Helper function to create CloudFront redirect responses
+ *
+ * @param {number} statusCode - HTTP status code (301, 302, etc.)
+ * @param {string} statusDescription - HTTP status description
+ * @param {string} location - Redirect target URL
+ * @returns {AWSCloudFrontFunction.Response} CloudFront response object
+ */
+function createRedirectResponse(statusCode, statusDescription, location) {
+  return {
+    statusCode,
+    statusDescription,
+    headers: {
+      location: {
+        value: location,
+      },
+    },
+  }
+}
+
+// Make functions available globally for testing (when not in CloudFront environment)
+if (typeof globalThis !== 'undefined') {
+  globalThis.handler = handler
+  globalThis.createRedirectResponse = createRedirectResponse
+}
+",
+        "FunctionConfig": {
+          "Comment": "Default request handler - JavaScript with JSDoc types",
+          "Runtime": "cloudfront-js-1.0",
+        },
+        "Name": "limulus-dot-net-rewrite-cdk",
+      },
+      "Type": "AWS::CloudFront::Function",
+    },
+    "CloudFrontResponseHeadersPolicyAE075C65": {
+      "Properties": {
+        "ResponseHeadersPolicyConfig": {
+          "Comment": "Add headers to allow fine grained timers in JS runtime",
+          "CustomHeadersConfig": {
+            "Items": [
+              {
+                "Header": "Cross-Origin-Opener-Policy",
+                "Override": false,
+                "Value": "same-origin",
+              },
+              {
+                "Header": "Cross-Origin-Embedder-Policy",
+                "Override": false,
+                "Value": "require-corp",
+              },
+            ],
+          },
+          "Name": "limulus-dot-net-response-headers-cdk",
+        },
+      },
+      "Type": "AWS::CloudFront::ResponseHeadersPolicy",
+    },
+    "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F": {
+      "DependsOn": [
+        "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6.zip",
+        },
+        "Description": {
+          "Fn::Join": [
+            "",
+            [
+              "Lambda function for auto-deleting objects in ",
+              {
+                "Ref": "StaticSiteBucket8958EE3F",
+              },
+              " S3 bucket.",
+            ],
+          ],
+        },
+        "Handler": "index.handler",
+        "MemorySize": 128,
+        "Role": {
+          "Fn::GetAtt": [
+            "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+            "Arn",
+          ],
+        },
+        "Runtime": {
+          "Fn::FindInMap": [
+            "LatestNodeRuntimeMap",
+            {
+              "Ref": "AWS::Region",
+            },
+            "value",
+          ],
+        },
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Sub": "arn:\${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "LogProcessingSqsDeadLetterQueueBCE15394": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "MessageRetentionPeriod": 1209600,
+        "QueueName": "limulus-dot-net-log-processing-dlq-cdk",
+      },
+      "Type": "AWS::SQS::Queue",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "LogProcessingSqsDeadLetterQueuePolicy01811ECC": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sqs:*",
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": "false",
+                },
+              },
+              "Effect": "Deny",
+              "Principal": {
+                "AWS": "*",
+              },
+              "Resource": {
+                "Fn::GetAtt": [
+                  "LogProcessingSqsDeadLetterQueueBCE15394",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Queues": [
+          {
+            "Ref": "LogProcessingSqsDeadLetterQueueBCE15394",
+          },
+        ],
+      },
+      "Type": "AWS::SQS::QueuePolicy",
+    },
+    "LogProcessingSqsQueueEB4F57A0": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "MessageRetentionPeriod": 1209600,
+        "QueueName": "limulus-dot-net-log-processing-cdk",
+        "RedrivePolicy": {
+          "deadLetterTargetArn": {
+            "Fn::GetAtt": [
+              "LogProcessingSqsDeadLetterQueueBCE15394",
+              "Arn",
+            ],
+          },
+          "maxReceiveCount": 3,
+        },
+        "VisibilityTimeout": 300,
+      },
+      "Type": "AWS::SQS::Queue",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "LogProcessingSqsQueuePolicy8F193BCD": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sqs:*",
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": "false",
+                },
+              },
+              "Effect": "Deny",
+              "Principal": {
+                "AWS": "*",
+              },
+              "Resource": {
+                "Fn::GetAtt": [
+                  "LogProcessingSqsQueueEB4F57A0",
+                  "Arn",
+                ],
+              },
+            },
+            {
+              "Action": [
+                "sqs:SendMessage",
+                "sqs:GetQueueAttributes",
+                "sqs:GetQueueUrl",
+              ],
+              "Condition": {
+                "ArnLike": {
+                  "aws:SourceArn": {
+                    "Fn::GetAtt": [
+                      "CloudFrontDistributionLogsBucketA229EF73",
+                      "Arn",
+                    ],
+                  },
+                },
+              },
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "s3.amazonaws.com",
+              },
+              "Resource": {
+                "Fn::GetAtt": [
+                  "LogProcessingSqsQueueEB4F57A0",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Queues": [
+          {
+            "Ref": "LogProcessingSqsQueueEB4F57A0",
+          },
+        ],
+      },
+      "Type": "AWS::SQS::QueuePolicy",
+    },
+    "StaticSiteBucket8958EE3F": {
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-S1",
+              "reason": "Access logging not required for static website content bucket",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256",
+              },
+            },
+          ],
+        },
+        "Tags": [
+          {
+            "Key": "aws-cdk:auto-delete-objects",
+            "Value": "true",
+          },
+        ],
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "StaticSiteBucketAutoDeleteObjectsCustomResource2478938F": {
+      "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "StaticSiteBucketPolicy54AA1C72",
+      ],
+      "Properties": {
+        "BucketName": {
+          "Ref": "StaticSiteBucket8958EE3F",
+        },
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::S3AutoDeleteObjects",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "StaticSiteBucketPolicy54AA1C72": {
+      "Properties": {
+        "Bucket": {
+          "Ref": "StaticSiteBucket8958EE3F",
+        },
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "s3:*",
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": "false",
+                },
+              },
+              "Effect": "Deny",
+              "Principal": {
+                "AWS": "*",
+              },
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "StaticSiteBucket8958EE3F",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "StaticSiteBucket8958EE3F",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": [
+                "s3:PutBucketPolicy",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::GetAtt": [
+                    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+                    "Arn",
+                  ],
+                },
+              },
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "StaticSiteBucket8958EE3F",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "StaticSiteBucket8958EE3F",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "s3:GetObject",
+              "Condition": {
+                "StringEquals": {
+                  "AWS:SourceArn": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition",
+                        },
+                        ":cloudfront::",
+                        {
+                          "Ref": "AWS::AccountId",
+                        },
+                        ":distribution/",
+                        {
+                          "Ref": "CloudFrontDistributionBA64CE3A",
+                        },
+                      ],
+                    ],
+                  },
+                },
+              },
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "cloudfront.amazonaws.com",
+              },
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    {
+                      "Fn::GetAtt": [
+                        "StaticSiteBucket8958EE3F",
+                        "Arn",
+                      ],
+                    },
+                    "/*",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": "s3:GetObject",
+              "Condition": {
+                "StringEquals": {
+                  "AWS:SourceArn": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition",
+                        },
+                        ":cloudfront::",
+                        {
+                          "Ref": "AWS::AccountId",
+                        },
+                        ":distribution/",
+                        {
+                          "Ref": "CloudFrontDistributionBA64CE3A",
+                        },
+                      ],
+                    ],
+                  },
+                },
+              },
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "cloudfront.amazonaws.com",
+              },
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    {
+                      "Fn::GetAtt": [
+                        "StaticSiteBucket8958EE3F",
+                        "Arn",
+                      ],
+                    },
+                    "/*",
+                  ],
+                ],
+              },
+              "Sid": "AllowCloudFrontServicePrincipalReadOnly",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::S3::BucketPolicy",
+    },
+    "StaticSiteOAC0E9675D5": {
+      "Properties": {
+        "OriginAccessControlConfig": {
+          "Description": "Origin Access Control for static site bucket",
+          "Name": "TestStackStaticSiteOACFB4C2468",
+          "OriginAccessControlOriginType": "s3",
+          "SigningBehavior": "always",
+          "SigningProtocol": "sigv4",
+        },
+      },
+      "Type": "AWS::CloudFront::OriginAccessControl",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`LimulusDotNetStack > main branch creates expected resources 1`] = `
+{
+  "Mappings": {
+    "AWSCloudFrontPartitionHostedZoneIdMap": {
+      "aws": {
+        "zoneId": "Z2FDTNDATAQYW2",
+      },
+      "aws-cn": {
+        "zoneId": "Z3RFFRIM2A3IF5",
+      },
+    },
+    "LatestNodeRuntimeMap": {
+      "af-south-1": {
+        "value": "nodejs22.x",
+      },
+      "ap-east-1": {
+        "value": "nodejs22.x",
+      },
+      "ap-east-2": {
+        "value": "nodejs22.x",
+      },
+      "ap-northeast-1": {
+        "value": "nodejs22.x",
+      },
+      "ap-northeast-2": {
+        "value": "nodejs22.x",
+      },
+      "ap-northeast-3": {
+        "value": "nodejs22.x",
+      },
+      "ap-south-1": {
+        "value": "nodejs22.x",
+      },
+      "ap-south-2": {
+        "value": "nodejs22.x",
+      },
+      "ap-southeast-1": {
+        "value": "nodejs22.x",
+      },
+      "ap-southeast-2": {
+        "value": "nodejs22.x",
+      },
+      "ap-southeast-3": {
+        "value": "nodejs22.x",
+      },
+      "ap-southeast-4": {
+        "value": "nodejs22.x",
+      },
+      "ap-southeast-5": {
+        "value": "nodejs22.x",
+      },
+      "ap-southeast-6": {
+        "value": "nodejs22.x",
+      },
+      "ap-southeast-7": {
+        "value": "nodejs22.x",
+      },
+      "ca-central-1": {
+        "value": "nodejs22.x",
+      },
+      "ca-west-1": {
+        "value": "nodejs22.x",
+      },
+      "cn-north-1": {
+        "value": "nodejs22.x",
+      },
+      "cn-northwest-1": {
+        "value": "nodejs22.x",
+      },
+      "eu-central-1": {
+        "value": "nodejs22.x",
+      },
+      "eu-central-2": {
+        "value": "nodejs22.x",
+      },
+      "eu-isoe-west-1": {
+        "value": "nodejs18.x",
+      },
+      "eu-north-1": {
+        "value": "nodejs22.x",
+      },
+      "eu-south-1": {
+        "value": "nodejs22.x",
+      },
+      "eu-south-2": {
+        "value": "nodejs22.x",
+      },
+      "eu-west-1": {
+        "value": "nodejs22.x",
+      },
+      "eu-west-2": {
+        "value": "nodejs22.x",
+      },
+      "eu-west-3": {
+        "value": "nodejs22.x",
+      },
+      "eusc-de-east-1": {
+        "value": "nodejs22.x",
+      },
+      "il-central-1": {
+        "value": "nodejs22.x",
+      },
+      "me-central-1": {
+        "value": "nodejs22.x",
+      },
+      "me-south-1": {
+        "value": "nodejs22.x",
+      },
+      "mx-central-1": {
+        "value": "nodejs22.x",
+      },
+      "sa-east-1": {
+        "value": "nodejs22.x",
+      },
+      "us-east-1": {
+        "value": "nodejs22.x",
+      },
+      "us-east-2": {
+        "value": "nodejs22.x",
+      },
+      "us-gov-east-1": {
+        "value": "nodejs22.x",
+      },
+      "us-gov-west-1": {
+        "value": "nodejs22.x",
+      },
+      "us-iso-east-1": {
+        "value": "nodejs18.x",
+      },
+      "us-iso-west-1": {
+        "value": "nodejs18.x",
+      },
+      "us-isob-east-1": {
+        "value": "nodejs18.x",
+      },
+      "us-isob-west-1": {
+        "value": "nodejs18.x",
+      },
+      "us-west-1": {
+        "value": "nodejs22.x",
+      },
+      "us-west-2": {
+        "value": "nodejs22.x",
+      },
+    },
+  },
+  "Metadata": {
+    "cdk_nag": {
+      "rules_to_suppress": [
+        {
+          "applies_to": [
+            "Policy::arn:<AWS::Partition>:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+          ],
+          "id": "AwsSolutions-IAM4",
+          "reason": "AWS managed policy AWSLambdaBasicExecutionRole is appropriate for auto-generated S3 notification handler",
+        },
+        {
+          "applies_to": [
+            "Resource::*",
+          ],
+          "id": "AwsSolutions-IAM5",
+          "reason": "Wildcard permissions are required for auto-generated S3 notification handler to access CloudWatch logs",
+        },
+      ],
+    },
+  },
+  "Outputs": {
+    "CloudFrontDistributionLogsBucketName": {
+      "Description": "Name of the CloudFront distribution logs S3 bucket",
+      "Value": {
+        "Ref": "CloudFrontDistributionLogsBucketA229EF73",
+      },
+    },
+    "LogProcessingSqsQueueArn": {
+      "Description": "ARN of the SQS queue for processing CloudFront logs",
+      "Value": {
+        "Fn::GetAtt": [
+          "LogProcessingSqsQueueEB4F57A0",
+          "Arn",
+        ],
+      },
+    },
+    "StaticSiteBucketName": {
+      "Description": "Name of the static site S3 bucket",
+      "Value": {
+        "Ref": "StaticSiteBucket8958EE3F",
+      },
+    },
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "AliasRecord851000D2": {
+      "Properties": {
+        "AliasTarget": {
+          "DNSName": {
+            "Fn::GetAtt": [
+              "CloudFrontDistributionBA64CE3A",
+              "DomainName",
+            ],
+          },
+          "HostedZoneId": {
+            "Fn::FindInMap": [
+              "AWSCloudFrontPartitionHostedZoneIdMap",
+              {
+                "Ref": "AWS::Partition",
+              },
+              "zoneId",
+            ],
+          },
+        },
+        "HostedZoneId": "Z123456789ABCDEFGH",
+        "Name": "limulus.net.",
+        "Type": "A",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "AliasRecordAAAA6FC85F69": {
+      "Properties": {
+        "AliasTarget": {
+          "DNSName": {
+            "Fn::GetAtt": [
+              "CloudFrontDistributionBA64CE3A",
+              "DomainName",
+            ],
+          },
+          "HostedZoneId": {
+            "Fn::FindInMap": [
+              "AWSCloudFrontPartitionHostedZoneIdMap",
+              {
+                "Ref": "AWS::Partition",
+              },
+              "zoneId",
+            ],
+          },
+        },
+        "HostedZoneId": "Z123456789ABCDEFGH",
+        "Name": "limulus.net.",
+        "Type": "AAAA",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "BucketNotificationsHandler050a0587b7544547bf325f094a3db8347ECC3691": {
+      "DependsOn": [
+        "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleDefaultPolicy2CF63D36",
+        "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleB6FB88EC",
+      ],
+      "Properties": {
+        "Code": {
+          "ZipFile": "import boto3  # type: ignore
+import json
+import logging
+import urllib.request
+
+s3 = boto3.client("s3")
+
+EVENTBRIDGE_CONFIGURATION = 'EventBridgeConfiguration'
+CONFIGURATION_TYPES = ["TopicConfigurations", "QueueConfigurations", "LambdaFunctionConfigurations"]
+
+def handler(event: dict, context):
+  response_status = "SUCCESS"
+  error_message = ""
+  try:
+    props = event["ResourceProperties"]
+    notification_configuration = props["NotificationConfiguration"]
+    managed = props.get('Managed', 'true').lower() == 'true'
+    skipDestinationValidation = props.get('SkipDestinationValidation', 'false').lower() == 'true'
+    stack_id = event['StackId']
+    old = event.get("OldResourceProperties", {}).get("NotificationConfiguration", {})
+    if managed:
+      config = handle_managed(event["RequestType"], notification_configuration)
+    else:
+      config = handle_unmanaged(props["BucketName"], stack_id, event["RequestType"], notification_configuration, old)
+    s3.put_bucket_notification_configuration(Bucket=props["BucketName"], NotificationConfiguration=config, SkipDestinationValidation=skipDestinationValidation)
+  except Exception as e:
+    logging.exception("Failed to put bucket notification configuration")
+    response_status = "FAILED"
+    error_message = f"Error: {str(e)}. "
+  finally:
+    submit_response(event, context, response_status, error_message)
+
+def handle_managed(request_type, notification_configuration):
+  if request_type == 'Delete':
+    return {}
+  return notification_configuration
+
+def handle_unmanaged(bucket, stack_id, request_type, notification_configuration, old):
+  def get_id(n):
+    n['Id'] = ''
+    sorted_notifications = sort_filter_rules(n)
+    strToHash=json.dumps(sorted_notifications, sort_keys=True).replace('"Name": "prefix"', '"Name": "Prefix"').replace('"Name": "suffix"', '"Name": "Suffix"')
+    return f"{stack_id}-{hash(strToHash)}"
+  def with_id(n):
+    n['Id'] = get_id(n)
+    return n
+
+  external_notifications = {}
+  existing_notifications = s3.get_bucket_notification_configuration(Bucket=bucket)
+  for t in CONFIGURATION_TYPES:
+    if request_type == 'Update':
+        old_incoming_ids = [get_id(n) for n in old.get(t, [])]
+        external_notifications[t] = [n for n in existing_notifications.get(t, []) if not get_id(n) in old_incoming_ids]      
+    elif request_type == 'Delete':
+        external_notifications[t] = [n for n in existing_notifications.get(t, []) if not n['Id'].startswith(f"{stack_id}-")]
+    elif request_type == 'Create':
+        external_notifications[t] = [n for n in existing_notifications.get(t, [])]
+  if EVENTBRIDGE_CONFIGURATION in existing_notifications:
+    external_notifications[EVENTBRIDGE_CONFIGURATION] = existing_notifications[EVENTBRIDGE_CONFIGURATION]
+
+  if request_type == 'Delete':
+    return external_notifications
+
+  notifications = {}
+  for t in CONFIGURATION_TYPES:
+    external = external_notifications.get(t, [])
+    incoming = [with_id(n) for n in notification_configuration.get(t, [])]
+    notifications[t] = external + incoming
+
+  if EVENTBRIDGE_CONFIGURATION in notification_configuration:
+    notifications[EVENTBRIDGE_CONFIGURATION] = notification_configuration[EVENTBRIDGE_CONFIGURATION]
+  elif EVENTBRIDGE_CONFIGURATION in external_notifications:
+    notifications[EVENTBRIDGE_CONFIGURATION] = external_notifications[EVENTBRIDGE_CONFIGURATION]
+
+  return notifications
+
+def submit_response(event: dict, context, response_status: str, error_message: str):
+  response_body = json.dumps(
+    {
+      "Status": response_status,
+      "Reason": f"{error_message}See the details in CloudWatch Log Stream: {context.log_stream_name}",
+      "PhysicalResourceId": event.get("PhysicalResourceId") or event["LogicalResourceId"],
+      "StackId": event["StackId"],
+      "RequestId": event["RequestId"],
+      "LogicalResourceId": event["LogicalResourceId"],
+      "NoEcho": False,
+    }
+  ).encode("utf-8")
+  headers = {"content-type": "", "content-length": str(len(response_body))}
+  try:
+    req = urllib.request.Request(url=event["ResponseURL"], headers=headers, data=response_body, method="PUT")
+    with urllib.request.urlopen(req) as response:
+      print(response.read().decode("utf-8"))
+    print("Status code: " + response.reason)
+  except Exception as e:
+      print("send(..) failed executing request.urlopen(..): " + str(e))
+
+def sort_filter_rules(json_obj):
+  if not isinstance(json_obj, dict):
+      return json_obj
+  for key, value in json_obj.items():
+      if isinstance(value, dict):
+          json_obj[key] = sort_filter_rules(value)
+      elif isinstance(value, list):
+          json_obj[key] = [sort_filter_rules(item) for item in value]
+  if "Filter" in json_obj and "Key" in json_obj["Filter"] and "FilterRules" in json_obj["Filter"]["Key"]:
+      filter_rules = json_obj["Filter"]["Key"]["FilterRules"]
+      sorted_filter_rules = sorted(filter_rules, key=lambda x: x["Name"])
+      json_obj["Filter"]["Key"]["FilterRules"] = sorted_filter_rules
+  return json_obj",
+        },
+        "Description": "AWS CloudFormation handler for "Custom::S3BucketNotifications" resources (@aws-cdk/aws-s3)",
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleB6FB88EC",
+            "Arn",
+          ],
+        },
+        "Runtime": "python3.11",
+        "Timeout": 300,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleB6FB88EC": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleDefaultPolicy2CF63D36": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "s3:PutBucketNotification",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleDefaultPolicy2CF63D36",
+        "Roles": [
+          {
+            "Ref": "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleB6FB88EC",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "CloudFrontDistributionBA64CE3A": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-CFR1",
+              "reason": "Geo restrictions not required for public static website",
+            },
+            {
+              "id": "AwsSolutions-CFR2",
+              "reason": "WAF not required for static website content without dynamic application logic",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "DistributionConfig": {
+          "Aliases": [
+            "limulus.net",
+            "www.limulus.net",
+          ],
+          "CacheBehaviors": [
+            {
+              "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+              "Compress": true,
+              "OriginRequestPolicyId": "88a5eaf4-2fd4-4709-b370-b4c650ea3fcf",
+              "PathPattern": "/.well-known/webfinger",
+              "TargetOriginId": "TestStackCloudFrontDistributionOrigin2141047F8",
+              "ViewerProtocolPolicy": "redirect-to-https",
+            },
+            {
+              "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+              "Compress": true,
+              "OriginRequestPolicyId": "88a5eaf4-2fd4-4709-b370-b4c650ea3fcf",
+              "PathPattern": "/.well-known/host-meta",
+              "TargetOriginId": "TestStackCloudFrontDistributionOrigin3385189FF",
+              "ViewerProtocolPolicy": "redirect-to-https",
+            },
+            {
+              "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+              "Compress": true,
+              "OriginRequestPolicyId": "88a5eaf4-2fd4-4709-b370-b4c650ea3fcf",
+              "PathPattern": "/.well-known/nodeinfo",
+              "TargetOriginId": "TestStackCloudFrontDistributionOrigin4ABD8BCAB",
+              "ViewerProtocolPolicy": "redirect-to-https",
+            },
+            {
+              "CachePolicyId": {
+                "Ref": "CloudFrontDistributionForeverCachePolicy7E1BBE93",
+              },
+              "Compress": true,
+              "PathPattern": "/assets/immutable/*",
+              "ResponseHeadersPolicyId": {
+                "Ref": "CloudFrontImmutableResponseHeadersPolicyC2635014",
+              },
+              "TargetOriginId": "TestStackCloudFrontDistributionOrigin5EE1C52A8",
+              "ViewerProtocolPolicy": "redirect-to-https",
+            },
+            {
+              "CachePolicyId": {
+                "Ref": "CloudFrontDistributionForeverCachePolicy7E1BBE93",
+              },
+              "Compress": true,
+              "PathPattern": "/*.????????.*",
+              "ResponseHeadersPolicyId": {
+                "Ref": "CloudFrontImmutableResponseHeadersPolicyC2635014",
+              },
+              "TargetOriginId": "TestStackCloudFrontDistributionOrigin62B891E0A",
+              "ViewerProtocolPolicy": "redirect-to-https",
+            },
+          ],
+          "Comment": "limulus-dot-net main",
+          "CustomErrorResponses": [
+            {
+              "ErrorCachingMinTTL": 30,
+              "ErrorCode": 404,
+              "ResponseCode": 404,
+              "ResponsePagePath": "/404/index.html",
+            },
+          ],
+          "DefaultCacheBehavior": {
+            "CachePolicyId": {
+              "Ref": "CloudFrontDistributionDefaultCachePolicy62CD01AF",
+            },
+            "Compress": true,
+            "FunctionAssociations": [
+              {
+                "EventType": "viewer-request",
+                "FunctionARN": {
+                  "Fn::GetAtt": [
+                    "CloudFrontRequestFunction8D53A99A",
+                    "FunctionARN",
+                  ],
+                },
+              },
+            ],
+            "ResponseHeadersPolicyId": {
+              "Ref": "CloudFrontResponseHeadersPolicyAE075C65",
+            },
+            "TargetOriginId": "TestStackCloudFrontDistributionOrigin1E693558A",
+            "ViewerProtocolPolicy": "redirect-to-https",
+          },
+          "DefaultRootObject": "index.html",
+          "Enabled": true,
+          "HttpVersion": "http2and3",
+          "IPV6Enabled": true,
+          "Logging": {
+            "Bucket": {
+              "Fn::GetAtt": [
+                "CloudFrontDistributionLogsBucketA229EF73",
+                "RegionalDomainName",
+              ],
+            },
+            "IncludeCookies": false,
+            "Prefix": "limulus-dot-net/",
+          },
+          "Origins": [
+            {
+              "DomainName": {
+                "Fn::GetAtt": [
+                  "StaticSiteBucket8958EE3F",
+                  "RegionalDomainName",
+                ],
+              },
+              "Id": "TestStackCloudFrontDistributionOrigin1E693558A",
+              "OriginAccessControlId": {
+                "Fn::GetAtt": [
+                  "StaticSiteOAC0E9675D5",
+                  "Id",
+                ],
+              },
+              "S3OriginConfig": {
+                "OriginAccessIdentity": "",
+              },
+            },
+            {
+              "CustomOriginConfig": {
+                "HTTPPort": 80,
+                "HTTPSPort": 443,
+                "OriginProtocolPolicy": "https-only",
+                "OriginSSLProtocols": [
+                  "TLSv1.2",
+                ],
+              },
+              "DomainName": "mastodon.limulus.net",
+              "Id": "TestStackCloudFrontDistributionOrigin2141047F8",
+            },
+            {
+              "CustomOriginConfig": {
+                "HTTPPort": 80,
+                "HTTPSPort": 443,
+                "OriginProtocolPolicy": "https-only",
+                "OriginSSLProtocols": [
+                  "TLSv1.2",
+                ],
+              },
+              "DomainName": "mastodon.limulus.net",
+              "Id": "TestStackCloudFrontDistributionOrigin3385189FF",
+            },
+            {
+              "CustomOriginConfig": {
+                "HTTPPort": 80,
+                "HTTPSPort": 443,
+                "OriginProtocolPolicy": "https-only",
+                "OriginSSLProtocols": [
+                  "TLSv1.2",
+                ],
+              },
+              "DomainName": "mastodon.limulus.net",
+              "Id": "TestStackCloudFrontDistributionOrigin4ABD8BCAB",
+            },
+            {
+              "DomainName": {
+                "Fn::GetAtt": [
+                  "StaticSiteBucket8958EE3F",
+                  "RegionalDomainName",
+                ],
+              },
+              "Id": "TestStackCloudFrontDistributionOrigin5EE1C52A8",
+              "OriginAccessControlId": {
+                "Fn::GetAtt": [
+                  "StaticSiteOAC0E9675D5",
+                  "Id",
+                ],
+              },
+              "S3OriginConfig": {
+                "OriginAccessIdentity": "",
+              },
+            },
+            {
+              "DomainName": {
+                "Fn::GetAtt": [
+                  "StaticSiteBucket8958EE3F",
+                  "RegionalDomainName",
+                ],
+              },
+              "Id": "TestStackCloudFrontDistributionOrigin62B891E0A",
+              "OriginAccessControlId": {
+                "Fn::GetAtt": [
+                  "StaticSiteOAC0E9675D5",
+                  "Id",
+                ],
+              },
+              "S3OriginConfig": {
+                "OriginAccessIdentity": "",
+              },
+            },
+          ],
+          "PriceClass": "PriceClass_All",
+          "ViewerCertificate": {
+            "AcmCertificateArn": "arn:aws:acm:us-east-1:123456789012:certificate/test-cert-id",
+            "MinimumProtocolVersion": "TLSv1.2_2021",
+            "SslSupportMethod": "sni-only",
+          },
+        },
+      },
+      "Type": "AWS::CloudFront::Distribution",
+    },
+    "CloudFrontDistributionDefaultCachePolicy62CD01AF": {
+      "Properties": {
+        "CachePolicyConfig": {
+          "Comment": "Default cache policy for limulus.net",
+          "DefaultTTL": 60,
+          "MaxTTL": 31536000,
+          "MinTTL": 0,
+          "Name": "limulus-dot-net-cache-main",
+          "ParametersInCacheKeyAndForwardedToOrigin": {
+            "CookiesConfig": {
+              "CookieBehavior": "none",
+            },
+            "EnableAcceptEncodingBrotli": true,
+            "EnableAcceptEncodingGzip": true,
+            "HeadersConfig": {
+              "HeaderBehavior": "none",
+            },
+            "QueryStringsConfig": {
+              "QueryStringBehavior": "none",
+            },
+          },
+        },
+      },
+      "Type": "AWS::CloudFront::CachePolicy",
+    },
+    "CloudFrontDistributionForeverCachePolicy7E1BBE93": {
+      "Properties": {
+        "CachePolicyConfig": {
+          "Comment": "Cache policy for immutable assets",
+          "DefaultTTL": 31536000,
+          "MaxTTL": 31536000,
+          "MinTTL": 31536000,
+          "Name": "limulus-dot-net-forever-cache-main",
+          "ParametersInCacheKeyAndForwardedToOrigin": {
+            "CookiesConfig": {
+              "CookieBehavior": "none",
+            },
+            "EnableAcceptEncodingBrotli": true,
+            "EnableAcceptEncodingGzip": true,
+            "HeadersConfig": {
+              "HeaderBehavior": "none",
+            },
+            "QueryStringsConfig": {
+              "QueryStringBehavior": "none",
+            },
+          },
+        },
+      },
+      "Type": "AWS::CloudFront::CachePolicy",
+    },
+    "CloudFrontDistributionLogsBucketA229EF73": {
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-S1",
+              "reason": "Overkill for static site",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256",
+              },
+            },
+          ],
+        },
+        "LifecycleConfiguration": {
+          "Rules": [
+            {
+              "Id": "MoveToInfrequentAccess",
+              "Status": "Enabled",
+              "Transitions": [
+                {
+                  "StorageClass": "STANDARD_IA",
+                  "TransitionInDays": 30,
+                },
+              ],
+            },
+          ],
+        },
+        "OwnershipControls": {
+          "Rules": [
+            {
+              "ObjectOwnership": "BucketOwnerEnforced",
+            },
+          ],
+        },
+        "Tags": [
+          {
+            "Key": "aws-cdk:auto-delete-objects",
+            "Value": "true",
+          },
+        ],
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "CloudFrontDistributionLogsBucketAutoDeleteObjectsCustomResourceB08B9614": {
+      "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "CloudFrontDistributionLogsBucketPolicy2C8E4618",
+      ],
+      "Properties": {
+        "BucketName": {
+          "Ref": "CloudFrontDistributionLogsBucketA229EF73",
+        },
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::S3AutoDeleteObjects",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "CloudFrontDistributionLogsBucketNotifications6FBD14DB": {
+      "DependsOn": [
+        "CloudFrontDistributionLogsBucketPolicy2C8E4618",
+        "LogProcessingSqsQueuePolicy8F193BCD",
+        "LogProcessingSqsQueueEB4F57A0",
+      ],
+      "Properties": {
+        "BucketName": {
+          "Ref": "CloudFrontDistributionLogsBucketA229EF73",
+        },
+        "Managed": true,
+        "NotificationConfiguration": {
+          "QueueConfigurations": [
+            {
+              "Events": [
+                "s3:ObjectCreated:*",
+              ],
+              "Filter": {
+                "Key": {
+                  "FilterRules": [
+                    {
+                      "Name": "prefix",
+                      "Value": "limulus-dot-net/",
+                    },
+                  ],
+                },
+              },
+              "QueueArn": {
+                "Fn::GetAtt": [
+                  "LogProcessingSqsQueueEB4F57A0",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+        },
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "BucketNotificationsHandler050a0587b7544547bf325f094a3db8347ECC3691",
+            "Arn",
+          ],
+        },
+        "SkipDestinationValidation": false,
+      },
+      "Type": "Custom::S3BucketNotifications",
+    },
+    "CloudFrontDistributionLogsBucketPolicy2C8E4618": {
+      "Properties": {
+        "Bucket": {
+          "Ref": "CloudFrontDistributionLogsBucketA229EF73",
+        },
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "s3:*",
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": "false",
+                },
+              },
+              "Effect": "Deny",
+              "Principal": {
+                "AWS": "*",
+              },
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "CloudFrontDistributionLogsBucketA229EF73",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "CloudFrontDistributionLogsBucketA229EF73",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": [
+                "s3:PutBucketPolicy",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::GetAtt": [
+                    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+                    "Arn",
+                  ],
+                },
+              },
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "CloudFrontDistributionLogsBucketA229EF73",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "CloudFrontDistributionLogsBucketA229EF73",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::S3::BucketPolicy",
+    },
+    "CloudFrontImmutableResponseHeadersPolicyC2635014": {
+      "Properties": {
+        "ResponseHeadersPolicyConfig": {
+          "Comment": "Add headers to cache resources forever",
+          "CustomHeadersConfig": {
+            "Items": [
+              {
+                "Header": "Cache-Control",
+                "Override": true,
+                "Value": "public, max-age=31536000, immutable",
+              },
+              {
+                "Header": "Cross-Origin-Opener-Policy",
+                "Override": false,
+                "Value": "same-origin",
+              },
+              {
+                "Header": "Cross-Origin-Embedder-Policy",
+                "Override": false,
+                "Value": "require-corp",
+              },
+            ],
+          },
+          "Name": "limulus-dot-net-immutable-response-headers-main",
+        },
+      },
+      "Type": "AWS::CloudFront::ResponseHeadersPolicy",
+    },
+    "CloudFrontRequestFunction8D53A99A": {
+      "Properties": {
+        "AutoPublish": true,
+        "FunctionCode": "/// <reference types="@types/aws-cloudfront-function" />
+
+/**
+ * CloudFront Request Function for limulus.net
+ *
+ * Handles URL rewrites and redirects for the limulus.net website.
+ * This function runs at CloudFront edge locations for low-latency processing.
+ *
+ * @see https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-functions.html
+ */
+
+/**
+ * Regular expressions for URL matching
+ * Compiled once for performance
+ */
+const PENUMBRA_JOURNAL_REDIRECT_RE = /^\\/penumbra\\/journal\\/00[1-5]-/
+const MASTODON_PROFILE_REDIRECT_RE = /^\\/@eric\\/?/
+const BLOG_REDIRECT_RE = /^\\/blog\\/eric\\/?$/
+const XSD_REWRITE_RE = /^\\/xsd\\/([^/]+)\\/v(\\d+)$/
+const NEEDS_INDEX_HTML_RE = /(\\/[^/.]+)\\/*$/
+
+/**
+ * Main handler function for CloudFront requests
+ *
+ * @param {AWSCloudFrontFunction.Event} event - CloudFront event object containing request details
+ * @returns {AWSCloudFrontFunction.Request | AWSCloudFrontFunction.Response} Modified request object or redirect response
+ */
+function handler(event) {
+  const request = event.request
+  const host = request.headers.host
+
+  // Redirect www.limulus.net to limulus.net
+  if (host && host.value === 'www.limulus.net') {
+    return createRedirectResponse(
+      301,
+      'Moved Permanently',
+      'https://limulus.net' + request.uri
+    )
+  }
+
+  // Handle Penumbra journal legacy URLs with numbered prefixes
+  // Redirect /penumbra/journal/001-foo to /penumbra/journal/foo
+  if (PENUMBRA_JOURNAL_REDIRECT_RE.test(request.uri)) {
+    const newUri = request.uri.replace(/00[1-5]-/, '')
+    return createRedirectResponse(301, 'Moved Permanently', newUri)
+  }
+
+  // Redirect Mastodon profile requests to the actual Mastodon instance
+  if (MASTODON_PROFILE_REDIRECT_RE.test(request.uri)) {
+    return createRedirectResponse(
+      302,
+      'Found',
+      'https://mastodon.limulus.net' + request.uri
+    )
+  }
+
+  // Redirect old blog URL to RSS feed
+  if (BLOG_REDIRECT_RE.test(request.uri)) {
+    return createRedirectResponse(302, 'Found', 'https://limulus.net/feed/')
+  }
+
+  // Rewrite XSD version URLs
+  // Transform /xsd/tcx/v1 to /xsd/tcx/v1.xsd
+  request.uri = request.uri.replace(XSD_REWRITE_RE, '/xsd/$1/v$2.xsd')
+
+  // Add index.html to directory paths
+  request.uri = request.uri.replace(NEEDS_INDEX_HTML_RE, '$1/index.html')
+
+  return request
+}
+
+/**
+ * Helper function to create CloudFront redirect responses
+ *
+ * @param {number} statusCode - HTTP status code (301, 302, etc.)
+ * @param {string} statusDescription - HTTP status description
+ * @param {string} location - Redirect target URL
+ * @returns {AWSCloudFrontFunction.Response} CloudFront response object
+ */
+function createRedirectResponse(statusCode, statusDescription, location) {
+  return {
+    statusCode,
+    statusDescription,
+    headers: {
+      location: {
+        value: location,
+      },
+    },
+  }
+}
+
+// Make functions available globally for testing (when not in CloudFront environment)
+if (typeof globalThis !== 'undefined') {
+  globalThis.handler = handler
+  globalThis.createRedirectResponse = createRedirectResponse
+}
+",
+        "FunctionConfig": {
+          "Comment": "Default request handler - JavaScript with JSDoc types",
+          "Runtime": "cloudfront-js-1.0",
+        },
+        "Name": "limulus-dot-net-rewrite-main",
+      },
+      "Type": "AWS::CloudFront::Function",
+    },
+    "CloudFrontResponseHeadersPolicyAE075C65": {
+      "Properties": {
+        "ResponseHeadersPolicyConfig": {
+          "Comment": "Add headers to allow fine grained timers in JS runtime",
+          "CustomHeadersConfig": {
+            "Items": [
+              {
+                "Header": "Cross-Origin-Opener-Policy",
+                "Override": false,
+                "Value": "same-origin",
+              },
+              {
+                "Header": "Cross-Origin-Embedder-Policy",
+                "Override": false,
+                "Value": "require-corp",
+              },
+            ],
+          },
+          "Name": "limulus-dot-net-response-headers-main",
+        },
+      },
+      "Type": "AWS::CloudFront::ResponseHeadersPolicy",
+    },
+    "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F": {
+      "DependsOn": [
+        "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6.zip",
+        },
+        "Description": {
+          "Fn::Join": [
+            "",
+            [
+              "Lambda function for auto-deleting objects in ",
+              {
+                "Ref": "StaticSiteBucket8958EE3F",
+              },
+              " S3 bucket.",
+            ],
+          ],
+        },
+        "Handler": "index.handler",
+        "MemorySize": 128,
+        "Role": {
+          "Fn::GetAtt": [
+            "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+            "Arn",
+          ],
+        },
+        "Runtime": {
+          "Fn::FindInMap": [
+            "LatestNodeRuntimeMap",
+            {
+              "Ref": "AWS::Region",
+            },
+            "value",
+          ],
+        },
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Sub": "arn:\${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "LogProcessingSqsDeadLetterQueueBCE15394": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "MessageRetentionPeriod": 1209600,
+        "QueueName": "limulus-dot-net-log-processing-dlq-main",
+      },
+      "Type": "AWS::SQS::Queue",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "LogProcessingSqsDeadLetterQueuePolicy01811ECC": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sqs:*",
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": "false",
+                },
+              },
+              "Effect": "Deny",
+              "Principal": {
+                "AWS": "*",
+              },
+              "Resource": {
+                "Fn::GetAtt": [
+                  "LogProcessingSqsDeadLetterQueueBCE15394",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Queues": [
+          {
+            "Ref": "LogProcessingSqsDeadLetterQueueBCE15394",
+          },
+        ],
+      },
+      "Type": "AWS::SQS::QueuePolicy",
+    },
+    "LogProcessingSqsQueueEB4F57A0": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "MessageRetentionPeriod": 1209600,
+        "QueueName": "limulus-dot-net-log-processing-main",
+        "RedrivePolicy": {
+          "deadLetterTargetArn": {
+            "Fn::GetAtt": [
+              "LogProcessingSqsDeadLetterQueueBCE15394",
+              "Arn",
+            ],
+          },
+          "maxReceiveCount": 3,
+        },
+        "VisibilityTimeout": 300,
+      },
+      "Type": "AWS::SQS::Queue",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "LogProcessingSqsQueuePolicy8F193BCD": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sqs:*",
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": "false",
+                },
+              },
+              "Effect": "Deny",
+              "Principal": {
+                "AWS": "*",
+              },
+              "Resource": {
+                "Fn::GetAtt": [
+                  "LogProcessingSqsQueueEB4F57A0",
+                  "Arn",
+                ],
+              },
+            },
+            {
+              "Action": [
+                "sqs:SendMessage",
+                "sqs:GetQueueAttributes",
+                "sqs:GetQueueUrl",
+              ],
+              "Condition": {
+                "ArnLike": {
+                  "aws:SourceArn": {
+                    "Fn::GetAtt": [
+                      "CloudFrontDistributionLogsBucketA229EF73",
+                      "Arn",
+                    ],
+                  },
+                },
+              },
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "s3.amazonaws.com",
+              },
+              "Resource": {
+                "Fn::GetAtt": [
+                  "LogProcessingSqsQueueEB4F57A0",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Queues": [
+          {
+            "Ref": "LogProcessingSqsQueueEB4F57A0",
+          },
+        ],
+      },
+      "Type": "AWS::SQS::QueuePolicy",
+    },
+    "StaticSiteBucket8958EE3F": {
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-S1",
+              "reason": "Access logging not required for static website content bucket",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256",
+              },
+            },
+          ],
+        },
+        "Tags": [
+          {
+            "Key": "aws-cdk:auto-delete-objects",
+            "Value": "true",
+          },
+        ],
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "StaticSiteBucketAutoDeleteObjectsCustomResource2478938F": {
+      "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "StaticSiteBucketPolicy54AA1C72",
+      ],
+      "Properties": {
+        "BucketName": {
+          "Ref": "StaticSiteBucket8958EE3F",
+        },
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::S3AutoDeleteObjects",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "StaticSiteBucketPolicy54AA1C72": {
+      "Properties": {
+        "Bucket": {
+          "Ref": "StaticSiteBucket8958EE3F",
+        },
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "s3:*",
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": "false",
+                },
+              },
+              "Effect": "Deny",
+              "Principal": {
+                "AWS": "*",
+              },
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "StaticSiteBucket8958EE3F",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "StaticSiteBucket8958EE3F",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": [
+                "s3:PutBucketPolicy",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::GetAtt": [
+                    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+                    "Arn",
+                  ],
+                },
+              },
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "StaticSiteBucket8958EE3F",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "StaticSiteBucket8958EE3F",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "s3:GetObject",
+              "Condition": {
+                "StringEquals": {
+                  "AWS:SourceArn": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition",
+                        },
+                        ":cloudfront::",
+                        {
+                          "Ref": "AWS::AccountId",
+                        },
+                        ":distribution/",
+                        {
+                          "Ref": "CloudFrontDistributionBA64CE3A",
+                        },
+                      ],
+                    ],
+                  },
+                },
+              },
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "cloudfront.amazonaws.com",
+              },
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    {
+                      "Fn::GetAtt": [
+                        "StaticSiteBucket8958EE3F",
+                        "Arn",
+                      ],
+                    },
+                    "/*",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": "s3:GetObject",
+              "Condition": {
+                "StringEquals": {
+                  "AWS:SourceArn": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition",
+                        },
+                        ":cloudfront::",
+                        {
+                          "Ref": "AWS::AccountId",
+                        },
+                        ":distribution/",
+                        {
+                          "Ref": "CloudFrontDistributionBA64CE3A",
+                        },
+                      ],
+                    ],
+                  },
+                },
+              },
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "cloudfront.amazonaws.com",
+              },
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    {
+                      "Fn::GetAtt": [
+                        "StaticSiteBucket8958EE3F",
+                        "Arn",
+                      ],
+                    },
+                    "/*",
+                  ],
+                ],
+              },
+              "Sid": "AllowCloudFrontServicePrincipalReadOnly",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::S3::BucketPolicy",
+    },
+    "StaticSiteOAC0E9675D5": {
+      "Properties": {
+        "OriginAccessControlConfig": {
+          "Description": "Origin Access Control for static site bucket",
+          "Name": "TestStackStaticSiteOACFB4C2468",
+          "OriginAccessControlOriginType": "s3",
+          "SigningBehavior": "always",
+          "SigningProtocol": "sigv4",
+        },
+      },
+      "Type": "AWS::CloudFront::OriginAccessControl",
+    },
+    "WwwAliasRecord1B442697": {
+      "Properties": {
+        "AliasTarget": {
+          "DNSName": {
+            "Fn::GetAtt": [
+              "CloudFrontDistributionBA64CE3A",
+              "DomainName",
+            ],
+          },
+          "HostedZoneId": {
+            "Fn::FindInMap": [
+              "AWSCloudFrontPartitionHostedZoneIdMap",
+              {
+                "Ref": "AWS::Partition",
+              },
+              "zoneId",
+            ],
+          },
+        },
+        "HostedZoneId": "Z123456789ABCDEFGH",
+        "Name": "www.limulus.net.",
+        "Type": "A",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "WwwAliasRecordAAAAD78E206A": {
+      "Properties": {
+        "AliasTarget": {
+          "DNSName": {
+            "Fn::GetAtt": [
+              "CloudFrontDistributionBA64CE3A",
+              "DomainName",
+            ],
+          },
+          "HostedZoneId": {
+            "Fn::FindInMap": [
+              "AWSCloudFrontPartitionHostedZoneIdMap",
+              {
+                "Ref": "AWS::Partition",
+              },
+              "zoneId",
+            ],
+          },
+        },
+        "HostedZoneId": "Z123456789ABCDEFGH",
+        "Name": "www.limulus.net.",
+        "Type": "AAAA",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;

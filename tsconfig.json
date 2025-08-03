@@ -19,5 +19,5 @@
     "strict": true,
     "target": "ES2022"
   },
-  "include": ["./types/**/*", "./www/**/*.ts"]
+  "include": ["*.ts", "./www/**/*.ts", "./infra/**/*.ts"]
 }

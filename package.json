@@ -7,14 +7,16 @@
   "scripts": {
     "prebuild": "npm run clean",
     "build": "eleventy",
+    "cdkc": "./infra/test/cdk-synthesis.sh",
     "clean": "del-cli *.tsbuildinfo coverage dist",
     "predev": "npm run prebuild",
     "dev": "eleventy --serve --incremental",
-    "lint": "eslint *.js 11ty/*.js www",
+    "lint": "eslint *.js 11ty/*.js www infra",
     "prepare": "husky && mkdirp photos",
     "photos": "node ./bin/process-photos.js photos/*",
+    "test": "vitest run",
     "tscc": "tsc --noEmit",
-    "verify": "concurrently -c auto npm:lint npm:tscc npm:wwwc",
+    "verify": "concurrently -m 100% -c auto npm:lint npm:tscc npm:wwwc npm:cdkc npm:test",
     "wwwc": "eleventy --dryrun"
   },
   "repository": {
@@ -35,8 +37,10 @@
     "@11ty/eleventy": "^3.1.2",
     "@11ty/eleventy-plugin-rss": "^2.0.4",
     "@11ty/eleventy-plugin-webc": "^0.11.2",
+    "@aws-solutions-constructs/aws-cloudfront-s3": "^2.90.2",
     "@limulus/eslint-config": "^5.0.0",
     "@limulus/penumbra": "^1.9.1",
+    "@matthewbonig/cdk-logical-id-mapper": "^0.0.2",
     "@prettier/plugin-xml": "^3.4.1",
     "@types/node": "^20.0.0",
     "aws-rum-web": "^1.19.0",
@@ -47,6 +51,7 @@
     "date-fns": "^4.1.0",
     "del-cli": "^5.1.0",
     "eleventy-plugin-svg-sprite": "^2.4.2",
+    "es-main": "^1.3.0",
     "esbuild": "^0.24.0",
     "eslint": "^8.57.0",
     "exifreader": "^4.25.0",
@@ -74,10 +79,17 @@
     "typescript": "^5.5.4"
   },
   "devDependencies": {
+    "@types/aws-cloudfront-function": "^1.0.5",
     "@types/raf": "^3.4.3",
+    "aws-cdk": "^2.1023.0",
+    "aws-cdk-lib": "^2.208.0",
+    "cdk-nag": "^2.36.50",
+    "constructs": "^10.4.2",
     "dotenv": "^16.4.7",
     "esbuild-plugin-wasm": "^1.1.0",
     "globby": "^14.0.1",
-    "husky": "^9.1.5"
+    "husky": "^9.1.5",
+    "tsx": "^4.20.3",
+    "vitest": "^3.2.4"
   }
 }

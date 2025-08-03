@@ -15,12 +15,12 @@ overview of the tech stack:
 - [Eleventy]: Static site generator
 - [esbuild]: JavaScript bundler
 - [sharp]: Image processing
-- [CloudFormation]: Infrastructure as code
+- [AWS CDK]: Infrastructure as code (TypeScript)
 
 [eleventy]: https://www.11ty.dev/
 [esbuild]: https://esbuild.github.io/
 [sharp]: https://sharp.pixelplumbing.com/
-[cloudformation]: https://aws.amazon.com/cloudformation/
+[aws cdk]: https://aws.amazon.com/cdk/
 
 ### Hosting
 
@@ -49,6 +49,37 @@ npm run dev
 The `main` branch is automatically deployed to `limulus.net`. Non-content changes that
 require testing should be done on a branch. Branches will be deployed to
 `${branch}.limulus.net`.
+
+### Infrastructure
+
+The site infrastructure is managed using AWS CDK (TypeScript). The infrastructure code
+is located in the `/infra` directory and includes:
+
+- **CloudFront Distribution**: CDN with custom domain, caching policies, and function associations
+- **S3 Buckets**: Static site storage and CloudFront access logs
+- **CloudFront Functions**: URL rewriting and redirects (TypeScript)
+- **Route 53 Records**: DNS configuration for custom domains
+- **Origin Access Control**: Secure S3 access via CloudFront
+- **SQS Queue**: CloudFront log processing
+
+**Deployment**: Infrastructure is automatically deployed via GitHub Actions when changes are 
+pushed to any branch. This is the primary and recommended way to deploy long-lived stacks.
+
+For local development and testing:
+
+```sh
+# Synthesize CloudFormation template
+npm run cdkc
+
+# View infrastructure diff (requires AWS credentials)
+npx cdk diff
+
+# Deploy to test stack (not recommended for production)
+npx cdk deploy
+```
+
+Note: Local deployments should only be used for development testing. All production 
+deployments go through GitHub Actions with proper security controls.
 
 ### Writing Content
 

@@ -14,21 +14,22 @@ jobs:
       StaticSiteBucketName: ${{ steps.deploy.outputs.StaticSiteBucketName }}
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::865116139480:role/github-actions-limulus-dot-net-cf
           aws-region: us-west-2
       - id: deploy
-        uses: aws-actions/aws-cloudformation-github-deploy@v1
-        with:
-          name: limulus-dot-net-${{ github.ref_name }}
-          template: infra.yaml
-          no-fail-on-empty-changeset: '1'
-          capabilities: 'CAPABILITY_NAMED_IAM,CAPABILITY_AUTO_EXPAND'
-          parameter-overrides: >-
-            BranchName=${{ github.ref_name }},
-            LimulusDotNetZoneId=${{ secrets.LIMULUS_DOT_NET_ZONE_ID }},
-            LimulusDotNetCertificateArn=${{ secrets.LIMULUS_DOT_NET_CERTIFICATE_ARN }}
+        run: |
+          export LIMULUS_DOT_NET_ZONE_ID="${{ secrets.LIMULUS_DOT_NET_ZONE_ID }}"
+          export LIMULUS_DOT_NET_CERTIFICATE_ARN="${{ secrets.LIMULUS_DOT_NET_CERTIFICATE_ARN }}"
+          export BRANCH_NAME="${{ github.ref_name }}"
+          npx cdk deploy --require-approval never --outputs-file cdk-outputs.json
+          echo "StaticSiteBucketName=$(cat cdk-outputs.json | jq -r '.["LimulusDotNet-${{ github.ref_name }}"].StaticSiteBucketName')" >> $GITHUB_OUTPUT
 
   build:
     runs-on: ubuntu-latest
