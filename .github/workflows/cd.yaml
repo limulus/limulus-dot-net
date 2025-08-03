@@ -25,10 +25,9 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::865116139480:role/github-actions-limulus-dot-net-cf
           aws-region: us-west-2
-      - name: Bootstrap CDK
-        run: npx cdk bootstrap
       - id: deploy
         run: |
+          npx cdk bootstrap
           npx cdk deploy --require-approval never --outputs-file cdk-outputs.json
           echo "StaticSiteBucketName=$(cat cdk-outputs.json | jq -r '.["LimulusDotNet-${{ github.ref_name }}"].StaticSiteBucketName')" >> $GITHUB_OUTPUT
         env:
