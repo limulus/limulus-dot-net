@@ -27,7 +27,7 @@ export function createApp(context?: Record<string, any>): cdk.App {
     )
   }
 
-  const stack = new LimulusDotNetStack(app, `LimulusDotNet-${branchName}`, {
+  const stack = new LimulusDotNetStack(app, `limulus-dot-net-${branchName}`, {
     env: {
       account: process.env.CDK_DEFAULT_ACCOUNT,
       region: process.env.CDK_DEFAULT_REGION,

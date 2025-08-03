@@ -28,7 +28,7 @@ jobs:
       - id: deploy
         run: |
           npx cdk deploy --require-approval never --outputs-file cdk-outputs.json
-          echo "StaticSiteBucketName=$(cat cdk-outputs.json | jq -r '.["LimulusDotNet-${{ github.ref_name }}"].StaticSiteBucketName')" >> $GITHUB_OUTPUT
+          echo "StaticSiteBucketName=$(cat cdk-outputs.json | jq -r '.["limulus-dot-net-${{ github.ref_name }}"].StaticSiteBucketName')" >> $GITHUB_OUTPUT
         env:
           LIMULUS_DOT_NET_ZONE_ID: ${{ secrets.LIMULUS_DOT_NET_ZONE_ID }}
           LIMULUS_DOT_NET_CERTIFICATE_ARN: ${{ secrets.LIMULUS_DOT_NET_CERTIFICATE_ARN }}

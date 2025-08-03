@@ -37,7 +37,7 @@ describe('App deployment logic', () => {
       })
 
       // The app should automatically apply logical ID mapping for main branch
-      const stack = app.node.findChild('LimulusDotNet-main') as cdk.Stack
+      const stack = app.node.findChild('limulus-dot-net-main') as cdk.Stack
       expect(stack).toBeDefined()
 
       // Check if LogicalIdMapper aspect was applied
@@ -66,7 +66,7 @@ describe('App deployment logic', () => {
         certificateArn: 'arn:aws:acm:us-east-1:123456789012:certificate/test-cert-id',
       })
 
-      const stack = app.node.findChild('LimulusDotNet-feature') as cdk.Stack
+      const stack = app.node.findChild('limulus-dot-net-feature') as cdk.Stack
       expect(stack).toBeDefined()
 
       // Check that NO LogicalIdMapper aspect was applied
@@ -92,7 +92,7 @@ describe('App deployment logic', () => {
         certificateArn: 'arn:aws:acm:us-east-1:123456789012:certificate/test-cert-id',
       })
 
-      const stack = app.node.findChild('LimulusDotNet-main') as cdk.Stack
+      const stack = app.node.findChild('limulus-dot-net-main') as cdk.Stack
       const template = Template.fromStack(stack)
 
       // Check CloudFront distribution has production domains
@@ -118,7 +118,7 @@ describe('App deployment logic', () => {
         certificateArn: 'arn:aws:acm:us-east-1:123456789012:certificate/test-cert-id',
       })
 
-      const stack = app.node.findChild('LimulusDotNet-feature') as cdk.Stack
+      const stack = app.node.findChild('limulus-dot-net-feature') as cdk.Stack
       const template = Template.fromStack(stack)
 
       // Check CloudFront distribution has feature branch domain
