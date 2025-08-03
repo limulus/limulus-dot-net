@@ -736,7 +736,7 @@ def sort_filter_rules(json_obj):
         "OwnershipControls": {
           "Rules": [
             {
-              "ObjectOwnership": "BucketOwnerEnforced",
+              "ObjectOwnership": "BucketOwnerPreferred",
             },
           ],
         },
@@ -2253,7 +2253,7 @@ def sort_filter_rules(json_obj):
         "OwnershipControls": {
           "Rules": [
             {
-              "ObjectOwnership": "BucketOwnerEnforced",
+              "ObjectOwnership": "BucketOwnerPreferred",
             },
           ],
         },

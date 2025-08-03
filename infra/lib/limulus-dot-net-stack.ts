@@ -59,7 +59,7 @@ export class LimulusDotNetStack extends cdk.Stack {
           ],
         },
       ],
-      objectOwnership: s3.ObjectOwnership.BUCKET_OWNER_ENFORCED,
+      objectOwnership: s3.ObjectOwnership.BUCKET_OWNER_PREFERRED,
     })
 
     NagSuppressions.addResourceSuppressions(cloudFrontLogsBucket, [
