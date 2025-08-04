@@ -63,8 +63,10 @@ function handler(event) {
   // Transform /xsd/tcx/v1 to /xsd/tcx/v1.xsd
   request.uri = request.uri.replace(XSD_REWRITE_RE, '/xsd/$1/v$2.xsd')
 
-  // Add index.html to directory paths
-  request.uri = request.uri.replace(NEEDS_INDEX_HTML_RE, '$1/index.html')
+  // Add index.html to directory paths (but not for root path)
+  if (request.uri !== '/') {
+    request.uri = request.uri.replace(NEEDS_INDEX_HTML_RE, '$1/index.html')
+  }
 
   return request
 }
@@ -94,6 +96,6 @@ try {
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = { handler, createRedirectResponse }
   }
-} catch (e) {
+} catch (_e) {
   // Ignore errors in CloudFront Functions runtime
 }

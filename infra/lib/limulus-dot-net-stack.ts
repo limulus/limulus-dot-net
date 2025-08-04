@@ -200,6 +200,7 @@ export class LimulusDotNetStack extends cdk.Stack {
     const requestFunction = new cloudfront.Function(this, 'CloudFrontRequestFunction', {
       functionName: `limulus-dot-net-rewrite-${branchName}`,
       comment: 'Default request handler - JavaScript with JSDoc types',
+      runtime: cloudfront.FunctionRuntime.JS_2_0,
       code: cloudfront.FunctionCode.fromFile({
         filePath: './infra/functions/cloudfront-request.js',
       }),

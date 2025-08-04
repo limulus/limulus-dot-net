@@ -14,7 +14,9 @@
     "lint": "eslint *.js 11ty/*.js www infra",
     "prepare": "husky && mkdirp photos",
     "photos": "node ./bin/process-photos.js photos/*",
-    "test": "vitest run",
+    "test": "vitest run --project unit",
+    "test:integration": "vitest run --project integration --reporter=verbose",
+    "test:all": "vitest run",
     "tscc": "tsc --noEmit",
     "verify": "concurrently -m 100% -c auto npm:lint npm:tscc npm:wwwc npm:cdkc npm:test",
     "wwwc": "eleventy --dryrun"
@@ -79,6 +81,7 @@
     "typescript": "^5.5.4"
   },
   "devDependencies": {
+    "@aws-sdk/client-cloudfront": "^3.859.0",
     "@types/aws-cloudfront-function": "^1.0.5",
     "@types/raf": "^3.4.3",
     "aws-cdk": "^2.1023.0",
