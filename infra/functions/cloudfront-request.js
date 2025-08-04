@@ -89,8 +89,11 @@ function createRedirectResponse(statusCode, statusDescription, location) {
   }
 }
 
-// Make functions available globally for testing (when not in CloudFront environment)
-if (typeof globalThis !== 'undefined') {
-  globalThis.handler = handler
-  globalThis.createRedirectResponse = createRedirectResponse
+// Make functions available for testing (when not in CloudFront environment)
+try {
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { handler, createRedirectResponse }
+  }
+} catch (e) {
+  // Ignore errors in CloudFront Functions runtime
 }

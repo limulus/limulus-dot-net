@@ -12,24 +12,22 @@ import { readFileSync } from 'fs'
 import { resolve } from 'path'
 import { describe, it, expect } from 'vitest'
 
-// Get the handler and createRedirectResponse functions from the global scope after evaluating
-declare global {
-  var handler: (
-    event: AWSCloudFrontFunction.Event
-  ) => AWSCloudFrontFunction.Request | AWSCloudFrontFunction.Response
-  var createRedirectResponse: (
-    statusCode: number,
-    statusDescription: string,
-    location: string
-  ) => AWSCloudFrontFunction.Response
-}
-
-// Since the JS file defines global functions, we need to evaluate it in global context
+// Load the CloudFront function using module.exports
 const cfFunctionCode = readFileSync(
   resolve(__dirname, '../functions/cloudfront-request.js'),
   'utf8'
 )
-eval(cfFunctionCode)
+
+// Create a module context for the function to export to
+const moduleContext = { exports: {} as any }
+const wrappedCode = `
+  (function(module) {
+    ${cfFunctionCode}
+    return module.exports;
+  })
+`
+const cfExports = eval(wrappedCode)(moduleContext)
+const { handler, createRedirectResponse } = cfExports
 
 /**
  * Helper function to create test CloudFront events
