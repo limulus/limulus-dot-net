@@ -304,6 +304,12 @@ export class LimulusDotNetStack extends cdk.Stack {
       },
       errorResponses: [
         {
+          httpStatus: 403,
+          responseHttpStatus: 404,
+          responsePagePath: '/404/index.html',
+          ttl: cdk.Duration.seconds(30),
+        },
+        {
           httpStatus: 404,
           responseHttpStatus: 404,
           responsePagePath: '/404/index.html',

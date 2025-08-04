@@ -504,6 +504,12 @@ def sort_filter_rules(json_obj):
           "CustomErrorResponses": [
             {
               "ErrorCachingMinTTL": 30,
+              "ErrorCode": 403,
+              "ResponseCode": 404,
+              "ResponsePagePath": "/404/index.html",
+            },
+            {
+              "ErrorCachingMinTTL": 30,
               "ErrorCode": 404,
               "ResponseCode": 404,
               "ResponsePagePath": "/404/index.html",
@@ -2031,6 +2037,12 @@ def sort_filter_rules(json_obj):
           ],
           "Comment": "limulus-dot-net main",
           "CustomErrorResponses": [
+            {
+              "ErrorCachingMinTTL": 30,
+              "ErrorCode": 403,
+              "ResponseCode": 404,
+              "ResponsePagePath": "/404/index.html",
+            },
             {
               "ErrorCachingMinTTL": 30,
               "ErrorCode": 404,
