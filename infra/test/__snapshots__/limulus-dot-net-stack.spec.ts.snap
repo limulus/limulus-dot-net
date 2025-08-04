@@ -1274,6 +1274,13 @@ try {
             },
           ],
         },
+        "OwnershipControls": {
+          "Rules": [
+            {
+              "ObjectOwnership": "BucketOwnerEnforced",
+            },
+          ],
+        },
         "Tags": [
           {
             "Key": "aws-cdk:auto-delete-objects",
@@ -2793,6 +2800,13 @@ try {
               "ServerSideEncryptionByDefault": {
                 "SSEAlgorithm": "AES256",
               },
+            },
+          ],
+        },
+        "OwnershipControls": {
+          "Rules": [
+            {
+              "ObjectOwnership": "BucketOwnerEnforced",
             },
           ],
         },

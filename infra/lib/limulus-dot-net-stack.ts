@@ -31,6 +31,7 @@ export class LimulusDotNetStack extends cdk.Stack {
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       autoDeleteObjects: true,
       enforceSSL: true,
+      objectOwnership: s3.ObjectOwnership.BUCKET_OWNER_ENFORCED,
     })
 
     NagSuppressions.addResourceSuppressions(staticSiteBucket, [
