@@ -45,6 +45,17 @@ export function createApp(context?: Record<string, any>): cdk.App {
           StaticSiteBucket8958EE3F: 'StaticSiteBucket',
           CloudFrontDistributionLogsBucketA229EF73: 'CloudFrontDistributionLogsBucket',
           CloudFrontDistributionBA64CE3A: 'CloudFrontDistribution',
+          CloudFrontDistributionDefaultCachePolicy62CD01AF:
+            'CloudFrontDistributionDefaultCachePolicy',
+          CloudFrontDistributionForeverCachePolicy7E1BBE93:
+            'CloudFrontDistributionForeverCachePolicy',
+          CloudFrontResponseHeadersPolicyAE075C65: 'CloudFrontResponseHeadersPolicy',
+          CloudFrontImmutableResponseHeadersPolicyC2635014:
+            'CloudFrontImmutableResponseHeadersPolicy',
+          CloudFrontRequestFunction8D53A99A: 'CloudFrontRequestFunction',
+          StaticSiteOAC0E9675D5: 'StaticSiteBucketOriginAccessControl',
+          LogProcessingSqsDeadLetterQueueBCE15394: 'LogProcessingSqsDeadLetterQueue',
+          LogProcessingSqsQueueEB4F57A0: 'LogProcessingSqsQueue',
         },
       })
     )
