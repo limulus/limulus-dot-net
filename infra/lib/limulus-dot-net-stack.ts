@@ -4,7 +4,6 @@ import * as cloudfront from 'aws-cdk-lib/aws-cloudfront'
 import * as origins from 'aws-cdk-lib/aws-cloudfront-origins'
 import * as iam from 'aws-cdk-lib/aws-iam'
 import * as route53 from 'aws-cdk-lib/aws-route53'
-import * as route53targets from 'aws-cdk-lib/aws-route53-targets'
 import * as s3 from 'aws-cdk-lib/aws-s3'
 import * as s3n from 'aws-cdk-lib/aws-s3-notifications'
 import * as sqs from 'aws-cdk-lib/aws-sqs'
@@ -347,61 +346,66 @@ export class LimulusDotNetStack extends cdk.Stack {
       },
     ])
 
-    // Route53 DNS Records
-    const hostedZone = route53.HostedZone.fromHostedZoneAttributes(this, 'HostedZone', {
+    // Route53 DNS Records - using CfnRecordSetGroup to match original CloudFormation template
+
+    const recordSets = isMainBranch
+      ? [
+          {
+            name: 'limulus.net',
+            type: 'A',
+            aliasTarget: {
+              dnsName: distribution.distributionDomainName,
+              hostedZoneId: 'Z2FDTNDATAQYW2', // CloudFront hosted zone ID
+            },
+          },
+          {
+            name: 'limulus.net',
+            type: 'AAAA',
+            aliasTarget: {
+              dnsName: distribution.distributionDomainName,
+              hostedZoneId: 'Z2FDTNDATAQYW2',
+            },
+          },
+          {
+            name: 'www.limulus.net',
+            type: 'A',
+            aliasTarget: {
+              dnsName: distribution.distributionDomainName,
+              hostedZoneId: 'Z2FDTNDATAQYW2',
+            },
+          },
+          {
+            name: 'www.limulus.net',
+            type: 'AAAA',
+            aliasTarget: {
+              dnsName: distribution.distributionDomainName,
+              hostedZoneId: 'Z2FDTNDATAQYW2',
+            },
+          },
+        ]
+      : [
+          {
+            name: `${branchName}.limulus.net`,
+            type: 'A',
+            aliasTarget: {
+              dnsName: distribution.distributionDomainName,
+              hostedZoneId: 'Z2FDTNDATAQYW2',
+            },
+          },
+          {
+            name: `${branchName}.limulus.net`,
+            type: 'AAAA',
+            aliasTarget: {
+              dnsName: distribution.distributionDomainName,
+              hostedZoneId: 'Z2FDTNDATAQYW2',
+            },
+          },
+        ]
+
+    new route53.CfnRecordSetGroup(this, 'Route53RecordSetGroup', {
       hostedZoneId: zoneId,
-      zoneName: 'limulus.net',
+      recordSets,
     })
-
-    if (isMainBranch) {
-      new route53.ARecord(this, 'AliasRecord', {
-        zone: hostedZone,
-        recordName: 'limulus.net',
-        target: route53.RecordTarget.fromAlias(
-          new route53targets.CloudFrontTarget(distribution)
-        ),
-      })
-
-      new route53.AaaaRecord(this, 'AliasRecordAAAA', {
-        zone: hostedZone,
-        recordName: 'limulus.net',
-        target: route53.RecordTarget.fromAlias(
-          new route53targets.CloudFrontTarget(distribution)
-        ),
-      })
-
-      new route53.ARecord(this, 'WwwAliasRecord', {
-        zone: hostedZone,
-        recordName: 'www.limulus.net',
-        target: route53.RecordTarget.fromAlias(
-          new route53targets.CloudFrontTarget(distribution)
-        ),
-      })
-
-      new route53.AaaaRecord(this, 'WwwAliasRecordAAAA', {
-        zone: hostedZone,
-        recordName: 'www.limulus.net',
-        target: route53.RecordTarget.fromAlias(
-          new route53targets.CloudFrontTarget(distribution)
-        ),
-      })
-    } else {
-      new route53.ARecord(this, 'BranchAliasRecord', {
-        zone: hostedZone,
-        recordName: `${branchName}.limulus.net`,
-        target: route53.RecordTarget.fromAlias(
-          new route53targets.CloudFrontTarget(distribution)
-        ),
-      })
-
-      new route53.AaaaRecord(this, 'BranchAliasRecordAAAA', {
-        zone: hostedZone,
-        recordName: `${branchName}.limulus.net`,
-        target: route53.RecordTarget.fromAlias(
-          new route53targets.CloudFrontTarget(distribution)
-        ),
-      })
-    }
 
     // Outputs
     new cdk.CfnOutput(this, 'StaticSiteBucketName', {

@@ -3,14 +3,6 @@
 exports[`LimulusDotNetStack > feature branch creates expected resources 1`] = `
 {
   "Mappings": {
-    "AWSCloudFrontPartitionHostedZoneIdMap": {
-      "aws": {
-        "zoneId": "Z2FDTNDATAQYW2",
-      },
-      "aws-cn": {
-        "zoneId": "Z3RFFRIM2A3IF5",
-      },
-    },
     "LatestNodeRuntimeMap": {
       "af-south-1": {
         "value": "nodejs22.x",
@@ -197,56 +189,6 @@ exports[`LimulusDotNetStack > feature branch creates expected resources 1`] = `
     },
   },
   "Resources": {
-    "BranchAliasRecord6D790B76": {
-      "Properties": {
-        "AliasTarget": {
-          "DNSName": {
-            "Fn::GetAtt": [
-              "CloudFrontDistributionBA64CE3A",
-              "DomainName",
-            ],
-          },
-          "HostedZoneId": {
-            "Fn::FindInMap": [
-              "AWSCloudFrontPartitionHostedZoneIdMap",
-              {
-                "Ref": "AWS::Partition",
-              },
-              "zoneId",
-            ],
-          },
-        },
-        "HostedZoneId": "Z123456789ABCDEFGH",
-        "Name": "cdk.limulus.net.",
-        "Type": "A",
-      },
-      "Type": "AWS::Route53::RecordSet",
-    },
-    "BranchAliasRecordAAAADD566540": {
-      "Properties": {
-        "AliasTarget": {
-          "DNSName": {
-            "Fn::GetAtt": [
-              "CloudFrontDistributionBA64CE3A",
-              "DomainName",
-            ],
-          },
-          "HostedZoneId": {
-            "Fn::FindInMap": [
-              "AWSCloudFrontPartitionHostedZoneIdMap",
-              {
-                "Ref": "AWS::Partition",
-              },
-              "zoneId",
-            ],
-          },
-        },
-        "HostedZoneId": "Z123456789ABCDEFGH",
-        "Name": "cdk.limulus.net.",
-        "Type": "AAAA",
-      },
-      "Type": "AWS::Route53::RecordSet",
-    },
     "BucketNotificationsHandler050a0587b7544547bf325f094a3db8347ECC3691": {
       "DependsOn": [
         "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleDefaultPolicy2CF63D36",
@@ -1258,6 +1200,40 @@ try {
       },
       "Type": "AWS::SQS::QueuePolicy",
     },
+    "Route53RecordSetGroup": {
+      "Properties": {
+        "HostedZoneId": "Z123456789ABCDEFGH",
+        "RecordSets": [
+          {
+            "AliasTarget": {
+              "DNSName": {
+                "Fn::GetAtt": [
+                  "CloudFrontDistributionBA64CE3A",
+                  "DomainName",
+                ],
+              },
+              "HostedZoneId": "Z2FDTNDATAQYW2",
+            },
+            "Name": "cdk.limulus.net",
+            "Type": "A",
+          },
+          {
+            "AliasTarget": {
+              "DNSName": {
+                "Fn::GetAtt": [
+                  "CloudFrontDistributionBA64CE3A",
+                  "DomainName",
+                ],
+              },
+              "HostedZoneId": "Z2FDTNDATAQYW2",
+            },
+            "Name": "cdk.limulus.net",
+            "Type": "AAAA",
+          },
+        ],
+      },
+      "Type": "AWS::Route53::RecordSetGroup",
+    },
     "StaticSiteBucket8958EE3F": {
       "DeletionPolicy": "Delete",
       "Metadata": {
@@ -1537,14 +1513,6 @@ try {
 exports[`LimulusDotNetStack > main branch creates expected resources 1`] = `
 {
   "Mappings": {
-    "AWSCloudFrontPartitionHostedZoneIdMap": {
-      "aws": {
-        "zoneId": "Z2FDTNDATAQYW2",
-      },
-      "aws-cn": {
-        "zoneId": "Z3RFFRIM2A3IF5",
-      },
-    },
     "LatestNodeRuntimeMap": {
       "af-south-1": {
         "value": "nodejs22.x",
@@ -1731,56 +1699,6 @@ exports[`LimulusDotNetStack > main branch creates expected resources 1`] = `
     },
   },
   "Resources": {
-    "AliasRecord851000D2": {
-      "Properties": {
-        "AliasTarget": {
-          "DNSName": {
-            "Fn::GetAtt": [
-              "CloudFrontDistributionBA64CE3A",
-              "DomainName",
-            ],
-          },
-          "HostedZoneId": {
-            "Fn::FindInMap": [
-              "AWSCloudFrontPartitionHostedZoneIdMap",
-              {
-                "Ref": "AWS::Partition",
-              },
-              "zoneId",
-            ],
-          },
-        },
-        "HostedZoneId": "Z123456789ABCDEFGH",
-        "Name": "limulus.net.",
-        "Type": "A",
-      },
-      "Type": "AWS::Route53::RecordSet",
-    },
-    "AliasRecordAAAA6FC85F69": {
-      "Properties": {
-        "AliasTarget": {
-          "DNSName": {
-            "Fn::GetAtt": [
-              "CloudFrontDistributionBA64CE3A",
-              "DomainName",
-            ],
-          },
-          "HostedZoneId": {
-            "Fn::FindInMap": [
-              "AWSCloudFrontPartitionHostedZoneIdMap",
-              {
-                "Ref": "AWS::Partition",
-              },
-              "zoneId",
-            ],
-          },
-        },
-        "HostedZoneId": "Z123456789ABCDEFGH",
-        "Name": "limulus.net.",
-        "Type": "AAAA",
-      },
-      "Type": "AWS::Route53::RecordSet",
-    },
     "BucketNotificationsHandler050a0587b7544547bf325f094a3db8347ECC3691": {
       "DependsOn": [
         "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleDefaultPolicy2CF63D36",
@@ -2793,6 +2711,66 @@ try {
       },
       "Type": "AWS::SQS::QueuePolicy",
     },
+    "Route53RecordSetGroup": {
+      "Properties": {
+        "HostedZoneId": "Z123456789ABCDEFGH",
+        "RecordSets": [
+          {
+            "AliasTarget": {
+              "DNSName": {
+                "Fn::GetAtt": [
+                  "CloudFrontDistributionBA64CE3A",
+                  "DomainName",
+                ],
+              },
+              "HostedZoneId": "Z2FDTNDATAQYW2",
+            },
+            "Name": "limulus.net",
+            "Type": "A",
+          },
+          {
+            "AliasTarget": {
+              "DNSName": {
+                "Fn::GetAtt": [
+                  "CloudFrontDistributionBA64CE3A",
+                  "DomainName",
+                ],
+              },
+              "HostedZoneId": "Z2FDTNDATAQYW2",
+            },
+            "Name": "limulus.net",
+            "Type": "AAAA",
+          },
+          {
+            "AliasTarget": {
+              "DNSName": {
+                "Fn::GetAtt": [
+                  "CloudFrontDistributionBA64CE3A",
+                  "DomainName",
+                ],
+              },
+              "HostedZoneId": "Z2FDTNDATAQYW2",
+            },
+            "Name": "www.limulus.net",
+            "Type": "A",
+          },
+          {
+            "AliasTarget": {
+              "DNSName": {
+                "Fn::GetAtt": [
+                  "CloudFrontDistributionBA64CE3A",
+                  "DomainName",
+                ],
+              },
+              "HostedZoneId": "Z2FDTNDATAQYW2",
+            },
+            "Name": "www.limulus.net",
+            "Type": "AAAA",
+          },
+        ],
+      },
+      "Type": "AWS::Route53::RecordSetGroup",
+    },
     "StaticSiteBucket8958EE3F": {
       "DeletionPolicy": "Delete",
       "Metadata": {
@@ -3037,56 +3015,6 @@ try {
         },
       },
       "Type": "AWS::CloudFront::OriginAccessControl",
-    },
-    "WwwAliasRecord1B442697": {
-      "Properties": {
-        "AliasTarget": {
-          "DNSName": {
-            "Fn::GetAtt": [
-              "CloudFrontDistributionBA64CE3A",
-              "DomainName",
-            ],
-          },
-          "HostedZoneId": {
-            "Fn::FindInMap": [
-              "AWSCloudFrontPartitionHostedZoneIdMap",
-              {
-                "Ref": "AWS::Partition",
-              },
-              "zoneId",
-            ],
-          },
-        },
-        "HostedZoneId": "Z123456789ABCDEFGH",
-        "Name": "www.limulus.net.",
-        "Type": "A",
-      },
-      "Type": "AWS::Route53::RecordSet",
-    },
-    "WwwAliasRecordAAAAD78E206A": {
-      "Properties": {
-        "AliasTarget": {
-          "DNSName": {
-            "Fn::GetAtt": [
-              "CloudFrontDistributionBA64CE3A",
-              "DomainName",
-            ],
-          },
-          "HostedZoneId": {
-            "Fn::FindInMap": [
-              "AWSCloudFrontPartitionHostedZoneIdMap",
-              {
-                "Ref": "AWS::Partition",
-              },
-              "zoneId",
-            ],
-          },
-        },
-        "HostedZoneId": "Z123456789ABCDEFGH",
-        "Name": "www.limulus.net.",
-        "Type": "AAAA",
-      },
-      "Type": "AWS::Route53::RecordSet",
     },
   },
   "Rules": {

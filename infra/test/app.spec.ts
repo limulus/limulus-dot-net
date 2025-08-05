@@ -102,12 +102,26 @@ describe('App deployment logic', () => {
         },
       })
 
-      // Check Route53 records for production domains
-      template.hasResourceProperties('AWS::Route53::RecordSet', {
-        Name: 'limulus.net.',
-      })
-      template.hasResourceProperties('AWS::Route53::RecordSet', {
-        Name: 'www.limulus.net.',
+      // Check Route53 RecordSetGroup for production domains
+      template.hasResourceProperties('AWS::Route53::RecordSetGroup', {
+        RecordSets: [
+          {
+            Name: 'limulus.net',
+            Type: 'A',
+          },
+          {
+            Name: 'limulus.net',
+            Type: 'AAAA',
+          },
+          {
+            Name: 'www.limulus.net',
+            Type: 'A',
+          },
+          {
+            Name: 'www.limulus.net',
+            Type: 'AAAA',
+          },
+        ],
       })
     })
 
@@ -128,9 +142,18 @@ describe('App deployment logic', () => {
         },
       })
 
-      // Check Route53 records for feature branch domain
-      template.hasResourceProperties('AWS::Route53::RecordSet', {
-        Name: 'feature.limulus.net.',
+      // Check Route53 RecordSetGroup for feature branch domain
+      template.hasResourceProperties('AWS::Route53::RecordSetGroup', {
+        RecordSets: [
+          {
+            Name: 'feature.limulus.net',
+            Type: 'A',
+          },
+          {
+            Name: 'feature.limulus.net',
+            Type: 'AAAA',
+          },
+        ],
       })
     })
   })

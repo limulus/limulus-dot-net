@@ -56,6 +56,7 @@ export function createApp(context?: Record<string, any>): cdk.App {
           StaticSiteOAC0E9675D5: 'StaticSiteBucketOriginAccessControl',
           LogProcessingSqsDeadLetterQueueBCE15394: 'LogProcessingSqsDeadLetterQueue',
           LogProcessingSqsQueueEB4F57A0: 'LogProcessingSqsQueue',
+          Route53RecordSetGroup: 'Route53RecordSetGroup',
         },
       })
     )
