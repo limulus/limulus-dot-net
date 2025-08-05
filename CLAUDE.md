@@ -12,9 +12,8 @@
 ## Infrastructure Commands
 
 - Synthesize CDK template: `npm run cdkc`
-- Deploy infrastructure: `npx cdk deploy`
 - Diff infrastructure: `npx cdk diff`
-- Destroy infrastructure: `npx cdk destroy`
+- Test CloudFront function in CloudFront: `npm run test:integration`
 
 ## Code Style Guidelines
 

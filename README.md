@@ -62,7 +62,7 @@ is located in the `/infra` directory and includes:
 - **Origin Access Control**: Secure S3 access via CloudFront
 - **SQS Queue**: CloudFront log processing
 
-**Deployment**: Infrastructure is automatically deployed via GitHub Actions when changes are 
+**Deployment**: Infrastructure is automatically deployed via GitHub Actions when changes are
 pushed to any branch. This is the primary and recommended way to deploy long-lived stacks.
 
 For local development and testing:
@@ -74,12 +74,9 @@ npm run cdkc
 # View infrastructure diff (requires AWS credentials)
 npx cdk diff
 
-# Deploy to test stack (not recommended for production)
-npx cdk deploy
+# Test CloudFront function running in CloudFront
+npm run test:integration
 ```
-
-Note: Local deployments should only be used for development testing. All production 
-deployments go through GitHub Actions with proper security controls.
 
 ### Writing Content
 
