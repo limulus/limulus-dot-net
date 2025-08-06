@@ -52,6 +52,10 @@ export class BlurHash extends HTMLElement {
 
     const blobUrl = await this.createBlurhashBlobUrl(blurhash, width, height)
     imgEl.style.backgroundImage = `url(${blobUrl})`
+
+    // Hide alt text that Firefox displays while loading images because we can't know if the
+    // text will be legible atop the blurhash background.
+    imgEl.style.color = 'transparent'
   }
 
   private async createBlurhashBlobUrl(
