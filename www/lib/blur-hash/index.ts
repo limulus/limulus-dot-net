@@ -33,6 +33,23 @@ export class BlurHash extends HTMLElement {
       throw new Error('BlurHash: Missing width or height attributes')
     }
 
+    // Don't apply blurhash if the image is already loaded
+    if (imgEl.complete && imgEl.naturalWidth > 0) {
+      return
+    }
+
+    // Safari seems to sometimes calculate object-fit images differently than the background
+    // image, which can lead to the background image peeking through on the edges. We don't
+    // need to keep these blur hash images around if they are not being displayed, so we may
+    // as well remove them.
+    imgEl.addEventListener('load', () => {
+      // Attempt to prevent flash caused by removing the background image before the image
+      // is rendered
+      requestAnimationFrame(() => {
+        imgEl.style.backgroundImage = ''
+      })
+    })
+
     const blobUrl = await this.createBlurhashBlobUrl(blurhash, width, height)
     imgEl.style.backgroundImage = `url(${blobUrl})`
   }
