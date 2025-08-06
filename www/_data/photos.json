@@ -2567,5 +2567,130 @@
         "size": 29576
       }
     ]
+  },
+  "stereotypical-cloud": "8JrRozip",
+  "8JrRozip": {
+    "id": "8JrRozip",
+    "alias": "stereotypical-cloud",
+    "baseUrl": "https://pho.limulus.net/8JrRozip",
+    "original": "IMG_7383.png",
+    "width": 3777,
+    "height": 2698,
+    "title": "Stereotypical Cloud",
+    "description": "A white cloud floats in the blue sky peacefully behind a mountain rock outcropping adorned with some shrubbery. The ground in front is covered with small green plants. A few bare and fire-damaged trees stand in the foreground.",
+    "date": "2025-06-04T13:36:39-07:00",
+    "tags": [
+      "license:cc-by",
+      "limulus.net",
+      "limulus.net/photos"
+    ],
+    "make": "Apple",
+    "camera": "iPhone 16 Pro",
+    "lens": "iPhone 16 Pro back triple camera 6.765mm f/1.78",
+    "focalLength": "6.764999865652793 mm",
+    "exposureTime": "1/11364",
+    "fNumber": "f/1.7799999713880652",
+    "iso": 80,
+    "flash": "Flash did not fire, compulsory flash mode",
+    "exposureMode": "Auto exposure",
+    "whiteBalance": "Auto white balance",
+    "blurhash": "LGEMzqDh00tStpW@9E%L00xt-:Rj",
+    "location": {
+      "latitude": 32.423183333333334,
+      "longitude": -110.76918888888889,
+      "altitude": 2461.2675521821634
+    },
+    "renditions": [
+      {
+        "name": "xl",
+        "format": "avif",
+        "url": "https://pho.limulus.net/8JrRozip/xl.MAujoG2D.avif",
+        "file": "xl.MAujoG2D.avif",
+        "width": 3777,
+        "height": 2698,
+        "size": 299602
+      },
+      {
+        "name": "xl",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/8JrRozip/xl.gnYcgyhN.jpeg",
+        "file": "xl.gnYcgyhN.jpeg",
+        "width": 3777,
+        "height": 2698,
+        "size": 965944
+      },
+      {
+        "name": "lg",
+        "format": "avif",
+        "url": "https://pho.limulus.net/8JrRozip/lg.377sovf5.avif",
+        "file": "lg.377sovf5.avif",
+        "width": 3000,
+        "height": 2143,
+        "size": 240352
+      },
+      {
+        "name": "lg",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/8JrRozip/lg.V1WJIhiw.jpeg",
+        "file": "lg.V1WJIhiw.jpeg",
+        "width": 3000,
+        "height": 2143,
+        "size": 683428
+      },
+      {
+        "name": "md",
+        "format": "avif",
+        "url": "https://pho.limulus.net/8JrRozip/md.JclSZLfp.avif",
+        "file": "md.JclSZLfp.avif",
+        "width": 1500,
+        "height": 1071,
+        "size": 110581
+      },
+      {
+        "name": "md",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/8JrRozip/md.9ratbvzL.jpeg",
+        "file": "md.9ratbvzL.jpeg",
+        "width": 1500,
+        "height": 1071,
+        "size": 228785
+      },
+      {
+        "name": "sm",
+        "format": "avif",
+        "url": "https://pho.limulus.net/8JrRozip/sm.yAkasZBs.avif",
+        "file": "sm.yAkasZBs.avif",
+        "width": 750,
+        "height": 536,
+        "size": 40816
+      },
+      {
+        "name": "sm",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/8JrRozip/sm.FRBig7dJ.jpeg",
+        "file": "sm.FRBig7dJ.jpeg",
+        "width": 750,
+        "height": 536,
+        "size": 71430
+      },
+      {
+        "name": "xs",
+        "format": "avif",
+        "url": "https://pho.limulus.net/8JrRozip/xs.G2azXEVD.avif",
+        "file": "xs.G2azXEVD.avif",
+        "width": 325,
+        "height": 232,
+        "size": 14980
+      },
+      {
+        "name": "xs",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/8JrRozip/xs.8YZfM_vT.jpeg",
+        "file": "xs.8YZfM_vT.jpeg",
+        "width": 325,
+        "height": 232,
+        "size": 21849
+      }
+    ]
   }
 }
