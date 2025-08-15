@@ -18,8 +18,8 @@
 - No semicolons
 - Single quotes for strings
 - ES5 trailing commas
-- Pre-commit: Checks for "TK" markers (placeholder text)
-- Pre-push: Runs verify command
+- Prefer `??` over `||` when coalescing values
+- Fix linting issues with `npm run lint -- --fix`
 
 ## Project Structure
 
