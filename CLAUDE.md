@@ -2,12 +2,8 @@
 
 ## Build & Development Commands
 
-- Build site: `npm run build`
-- Development server: `npm run dev`
-- Lint code: `npm run lint`
-- Type check: `npm run tscc`
-- Verify all: `npm run verify`
-- Clean build artifacts: `npm run clean`
+- Fix linting issues: `npm run lint -- --fix`
+- Compile/Lint/Test: `npm run verify`
 
 ## Infrastructure Commands
 
