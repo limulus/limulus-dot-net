@@ -21,6 +21,10 @@
 - Prefer `??` over `||` when coalescing values
 - Fix linting issues with `npm run lint -- --fix`
 
+## Git Workflow
+
+- Two remotes: `public` (public repo) and `private` (private repo)
+
 ## Project Structure
 
 - `/www`: Site content and templates (11ty)

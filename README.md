@@ -50,6 +50,29 @@ The `main` branch is automatically deployed to `limulus.net`. Non-content change
 require testing should be done on a branch. Branches will be deployed to
 `${branch}.limulus.net`.
 
+### Keeping Work-In-Progress Private
+
+This repo has [public](https://github.com/limulus/limulus-dot-net) and
+[private](https://github.com/limulus/limulus-dot-net-private) forks to effectively allow for
+private work-in-progress branches. To set this up, first clone the public repo then
+configure two remotes:
+
+```sh
+git remote add public https://github.com/limulus/limulus-dot-net.git
+git remote add private https://github.com/limulus/limulus-dot-net-private.git
+```
+
+To create a private branch, set its upstream to `private` when you first push it:
+
+```sh
+git checkout -b my-feature
+git push -u private my-feature
+```
+
+When you’re done and ready to publish the changes in a branch, just merge it to `main`.
+
+> [!NOTE] Branches on the private repo do not trigger CI and are not deployed to subdomains.
+
 ### Infrastructure
 
 The site infrastructure is managed using AWS CDK (TypeScript). The infrastructure code
