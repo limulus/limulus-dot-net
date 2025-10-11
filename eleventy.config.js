@@ -76,7 +76,7 @@ export default function (eleventyConfig) {
   })
 
   addFeed('atom', '/tils/feed.xml', 'til', {
-    title: 'Today I Learned',
+    title: 'Eric’s TILs',
     subtitle: 'Short notes on things I learn day to day.',
     base: 'https://limulus.net/tils',
   })
