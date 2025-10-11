@@ -43,7 +43,7 @@ This would effectively let me have “private branches”! Finally!
 I’ve implemented this by creating an empty private GitHub repo, added it as a remote named
 `private`, pushed up everything from the original, and renamed the `origin` remote to
 `public`. This rename makes sure I will need to explicitly specify a remote when pushing new
-branches, preventing accident pushes to the public repo.
+branches, preventing accidental pushes to the public repo.
 
 ```bash
 git remote add private https://github.com/limulus/limulus-dot-net-private.git
