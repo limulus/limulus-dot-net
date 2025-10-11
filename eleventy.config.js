@@ -43,62 +43,42 @@ export default function (eleventyConfig) {
     components,
   })
 
-  eleventyConfig.addPlugin(feedPlugin, {
-    type: 'rss',
-    outputPath: '/feed.xml',
-    collection: {
-      name: 'article',
-      limit: 0,
-    },
-    stylesheet: '/feed.xsl',
-    metadata: {
+  const addFeed = (type, outputPath, collection, metadata, options = {}) => {
+    eleventyConfig.addPlugin(feedPlugin, {
+      type,
+      outputPath,
+      collection: { name: collection, limit: 0 },
+      metadata: {
+        language: 'en',
+        author: { name: 'Eric McCarthy', email: 'eric@limulus.net' },
+        ...metadata,
+      },
+      ...options,
+    })
+  }
+
+  addFeed(
+    'rss',
+    '/feed.xml',
+    'article',
+    {
       title: 'limulus.net',
       subtitle: 'Every article on limulus.net.',
-      language: 'en',
       base: 'https://limulus.net',
-      author: {
-        name: 'Eric McCarthy',
-        email: 'eric@limulus.net',
-      },
     },
+    { stylesheet: '/feed.xsl' }
+  )
+
+  addFeed('atom', '/penumbra/feed.xml', 'penumbra', {
+    title: 'Penumbra Development Journal',
+    subtitle: 'Tracking the development of Penumbra, a web-centric ray tracer.',
+    base: 'https://limulus.net/penumbra',
   })
 
-  eleventyConfig.addPlugin(feedPlugin, {
-    type: 'atom',
-    outputPath: '/penumbra/feed.xml',
-    collection: {
-      name: 'penumbra',
-      limit: 0,
-    },
-    metadata: {
-      title: 'Penumbra Development Journal',
-      subtitle: 'Tracking the development of Penumbra, a web-centric ray tracer.',
-      language: 'en',
-      base: 'https://limulus.net/penumbra',
-      author: {
-        name: 'Eric McCarthy',
-        email: 'eric@limulus.net',
-      },
-    },
-  })
-
-  eleventyConfig.addPlugin(feedPlugin, {
-    type: 'atom',
-    outputPath: '/tils/feed.xml',
-    collection: {
-      name: 'til',
-      limit: 0,
-    },
-    metadata: {
-      title: 'Today I Learned',
-      subtitle: 'Short notes on things I learn day to day.',
-      language: 'en',
-      base: 'https://limulus.net/tils',
-      author: {
-        name: 'Eric McCarthy',
-        email: 'eric@limulus.net',
-      },
-    },
+  addFeed('atom', '/tils/feed.xml', 'til', {
+    title: 'Today I Learned',
+    subtitle: 'Short notes on things I learn day to day.',
+    base: 'https://limulus.net/tils',
   })
 
   // Get all unique TIL topics for pagination
