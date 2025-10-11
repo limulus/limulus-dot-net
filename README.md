@@ -69,9 +69,10 @@ git checkout -b my-feature
 git push -u private my-feature
 ```
 
-When you’re done and ready to publish the changes in a branch, just merge it to `main`.
+> [!TIP]
+> Branches on the private repo do not trigger CI and are not deployed to subdomains.
 
-> [!NOTE] Branches on the private repo do not trigger CI and are not deployed to subdomains.
+When you’re done and ready to publish the changes in a branch, just merge it to `main`.
 
 ### Infrastructure
 
