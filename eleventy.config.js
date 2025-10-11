@@ -82,6 +82,36 @@ export default function (eleventyConfig) {
     },
   })
 
+  eleventyConfig.addPlugin(feedPlugin, {
+    type: 'atom',
+    outputPath: '/tils/feed.xml',
+    collection: {
+      name: 'til',
+      limit: 0,
+    },
+    metadata: {
+      title: 'Today I Learned',
+      subtitle: 'Short notes on things I learn day to day.',
+      language: 'en',
+      base: 'https://limulus.net/tils',
+      author: {
+        name: 'Eric McCarthy',
+        email: 'eric@limulus.net',
+      },
+    },
+  })
+
+  // Get all unique TIL topics for pagination
+  eleventyConfig.addCollection('tilTopics', (collectionApi) => {
+    const topics = new Set()
+    collectionApi.getFilteredByTag('til').forEach((item) => {
+      if (item.data.tilTopic) {
+        topics.add(item.data.tilTopic)
+      }
+    })
+    return Array.from(topics).sort()
+  })
+
   const md = markdownIt({
     html: true,
     highlight: (str, language) => {

@@ -1,0 +1,24 @@
+---
+title: Today I Learned
+layout: page
+teaser: >-
+  Short notes on interesting things I learn day to day.
+---
+
+<h1 @text="title"></h1>
+
+<p @text="teaser"></p>
+
+<h2>Browse by Topic</h2>
+
+<ul webc:if="collections.tilTopics && collections.tilTopics.length > 0">
+  <li webc:for="topic of collections.tilTopics">
+    <a :href="`/tils/${topic}/`" @text="topic"></a>
+  </li>
+</ul>
+<p webc:if="!collections.tilTopics || collections.tilTopics.length === 0">No topics yet.</p>
+
+<h2>All TILs</h2>
+
+<article-list webc:if="collections.til && collections.til.length > 0" :@articles="collections.til"></article-list>
+<p webc:if="!collections.til || collections.til.length === 0">No TILs yet.</p>
