@@ -2,12 +2,12 @@
 title: Today I Learned
 layout: page
 teaser: >-
-  Short notes on interesting things I learn day to day.
+  Today I Learned. (Short notes on interesting things I learn day to day.)
 ---
 
 <h1 @text="title"></h1>
 
-<p @text="teaser"></p>
+<p>Short notes on interesting things I learn day to day.</p>
 
 <h2>Browse by Topic</h2>
 
@@ -20,5 +20,8 @@ teaser: >-
 
 <h2>All TILs</h2>
 
-<article-list webc:if="collections.til && collections.til.length > 0" :@articles="collections.til"></article-list>
+<article-list
+  webc:if="collections.til && collections.til.length > 0"
+  :@articles="collections.til"
+></article-list>
 <p webc:if="!collections.til || collections.til.length === 0">No TILs yet.</p>

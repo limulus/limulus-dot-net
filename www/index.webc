@@ -50,6 +50,10 @@ image: limulus-dot-net-2024-11-29
 
 <p @text="getTeaser(collections.all, '/photos/')"></p>
 
+<h2><a href="/tils/">tils</a></h2>
+
+<p @text="getTeaser(collections.all, '/tils/')"></p>
+
 <style>
   main {
     max-width: 40rem;
