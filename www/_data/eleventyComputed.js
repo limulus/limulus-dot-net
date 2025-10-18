@@ -1,3 +1,5 @@
+import readingTime from 'reading-time'
+
 function extractTilTopic(filePathStem) {
   // Example: /www/tils/python/my-learning.md
   const pathParts = filePathStem.split('/')
@@ -43,5 +45,13 @@ export default {
     }
 
     return existingTags
+  },
+
+  // Calculate reading time for articles
+  readingTime(data) {
+    if (data.tags?.includes('article') && data.page?.rawInput) {
+      const { time } = readingTime(data.page.rawInput)
+      return time / 1000
+    }
   },
 }
