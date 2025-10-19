@@ -1,0 +1,4 @@
+{
+  "plugins": ["dprint-plugin-markup"],
+  "lineWidth": 92
+}
