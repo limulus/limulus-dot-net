@@ -1,0 +1,29 @@
+<ul>
+  <slot></slot>
+</ul>
+
+<style webc:scoped>
+  :host ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+  }
+
+  :host[size="small"] ul {
+    font-size: 0.7rem;
+  }
+
+  :host li {
+    display: flex;
+  }
+
+  :host ul a,
+  :host ul a:visited,
+  :host ul a:hover {
+    text-decoration: none;
+    color: inherit;
+  }
+</style>

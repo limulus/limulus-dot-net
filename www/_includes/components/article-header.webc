@@ -46,6 +46,17 @@
     margin: 0.5rem 0;
   }
 
+  :host li {
+    display: flex;
+  }
+
+  :host ul.chips a,
+  :host ul.chips a:visited,
+  :host ul.chips a:hover {
+    text-decoration: none;
+    color: inherit;
+  }
+
   :host hgroup p {
     margin: 0;
     font-size: 1.25rem;
@@ -57,13 +68,6 @@
   :host p.meta {
     overflow: auto;
     margin-left: 2px;
-  }
-
-  :host ul.chips a,
-  :host ul.chips a:visited,
-  :host ul.chips a:hover {
-    text-decoration: none;
-    color: inherit;
   }
 
   :host time {
