@@ -18,7 +18,7 @@
       <div class="text-content">
         <header>
           <h1 @text="article.data.title"></h1>
-          <chip-list size="small">
+          <chip-list :@article="article" size="small">
             <li>
               <author-chip :@article="article" @nolink="true"></author-chip>
             </li>
@@ -27,6 +27,9 @@
             </li>
             <li>
               <time-chip :@article="article"></time-chip>
+            </li>
+            <li webc:if="article.data.tilTopic">
+              <til-chip :@topic="article.data.tilTopic" @nolink="true"></til-chip>
             </li>
           </chip-list>
         </header>

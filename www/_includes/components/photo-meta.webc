@@ -104,7 +104,7 @@
 
     const render = (photo) => {
       let html = /* HTML */ `
-        <ul class="chips">
+        <chip-list justify="center">
           <li>
             <data-chip @icon="calendar-clock" :title="photo.date"
               >${datetime(photo)}</data-chip
@@ -126,7 +126,7 @@
           <li>
             <data-chip @icon="camera-roll">${iso(photo)}</data-chip>
           </li>
-        </ul>
+        </chip-list>
       `
 
       if (photo.location) {
@@ -149,15 +149,5 @@
 <style webc:scoped>
   :host section {
     margin-top: 2rem;
-  }
-
-  :host ul.chips {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    list-style: none;
-    padding: 0;
-    margin: 0;
   }
 </style>

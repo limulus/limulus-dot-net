@@ -12,7 +12,11 @@
     margin: 0.5rem 0;
   }
 
-  :host[size="small"] ul {
+  :host[justify='center'] ul {
+    justify-content: center;
+  }
+
+  :host[size='small'] ul {
     font-size: 0.7rem;
   }
 

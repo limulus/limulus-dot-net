@@ -9,19 +9,20 @@
   <p webc:if="article.data.subhead" @text="article.data.subhead"></p>
 </hgroup>
 
-<ul class="chips">
+<chip-list :@article="article">
   <li>
     <author-chip :@article="article"></author-chip>
   </li>
-
   <li>
     <published-chip :@article="article"></published-chip>
   </li>
-
   <li>
     <time-chip :@article="article"></time-chip>
   </li>
-</ul>
+  <li webc:if="article.data.tilTopic">
+    <til-chip :@topic="article.data.tilTopic"></til-chip>
+  </li>
+</chip-list>
 
 <style webc:scoped>
   :host article-photo {
@@ -35,26 +36,6 @@
 
   :host hgroup h1 {
     margin: 0;
-  }
-
-  :host ul.chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    list-style: none;
-    padding: 0;
-    margin: 0.5rem 0;
-  }
-
-  :host li {
-    display: flex;
-  }
-
-  :host ul.chips a,
-  :host ul.chips a:visited,
-  :host ul.chips a:hover {
-    text-decoration: none;
-    color: inherit;
   }
 
   :host hgroup p {
