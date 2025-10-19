@@ -1,0 +1,10 @@
+<script webc:type="js">
+  const chip = /* HTML */ `
+    <data-chip @icon="lightbulb-solid">
+      ${topic}
+    </data-chip>
+  `
+
+  nolink ? chip : `<a href="/tils/${topic}/">${chip}</a>`
+</script>
+
