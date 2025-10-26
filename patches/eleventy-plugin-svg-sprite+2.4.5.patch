@@ -1,37 +1,35 @@
 diff --git a/node_modules/eleventy-plugin-svg-sprite/.eleventy.js b/node_modules/eleventy-plugin-svg-sprite/.eleventy.js
-index 1234567..abcdefg 100644
+index 1772550..cad0031 100644
 --- a/node_modules/eleventy-plugin-svg-sprite/.eleventy.js
 +++ b/node_modules/eleventy-plugin-svg-sprite/.eleventy.js
-@@ -1,6 +1,7 @@
+@@ -1,7 +1,8 @@
  const SVGSprite = require("./src/SVGSprite");
--const lodash = require('lodash');
-+const lodash = require('lodash');
-
+ const lodash = require('lodash');
+ 
 -let idCounter = 0;
 +// Track SVG counts per page and SVG name to create deterministic IDs
 +const pageCounters = new Map();
-
+ 
  module.exports = (eleventyConfig, pluginConfig = [{}]) => {
    if (!Array.isArray(pluginConfig)) {
-@@ -28,21 +29,32 @@ module.exports = (eleventyConfig, pluginConfig = [{}]) => {
-     }
+@@ -28,11 +29,14 @@ module.exports = (eleventyConfig, pluginConfig = [{}]) => {
      svgSpriteShortcodeList.push(config.svgSpriteShortcode);
-
+ 
      let svgSpriteInstance = new SVGSprite(config);
 -    eleventyConfig.on('beforeBuild', async () => { await svgSpriteInstance.compile(); });
 +    eleventyConfig.on('beforeBuild', async () => {
 +      pageCounters.clear();
 +      await svgSpriteInstance.compile();
 +    });
-
+ 
      eleventyConfig.addShortcode(config.svgSpriteShortcode, () => { return svgSpriteInstance.getSvgSprite(config.svgSpriteShortcode); });
-
+ 
 -    eleventyConfig.addShortcode(config.svgShortcode, (name, classes, desc) => {
-+    eleventyConfig.addShortcode(config.svgShortcode, function(name, classes, desc) {
++    eleventyConfig.addShortcode(config.svgShortcode, function (name, classes, desc) {
        if (!name) {
          throw new Error("[eleventy-plugin-svg-sprite] name of SVG must be specified");
        }
-       const nameAttr = name;
+@@ -40,8 +44,16 @@ module.exports = (eleventyConfig, pluginConfig = [{}]) => {
        const classesAttr = `${config.globalClasses} ${classes || config.defaultClasses}`;
        // "desc" is required for accessibility and Lighthouse validations
        const descAttr = desc || `${nameAttr} icon`;
@@ -47,6 +45,6 @@ index 1234567..abcdefg 100644
 +      const count = (pageSvgCounters.get(nameAttr) ?? -1) + 1;
 +      pageSvgCounters.set(nameAttr, count);
 +      const uniqueID = count.toString(36);
-
+ 
        return `<svg class="${classesAttr}" aria-labelledby="symbol-${nameAttr}-desc-${uniqueID}" role="group">
                    <desc id="symbol-${nameAttr}-desc-${uniqueID}">${descAttr}</desc>
