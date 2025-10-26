@@ -12,6 +12,7 @@
     "predev": "npm run prebuild",
     "dev": "eleventy --serve --incremental",
     "lint": "eslint *.js 11ty/*.js www infra snapshots types",
+    "postinstall": "patch-package",
     "prepare": "husky && mkdirp photos",
     "photos": "node ./bin/process-photos.js photos/*",
     "test": "vitest run --project snapshots --project unit",
@@ -96,6 +97,7 @@
     "esbuild-plugin-wasm": "^1.1.0",
     "globby": "^14.0.1",
     "husky": "^9.1.5",
+    "patch-package": "^8.0.0",
     "tsx": "^4.20.3",
     "vitest": "^3.2.4"
   }
