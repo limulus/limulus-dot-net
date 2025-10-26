@@ -12,7 +12,7 @@ is_private_branch() {
 # Filter out files we never want to check for Tango Kilo markers
 # Reads from stdin, writes to stdout
 filter_excluded_files() {
-  grep -v -e package-lock.json -e photos.json -e CLAUDE.md
+  grep -v -e package-lock.json -e photos.json -e CLAUDE.md -e snapshots/
 }
 
 # Check if a file should be scanned for Tango Kilo markers
