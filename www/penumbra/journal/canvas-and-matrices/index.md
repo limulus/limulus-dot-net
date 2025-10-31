@@ -13,14 +13,14 @@ teaser: >-
 scripts: ./lib/index.js
 ---
 
-In the [previous post][003] I went a little further than the exercise at the end of the
+In the [previous post][tuples] I went a little further than the exercise at the end of the
 chapter asked for and created a web component that exercised my tuple implementation and
 included animation of the projectile. As it turns out, this wound up being very similar to
 the exercise at the end of chapter 2, which is about implementing a canvas. So I decided to
 skip that exercise and continue onto the next two chapters which walk you through
 implementing various matrix math operations.
 
-[003]: ../003-tuples/
+[tuples]: ../tuples/
 
 ## Implementing the Canvas Class
 

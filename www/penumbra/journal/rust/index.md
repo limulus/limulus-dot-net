@@ -22,11 +22,11 @@ targeting [WebAssembly]. Well, I’ve done it! I went through and reimplemented 
 have done so far to target WebAssembly using [SIMD] instructions. Here’s the previous
 [sphere’s shadow demo] alongside the new WebAssembly version:
 
-[previously]: ../003-tuples/#looking-ahead
-[mentioned]: ../004-canvas-and-matrices/#implementing-the-canvas-class
+[previously]: ../tuples/#looking-ahead
+[mentioned]: ../canvas-and-matrices/#implementing-the-canvas-class
 [webassembly]: https://webassembly.org/
 [simd]: https://en.wikipedia.org/wiki/Single_instruction,_multiple_data
-[sphere’s shadow demo]: ../005-ray-sphere-interactions/#demo
+[sphere’s shadow demo]: ../ray-sphere-interactions/#demo
 
 <div>
   <sphere-shadow-js-vs-wasm>

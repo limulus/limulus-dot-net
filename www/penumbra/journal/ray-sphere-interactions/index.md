@@ -142,7 +142,7 @@ keyboard support to it as well.
 Other than that there is not much new from the web technology side compared to the [previous
 demo]. Rendering of the canvas still happens in a single web worker.
 
-[previous demo]: ../004-canvas-and-matrices/
+[previous demo]: ../canvas-and-matrices/
 
 ## What’s Next
 
