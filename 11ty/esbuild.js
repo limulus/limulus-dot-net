@@ -2,7 +2,6 @@ import { build } from 'esbuild'
 import { wasmLoader } from 'esbuild-plugin-wasm'
 import { globby } from 'globby'
 import { writeFile, readFile } from 'node:fs/promises'
-import { resolve } from 'node:url'
 
 /** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
 export default async function (eleventyConfig) {
@@ -72,7 +71,7 @@ export default async function (eleventyConfig) {
 
     content = content.replace(/(["'])([^"']+\.X{8}\.js)\1/g, (match, del, path) => {
       path = path.replace(/\.X{8}\.js$/, '.js')
-      const hash = hashes[resolve(base, path)]
+      const hash = hashes[new URL(path, `http://example.com${base}`).pathname]
       if (hash) {
         matched = true
         return `${del}${path.replace(/\.js$/, `.${hash}.js`)}${del}`
