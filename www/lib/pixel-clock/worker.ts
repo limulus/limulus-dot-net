@@ -5,10 +5,10 @@ import '../raf-polyfill.js'
 import { Canvas, Matrix, Tuple } from '@limulus/penumbra'
 
 import {
-  PixelClockFrameMessage,
-  PixelClockInitMessage,
-  PixelClockMessage,
   PixelClockMessageType,
+  type PixelClockFrameMessage,
+  type PixelClockInitMessage,
+  type PixelClockMessage,
 } from './messages.js'
 
 self.onmessage = (event: MessageEvent<PixelClockMessage>) => {

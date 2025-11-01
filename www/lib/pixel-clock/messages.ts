@@ -1,15 +1,15 @@
-export enum PixelClockMessageType {
-  Frame = 'frame',
-  Init = 'init',
-}
+export const PixelClockMessageType = {
+  Frame: 'frame',
+  Init: 'init',
+} as const
 
 export interface PixelClockFrameMessage {
-  type: PixelClockMessageType.Frame
+  type: typeof PixelClockMessageType.Frame
   bitmap: ImageBitmap
 }
 
 export interface PixelClockInitMessage {
-  type: PixelClockMessageType.Init
+  type: typeof PixelClockMessageType.Init
   width: number
   height: number
 }

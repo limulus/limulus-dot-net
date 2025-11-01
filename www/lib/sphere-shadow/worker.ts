@@ -5,10 +5,10 @@ import '../raf-polyfill.js'
 import { Canvas, Sphere, Matrix, Ray, Tuple } from '@limulus/penumbra'
 
 import {
-  SphereShadowInitMessage,
-  SphereShadowFrameMessage,
   SphereShadowMessageType,
-  SphereShadowLightTranslateMessage,
+  type SphereShadowInitMessage,
+  type SphereShadowFrameMessage,
+  type SphereShadowLightTranslateMessage,
 } from './messages.js'
 
 self.onmessage = (event) => {

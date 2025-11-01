@@ -2,7 +2,11 @@
 
 import { decode } from 'blurhash'
 
-import { BlurHashDecodeMessage, BlurHashMessage, BlurHashMessageType } from './messages.js'
+import {
+  BlurHashMessageType,
+  type BlurHashDecodeMessage,
+  type BlurHashMessage,
+} from './messages.js'
 
 self.onmessage = (event: MessageEvent<BlurHashMessage>) => {
   switch (event.data.type) {

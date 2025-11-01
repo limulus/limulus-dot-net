@@ -1,4 +1,4 @@
-import { AwsRum, AwsRumConfig } from 'aws-rum-web'
+import { AwsRum, type AwsRumConfig } from 'aws-rum-web'
 
 const config: AwsRumConfig = {
   sessionSampleRate: 0.05,

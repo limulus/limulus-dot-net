@@ -174,8 +174,11 @@ class Scene {
 class Renderer {
   private darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
   private renderDependencyCache: any[] = []
+  private ctx: CanvasRenderingContext2D
 
-  constructor(private ctx: CanvasRenderingContext2D) {}
+  constructor(ctx: CanvasRenderingContext2D) {
+    this.ctx = ctx
+  }
 
   render(scene: Scene) {
     const deps = [this.primaryColor, scene]

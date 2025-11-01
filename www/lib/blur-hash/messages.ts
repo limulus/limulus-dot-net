@@ -1,10 +1,10 @@
-export enum BlurHashMessageType {
-  decode = 'decode',
-  decodeResult = 'decodeResult',
-}
+export const BlurHashMessageType = {
+  decode: 'decode',
+  decodeResult: 'decodeResult',
+} as const
 
 export interface BlurHashDecodeMessage {
-  type: BlurHashMessageType.decode
+  type: typeof BlurHashMessageType.decode
   id: string
   blurhash: string
   width: number
@@ -12,7 +12,7 @@ export interface BlurHashDecodeMessage {
 }
 
 export interface BlurHashDecodeResultMessage {
-  type: BlurHashMessageType.decodeResult
+  type: typeof BlurHashMessageType.decodeResult
   id: string
   blobUrl: string
 }

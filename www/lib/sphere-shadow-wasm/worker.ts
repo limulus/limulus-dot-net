@@ -5,10 +5,10 @@ import '../raf-polyfill.js'
 import { SphereShadowRenderer } from '@limulus/penumbra/wasm/simd'
 
 import {
-  SphereShadowInitMessage,
-  SphereShadowFrameMessage,
   SphereShadowMessageType,
-  SphereShadowLightTranslateMessage,
+  type SphereShadowInitMessage,
+  type SphereShadowFrameMessage,
+  type SphereShadowLightTranslateMessage,
 } from './messages.js'
 
 let renderer: SphereShadowRenderer

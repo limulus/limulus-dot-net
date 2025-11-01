@@ -1,7 +1,7 @@
 import {
-  BlurHashDecodeMessage,
-  BlurHashDecodeResultMessage,
   BlurHashMessageType,
+  type BlurHashDecodeMessage,
+  type BlurHashDecodeResultMessage,
 } from './messages.js'
 
 const cache = new Map<string, Promise<string>>()

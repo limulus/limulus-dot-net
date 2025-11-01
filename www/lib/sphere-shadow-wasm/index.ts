@@ -2,11 +2,11 @@ import 'touch-pad/define'
 import type { TouchPadMoveEvent } from 'touch-pad'
 
 import {
-  SphereShadowInitMessage,
-  SphereShadowFrameMessage,
   SphereShadowMessageType,
-  SphereShadowLightTranslateMessage,
-  SphereShadowReadyMessage,
+  type SphereShadowInitMessage,
+  type SphereShadowFrameMessage,
+  type SphereShadowLightTranslateMessage,
+  type SphereShadowReadyMessage,
 } from './messages.js'
 
 const template = document.createElement('template')

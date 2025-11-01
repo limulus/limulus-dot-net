@@ -1,4 +1,4 @@
-import { PixelClockMessage, PixelClockMessageType } from './messages.js'
+import { PixelClockMessageType, type PixelClockMessage } from './messages.js'
 
 export class PixelClock extends HTMLElement {
   worker: Worker | null = null
