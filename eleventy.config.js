@@ -11,8 +11,8 @@ import markdownItAttrs from 'markdown-it-attrs'
 import markdownItFootnote from 'markdown-it-footnote'
 import markdownItTaskLists from 'markdown-it-task-lists'
 
-import dprintPlugin from './11ty/dprint.js'
-import esbuild from './11ty/esbuild.js'
+import dprintPlugin from './11ty/dprint.ts'
+import esbuild from './11ty/esbuild.ts'
 
 /** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
 export default function (eleventyConfig) {

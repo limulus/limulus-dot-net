@@ -11,7 +11,7 @@
     "clean": "del-cli *.tsbuildinfo coverage dist",
     "predev": "npm run prebuild",
     "dev": "eleventy --serve --incremental",
-    "lint": "eslint *.js 11ty/*.js www infra snapshots types",
+    "lint": "eslint *.js *.ts 11ty www infra snapshots types",
     "postinstall": "patch-package",
     "prepare": "husky && mkdirp photos",
     "photos": "node ./bin/process-photos.js photos/*",

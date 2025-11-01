@@ -17,6 +17,28 @@ declare module '@11ty/eleventy' {
     rawInput: string
   }
 
+  interface EleventyPage {
+    inputPath: string
+    url: string
+    outputPath: string
+  }
+
+  interface EleventyTransformContext {
+    page: EleventyPage
+  }
+
+  interface UserConfig {
+    addWatchTarget(path: string): void
+    on(event: string, callback: () => void | Promise<void>): void
+    addTransform(
+      name: string,
+      callback: (
+        this: EleventyTransformContext,
+        content: string
+      ) => string | Promise<string>
+    ): void
+  }
+
   class Eleventy {
     constructor(inputDir: string, outputDir: string, options?: EleventyOptions)
     write(): Promise<void>
@@ -24,5 +46,6 @@ declare module '@11ty/eleventy' {
     toNDJSON(): Promise<any>
   }
 
+  export { UserConfig, EleventyPage, EleventyTransformContext }
   export default Eleventy
 }

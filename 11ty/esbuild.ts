@@ -1,13 +1,13 @@
+import type { UserConfig } from '@11ty/eleventy'
 import { build } from 'esbuild'
 import { wasmLoader } from 'esbuild-plugin-wasm'
 import { globby } from 'globby'
 import { writeFile, readFile } from 'node:fs/promises'
 
-/** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
-export default async function (eleventyConfig) {
+export default async function (eleventyConfig: UserConfig): Promise<void> {
   eleventyConfig.addWatchTarget('www/**/*.ts')
 
-  let hashes
+  let hashes: Record<string, string> | undefined
 
   eleventyConfig.on('eleventy.before', async function () {
     hashes = await bundle(await globby(['www/**/index.ts', 'www/**/worker.ts']))
@@ -17,7 +17,7 @@ export default async function (eleventyConfig) {
     return translateHashes(this.page.inputPath, this.page.url, hashes, content) ?? content
   })
 
-  async function bundle(entryPoints) {
+  async function bundle(entryPoints: string[]): Promise<Record<string, string>> {
     const { metafile } = await build({
       assetNames: 'assets/immutable/11ty/esbuild/[name].[hash]',
       bundle: true,
@@ -36,11 +36,12 @@ export default async function (eleventyConfig) {
       sourcemap: true,
     })
 
-    const hashes = Object.entries(metafile.outputs).reduce(
-      (acc, [outputPath, outputInfo]) => {
+    const hashes = Object.entries(metafile!.outputs).reduce(
+      (acc: Record<string, string>, [outputPath, outputInfo]) => {
         if (outputInfo.entryPoint) {
+          const hashMatch = outputPath.match(/\.([^.]+)\.js$/)
           acc[outputInfo.entryPoint.replace(/^www/, '').replace(/\.ts$/, '.js')] =
-            outputPath.match(/\.([^.]+)\.js$/)[1]
+            hashMatch![1]
         }
         return acc
       },
@@ -55,10 +56,10 @@ export default async function (eleventyConfig) {
 
       ...Object.entries(hashes).map(async ([base, hash]) => {
         const filePath = `dist/www${base.replace(/\.js$/, `.${hash}.js`)}`
-        let content = await readFile(filePath, 'utf-8')
-        content = translateHashes(filePath, base, hashes, content)
-        if (content) {
-          await writeFile(filePath, content)
+        const content = await readFile(filePath, 'utf-8')
+        const newContent = translateHashes(filePath, base, hashes, content)
+        if (newContent) {
+          await writeFile(filePath, newContent)
         }
       }),
     ])
@@ -66,12 +67,17 @@ export default async function (eleventyConfig) {
     return hashes
   }
 
-  function translateHashes(inputPath, base, hashes, content) {
+  function translateHashes(
+    inputPath: string,
+    base: string,
+    hashes: Record<string, string> | undefined,
+    content: string
+  ): string | undefined {
     let matched = false
 
     content = content.replace(/(["'])([^"']+\.X{8}\.js)\1/g, (match, del, path) => {
       path = path.replace(/\.X{8}\.js$/, '.js')
-      const hash = hashes[new URL(path, `http://example.com${base}`).pathname]
+      const hash = hashes?.[new URL(path, `http://example.com${base}`).pathname]
       if (hash) {
         matched = true
         return `${del}${path.replace(/\.js$/, `.${hash}.js`)}${del}`
@@ -80,8 +86,6 @@ export default async function (eleventyConfig) {
       }
     })
 
-    if (matched) {
-      return content
-    }
+    return matched ? content : undefined
   }
 }

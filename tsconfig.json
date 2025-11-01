@@ -23,6 +23,7 @@
   },
   "include": [
     "*.ts",
+    "./11ty/",
     "./www/**/*.ts",
     "./infra/**/*.ts",
     "./snapshots/**/*.ts",

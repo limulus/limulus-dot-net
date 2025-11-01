@@ -1,13 +1,13 @@
-import { createFromBuffer } from '@dprint/formatter'
+import type { UserConfig } from '@11ty/eleventy'
+import { createFromBuffer, type Formatter } from '@dprint/formatter'
 import fs from 'node:fs'
 import { fileURLToPath } from 'node:url'
 
-let formatterPromise
+let formatterPromise: Promise<Formatter> | undefined
 
-/** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
-export default function dprintPlugin(eleventyConfig) {
+export default function dprintPlugin(eleventyConfig: UserConfig): void {
   // Initialize the Wasm formatter once (lazy load on first use)
-  const getFormatter = async () => {
+  const getFormatter = async (): Promise<Formatter> => {
     if (!formatterPromise) {
       formatterPromise = (async () => {
         // Load the wasm file from the npm package using module resolution
@@ -15,7 +15,7 @@ export default function dprintPlugin(eleventyConfig) {
           import.meta.resolve('dprint-plugin-markup/plugin.wasm')
         )
         const buffer = fs.readFileSync(wasmPath)
-        const formatter = createFromBuffer(buffer)
+        const formatter = createFromBuffer(buffer as unknown as BufferSource)
         formatter.setConfig({ lineWidth: 92 }, {})
         return formatter
       })()
@@ -35,12 +35,14 @@ export default function dprintPlugin(eleventyConfig) {
         } catch (error) {
           // Log warning but return unformatted content to continue the build
           console.warn(
-            `dprint formatting failed for ${this.page.inputPath}: ${error.message}`
+            `dprint formatting failed for ${this.page.inputPath}: ${(error as Error).message}`
           )
         }
       }
     } catch (error) {
-      console.warn(`Error in dprint transform ${this.page.inputPath}: ${error.message}`)
+      console.warn(
+        `Error in dprint transform ${this.page.inputPath}: ${(error as Error).message}`
+      )
     }
     return content
   })
