@@ -13,16 +13,16 @@ jobs:
     outputs:
       StaticSiteBucketName: ${{ steps.deploy.outputs.StaticSiteBucketName }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
           cache: 'npm'
           registry-url: 'https://registry.npmjs.org'
       - run: npm ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - uses: aws-actions/configure-aws-credentials@v4
+      - uses: aws-actions/configure-aws-credentials@v5
         with:
           role-to-assume: arn:aws:iam::865116139480:role/github-actions-limulus-dot-net-cf
           aws-region: us-west-2
@@ -39,10 +39,10 @@ jobs:
     runs-on: ubuntu-latest
     name: build website
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
           cache: 'npm'
           registry-url: 'https://registry.npmjs.org'
       - run: npm ci
@@ -51,7 +51,7 @@ jobs:
       - run: npm run build
         env:
           MAPBOX_PUBLIC_TOKEN: ${{ secrets.MAPBOX_PUBLIC_TOKEN }}
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: dist-www
           path: dist/www
@@ -67,11 +67,11 @@ jobs:
       contents: read
       id-token: write
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v6
         with:
           name: dist-www
           path: www
-      - uses: aws-actions/configure-aws-credentials@v4
+      - uses: aws-actions/configure-aws-credentials@v5
         with:
           role-to-assume: arn:aws:iam::865116139480:role/github-actions-limulus-dot-net-s3
           aws-region: us-west-2
