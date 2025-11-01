@@ -2,7 +2,7 @@ import * as cdk from 'aws-cdk-lib'
 import { Template } from 'aws-cdk-lib/assertions'
 import { describe, test, expect } from 'vitest'
 
-import { LimulusDotNetStack } from '../lib/limulus-dot-net-stack'
+import { LimulusDotNetStack } from '../lib/limulus-dot-net-stack.ts'
 
 describe('LimulusDotNetStack', () => {
   const defaultProps = {

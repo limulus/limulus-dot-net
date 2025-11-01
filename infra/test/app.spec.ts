@@ -3,7 +3,7 @@ import * as cdk from 'aws-cdk-lib'
 import { Template } from 'aws-cdk-lib/assertions'
 import { describe, test, expect, beforeEach, afterEach } from 'vitest'
 
-import { createApp } from '../bin/app'
+import { createApp } from '../bin/app.ts'
 
 describe('App deployment logic', () => {
   // Store original environment variables

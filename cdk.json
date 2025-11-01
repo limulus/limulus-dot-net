@@ -1,5 +1,5 @@
 {
-  "app": "npx tsx infra/bin/app.ts",
+  "app": "node infra/bin/app.ts",
   "output": "dist/infra/cdk.out",
   "watch": {
     "include": ["infra/**/*.ts"],

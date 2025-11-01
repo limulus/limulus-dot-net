@@ -4,7 +4,7 @@ import * as cdk from 'aws-cdk-lib'
 import { AwsSolutionsChecks } from 'cdk-nag'
 import esMain from 'es-main'
 
-import { LimulusDotNetStack } from '../lib/limulus-dot-net-stack'
+import { LimulusDotNetStack } from '../lib/limulus-dot-net-stack.ts'
 
 export function createApp(context?: Record<string, any>): cdk.App {
   const app = new cdk.App({ context })
