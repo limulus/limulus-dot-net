@@ -27,6 +27,10 @@ declare module '@11ty/eleventy' {
     page: EleventyPage
   }
 
+  interface CollectionApi {
+    getFilteredByTag(tag: string): EleventyEntry[]
+  }
+
   interface UserConfig {
     addWatchTarget(path: string): void
     on(event: string, callback: () => void | Promise<void>): void
@@ -37,6 +41,16 @@ declare module '@11ty/eleventy' {
         content: string
       ) => string | Promise<string>
     ): void
+    addPassthroughCopy(path: string, options?: { expand?: boolean }): void
+    addPlugin(plugin: any, options?: any): void
+    addCollection(name: string, callback: (api: CollectionApi) => any): void
+    setLibrary(name: string, library: any): void
+    addShortcode(name: string, callback: (this: any, ...args: any[]) => any): void
+    setServerOptions(options: {
+      middleware?: ((req: any, res: any, next: () => void) => void)[]
+      port?: number | string
+    }): void
+    setServerPassthroughCopyBehavior(behavior: string): void
   }
 
   class Eleventy {
@@ -46,6 +60,44 @@ declare module '@11ty/eleventy' {
     toNDJSON(): Promise<any>
   }
 
-  export { UserConfig, EleventyPage, EleventyTransformContext }
+  const EleventyRenderPlugin: any
+  export {
+    UserConfig,
+    EleventyPage,
+    EleventyTransformContext,
+    CollectionApi,
+    EleventyEntry,
+    EleventyRenderPlugin,
+  }
   export default Eleventy
+}
+
+declare module '@11ty/eleventy-plugin-rss' {
+  const feedPlugin: any
+  export { feedPlugin }
+}
+
+declare module '@11ty/eleventy-plugin-webc' {
+  const pluginWebc: any
+  export default pluginWebc
+}
+
+declare module 'eleventy-plugin-svg-sprite' {
+  const svgSprite: any
+  export default svgSprite
+}
+
+declare module 'markdown-it-attrs' {
+  const markdownItAttrs: any
+  export default markdownItAttrs
+}
+
+declare module 'markdown-it-footnote' {
+  const markdownItFootnote: any
+  export default markdownItFootnote
+}
+
+declare module 'markdown-it-task-lists' {
+  const markdownItTaskLists: any
+  export default markdownItTaskLists
 }
