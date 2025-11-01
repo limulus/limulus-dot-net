@@ -22,7 +22,7 @@ async function handleDecodeMessage(message: BlurHashDecodeMessage) {
   }
 
   const { blurhash, width, height } = message
-  const pixels = decode(blurhash, width, height)
+  const pixels = decode(blurhash, width, height) as Uint8ClampedArray<ArrayBuffer>
   const imageData = new ImageData(pixels, width, height)
 
   canvas.width = width
