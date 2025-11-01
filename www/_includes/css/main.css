@@ -130,7 +130,7 @@ code {
   font-size: 0.95em;
 }
 
-p code {
+article code {
   padding: 0.33333rem 0.5rem;
   border-radius: 0.66666rem;
   background-color: var(--card-background-color);
