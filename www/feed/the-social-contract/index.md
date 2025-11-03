@@ -97,7 +97,7 @@ defiance of the courts must be met with serious threats of removal through lawfu
 such as impeachment. While that is unlikely to succeed immediately given the current make-up
 of Congress and President Trump’s continued popularity among the Republican base — it is not
 impossible if these factors shift. To that end, there is a path to bring an early end to
-Trump’s un-American pursuit of authoritarianism: make the 2028 midterm elections a
+Trump’s un-American pursuit of authoritarianism: make the 2026 midterm elections a
 referendum on impeaching Trump and Vice President Vance, likewise making the newly-minted
 Speaker Hakeem Jeffries president for the remainder of the term.
 
