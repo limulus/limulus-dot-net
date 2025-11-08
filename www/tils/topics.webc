@@ -1,0 +1,23 @@
+---js
+const layout = 'page'
+const pagination = {
+  data: 'collections.tilTopics',
+  size: 1,
+  alias: 'topic',
+}
+
+function permalink({ topic }) {
+  return `/tils/${topic}/`
+}
+
+const eleventyComputed = {
+  title: ({ topic }) => `TILs: ${topic}`,
+  teaser: ({ topic }) => `Things I've learned about ${topic}.`,
+}
+---
+
+<h1 @text="title"></h1>
+
+<p @text="teaser"></p>
+
+<article-list :@articles="collections.til.filter(t => t.data.tilTopic === topic)"></article-list>
