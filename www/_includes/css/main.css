@@ -1,18 +1,20 @@
 @font-face {
   font-family: 'Mona Sans';
   src:
-    url('/assets/fonts/mona-sans.6d7565f0.woff2') format('woff2 supports variations'),
-    url('/assets/fonts/mona-sans.6d7565f0.woff2') format('woff2-variations');
+    url('/assets/fonts/mona-sans-2.eb9c59a4.woff2') format('woff2 supports variations'),
+    url('/assets/fonts/mona-sans-2.eb9c59a4.woff2') format('woff2-variations');
   font-weight: 200 900;
   font-stretch: 75% 125%;
+  font-optical-sizing: auto;
   font-display: swap;
 }
 
 @font-face {
   font-family: 'Monaspace Neon';
   src:
-    url('/assets/fonts/monaspace-neon.9891d73f.woff2') format('woff2 supports variations'),
-    url('/assets/fonts/monaspace-neon.9891d73f.woff2') format('woff2-variations');
+    url('/assets/fonts/monaspace-neon-1301.e19aeeb2.woff2')
+      format('woff2 supports variations'),
+    url('/assets/fonts/monaspace-neon-1301.e19aeeb2.woff2') format('woff2-variations');
   font-weight: 200 800;
   font-display: swap;
 }
@@ -65,7 +67,7 @@ header nav {
 :root {
   --background-color: #f3f3f3;
   --body-padding: 2rem;
-  --body-max-width: 55rem;
+  --body-max-width: 45rem;
   --card-background-color: #f6f6f6;
   --card-border: var(--hairline-pixels) solid var(--card-border-color);
   --card-border-color: #999;
@@ -76,12 +78,13 @@ header nav {
   --chip-background-color: #e0e0e0;
   --color: #333;
   --hairline-pixels: 1px;
+  --inline-text-highlight-color: #e8e8e8;
 }
 
 html {
   background-color: var(--background-color);
   color: var(--color);
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.6;
   overflow-y: scroll;
 }
@@ -131,9 +134,10 @@ code {
 }
 
 article code {
-  padding: 0.33333rem 0.5rem;
+  padding: 0.2rem 0.3rem;
+  margin: -0.2rem -0.1rem;
   border-radius: 0.66666rem;
-  background-color: var(--card-background-color);
+  background-color: var(--inline-text-highlight-color);
 }
 
 pre > code.hljs {
@@ -150,6 +154,7 @@ pre > code.hljs {
 
 article p {
   text-wrap-style: pretty;
+  margin-bottom: 1.5;
 }
 
 article blockquote {
@@ -182,6 +187,7 @@ sphere-shadow::part(hud-value) {
     --card-box-shadow-color: rgba(0, 0, 0, 0.7);
     --chip-background-color: #20212c;
     --color: rgb(201, 209, 217);
+    --inline-text-highlight-color: #20212c;
   }
 
   a {
@@ -195,10 +201,6 @@ sphere-shadow::part(hud-value) {
 @media (max-width: 599px) {
   :root {
     --card-padding: 0.5rem 0.75rem;
-  }
-
-  html {
-    font-size: 20px;
   }
 
   body {
