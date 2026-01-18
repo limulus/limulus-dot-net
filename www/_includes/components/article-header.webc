@@ -35,12 +35,13 @@
   }
 
   :host hgroup h1 {
-    margin: 0;
+    margin: 0 0 0.5rem 0;
   }
 
   :host hgroup p {
     margin: 0;
     font-size: 1.25rem;
+    line-height: 1.5;
     --var-font-wght: 400;
     --var-font-slnt: -10;
     font-synthesis: none;
