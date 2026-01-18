@@ -61,7 +61,7 @@
   }
 
   :host .text-content {
-    margin: 0.3rem 0.7rem 0.5rem 0.7rem;
+    margin: 0.5rem 0.7rem 0.5rem 0.7rem;
   }
 
   :host h1 {
