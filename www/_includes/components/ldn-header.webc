@@ -52,7 +52,7 @@
 <style webc:scoped>
   :host {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
@@ -60,6 +60,16 @@
     font-size: 1.2rem;
     --var-font-wght: 700;
     font-synthesis: none;
+  }
+
+  :host nav {
+    flex: 1;
+    min-width: 0;
+  }
+
+  :host section.engagement {
+    flex-shrink: 0;
+    align-self: flex-start;
   }
 
   :host ul {
@@ -89,34 +99,12 @@
     margin: 0 0.5em;
   }
 
-  :host nav li:nth-of-type(3)::before {
-    content: '/';
-    margin: 0 0.5em 0 0.2em;
-  }
-
-  :host nav li:nth-of-type(2) {
-    display: none;
-  }
-
   :host nav svg {
     display: block;
     width: 1.5em;
     height: 1.5em;
-    margin-right: 0.5em;
-  }
-
-  @media (min-width: 600px) {
-    :host nav li:nth-of-type(2) {
-      display: unset;
-    }
-
-    :host nav li:nth-of-type(3)::before {
-      content: none;
-    }
-
-    :host nav svg {
-      margin-right: 0.8em;
-    }
+    margin-right: 0.8em;
+    margin-bottom: 0.4em;
   }
 
   :host section.engagement {
