@@ -19,11 +19,11 @@ layout: page
 </article>
 
 <style webc:scoped>
-  :host header {
+  :host > header {
     margin-bottom: 1.5rem;
   }
 
-  :host footer {
+  :host > footer {
     border-top: var(--card-border);
     margin: 4rem 0;
   }
