@@ -54,7 +54,7 @@
     font-size: 0.9rem;
     text-align: right;
     --var-font-wght: 400;
-    --var-font-slnt: -10;
+    --var-font-slnt: -5;
     font-synthesis: none;
   }
 </style>
