@@ -27,7 +27,6 @@
     "./11ty/",
     "./www/**/*.ts",
     "./infra/**/*.ts",
-    "./snapshots/**/*.ts",
     "./types/**/*.ts"
   ]
 }

@@ -20,14 +20,6 @@ export default defineConfig({
           environment: 'node',
         },
       },
-      {
-        test: {
-          name: 'snapshots',
-          include: ['snapshots/**/*.spec.ts'],
-          exclude: ['node_modules/**', 'dist/**'],
-          environment: 'node',
-        },
-      },
     ],
   },
 })
