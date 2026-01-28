@@ -47,6 +47,17 @@ export default {
     return existingTags
   },
 
+  // Extract domain from linkUrl for link posts
+  linkDomain: (data) => {
+    if (!data.linkUrl) return null
+    try {
+      const url = new URL(data.linkUrl)
+      return url.hostname.replace(/^www\./, '')
+    } catch {
+      return null
+    }
+  },
+
   // Calculate reading time for articles
   readingTime(data) {
     if (data.tags?.includes('article') && data.page?.rawInput) {

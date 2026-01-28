@@ -42,6 +42,12 @@ image: limulus-dot-net-2024-11-29
 
 <p @text="getTeaser(collections.all, '/feed/')"></p>
 
+<template webc:nokeep webc:if="collections.link && collections.link.length > 0">
+  <h2><a href="/links/">links</a></h2>
+
+  <p @text="getTeaser(collections.all, '/links/')"></p>
+</template>
+
 <h2><a href="/penumbra/">penumbra</a></h2>
 
 <p @text="getTeaser(collections.all, '/penumbra/')"></p>

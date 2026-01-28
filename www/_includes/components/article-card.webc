@@ -25,11 +25,18 @@
             <li>
               <published-chip :@article="article"></published-chip>
             </li>
-            <li>
+            <li webc:if="!article.data.linkUrl">
               <time-chip :@article="article"></time-chip>
             </li>
             <li webc:if="article.data.tilTopic">
               <til-chip :@topic="article.data.tilTopic" @nolink="true"></til-chip>
+            </li>
+            <li webc:if="article.data.linkUrl">
+              <link-chip
+                :@link-url="article.data.linkUrl"
+                :@link-domain="article.data.linkDomain"
+                @nolink="true"
+              ></link-chip>
             </li>
           </chip-list>
         </header>

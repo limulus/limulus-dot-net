@@ -1,0 +1,16 @@
+---
+title: Links
+layout: page
+teaser: >-
+  Things worth reading or watching, with a bit of my commentary.
+---
+
+<h1 @text="title"></h1>
+
+<p @text="teaser"></p>
+
+<article-list
+  webc:if="collections.link && collections.link.length > 0"
+  :@articles="collections.link"
+></article-list>
+<p webc:if="!collections.link || collections.link.length === 0">No links yet.</p>
