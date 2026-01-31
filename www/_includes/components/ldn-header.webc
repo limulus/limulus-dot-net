@@ -14,9 +14,8 @@
       </li>
       <script webc:type="js">
         let path = '/'
-        page.url
-          .split('/')
-          .filter((dir) => dir !== '')
+        page.url.split('/')
+          .filter((dir) => dir !== '' && !/^\d+$/.test(dir))
           .slice(0, -1)
           .map((dir) => {
             path = `${path}${dir}/`

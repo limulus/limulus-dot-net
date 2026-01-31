@@ -58,6 +58,17 @@ export default {
     }
   },
 
+  // Extract domain from viaUrl for link posts
+  viaDomain: (data) => {
+    if (!data.viaUrl) return null
+    try {
+      const url = new URL(data.viaUrl)
+      return url.hostname.replace(/^www\./, '')
+    } catch {
+      return null
+    }
+  },
+
   // Calculate reading time for articles
   readingTime(data) {
     if (data.tags?.includes('article') && data.page?.rawInput) {
