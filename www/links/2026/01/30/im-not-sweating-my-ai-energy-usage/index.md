@@ -38,5 +38,5 @@ is telling heavy gamers they should feel ashamed of their energy usage.
     mathvariant="normal">W</mi><mo>×</mo><mn>3</mn><mo
     rspace="thickmathspace">&InvisibleTimes;</mo><mi mathvariant="normal">hours</mi>
     <mo>=</mo><mn>1,500</mn><mo rspace="thickmathspace">&InvisibleTimes;</mo><mi
-    mathvariant="normal">Wh</mi></math>) is less than a typical day of AI coding at the
+    mathvariant="normal">Wh</mi></math>) is more than a typical day of AI coding at the
     1,300 Wh estimate.
