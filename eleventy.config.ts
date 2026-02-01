@@ -139,7 +139,7 @@ export default function (eleventyConfig: UserConfig) {
       if (data.viaUrl) {
         content += `\n[via]: ${data.viaUrl}`
         const viaDomain = new URL(data.viaUrl as string).hostname.replace(/^www\./, '')
-        content += `\n\n<p class="via">Via <a href="${data.viaUrl}">${viaDomain}</a>.</p>`
+        content += `\n\n<p>Via <a href="${data.viaUrl}">${viaDomain}</a>.</p>`
       }
 
       return content
