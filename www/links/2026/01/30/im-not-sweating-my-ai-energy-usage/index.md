@@ -30,8 +30,6 @@ Granted, both of these newish behaviors (AI coding and PC gaming) are net increa
 energy use. But I’m finding it hard to feel bad about either of them, especially when no one
 is telling heavy gamers they should feel ashamed of their energy usage.
 
-[link]: https://www.simonpcouch.com/blog/2026-01-20-cc-impact/
-
 [^1]:
     Flight simming for 3 hours (<math display="inline"><mn>500</mn><mo
     rspace="thickmathspace">&InvisibleTimes;</mo><mi

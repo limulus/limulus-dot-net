@@ -11,10 +11,6 @@ layout: page
 
   <div @raw="content" webc:nokeep></div>
 
-  <p webc:if="viaUrl" class="via">
-    Via <a :href="viaUrl" @text="viaDomain"></a>.
-  </p>
-
   <footer>
     <article-footer
       :@article="collections.article.find(({ url }) => url === page.url)"

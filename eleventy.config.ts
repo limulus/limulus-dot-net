@@ -120,6 +120,31 @@ export default function (eleventyConfig: UserConfig) {
   md.use(markdownItAttrs)
   md.use(markdownItAnchor)
   eleventyConfig.setLibrary('md', md)
+  const config = eleventyConfig as UserConfig & {
+    addPreprocessor(
+      name: string,
+      ext: string,
+      fn: (data: Record<string, any>, content: string) => string | void
+    ): void
+  }
+
+  config.addPreprocessor(
+    'linkPostContent',
+    'md',
+    (data: Record<string, any>, content: string) => {
+      if (!data.linkUrl) return
+
+      content += `\n\n[link]: ${data.linkUrl}`
+
+      if (data.viaUrl) {
+        content += `\n[via]: ${data.viaUrl}`
+        const viaDomain = new URL(data.viaUrl as string).hostname.replace(/^www\./, '')
+        content += `\n\n<p class="via">Via <a href="${data.viaUrl}">${viaDomain}</a>.</p>`
+      }
+
+      return content
+    }
+  )
 
   eleventyConfig.addPlugin(esbuild)
   eleventyConfig.addPlugin(dprintPlugin)

@@ -138,6 +138,11 @@ Most content should be written in a Markdown file under the `www` directory.
   - `id`: The identifier of the video on `vod.limulus.net`
   - `alt`: Alternate text for the poster image
   - `duration`: The duration in seconds of the video
+- `linkUrl`: The URL of the linked content for link posts. When present, a `[link]` markdown
+  reference link is automatically available in the post body.
+- `viaUrl`: The URL of the source where the link was discovered. When present, a `[via]`
+  markdown reference link is automatically available and a "Via" attribution is appended to
+  the post.
 
 [authors database]: www/_data/authors.json
 
