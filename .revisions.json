@@ -150,7 +150,20 @@
     ]
   },
   "www/links/2026/01/30/im-not-sweating-my-ai-energy-usage/index.md": {
-    "revisions": [],
+    "revisions": [
+      {
+        "hash": "5e88211a5a2b",
+        "algorithm": "shake128",
+        "outputBytes": 6,
+        "fields": [
+          "title",
+          "content"
+        ],
+        "separator": "\\n",
+        "date": "2026-02-02T00:23:05.479Z",
+        "commit": "1fe13f7"
+      }
+    ],
     "teaserHash": "5e88211a5a2b"
   },
   "www/penumbra/journal/canvas-and-matrices/index.md": {

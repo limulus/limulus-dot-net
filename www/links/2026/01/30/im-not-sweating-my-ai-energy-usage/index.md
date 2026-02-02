@@ -7,6 +7,9 @@ title: I’m Not Sweating My AI Energy Usage
 date: 2026-01-30 23:58:00 -07:00
 linkUrl: https://www.simonpcouch.com/blog/2026-01-20-cc-impact/
 viaUrl: https://simonwillison.net/2026/Jan/20/electricity-use-of-ai-coding-agents/
+teaser: >-
+  Simon P. Couch used energy-per-token estimates to calculate his AI coding energy use.
+  This number matches my mental model for my own AI energy use…
 ---
 
 Simon P. Couch used energy-per-token estimates [to calculate his AI coding energy
