@@ -11,6 +11,8 @@
     "clean": "del-cli *.tsbuildinfo coverage dist",
     "predev": "npm run prebuild",
     "dev": "eleventy --serve --incremental",
+    "generate-teasers": "node 11ty/generate-teasers.ts",
+    "update-revisions": "node 11ty/update-revisions.ts",
     "lint": "eslint *.js *.ts 11ty www infra types",
     "postinstall": "patch-package",
     "prepare": "husky && mkdirp photos",
@@ -82,6 +84,7 @@
     "typescript": "^5.9.3"
   },
   "devDependencies": {
+    "@anthropic-ai/sdk": "^0.72.1",
     "@aws-sdk/client-cloudfront": "^3.859.0",
     "@dprint/formatter": "^0.4.1",
     "@types/aws-cloudfront-function": "^1.0.5",
@@ -95,8 +98,10 @@
     "dprint-plugin-markup": "^0.24.0",
     "esbuild-plugin-wasm": "^1.1.0",
     "globby": "^14.0.1",
+    "gray-matter": "^4.0.3",
     "husky": "^9.1.5",
     "patch-package": "^8.0.1",
+    "smartypants": "^0.2.2",
     "vitest": "^3.2.4"
   }
 }

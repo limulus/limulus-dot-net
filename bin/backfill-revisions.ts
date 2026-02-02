@@ -1,0 +1,122 @@
+import { globby } from 'globby'
+import matter from 'gray-matter'
+import { execFileSync } from 'node:child_process'
+import { readFile } from 'node:fs/promises'
+
+import {
+  type RevisionsFile,
+  HASH_ALGORITHM,
+  HASH_OUTPUT_BYTES,
+  REVISIONS_PATH,
+  computeHash,
+  hashFields,
+  saveRevisions,
+} from '../11ty/revisions.ts'
+
+interface GitLogEntry {
+  sha: string
+  shortSha: string
+  date: string
+}
+
+function getGitLog(filePath: string): GitLogEntry[] {
+  const output = execFileSync(
+    'git',
+    ['log', '--format=%H %h %aI', '--follow', '--', filePath],
+    { encoding: 'utf-8' }
+  )
+
+  const entries: GitLogEntry[] = []
+  for (const line of output.trim().split('\n')) {
+    if (!line) continue
+    const [sha, shortSha, date] = line.split(' ')
+    entries.push({ sha, shortSha, date })
+  }
+
+  // Reverse to oldest-first
+  entries.reverse()
+  return entries
+}
+
+function getFileAtCommit(sha: string, filePath: string): string | null {
+  try {
+    return execFileSync('git', ['show', `${sha}:${filePath}`], {
+      encoding: 'utf-8',
+    })
+  } catch {
+    return null
+  }
+}
+
+async function main() {
+  const files = await globby('www/**/*.md')
+  const revisions: RevisionsFile = {}
+
+  let totalFiles = 0
+  let totalRevisions = 0
+
+  for (const filePath of files) {
+    const fileContent = await readFile(filePath, 'utf-8')
+    const parsed = matter(fileContent)
+
+    const tags: string[] = parsed.data.tags ?? []
+    if (!tags.includes('article')) continue
+
+    totalFiles++
+    const logEntries = getGitLog(filePath)
+
+    if (logEntries.length === 0) {
+      console.log(`[skip] ${filePath}: no git history`)
+      continue
+    }
+
+    const entry: RevisionsFile[string] = { revisions: [] }
+    let previousHash: string | null = null
+
+    for (const logEntry of logEntries) {
+      const content = getFileAtCommit(logEntry.sha, filePath)
+      if (content === null) continue
+
+      let parsed: matter.GrayMatterFile<string>
+      try {
+        parsed = matter(content)
+      } catch {
+        continue
+      }
+
+      const title = parsed.data.title as string | undefined
+      if (!title) continue
+
+      const subhead = parsed.data.subhead as string | undefined
+      const hash = computeHash(title, subhead, parsed.content)
+
+      if (hash === previousHash) continue
+
+      entry.revisions.push({
+        hash,
+        algorithm: HASH_ALGORITHM,
+        outputBytes: HASH_OUTPUT_BYTES,
+        fields: hashFields(subhead),
+        separator: '\\n',
+        date: logEntry.date,
+        commit: logEntry.shortSha,
+      })
+      previousHash = hash
+      totalRevisions++
+    }
+
+    if (entry.revisions.length > 0) {
+      revisions[filePath] = entry
+    }
+  }
+
+  await saveRevisions(revisions, REVISIONS_PATH)
+  console.log(
+    `Done. ${totalFiles} article(s) processed,` + ` ${totalRevisions} revision(s) recorded.`
+  )
+}
+
+main().catch((error: unknown) => {
+  console.error(error)
+  process.exit(1)
+})

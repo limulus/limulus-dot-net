@@ -25,6 +25,7 @@
   "include": [
     "*.ts",
     "./11ty/",
+    "./bin/",
     "./www/**/*.ts",
     "./infra/**/*.ts",
     "./types/**/*.ts"
