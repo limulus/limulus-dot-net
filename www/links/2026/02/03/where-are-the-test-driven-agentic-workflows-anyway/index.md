@@ -7,9 +7,9 @@ title: Where Are the Test Driven Agentic Workflows, Anyway?
 date: 2026-02-03 16:56:10 -07:00
 linkUrl: https://blog.fsck.com/2026/02/03/managing-agents/
 teaser: >-
-  Jesse Vincent offers some uncharitable math on agentic software engineering. I’ve been
-  thinking we’re not far from seeing a decent boost in quality from coding agents that
-  implement a Test Driven Development workflow…---
+  I’ve been thinking that we’re probably not that far away from seeing a decent boost in
+  quality from coding agents that implement a Test Driven Development workflow.
+---
 
 [Jesse Vincent][link]:
 

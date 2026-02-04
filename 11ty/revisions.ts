@@ -19,6 +19,7 @@ export interface Revision {
 export interface RevisionEntry {
   revisions: Revision[]
   teaserHash?: string
+  generatedTeaserHash?: string
 }
 
 export type RevisionsFile = Record<string, RevisionEntry>
@@ -39,6 +40,14 @@ export function computeHash(
 
 export function hashFields(subhead: string | undefined): string[] {
   return subhead != null ? ['title', 'subhead', 'content'] : ['title', 'content']
+}
+
+export function computeTeaserHash(teaser: string): string {
+  const hash = createHash(HASH_ALGORITHM, {
+    outputLength: HASH_OUTPUT_BYTES,
+  })
+  hash.update(teaser)
+  return hash.digest('hex')
 }
 
 export function getCurrentCommit(): string {

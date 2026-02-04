@@ -71,37 +71,43 @@ describe('wrapText', () => {
 
 describe('decideTeaserAction', () => {
   it('skips when article has subhead', () => {
-    const result = decideTeaserAction(true, false, false, false)
+    const result = decideTeaserAction(true, false, false, false, false)
     expect(result.action).toBe('skip')
     expect(result.reason).toBe('has subhead')
   })
 
   it('skips when teaser exists but not in revisions (manual)', () => {
-    const result = decideTeaserAction(false, true, false, false)
+    const result = decideTeaserAction(false, true, false, false, false)
     expect(result.action).toBe('skip')
     expect(result.reason).toBe('manually written teaser')
   })
 
+  it('skips when teaser was manually edited', () => {
+    const result = decideTeaserAction(false, true, true, false, true)
+    expect(result.action).toBe('skip')
+    expect(result.reason).toBe('manually edited teaser')
+  })
+
   it('skips when teaser in revisions and hash matches', () => {
-    const result = decideTeaserAction(false, true, true, true)
+    const result = decideTeaserAction(false, true, true, true, false)
     expect(result.action).toBe('skip')
     expect(result.reason).toBe('unchanged')
   })
 
   it('regenerates when teaser in revisions but hash changed', () => {
-    const result = decideTeaserAction(false, true, true, false)
+    const result = decideTeaserAction(false, true, true, false, false)
     expect(result.action).toBe('regenerate')
     expect(result.reason).toBe('content changed')
   })
 
   it('generates when no teaser and no subhead', () => {
-    const result = decideTeaserAction(false, false, false, false)
+    const result = decideTeaserAction(false, false, false, false, false)
     expect(result.action).toBe('generate')
     expect(result.reason).toBe('no teaser')
   })
 
   it('generates when no teaser even if in revisions', () => {
-    const result = decideTeaserAction(false, false, true, false)
+    const result = decideTeaserAction(false, false, true, false, false)
     expect(result.action).toBe('generate')
     expect(result.reason).toBe('no teaser')
   })
@@ -142,6 +148,9 @@ describe('insertTeaserIntoFrontmatter', () => {
     expect(result).toContain('teaser: >-\n  New teaser text.')
     expect(result).not.toContain('Old teaser text.')
     expect(result).toContain('title: Test Post')
+
+    const parsed = matter(result)
+    expect(parsed.data.teaser).toBe('New teaser text.')
   })
 
   it('replaces existing single-line teaser', () => {
@@ -159,6 +168,9 @@ describe('insertTeaserIntoFrontmatter', () => {
 
     expect(result).toContain('teaser: >-\n  New teaser text.')
     expect(result).not.toContain('Old teaser text.')
+
+    const parsed = matter(result)
+    expect(parsed.data.teaser).toBe('New teaser text.')
   })
 
   it('preserves content after frontmatter', () => {
@@ -209,6 +221,25 @@ describe('insertTeaserIntoFrontmatter', () => {
     expect(parsed.data.teaser).toBe(longTeaser)
   })
 
+  it('produces valid YAML when teaser is last field before delimiter', () => {
+    const input = [
+      '---',
+      'title: Test Post',
+      'date: 2026-01-30',
+      'teaser: >-',
+      '  Old teaser text.',
+      '---',
+      '',
+      'Body.',
+    ].join('\n')
+
+    const result = insertTeaserIntoFrontmatter(input, 'New teaser text.')
+
+    const parsed = matter(result)
+    expect(parsed.data.teaser).toBe('New teaser text.')
+    expect(parsed.data.title).toBe('Test Post')
+  })
+
   it('handles multiline block scalar teaser replacement', () => {
     const input = [
       '---',
@@ -228,5 +259,8 @@ describe('insertTeaserIntoFrontmatter', () => {
     expect(result).not.toContain('Old teaser that spans')
     expect(result).not.toContain('multiple lines here.')
     expect(result).toContain('date: 2026-01-30')
+
+    const parsed = matter(result)
+    expect(parsed.data.teaser).toBe('New teaser text.')
   })
 })

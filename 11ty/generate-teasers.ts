@@ -4,7 +4,12 @@ import matter from 'gray-matter'
 import { readFile, writeFile } from 'node:fs/promises'
 import { smartypantsu } from 'smartypants'
 
-import { computeHash, loadRevisions, saveRevisions } from './revisions.ts'
+import {
+  computeHash,
+  computeTeaserHash,
+  loadRevisions,
+  saveRevisions,
+} from './revisions.ts'
 
 const TEASER_PROMPT = `\
 You are generating a preview teaser for a blog post. The teaser appears as \
@@ -46,13 +51,17 @@ export function decideTeaserAction(
   hasSubhead: boolean,
   hasTeaser: boolean,
   inRevisions: boolean,
-  hashMatch: boolean
+  hashMatch: boolean,
+  teaserManuallyEdited: boolean
 ): TeaserDecision {
   if (hasSubhead) {
     return { action: 'skip', reason: 'has subhead' }
   }
   if (hasTeaser && !inRevisions) {
     return { action: 'skip', reason: 'manually written teaser' }
+  }
+  if (hasTeaser && teaserManuallyEdited) {
+    return { action: 'skip', reason: 'manually edited teaser' }
   }
   if (hasTeaser && inRevisions && hashMatch) {
     return { action: 'skip', reason: 'unchanged' }
@@ -100,9 +109,9 @@ export function insertTeaserIntoFrontmatter(fileContent: string, teaser: string)
     const newTeaser = formatTeaserYaml(teaser)
 
     if (teaserPattern.test(beforeClose)) {
-      return beforeClose.replace(teaserPattern, newTeaser) + afterClose
+      return beforeClose.replace(teaserPattern, newTeaser + '\n') + afterClose
     } else if (singleLinePattern.test(beforeClose)) {
-      return beforeClose.replace(singleLinePattern, newTeaser) + afterClose
+      return beforeClose.replace(singleLinePattern, newTeaser + '\n') + afterClose
     }
   }
 
@@ -163,11 +172,20 @@ async function main() {
     const inRevisions = filePath in revisions && revisions[filePath].teaserHash != null
     const hashMatch = inRevisions && revisions[filePath].teaserHash === hash
 
+    // Check if teaser was manually edited by comparing its hash to the stored generated hash
+    const currentTeaserHash = teaser != null ? computeTeaserHash(teaser) : null
+    const storedTeaserHash = revisions[filePath]?.generatedTeaserHash ?? null
+    const teaserManuallyEdited =
+      currentTeaserHash != null &&
+      storedTeaserHash != null &&
+      currentTeaserHash !== storedTeaserHash
+
     const decision = decideTeaserAction(
       subhead != null,
       teaser != null,
       inRevisions,
-      hashMatch
+      hashMatch,
+      teaserManuallyEdited
     )
 
     if (decision.action === 'skip') {
@@ -190,6 +208,7 @@ async function main() {
 
     revisions[filePath] ??= { revisions: [] }
     revisions[filePath].teaserHash = hash
+    revisions[filePath].generatedTeaserHash = computeTeaserHash(newTeaser)
     teaserHashChanged = true
     generatedCount++
   }

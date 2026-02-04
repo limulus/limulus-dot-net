@@ -193,7 +193,8 @@
         "commit": "e0c91a8"
       }
     ],
-    "teaserHash": "37652a7ac088"
+    "teaserHash": "37652a7ac088",
+    "generatedTeaserHash": "15ca4e666bee"
   },
   "www/penumbra/journal/canvas-and-matrices/index.md": {
     "revisions": [
