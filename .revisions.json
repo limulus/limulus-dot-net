@@ -179,9 +179,21 @@
         "separator": "\\n",
         "date": "2026-02-04T00:13:21.215Z",
         "commit": "c34c9de"
+      },
+      {
+        "hash": "37652a7ac088",
+        "algorithm": "shake128",
+        "outputBytes": 6,
+        "fields": [
+          "title",
+          "content"
+        ],
+        "separator": "\\n",
+        "date": "2026-02-04T00:24:26.140Z",
+        "commit": "e0c91a8"
       }
     ],
-    "teaserHash": "f867a6a054ca"
+    "teaserHash": "37652a7ac088"
   },
   "www/penumbra/journal/canvas-and-matrices/index.md": {
     "revisions": [
