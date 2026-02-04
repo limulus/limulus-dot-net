@@ -166,6 +166,23 @@
     ],
     "teaserHash": "5e88211a5a2b"
   },
+  "www/links/2026/02/03/where-are-the-test-driven-agentic-workflows-anyway/index.md": {
+    "revisions": [
+      {
+        "hash": "f867a6a054ca",
+        "algorithm": "shake128",
+        "outputBytes": 6,
+        "fields": [
+          "title",
+          "content"
+        ],
+        "separator": "\\n",
+        "date": "2026-02-04T00:13:21.215Z",
+        "commit": "c34c9de"
+      }
+    ],
+    "teaserHash": "f867a6a054ca"
+  },
   "www/penumbra/journal/canvas-and-matrices/index.md": {
     "revisions": [
       {

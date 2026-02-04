@@ -6,6 +6,10 @@ author: eric
 title: Where Are the Test Driven Agentic Workflows, Anyway?
 date: 2026-02-03 16:56:10 -07:00
 linkUrl: https://blog.fsck.com/2026/02/03/managing-agents/
+teaser: >-
+  Jesse Vincent notes that agentic software engineering has “gotten to somewhere around the
+  1970s.” I’ve been thinking we’re not far from seeing a quality boost from coding agents
+  that implement a Test Driven Development workflow…
 ---
 
 [Jesse Vincent][link]:
