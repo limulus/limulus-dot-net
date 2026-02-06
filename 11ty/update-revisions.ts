@@ -6,6 +6,7 @@ import {
   HASH_ALGORITHM,
   HASH_OUTPUT_BYTES,
   computeHash,
+  getCommitMessage,
   getCurrentCommit,
   hashFields,
   loadRevisions,
@@ -37,6 +38,7 @@ async function main() {
     const latestRevision = entry.revisions[entry.revisions.length - 1]
 
     if (!latestRevision || latestRevision.hash !== hash) {
+      const message = getCommitMessage(commit)
       entry.revisions.push({
         hash,
         algorithm: HASH_ALGORITHM,
@@ -45,6 +47,7 @@ async function main() {
         separator: '\\n',
         date: new Date().toISOString(),
         commit,
+        ...(message && { message }),
       })
       revisions[filePath] = entry
       revisionCount++

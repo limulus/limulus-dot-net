@@ -7,9 +7,6 @@ author: eric
 title: New York 2024
 subhead: We saw lots of falling leaves and water.
 date: 2024-12-27 23:05:00 -07:00
-history:
-  # Attempt to get Google Search to re-index as a video page
-  - date: 2025-02-01 12:13:00 -07:00
 image: rainbow-selfie-letchworth-state-park
 vod:
   id: new-york-2024/01JG4RGXBXAPPM185KWFR9A8G1

@@ -4,7 +4,7 @@ import { readFile, writeFile } from 'node:fs/promises'
 
 export const HASH_ALGORITHM = 'shake128'
 export const HASH_OUTPUT_BYTES = 6
-export const REVISIONS_PATH = '.revisions.json'
+export const REVISIONS_PATH = 'www/_data/revisions.json'
 
 export interface Revision {
   hash: string
@@ -14,6 +14,7 @@ export interface Revision {
   separator: string
   date: string
   commit: string
+  message?: string
 }
 
 export interface RevisionEntry {
@@ -60,6 +61,16 @@ export function getCurrentCommit(): string {
     }).trim()
   } catch {
     return 'unknown'
+  }
+}
+
+export function getCommitMessage(commit: string): string {
+  try {
+    return execFileSync('git', ['log', '--format=%s', '-1', commit], {
+      encoding: 'utf-8',
+    }).trim()
+  } catch {
+    return ''
   }
 }
 

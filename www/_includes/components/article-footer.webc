@@ -1,8 +1,0 @@
-<section>
-  <h2>You Might Enjoy…</h2>
-
-  <article-list
-    :@articles="$data.collections.article.filter(({ url }) => url !== article.page.url)"
-    @limit="5"
-  ></article-list>
-</section>

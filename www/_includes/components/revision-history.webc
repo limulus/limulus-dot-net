@@ -1,0 +1,64 @@
+<script webc:type="js">
+  const filePath = $data.page?.inputPath?.replace(/^\.\//, '')
+  const entry = $data.revisions?.[filePath]
+  const revisions = entry?.revisions?.slice(1) // Skip first revision (page creation)
+
+  let result = ''
+  if (revisions && revisions.length > 0) {
+    const items = [...revisions]
+      .reverse()
+      .map((revision) => {
+        const date = new Date(revision.date)
+        // Format as YYYY-MM-DD HH:MM in UTC
+        const dateStr = date.toISOString().slice(0, 19).replace('T', ' ')
+        const commitUrl = `https://github.com/limulus/limulus-dot-net/commit/${revision.commit}`
+        const message = revision.message ? `<span>${revision.message}</span>` : ''
+        return /* HTML */ `
+          <li>
+            <a href="${commitUrl}"><time datetime="${date.toISOString()}" title="${date.toUTCString()}"
+              >${dateStr}</time
+            ></a>
+            <pre><code>${message}</code></pre>
+          </li>
+        `.trim()
+      })
+      .join('\n')
+
+    const label = revisions.length === 1 ? 'Revision' : 'Revisions'
+    result = /* HTML */ `
+      <details>
+        <summary>${revisions.length} ${label}</summary>
+        <ul>${items}</ul>
+      </details>
+    `.trim()
+  }
+  result
+</script>
+
+<style webc:scoped>
+  :host {
+    display: block;
+    margin: 2rem 0;
+    font-size: 0.85rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  :host summary {
+    cursor: pointer;
+  }
+
+  :host ul {
+    margin: 2em 0.5em;
+    margin-bottom: 4em;
+    list-style: none;
+  }
+
+  :host ul li {
+    margin-bottom: 2em;
+  }
+
+  :host ul a {
+    --var-font-wght: 500;
+    font-family: 'Hubot Sans', sans-serif;
+  }
+</style>

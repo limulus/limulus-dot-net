@@ -7,9 +7,6 @@ layout: video
 author: eric
 title: 'How I Am Using GitHub Copilot'
 date: 2024-03-23 15:15:00 -07:00
-history:
-  # Attempt to get Google Search to re-index as a video page
-  - date: 2025-02-01 12:13:00 -07:00
 vod:
   id: github-copilot-demo/01HTWVCE0J15PDF91C8969JXHH
   duration: 378

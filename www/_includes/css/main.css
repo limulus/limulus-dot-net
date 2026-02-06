@@ -162,7 +162,7 @@ article code {
   background-color: var(--inline-text-highlight-color);
 }
 
-pre > code.hljs {
+pre > code {
   display: block;
   overflow-x: auto;
   padding: var(--card-padding);

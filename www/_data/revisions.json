@@ -12,7 +12,8 @@
         ],
         "separator": "\\n",
         "date": "2024-12-27T23:17:59-07:00",
-        "commit": "ee9acb6"
+        "commit": "ee9acb6",
+        "message": "feat: add new-york-2024 article"
       },
       {
         "hash": "387da43a8e35",
@@ -25,7 +26,8 @@
         ],
         "separator": "\\n",
         "date": "2024-12-28T11:15:20-07:00",
-        "commit": "4a40d15"
+        "commit": "4a40d15",
+        "message": "feat: tweaks to new-york-2024"
       },
       {
         "hash": "3493ad240226",
@@ -38,7 +40,8 @@
         ],
         "separator": "\\n",
         "date": "2025-03-15T23:09:21-07:00",
-        "commit": "cd4638d"
+        "commit": "cd4638d",
+        "message": "fix: stylize GoPro HERO12"
       }
     ]
   },
@@ -55,7 +58,8 @@
         ],
         "separator": "\\n",
         "date": "2024-11-24T18:32:57Z",
-        "commit": "8ea15e4"
+        "commit": "8ea15e4",
+        "message": "feat(article): add the rebound"
       },
       {
         "hash": "4f04c5d72a03",
@@ -68,7 +72,8 @@
         ],
         "separator": "\\n",
         "date": "2024-11-24T18:51:00Z",
-        "commit": "b704bf3"
+        "commit": "b704bf3",
+        "message": "fix(article): make the-rebound conclusion a bit more firm"
       },
       {
         "hash": "d214d917bf76",
@@ -81,7 +86,8 @@
         ],
         "separator": "\\n",
         "date": "2024-11-28T13:32:12-07:00",
-        "commit": "a0cf31b"
+        "commit": "a0cf31b",
+        "message": "feat: aliases for photos"
       }
     ]
   },
@@ -98,7 +104,8 @@
         ],
         "separator": "\\n",
         "date": "2025-04-26T11:14:00-07:00",
-        "commit": "ed2de92"
+        "commit": "ed2de92",
+        "message": "feat: add the-social-contract article"
       },
       {
         "hash": "2323fb55946f",
@@ -111,7 +118,8 @@
         ],
         "separator": "\\n",
         "date": "2025-11-03T16:33:40-07:00",
-        "commit": "2da0beb"
+        "commit": "2da0beb",
+        "message": "fix: wrong year for next midterm election"
       }
     ]
   },
@@ -128,7 +136,8 @@
         ],
         "separator": "\\n",
         "date": "2025-03-15T23:10:48-07:00",
-        "commit": "5a975b1"
+        "commit": "5a975b1",
+        "message": "feat: add workout exporter article"
       }
     ]
   },
@@ -145,7 +154,8 @@
         ],
         "separator": "\\n",
         "date": "2025-02-09T14:37:10-07:00",
-        "commit": "08afb08"
+        "commit": "08afb08",
+        "message": "feat: add write-to-your-rep post"
       }
     ]
   },
@@ -161,7 +171,8 @@
         ],
         "separator": "\\n",
         "date": "2026-02-02T00:23:05.479Z",
-        "commit": "1fe13f7"
+        "commit": "1fe13f7",
+        "message": "fix: skip pre-push hook on bot teaser commit in CD workflow"
       }
     ],
     "teaserHash": "5e88211a5a2b"
@@ -178,7 +189,8 @@
         ],
         "separator": "\\n",
         "date": "2026-02-04T00:13:21.215Z",
-        "commit": "c34c9de"
+        "commit": "c34c9de",
+        "message": "feat: add article on Test Driven Agentic Workflows"
       },
       {
         "hash": "37652a7ac088",
@@ -190,7 +202,8 @@
         ],
         "separator": "\\n",
         "date": "2026-02-04T00:24:26.140Z",
-        "commit": "e0c91a8"
+        "commit": "e0c91a8",
+        "message": "fix: refine teaser text for clarity and conciseness"
       }
     ],
     "teaserHash": "37652a7ac088",
@@ -208,7 +221,8 @@
         ],
         "separator": "\\n",
         "date": "2024-09-28T03:58:48Z",
-        "commit": "fb2cb63"
+        "commit": "fb2cb63",
+        "message": "feat: improve urls for early penumbra journal entries"
       },
       {
         "hash": "ad0b76fa4f0c",
@@ -220,7 +234,8 @@
         ],
         "separator": "\\n",
         "date": "2024-10-27T05:51:41Z",
-        "commit": "4086e94"
+        "commit": "4086e94",
+        "message": "feat: esbuild hashing integration"
       },
       {
         "hash": "de75445a2e63",
@@ -232,7 +247,8 @@
         ],
         "separator": "\\n",
         "date": "2024-10-27T18:25:07Z",
-        "commit": "f160688"
+        "commit": "f160688",
+        "message": "feat: feed compatible fallbacks for penumbra demos"
       },
       {
         "hash": "bd4034126f40",
@@ -244,7 +260,8 @@
         ],
         "separator": "\\n",
         "date": "2025-10-30T21:14:20-07:00",
-        "commit": "e229a30"
+        "commit": "e229a30",
+        "message": "feat: update penumbra article links to use canonical paths"
       }
     ]
   },
@@ -260,7 +277,8 @@
         ],
         "separator": "\\n",
         "date": "2024-09-24T02:37:36Z",
-        "commit": "bac0dfe"
+        "commit": "bac0dfe",
+        "message": "feat: build full site, not just penumbra dir"
       },
       {
         "hash": "5a7b02ee0edb",
@@ -272,7 +290,8 @@
         ],
         "separator": "\\n",
         "date": "2024-10-27T05:51:41Z",
-        "commit": "4086e94"
+        "commit": "4086e94",
+        "message": "feat: esbuild hashing integration"
       },
       {
         "hash": "431e9100ef93",
@@ -284,7 +303,8 @@
         ],
         "separator": "\\n",
         "date": "2024-10-27T18:25:07Z",
-        "commit": "f160688"
+        "commit": "f160688",
+        "message": "feat: feed compatible fallbacks for penumbra demos"
       },
       {
         "hash": "71593b380074",
@@ -296,7 +316,8 @@
         ],
         "separator": "\\n",
         "date": "2024-11-09T05:20:39Z",
-        "commit": "e02f28e"
+        "commit": "e02f28e",
+        "message": "feat: custom photo processing, hero photos and videos"
       }
     ]
   },
@@ -312,7 +333,8 @@
         ],
         "separator": "\\n",
         "date": "2024-09-28T03:58:48Z",
-        "commit": "fb2cb63"
+        "commit": "fb2cb63",
+        "message": "feat: improve urls for early penumbra journal entries"
       }
     ]
   },
@@ -328,7 +350,8 @@
         ],
         "separator": "\\n",
         "date": "2024-09-28T03:58:48Z",
-        "commit": "fb2cb63"
+        "commit": "fb2cb63",
+        "message": "feat: improve urls for early penumbra journal entries"
       }
     ]
   },
@@ -344,7 +367,8 @@
         ],
         "separator": "\\n",
         "date": "2024-09-28T03:58:48Z",
-        "commit": "fb2cb63"
+        "commit": "fb2cb63",
+        "message": "feat: improve urls for early penumbra journal entries"
       },
       {
         "hash": "d632f14f1077",
@@ -356,7 +380,8 @@
         ],
         "separator": "\\n",
         "date": "2024-10-27T05:51:41Z",
-        "commit": "4086e94"
+        "commit": "4086e94",
+        "message": "feat: esbuild hashing integration"
       },
       {
         "hash": "ca6caacf77f8",
@@ -368,7 +393,8 @@
         ],
         "separator": "\\n",
         "date": "2024-10-27T18:25:07Z",
-        "commit": "f160688"
+        "commit": "f160688",
+        "message": "feat: feed compatible fallbacks for penumbra demos"
       },
       {
         "hash": "ee2baecf47f8",
@@ -380,7 +406,8 @@
         ],
         "separator": "\\n",
         "date": "2024-11-17T18:41:37Z",
-        "commit": "6c84d8e"
+        "commit": "6c84d8e",
+        "message": "feat: prettier for html output and incremental builds"
       },
       {
         "hash": "b2859981c121",
@@ -392,7 +419,8 @@
         ],
         "separator": "\\n",
         "date": "2025-10-30T21:14:20-07:00",
-        "commit": "e229a30"
+        "commit": "e229a30",
+        "message": "feat: update penumbra article links to use canonical paths"
       }
     ]
   },
@@ -408,7 +436,8 @@
         ],
         "separator": "\\n",
         "date": "2024-09-24T02:37:36Z",
-        "commit": "bac0dfe"
+        "commit": "bac0dfe",
+        "message": "feat: build full site, not just penumbra dir"
       },
       {
         "hash": "f73d40c07a67",
@@ -420,7 +449,8 @@
         ],
         "separator": "\\n",
         "date": "2024-10-25T16:38:22Z",
-        "commit": "8619a11"
+        "commit": "8619a11",
+        "message": "fix: typo and formatting"
       },
       {
         "hash": "dfbea0db0881",
@@ -432,7 +462,8 @@
         ],
         "separator": "\\n",
         "date": "2024-10-27T18:25:07Z",
-        "commit": "f160688"
+        "commit": "f160688",
+        "message": "feat: feed compatible fallbacks for penumbra demos"
       },
       {
         "hash": "b62449083bb1",
@@ -444,7 +475,8 @@
         ],
         "separator": "\\n",
         "date": "2024-11-21T04:16:12Z",
-        "commit": "c26460e"
+        "commit": "c26460e",
+        "message": "feat: update penumbra-www links to limulus-dot-net"
       },
       {
         "hash": "d50e8af47307",
@@ -456,7 +488,8 @@
         ],
         "separator": "\\n",
         "date": "2025-10-30T21:14:20-07:00",
-        "commit": "e229a30"
+        "commit": "e229a30",
+        "message": "feat: update penumbra article links to use canonical paths"
       }
     ]
   },
@@ -472,7 +505,8 @@
         ],
         "separator": "\\n",
         "date": "2024-09-28T03:58:48Z",
-        "commit": "fb2cb63"
+        "commit": "fb2cb63",
+        "message": "feat: improve urls for early penumbra journal entries"
       },
       {
         "hash": "96c503486588",
@@ -484,7 +518,8 @@
         ],
         "separator": "\\n",
         "date": "2024-10-27T05:51:41Z",
-        "commit": "4086e94"
+        "commit": "4086e94",
+        "message": "feat: esbuild hashing integration"
       },
       {
         "hash": "89f16772b64a",
@@ -496,7 +531,8 @@
         ],
         "separator": "\\n",
         "date": "2024-10-27T18:25:07Z",
-        "commit": "f160688"
+        "commit": "f160688",
+        "message": "feat: feed compatible fallbacks for penumbra demos"
       }
     ]
   },
@@ -512,7 +548,8 @@
         ],
         "separator": "\\n",
         "date": "2025-10-11T14:48:30-07:00",
-        "commit": "02a2b43"
+        "commit": "02a2b43",
+        "message": "feat: add TIL on private branches in public repos"
       },
       {
         "hash": "36dfacaae6d4",
@@ -524,7 +561,8 @@
         ],
         "separator": "\\n",
         "date": "2025-10-11T14:58:28-07:00",
-        "commit": "590b062"
+        "commit": "590b062",
+        "message": "fix: correct typo in private branches TIL"
       }
     ]
   },
@@ -540,7 +578,8 @@
         ],
         "separator": "\\n",
         "date": "2025-11-01T13:44:53-07:00",
-        "commit": "446b125"
+        "commit": "446b125",
+        "message": "feat: add TIL article on TypeScript type stripping in Node.js"
       }
     ]
   }

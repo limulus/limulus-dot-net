@@ -12,9 +12,16 @@ layout: page
   <div @raw="content" webc:nokeep></div>
 
   <footer>
-    <article-footer
-      :@article="collections.article.find(({ url }) => url === page.url)"
-    ></article-footer>
+    <revision-history></revision-history>
+
+    <section>
+      <h2>You Might Enjoy…</h2>
+
+      <article-list
+        :@articles="$data.collections.article.filter(({ url }) => url !== page.url)"
+        @limit="5"
+      ></article-list>
+    </section>
   </footer>
 </article>
 
@@ -23,8 +30,12 @@ layout: page
     margin-bottom: 1.5rem;
   }
 
-  :host > footer {
+  :host > footer > section::before {
+    content: '';
+    display: block;
+    border: none;
     border-top: var(--card-border);
-    margin: 4rem 0;
+    margin: 2rem auto;
+    width: 70%;
   }
 </style>
