@@ -18,6 +18,7 @@ export default async function (eleventyConfig: UserConfig): Promise<void> {
   )
 
   eleventyConfig.addTransform('esbuild-translate-hashes', function (content) {
+    if (!hashes) return content
     return translateHashes(this.page.inputPath, this.page.url, hashes, content) ?? content
   })
 
