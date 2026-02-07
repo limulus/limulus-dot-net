@@ -169,12 +169,13 @@ async function main() {
 
     const hash = computeHash(title, subhead, content)
 
-    const inRevisions = filePath in revisions && revisions[filePath].teaserHash != null
-    const hashMatch = inRevisions && revisions[filePath].teaserHash === hash
+    const inRevisions =
+      filePath in revisions.entries && revisions.entries[filePath].teaserHash != null
+    const hashMatch = inRevisions && revisions.entries[filePath].teaserHash === hash
 
     // Check if teaser was manually edited by comparing its hash to the stored generated hash
     const currentTeaserHash = teaser != null ? computeTeaserHash(teaser) : null
-    const storedTeaserHash = revisions[filePath]?.generatedTeaserHash ?? null
+    const storedTeaserHash = revisions.entries[filePath]?.generatedTeaserHash ?? null
     const teaserManuallyEdited =
       currentTeaserHash != null &&
       storedTeaserHash != null &&
@@ -206,9 +207,9 @@ async function main() {
     const updatedContent = insertTeaserIntoFrontmatter(fileContent, newTeaser)
     await writeFile(filePath, updatedContent)
 
-    revisions[filePath] ??= { revisions: [] }
-    revisions[filePath].teaserHash = hash
-    revisions[filePath].generatedTeaserHash = computeTeaserHash(newTeaser)
+    revisions.entries[filePath] ??= { revisions: [] }
+    revisions.entries[filePath].teaserHash = hash
+    revisions.entries[filePath].generatedTeaserHash = computeTeaserHash(newTeaser)
     teaserHashChanged = true
     generatedCount++
   }

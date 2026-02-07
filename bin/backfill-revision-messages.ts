@@ -9,7 +9,7 @@ async function main() {
   const revisions = await loadRevisions()
   let updated = 0
 
-  for (const entry of Object.values(revisions)) {
+  for (const entry of Object.values(revisions.entries)) {
     for (const revision of entry.revisions) {
       if (!revision.message) {
         const message = getCommitMessage(revision.commit)

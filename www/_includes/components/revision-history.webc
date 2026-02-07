@@ -1,6 +1,6 @@
 <script webc:type="js">
   const filePath = $data.page?.inputPath?.replace(/^\.\//, '')
-  const entry = $data.revisions?.[filePath]
+  const entry = $data.revisions?.entries?.[filePath]
   const revisions = entry?.revisions?.slice(1) // Skip first revision (page creation)
 
   let result = ''

@@ -72,7 +72,7 @@ export default {
   // ISO date of the most recent revision, if modified after creation
   lastModified: (data) => {
     const filePath = data.page?.inputPath?.replace(/^\.\//, '')
-    const revs = filePath && data.revisions?.[filePath]?.revisions
+    const revs = filePath && data.revisions?.entries?.[filePath]?.revisions
     if (revs?.length > 1) {
       return revs.at(-1).date
     }

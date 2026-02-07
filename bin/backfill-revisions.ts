@@ -5,11 +5,8 @@ import { readFile } from 'node:fs/promises'
 
 import {
   type RevisionsFile,
-  HASH_ALGORITHM,
-  HASH_OUTPUT_BYTES,
   REVISIONS_PATH,
   computeHash,
-  hashFields,
   saveRevisions,
 } from '../11ty/revisions.ts'
 
@@ -50,7 +47,17 @@ function getFileAtCommit(sha: string, filePath: string): string | null {
 
 async function main() {
   const files = await globby('www/**/*.md')
-  const revisions: RevisionsFile = {}
+  const revisions: RevisionsFile = {
+    versions: {
+      '1': {
+        algorithm: 'shake128',
+        outputBytes: 6,
+        fields: ['title', 'subhead', 'content'],
+        separator: '\n',
+      },
+    },
+    entries: {},
+  }
 
   let totalFiles = 0
   let totalRevisions = 0
@@ -70,7 +77,7 @@ async function main() {
       continue
     }
 
-    const entry: RevisionsFile[string] = { revisions: [] }
+    const entry: RevisionsFile['entries'][string] = { revisions: [] }
     let previousHash: string | null = null
 
     for (const logEntry of logEntries) {
@@ -93,11 +100,8 @@ async function main() {
       if (hash === previousHash) continue
 
       entry.revisions.push({
+        v: 1,
         hash,
-        algorithm: HASH_ALGORITHM,
-        outputBytes: HASH_OUTPUT_BYTES,
-        fields: hashFields(subhead),
-        separator: '\\n',
         date: logEntry.date,
         commit: logEntry.shortSha,
       })
@@ -106,7 +110,7 @@ async function main() {
     }
 
     if (entry.revisions.length > 0) {
-      revisions[filePath] = entry
+      revisions.entries[filePath] = entry
     }
   }
 

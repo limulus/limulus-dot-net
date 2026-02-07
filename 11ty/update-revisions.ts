@@ -3,12 +3,9 @@ import matter from 'gray-matter'
 import { readFile } from 'node:fs/promises'
 
 import {
-  HASH_ALGORITHM,
-  HASH_OUTPUT_BYTES,
   computeHash,
   getCommitMessage,
   getCurrentCommit,
-  hashFields,
   loadRevisions,
   saveRevisions,
 } from './revisions.ts'
@@ -32,24 +29,20 @@ async function main() {
     const content = parsed.content
 
     const hash = computeHash(title, subhead, content)
-    const fields = hashFields(subhead)
 
-    const entry = revisions[filePath] ?? { revisions: [] }
+    const entry = revisions.entries[filePath] ?? { revisions: [] }
     const latestRevision = entry.revisions[entry.revisions.length - 1]
 
     if (!latestRevision || latestRevision.hash !== hash) {
       const message = getCommitMessage(commit)
       entry.revisions.push({
+        v: 1,
         hash,
-        algorithm: HASH_ALGORITHM,
-        outputBytes: HASH_OUTPUT_BYTES,
-        fields,
-        separator: '\\n',
         date: new Date().toISOString(),
         commit,
         ...(message && { message }),
       })
-      revisions[filePath] = entry
+      revisions.entries[filePath] = entry
       revisionCount++
     }
   }

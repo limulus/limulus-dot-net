@@ -1,622 +1,380 @@
 {
-  "www/feed/new-york-2024/index.md": {
-    "revisions": [
-      {
-        "hash": "e5a867cf57a8",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "subhead",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2024-12-27T23:17:59-07:00",
-        "commit": "ee9acb6",
-        "message": "feat: add new-york-2024 article"
-      },
-      {
-        "hash": "387da43a8e35",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "subhead",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2024-12-28T11:15:20-07:00",
-        "commit": "4a40d15",
-        "message": "feat: tweaks to new-york-2024"
-      },
-      {
-        "hash": "3493ad240226",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "subhead",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2025-03-15T23:09:21-07:00",
-        "commit": "cd4638d",
-        "message": "fix: stylize GoPro HERO12"
-      }
-    ]
+  "versions": {
+    "1": {
+      "algorithm": "shake128",
+      "outputBytes": 6,
+      "fields": [
+        "title",
+        "subhead",
+        "content"
+      ],
+      "separator": "\n"
+    }
   },
-  "www/feed/the-rebound/index.md": {
-    "revisions": [
-      {
-        "hash": "ace5bbe9e252",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "subhead",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2024-11-24T18:32:57Z",
-        "commit": "8ea15e4",
-        "message": "feat(article): add the rebound"
-      },
-      {
-        "hash": "4f04c5d72a03",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "subhead",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2024-11-24T18:51:00Z",
-        "commit": "b704bf3",
-        "message": "fix(article): make the-rebound conclusion a bit more firm"
-      },
-      {
-        "hash": "d214d917bf76",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "subhead",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2024-11-28T13:32:12-07:00",
-        "commit": "a0cf31b",
-        "message": "feat: aliases for photos"
-      }
-    ]
-  },
-  "www/feed/the-social-contract/index.md": {
-    "revisions": [
-      {
-        "hash": "1afd165eb8bf",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "subhead",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2025-04-26T11:14:00-07:00",
-        "commit": "ed2de92",
-        "message": "feat: add the-social-contract article"
-      },
-      {
-        "hash": "2323fb55946f",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "subhead",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2025-11-03T16:33:40-07:00",
-        "commit": "2da0beb",
-        "message": "fix: wrong year for next midterm election"
-      }
-    ]
-  },
-  "www/feed/workout-exporter/index.md": {
-    "revisions": [
-      {
-        "hash": "4b9f09c0636a",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "subhead",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2025-03-15T23:10:48-07:00",
-        "commit": "5a975b1",
-        "message": "feat: add workout exporter article"
-      }
-    ]
-  },
-  "www/feed/write-to-your-rep/index.md": {
-    "revisions": [
-      {
-        "hash": "fae6838c053f",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "subhead",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2025-02-09T14:37:10-07:00",
-        "commit": "08afb08",
-        "message": "feat: add write-to-your-rep post"
-      }
-    ]
-  },
-  "www/links/2026/01/30/im-not-sweating-my-ai-energy-usage/index.md": {
-    "revisions": [
-      {
-        "hash": "5e88211a5a2b",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2026-02-02T00:23:05.479Z",
-        "commit": "1fe13f7",
-        "message": "fix: skip pre-push hook on bot teaser commit in CD workflow"
-      }
-    ],
-    "teaserHash": "5e88211a5a2b"
-  },
-  "www/links/2026/02/03/where-are-the-test-driven-agentic-workflows-anyway/index.md": {
-    "revisions": [
-      {
-        "hash": "f867a6a054ca",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2026-02-04T00:13:21.215Z",
-        "commit": "c34c9de",
-        "message": "feat: add article on Test Driven Agentic Workflows"
-      },
-      {
-        "hash": "37652a7ac088",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2026-02-04T00:24:26.140Z",
-        "commit": "e0c91a8",
-        "message": "fix: refine teaser text for clarity and conciseness"
-      }
-    ],
-    "teaserHash": "37652a7ac088",
-    "generatedTeaserHash": "15ca4e666bee"
-  },
-  "www/links/2026/02/07/good-taste/index.md": {
-    "revisions": [
-      {
-        "hash": "c3845531eaf3",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2026-02-07T20:28:53.032Z",
-        "commit": "db33a7b",
-        "message": "feat: add link to embedding-shape’s good taste post"
-      }
-    ],
-    "teaserHash": "c3845531eaf3",
-    "generatedTeaserHash": "f9b9bf70bfce"
-  },
-  "www/links/2026/02/07/tahoes-windows/index.md": {
-    "revisions": [
-      {
-        "hash": "c428ce00630e",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2026-02-07T18:08:57.769Z",
-        "commit": "12d6492",
-        "message": "feat: add new article on Tahoe’s Windows with insights on macOS design"
-      }
-    ]
-  },
-  "www/penumbra/journal/canvas-and-matrices/index.md": {
-    "revisions": [
-      {
-        "hash": "ded359666228",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2024-09-28T03:58:48Z",
-        "commit": "fb2cb63",
-        "message": "feat: improve urls for early penumbra journal entries"
-      },
-      {
-        "hash": "ad0b76fa4f0c",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2024-10-27T05:51:41Z",
-        "commit": "4086e94",
-        "message": "feat: esbuild hashing integration"
-      },
-      {
-        "hash": "de75445a2e63",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2024-10-27T18:25:07Z",
-        "commit": "f160688",
-        "message": "feat: feed compatible fallbacks for penumbra demos"
-      },
-      {
-        "hash": "bd4034126f40",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2025-10-30T21:14:20-07:00",
-        "commit": "e229a30",
-        "message": "feat: update penumbra article links to use canonical paths"
-      }
-    ]
-  },
-  "www/penumbra/journal/github-copilot/index.md": {
-    "revisions": [
-      {
-        "hash": "f50393bbb59a",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2024-09-24T02:37:36Z",
-        "commit": "bac0dfe",
-        "message": "feat: build full site, not just penumbra dir"
-      },
-      {
-        "hash": "5a7b02ee0edb",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2024-10-27T05:51:41Z",
-        "commit": "4086e94",
-        "message": "feat: esbuild hashing integration"
-      },
-      {
-        "hash": "431e9100ef93",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2024-10-27T18:25:07Z",
-        "commit": "f160688",
-        "message": "feat: feed compatible fallbacks for penumbra demos"
-      },
-      {
-        "hash": "71593b380074",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2024-11-09T05:20:39Z",
-        "commit": "e02f28e",
-        "message": "feat: custom photo processing, hero photos and videos"
-      }
-    ]
-  },
-  "www/penumbra/journal/nerd-sniped.md": {
-    "revisions": [
-      {
-        "hash": "bdd9d6ea5a72",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2024-09-28T03:58:48Z",
-        "commit": "fb2cb63",
-        "message": "feat: improve urls for early penumbra journal entries"
-      }
-    ]
-  },
-  "www/penumbra/journal/one-more-yak.md": {
-    "revisions": [
-      {
-        "hash": "cd2aab2ed907",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2024-09-28T03:58:48Z",
-        "commit": "fb2cb63",
-        "message": "feat: improve urls for early penumbra journal entries"
-      }
-    ]
-  },
-  "www/penumbra/journal/ray-sphere-interactions/index.md": {
-    "revisions": [
-      {
-        "hash": "10eabb49adb7",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2024-09-28T03:58:48Z",
-        "commit": "fb2cb63",
-        "message": "feat: improve urls for early penumbra journal entries"
-      },
-      {
-        "hash": "d632f14f1077",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2024-10-27T05:51:41Z",
-        "commit": "4086e94",
-        "message": "feat: esbuild hashing integration"
-      },
-      {
-        "hash": "ca6caacf77f8",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2024-10-27T18:25:07Z",
-        "commit": "f160688",
-        "message": "feat: feed compatible fallbacks for penumbra demos"
-      },
-      {
-        "hash": "ee2baecf47f8",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2024-11-17T18:41:37Z",
-        "commit": "6c84d8e",
-        "message": "feat: prettier for html output and incremental builds"
-      },
-      {
-        "hash": "b2859981c121",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2025-10-30T21:14:20-07:00",
-        "commit": "e229a30",
-        "message": "feat: update penumbra article links to use canonical paths"
-      }
-    ]
-  },
-  "www/penumbra/journal/rust/index.md": {
-    "revisions": [
-      {
-        "hash": "d8eded02e7ca",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2024-09-24T02:37:36Z",
-        "commit": "bac0dfe",
-        "message": "feat: build full site, not just penumbra dir"
-      },
-      {
-        "hash": "f73d40c07a67",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2024-10-25T16:38:22Z",
-        "commit": "8619a11",
-        "message": "fix: typo and formatting"
-      },
-      {
-        "hash": "dfbea0db0881",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2024-10-27T18:25:07Z",
-        "commit": "f160688",
-        "message": "feat: feed compatible fallbacks for penumbra demos"
-      },
-      {
-        "hash": "b62449083bb1",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2024-11-21T04:16:12Z",
-        "commit": "c26460e",
-        "message": "feat: update penumbra-www links to limulus-dot-net"
-      },
-      {
-        "hash": "d50e8af47307",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2025-10-30T21:14:20-07:00",
-        "commit": "e229a30",
-        "message": "feat: update penumbra article links to use canonical paths"
-      }
-    ]
-  },
-  "www/penumbra/journal/tuples/index.md": {
-    "revisions": [
-      {
-        "hash": "0e98d85d30d0",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2024-09-28T03:58:48Z",
-        "commit": "fb2cb63",
-        "message": "feat: improve urls for early penumbra journal entries"
-      },
-      {
-        "hash": "96c503486588",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2024-10-27T05:51:41Z",
-        "commit": "4086e94",
-        "message": "feat: esbuild hashing integration"
-      },
-      {
-        "hash": "89f16772b64a",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2024-10-27T18:25:07Z",
-        "commit": "f160688",
-        "message": "feat: feed compatible fallbacks for penumbra demos"
-      }
-    ]
-  },
-  "www/tils/git/private-branches-in-public-repos.md": {
-    "revisions": [
-      {
-        "hash": "cfb00bc7725a",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2025-10-11T14:48:30-07:00",
-        "commit": "02a2b43",
-        "message": "feat: add TIL on private branches in public repos"
-      },
-      {
-        "hash": "36dfacaae6d4",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2025-10-11T14:58:28-07:00",
-        "commit": "590b062",
-        "message": "fix: correct typo in private branches TIL"
-      }
-    ]
-  },
-  "www/tils/nodejs/type-stripping.md": {
-    "revisions": [
-      {
-        "hash": "8b4536144988",
-        "algorithm": "shake128",
-        "outputBytes": 6,
-        "fields": [
-          "title",
-          "content"
-        ],
-        "separator": "\\n",
-        "date": "2025-11-01T13:44:53-07:00",
-        "commit": "446b125",
-        "message": "feat: add TIL article on TypeScript type stripping in Node.js"
-      }
-    ]
+  "entries": {
+    "www/feed/new-york-2024/index.md": {
+      "revisions": [
+        {
+          "v": 1,
+          "hash": "e5a867cf57a8",
+          "date": "2024-12-27T23:17:59-07:00",
+          "commit": "ee9acb6",
+          "message": "feat: add new-york-2024 article"
+        },
+        {
+          "v": 1,
+          "hash": "387da43a8e35",
+          "date": "2024-12-28T11:15:20-07:00",
+          "commit": "4a40d15",
+          "message": "feat: tweaks to new-york-2024"
+        },
+        {
+          "v": 1,
+          "hash": "3493ad240226",
+          "date": "2025-03-15T23:09:21-07:00",
+          "commit": "cd4638d",
+          "message": "fix: stylize GoPro HERO12"
+        }
+      ]
+    },
+    "www/feed/the-rebound/index.md": {
+      "revisions": [
+        {
+          "v": 1,
+          "hash": "ace5bbe9e252",
+          "date": "2024-11-24T18:32:57Z",
+          "commit": "8ea15e4",
+          "message": "feat(article): add the rebound"
+        },
+        {
+          "v": 1,
+          "hash": "4f04c5d72a03",
+          "date": "2024-11-24T18:51:00Z",
+          "commit": "b704bf3",
+          "message": "fix(article): make the-rebound conclusion a bit more firm"
+        },
+        {
+          "v": 1,
+          "hash": "d214d917bf76",
+          "date": "2024-11-28T13:32:12-07:00",
+          "commit": "a0cf31b",
+          "message": "feat: aliases for photos"
+        }
+      ]
+    },
+    "www/feed/the-social-contract/index.md": {
+      "revisions": [
+        {
+          "v": 1,
+          "hash": "1afd165eb8bf",
+          "date": "2025-04-26T11:14:00-07:00",
+          "commit": "ed2de92",
+          "message": "feat: add the-social-contract article"
+        },
+        {
+          "v": 1,
+          "hash": "2323fb55946f",
+          "date": "2025-11-03T16:33:40-07:00",
+          "commit": "2da0beb",
+          "message": "fix: wrong year for next midterm election"
+        }
+      ]
+    },
+    "www/feed/workout-exporter/index.md": {
+      "revisions": [
+        {
+          "v": 1,
+          "hash": "4b9f09c0636a",
+          "date": "2025-03-15T23:10:48-07:00",
+          "commit": "5a975b1",
+          "message": "feat: add workout exporter article"
+        }
+      ]
+    },
+    "www/feed/write-to-your-rep/index.md": {
+      "revisions": [
+        {
+          "v": 1,
+          "hash": "fae6838c053f",
+          "date": "2025-02-09T14:37:10-07:00",
+          "commit": "08afb08",
+          "message": "feat: add write-to-your-rep post"
+        }
+      ]
+    },
+    "www/links/2026/01/30/im-not-sweating-my-ai-energy-usage/index.md": {
+      "revisions": [
+        {
+          "v": 1,
+          "hash": "5e88211a5a2b",
+          "date": "2026-02-02T00:23:05.479Z",
+          "commit": "1fe13f7",
+          "message": "fix: skip pre-push hook on bot teaser commit in CD workflow"
+        }
+      ],
+      "teaserHash": "5e88211a5a2b"
+    },
+    "www/links/2026/02/03/where-are-the-test-driven-agentic-workflows-anyway/index.md": {
+      "revisions": [
+        {
+          "v": 1,
+          "hash": "f867a6a054ca",
+          "date": "2026-02-04T00:13:21.215Z",
+          "commit": "c34c9de",
+          "message": "feat: add article on Test Driven Agentic Workflows"
+        },
+        {
+          "v": 1,
+          "hash": "37652a7ac088",
+          "date": "2026-02-04T00:24:26.140Z",
+          "commit": "e0c91a8",
+          "message": "fix: refine teaser text for clarity and conciseness"
+        }
+      ],
+      "teaserHash": "37652a7ac088",
+      "generatedTeaserHash": "15ca4e666bee"
+    },
+    "www/links/2026/02/07/good-taste/index.md": {
+      "revisions": [
+        {
+          "v": 1,
+          "hash": "c3845531eaf3",
+          "date": "2026-02-07T20:28:53.032Z",
+          "commit": "db33a7b",
+          "message": "feat: add link to embedding-shape’s good taste post"
+        }
+      ],
+      "teaserHash": "c3845531eaf3",
+      "generatedTeaserHash": "f9b9bf70bfce"
+    },
+    "www/links/2026/02/07/tahoes-windows/index.md": {
+      "revisions": [
+        {
+          "v": 1,
+          "hash": "c428ce00630e",
+          "date": "2026-02-07T18:08:57.769Z",
+          "commit": "12d6492",
+          "message": "feat: add new article on Tahoe’s Windows with insights on macOS design"
+        }
+      ]
+    },
+    "www/penumbra/journal/canvas-and-matrices/index.md": {
+      "revisions": [
+        {
+          "v": 1,
+          "hash": "ded359666228",
+          "date": "2024-09-28T03:58:48Z",
+          "commit": "fb2cb63",
+          "message": "feat: improve urls for early penumbra journal entries"
+        },
+        {
+          "v": 1,
+          "hash": "ad0b76fa4f0c",
+          "date": "2024-10-27T05:51:41Z",
+          "commit": "4086e94",
+          "message": "feat: esbuild hashing integration"
+        },
+        {
+          "v": 1,
+          "hash": "de75445a2e63",
+          "date": "2024-10-27T18:25:07Z",
+          "commit": "f160688",
+          "message": "feat: feed compatible fallbacks for penumbra demos"
+        },
+        {
+          "v": 1,
+          "hash": "bd4034126f40",
+          "date": "2025-10-30T21:14:20-07:00",
+          "commit": "e229a30",
+          "message": "feat: update penumbra article links to use canonical paths"
+        }
+      ]
+    },
+    "www/penumbra/journal/github-copilot/index.md": {
+      "revisions": [
+        {
+          "v": 1,
+          "hash": "f50393bbb59a",
+          "date": "2024-09-24T02:37:36Z",
+          "commit": "bac0dfe",
+          "message": "feat: build full site, not just penumbra dir"
+        },
+        {
+          "v": 1,
+          "hash": "5a7b02ee0edb",
+          "date": "2024-10-27T05:51:41Z",
+          "commit": "4086e94",
+          "message": "feat: esbuild hashing integration"
+        },
+        {
+          "v": 1,
+          "hash": "431e9100ef93",
+          "date": "2024-10-27T18:25:07Z",
+          "commit": "f160688",
+          "message": "feat: feed compatible fallbacks for penumbra demos"
+        },
+        {
+          "v": 1,
+          "hash": "71593b380074",
+          "date": "2024-11-09T05:20:39Z",
+          "commit": "e02f28e",
+          "message": "feat: custom photo processing, hero photos and videos"
+        }
+      ]
+    },
+    "www/penumbra/journal/nerd-sniped.md": {
+      "revisions": [
+        {
+          "v": 1,
+          "hash": "bdd9d6ea5a72",
+          "date": "2024-09-28T03:58:48Z",
+          "commit": "fb2cb63",
+          "message": "feat: improve urls for early penumbra journal entries"
+        }
+      ]
+    },
+    "www/penumbra/journal/one-more-yak.md": {
+      "revisions": [
+        {
+          "v": 1,
+          "hash": "cd2aab2ed907",
+          "date": "2024-09-28T03:58:48Z",
+          "commit": "fb2cb63",
+          "message": "feat: improve urls for early penumbra journal entries"
+        }
+      ]
+    },
+    "www/penumbra/journal/ray-sphere-interactions/index.md": {
+      "revisions": [
+        {
+          "v": 1,
+          "hash": "10eabb49adb7",
+          "date": "2024-09-28T03:58:48Z",
+          "commit": "fb2cb63",
+          "message": "feat: improve urls for early penumbra journal entries"
+        },
+        {
+          "v": 1,
+          "hash": "d632f14f1077",
+          "date": "2024-10-27T05:51:41Z",
+          "commit": "4086e94",
+          "message": "feat: esbuild hashing integration"
+        },
+        {
+          "v": 1,
+          "hash": "ca6caacf77f8",
+          "date": "2024-10-27T18:25:07Z",
+          "commit": "f160688",
+          "message": "feat: feed compatible fallbacks for penumbra demos"
+        },
+        {
+          "v": 1,
+          "hash": "ee2baecf47f8",
+          "date": "2024-11-17T18:41:37Z",
+          "commit": "6c84d8e",
+          "message": "feat: prettier for html output and incremental builds"
+        },
+        {
+          "v": 1,
+          "hash": "b2859981c121",
+          "date": "2025-10-30T21:14:20-07:00",
+          "commit": "e229a30",
+          "message": "feat: update penumbra article links to use canonical paths"
+        }
+      ]
+    },
+    "www/penumbra/journal/rust/index.md": {
+      "revisions": [
+        {
+          "v": 1,
+          "hash": "d8eded02e7ca",
+          "date": "2024-09-24T02:37:36Z",
+          "commit": "bac0dfe",
+          "message": "feat: build full site, not just penumbra dir"
+        },
+        {
+          "v": 1,
+          "hash": "f73d40c07a67",
+          "date": "2024-10-25T16:38:22Z",
+          "commit": "8619a11",
+          "message": "fix: typo and formatting"
+        },
+        {
+          "v": 1,
+          "hash": "dfbea0db0881",
+          "date": "2024-10-27T18:25:07Z",
+          "commit": "f160688",
+          "message": "feat: feed compatible fallbacks for penumbra demos"
+        },
+        {
+          "v": 1,
+          "hash": "b62449083bb1",
+          "date": "2024-11-21T04:16:12Z",
+          "commit": "c26460e",
+          "message": "feat: update penumbra-www links to limulus-dot-net"
+        },
+        {
+          "v": 1,
+          "hash": "d50e8af47307",
+          "date": "2025-10-30T21:14:20-07:00",
+          "commit": "e229a30",
+          "message": "feat: update penumbra article links to use canonical paths"
+        }
+      ]
+    },
+    "www/penumbra/journal/tuples/index.md": {
+      "revisions": [
+        {
+          "v": 1,
+          "hash": "0e98d85d30d0",
+          "date": "2024-09-28T03:58:48Z",
+          "commit": "fb2cb63",
+          "message": "feat: improve urls for early penumbra journal entries"
+        },
+        {
+          "v": 1,
+          "hash": "96c503486588",
+          "date": "2024-10-27T05:51:41Z",
+          "commit": "4086e94",
+          "message": "feat: esbuild hashing integration"
+        },
+        {
+          "v": 1,
+          "hash": "89f16772b64a",
+          "date": "2024-10-27T18:25:07Z",
+          "commit": "f160688",
+          "message": "feat: feed compatible fallbacks for penumbra demos"
+        }
+      ]
+    },
+    "www/tils/git/private-branches-in-public-repos.md": {
+      "revisions": [
+        {
+          "v": 1,
+          "hash": "cfb00bc7725a",
+          "date": "2025-10-11T14:48:30-07:00",
+          "commit": "02a2b43",
+          "message": "feat: add TIL on private branches in public repos"
+        },
+        {
+          "v": 1,
+          "hash": "36dfacaae6d4",
+          "date": "2025-10-11T14:58:28-07:00",
+          "commit": "590b062",
+          "message": "fix: correct typo in private branches TIL"
+        }
+      ]
+    },
+    "www/tils/nodejs/type-stripping.md": {
+      "revisions": [
+        {
+          "v": 1,
+          "hash": "8b4536144988",
+          "date": "2025-11-01T13:44:53-07:00",
+          "commit": "446b125",
+          "message": "feat: add TIL article on TypeScript type stripping in Node.js"
+        }
+      ]
+    }
   }
 }

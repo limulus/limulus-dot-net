@@ -6,7 +6,7 @@ import {
   insertTeaserIntoFrontmatter,
   wrapText,
 } from './generate-teasers.ts'
-import { computeHash, hashFields } from '../11ty/revisions.ts'
+import { computeHash } from '../11ty/revisions.ts'
 
 describe('computeHash', () => {
   it('produces a 12-character hex string', () => {
@@ -30,16 +30,6 @@ describe('computeHash', () => {
     const hash1 = computeHash('Title', 'Sub', 'Body')
     const hash2 = computeHash('Title', 'Sub', 'Body')
     expect(hash1).toBe(hash2)
-  })
-})
-
-describe('hashFields', () => {
-  it('returns title and content when no subhead', () => {
-    expect(hashFields(undefined)).toEqual(['title', 'content'])
-  })
-
-  it('includes subhead when present', () => {
-    expect(hashFields('A subhead')).toEqual(['title', 'subhead', 'content'])
   })
 })
 

@@ -2,16 +2,21 @@ import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { readFile, writeFile } from 'node:fs/promises'
 
-export const HASH_ALGORITHM = 'shake128'
-export const HASH_OUTPUT_BYTES = 6
 export const REVISIONS_PATH = 'www/_data/revisions.json'
 
-export interface Revision {
-  hash: string
+const HASH_ALGORITHM = 'shake128'
+const HASH_OUTPUT_BYTES = 6
+
+export interface RevisionVersion {
   algorithm: string
   outputBytes: number
   fields: string[]
   separator: string
+}
+
+export interface Revision {
+  v: number
+  hash: string
   date: string
   commit: string
   message?: string
@@ -23,7 +28,10 @@ export interface RevisionEntry {
   generatedTeaserHash?: string
 }
 
-export type RevisionsFile = Record<string, RevisionEntry>
+export interface RevisionsFile {
+  versions: Record<string, RevisionVersion>
+  entries: Record<string, RevisionEntry>
+}
 
 export function computeHash(
   title: string,
@@ -37,10 +45,6 @@ export function computeHash(
   })
   hash.update(input)
   return hash.digest('hex')
-}
-
-export function hashFields(subhead: string | undefined): string[] {
-  return subhead != null ? ['title', 'subhead', 'content'] : ['title', 'content']
 }
 
 export function computeTeaserHash(teaser: string): string {
@@ -79,7 +83,7 @@ export async function loadRevisions(path: string = REVISIONS_PATH): Promise<Revi
     const content = await readFile(path, 'utf-8')
     return JSON.parse(content) as RevisionsFile
   } catch {
-    return {}
+    return { versions: {}, entries: {} }
   }
 }
 
@@ -87,9 +91,13 @@ export async function saveRevisions(
   revisions: RevisionsFile,
   path: string = REVISIONS_PATH
 ): Promise<void> {
-  const sorted: RevisionsFile = {}
-  for (const key of Object.keys(revisions).sort()) {
-    sorted[key] = revisions[key]
+  const sortedEntries: Record<string, RevisionEntry> = {}
+  for (const key of Object.keys(revisions.entries).sort()) {
+    sortedEntries[key] = revisions.entries[key]
   }
-  await writeFile(path, JSON.stringify(sorted, null, 2) + '\n')
+  const output: RevisionsFile = {
+    versions: revisions.versions,
+    entries: sortedEntries,
+  }
+  await writeFile(path, JSON.stringify(output, null, 2) + '\n')
 }
