@@ -119,28 +119,26 @@ export function insertTeaserIntoFrontmatter(fileContent: string, teaser: string)
   return `${beforeClose}${formatTeaserYaml(teaser)}\n${afterClose}`
 }
 
-async function generateTeaser(
+export async function generateTeaser(
   anthropic: Anthropic,
   title: string,
   content: string
 ): Promise<string> {
   const message = await anthropic.messages.create({
-    // Using claude-opus-4-5 alias to auto-update within Opus 4.5.x releases.
-    // Anthropic provides 60 days notice before deprecation.
-    // Check quarterly for new major versions: https://platform.claude.com/docs/en/about-claude/models/overview
-    // Last checked: February 2026
-    model: 'claude-opus-4-5',
-    max_tokens: 300,
+    model: 'claude-opus-4-6',
+    max_tokens: 2048,
+    thinking: { type: 'adaptive' },
+    system: TEASER_PROMPT,
     messages: [
       {
         role: 'user',
-        content: `${TEASER_PROMPT}\n\n---\n\nTitle: ${title}\n\n${content}`,
+        content: `Title: ${title}\n\n${content}`,
       },
     ],
   })
 
-  const block = message.content[0]
-  if (block.type !== 'text') {
+  const block = message.content.findLast((b) => b.type === 'text')
+  if (!block || block.type !== 'text') {
     throw new Error('Unexpected response type from Anthropic API')
   }
 
