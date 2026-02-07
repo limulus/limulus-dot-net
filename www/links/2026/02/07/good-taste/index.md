@@ -6,6 +6,10 @@ author: eric
 title: Good Taste
 date: 2026-02-07 12:55:26 -07:00
 linkUrl: https://emsh.cat/good-taste/
+teaser: >-
+  embedding-shapes writes about how having good taste is the human differentiator — the
+  hard thing has never been producing something, but producing something good. They’re
+  right, but I have to wonder if enough employers care about good taste.
 ---
 
 embedding-shapes writes about how having [good taste][link] is the human differentiator:

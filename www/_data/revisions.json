@@ -209,6 +209,25 @@
     "teaserHash": "37652a7ac088",
     "generatedTeaserHash": "15ca4e666bee"
   },
+  "www/links/2026/02/07/good-taste/index.md": {
+    "revisions": [
+      {
+        "hash": "c3845531eaf3",
+        "algorithm": "shake128",
+        "outputBytes": 6,
+        "fields": [
+          "title",
+          "content"
+        ],
+        "separator": "\\n",
+        "date": "2026-02-07T20:28:53.032Z",
+        "commit": "db33a7b",
+        "message": "feat: add link to embedding-shape’s good taste post"
+      }
+    ],
+    "teaserHash": "c3845531eaf3",
+    "generatedTeaserHash": "f9b9bf70bfce"
+  },
   "www/links/2026/02/07/tahoes-windows/index.md": {
     "revisions": [
       {
