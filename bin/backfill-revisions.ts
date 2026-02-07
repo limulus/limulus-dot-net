@@ -109,7 +109,7 @@ async function main() {
 
   await saveRevisions(revisions, REVISIONS_PATH)
   console.log(
-    `Done. ${totalFiles} article(s) processed,` + ` ${totalRevisions} revision(s) recorded.`
+    `Done. ${totalFiles} article(s) processed, ${totalRevisions} revision(s) recorded.`
   )
 }
 
