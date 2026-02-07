@@ -1,9 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk'
-import { globby } from 'globby'
-import matter from 'gray-matter'
-import { readFile } from 'node:fs/promises'
 
 import { generateTeaser } from './generate-teasers.ts'
+import { getArticles } from '../11ty/get-articles.ts'
 
 interface Article {
   title: string
@@ -14,22 +12,12 @@ interface Article {
 async function main() {
   const count = parseInt(process.argv[2] ?? '5', 10)
   const anthropic = new Anthropic()
-  const files = await globby('www/**/*.md')
-  const articles: Article[] = []
-
-  for (const filePath of files) {
-    const fileContent = await readFile(filePath, 'utf-8')
-    const parsed = matter(fileContent)
-
-    const tags: string[] = parsed.data.tags ?? []
-    if (!tags.includes('article')) continue
-
-    articles.push({
-      title: parsed.data.title as string,
-      date: new Date(parsed.data.date as string),
-      content: parsed.content,
-    })
-  }
+  const allArticles = await getArticles()
+  const articles: Article[] = allArticles.map((a) => ({
+    title: a.data.title as string,
+    date: new Date(a.data.date as string),
+    content: a.content,
+  }))
 
   articles.sort((a, b) => b.date.getTime() - a.date.getTime())
   const latest = articles.slice(0, count)

@@ -1,8 +1,7 @@
-import { globby } from 'globby'
 import matter from 'gray-matter'
 import { execFileSync } from 'node:child_process'
-import { readFile } from 'node:fs/promises'
 
+import { getArticles } from '../11ty/get-articles.ts'
 import {
   type RevisionsFile,
   REVISIONS_PATH,
@@ -46,7 +45,7 @@ function getFileAtCommit(sha: string, filePath: string): string | null {
 }
 
 async function main() {
-  const files = await globby('www/**/*.md')
+  const articles = await getArticles()
   const revisions: RevisionsFile = {
     versions: {
       '1': {
@@ -62,13 +61,7 @@ async function main() {
   let totalFiles = 0
   let totalRevisions = 0
 
-  for (const filePath of files) {
-    const fileContent = await readFile(filePath, 'utf-8')
-    const parsed = matter(fileContent)
-
-    const tags: string[] = parsed.data.tags ?? []
-    if (!tags.includes('article')) continue
-
+  for (const { filePath } of articles) {
     totalFiles++
     const logEntries = getGitLog(filePath)
 

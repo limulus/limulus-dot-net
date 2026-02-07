@@ -1,9 +1,9 @@
 import Anthropic from '@anthropic-ai/sdk'
-import { globby } from 'globby'
 import matter from 'gray-matter'
-import { readFile, writeFile } from 'node:fs/promises'
+import { writeFile } from 'node:fs/promises'
 import { smartypantsu } from 'smartypants'
 
+import { getArticles } from '../11ty/get-articles.ts'
 import {
   computeHash,
   computeTeaserHash,
@@ -151,21 +151,14 @@ async function main() {
   const revisions = await loadRevisions()
   const anthropic = process.env.ANTHROPIC_API_KEY ? new Anthropic() : null
 
-  const files = await globby('www/**/*.md')
+  const articles = await getArticles()
   let generatedCount = 0
   let teaserHashChanged = false
 
-  for (const filePath of files) {
-    const fileContent = await readFile(filePath, 'utf-8')
-    const parsed = matter(fileContent)
-
-    const tags: string[] = parsed.data.tags ?? []
-    if (!tags.includes('article')) continue
-
-    const title = parsed.data.title as string
-    const subhead = parsed.data.subhead as string | undefined
-    const teaser = parsed.data.teaser as string | undefined
-    const content = parsed.content
+  for (const { filePath, data, content, rawInput } of articles) {
+    const title = data.title as string
+    const subhead = data.subhead as string | undefined
+    const teaser = data.teaser as string | undefined
 
     const hash = computeHash(title, subhead, content)
 
@@ -204,7 +197,7 @@ async function main() {
     console.log(`[${decision.action}] ${filePath}: ${decision.reason}`)
 
     const newTeaser = await generateTeaser(anthropic, title, content)
-    const updatedContent = insertTeaserIntoFrontmatter(fileContent, newTeaser)
+    const updatedContent = insertTeaserIntoFrontmatter(rawInput, newTeaser)
     await writeFile(filePath, updatedContent)
 
     revisions.entries[filePath] ??= { revisions: [] }
