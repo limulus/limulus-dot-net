@@ -9,9 +9,13 @@ export default async function (eleventyConfig: UserConfig): Promise<void> {
 
   let hashes: Record<string, string> | undefined
 
-  eleventyConfig.on('eleventy.before', async function () {
-    hashes = await bundle(await globby(['www/**/index.ts', 'www/**/worker.ts']))
-  })
+  eleventyConfig.on(
+    'eleventy.before',
+    async function ({ outputMode }: { outputMode: string }) {
+      if (outputMode === 'json') return
+      hashes = await bundle(await globby(['www/**/index.ts', 'www/**/worker.ts']))
+    }
+  )
 
   eleventyConfig.addTransform('esbuild-translate-hashes', function (content) {
     return translateHashes(this.page.inputPath, this.page.url, hashes, content) ?? content

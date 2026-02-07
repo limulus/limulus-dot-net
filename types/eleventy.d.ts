@@ -33,7 +33,7 @@ declare module '@11ty/eleventy' {
 
   interface UserConfig {
     addWatchTarget(path: string): void
-    on(event: string, callback: () => void | Promise<void>): void
+    on(event: string, callback: (...args: any[]) => void | Promise<void>): void
     addTransform(
       name: string,
       callback: (
