@@ -209,6 +209,23 @@
     "teaserHash": "37652a7ac088",
     "generatedTeaserHash": "15ca4e666bee"
   },
+  "www/links/2026/02/07/tahoes-windows/index.md": {
+    "revisions": [
+      {
+        "hash": "c428ce00630e",
+        "algorithm": "shake128",
+        "outputBytes": 6,
+        "fields": [
+          "title",
+          "content"
+        ],
+        "separator": "\\n",
+        "date": "2026-02-07T18:08:57.769Z",
+        "commit": "12d6492",
+        "message": "feat: add new article on Tahoe’s Windows with insights on macOS design"
+      }
+    ]
+  },
   "www/penumbra/journal/canvas-and-matrices/index.md": {
     "revisions": [
       {
