@@ -11,36 +11,38 @@ import {
   saveRevisions,
 } from './revisions.ts'
 
-const TEASER_PROMPT = `\
-You are generating a preview teaser for a blog post. The teaser appears as \
-the Open Graph description in link previews on social media, messaging apps, \
+const TEASER_PROMPT = `
+You are generating a preview teaser for a blog post. The teaser appears as
+the Open Graph description in link previews on social media, messaging apps,
 and search results.
 
-Your task: extract the opening lines of this article and lightly edit them \
-to read naturally as a standalone preview. This is NOT a summary — it should \
-read like the first few lines of the article, adapted to make sense without \
+Your task: extract the opening lines of this article and lightly edit them
+to read naturally as a standalone preview. This is NOT a summary — it should
+read like the first few lines of the article, adapted to make sense without
 the surrounding context.
 
 Guidelines:
 - Plain text only. No markdown, HTML, or formatting.
-- Always use curly quotes (\u201C\u201D \u2018\u2019), em-dashes (\u2014), and \
-ellipses (\u2026). Never straight quotes or hyphens as dashes.
+- Always use curly quotes (“” ‘’), em-dashes (—), and
+ellipses (…). Never straight quotes or hyphens as dashes. Em-dashes must
+have spaces on both sides (\` — \`).
 - Target ~200 characters. Never exceed 250.
-- Skip blockquotes. Bridge the text before and after naturally, including \
-only essential context from the quote if needed for surrounding text to \
+- Skip blockquotes. Bridge the text before and after naturally, including
+only essential context from the quote if needed for surrounding text to
 make sense.
-- Preserve voice transitions naturally (e.g., third-person attribution \
+- Preserve voice transitions naturally (e.g., third-person attribution
 transitioning to first-person commentary is fine for link posts).
-- Fix awkward transitions. For example, if the text reads \u201Cenergy use:\u201D \
-followed by a blockquote, change the colon to a period since the blockquote \
-won\u2019t be present.
-- If the teaser ends mid-thought, end with an ellipsis (\u2026)
-- If the opening naturally fits within the limit, don\u2019t add an ellipsis.
+- Fix awkward transitions. For example, if the text reads “energy use:”
+followed by a blockquote, change the colon to a period since the blockquote
+won’t be present.
+- If the teaser ends mid-thought, end with an ellipsis (…)
+- If the opening naturally fits within the limit, don’t add an ellipsis.
 - Output only the teaser text. No explanation, no quotes around it.
 
 Examples of correct output:
-- Maybe you\u2019ve heard of the \u201Csocial contract.\u201D It\u2019s a concept in philosophy popularized during the Enlightenment\u2026
-- I\u2019ve reimplemented everything to target WebAssembly using SIMD instructions\u2014a language I\u2019ve wanted to learn\u2026`
+- Maybe you’ve heard of the \u201Csocial contract.” It’s a concept in philosophy popularized during the Enlightenment…
+- I’ve reimplemented everything to target WebAssembly using SIMD instructions\u2014a language I’ve wanted to learn…
+`.trim()
 
 export interface TeaserDecision {
   action: 'skip' | 'generate' | 'regenerate'
