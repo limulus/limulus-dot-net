@@ -6,7 +6,7 @@ import {
   insertTeaserIntoFrontmatter,
   wrapText,
 } from './generate-teasers.ts'
-import { computeHash, hashFields } from './revisions.ts'
+import { computeHash, hashFields } from '../11ty/revisions.ts'
 
 describe('computeHash', () => {
   it('produces a 12-character hex string', () => {

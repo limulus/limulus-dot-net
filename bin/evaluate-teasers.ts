@@ -3,7 +3,7 @@ import { globby } from 'globby'
 import matter from 'gray-matter'
 import { readFile } from 'node:fs/promises'
 
-import { generateTeaser } from '../11ty/generate-teasers.ts'
+import { generateTeaser } from './generate-teasers.ts'
 
 interface Article {
   title: string

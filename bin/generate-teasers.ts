@@ -9,7 +9,7 @@ import {
   computeTeaserHash,
   loadRevisions,
   saveRevisions,
-} from './revisions.ts'
+} from '../11ty/revisions.ts'
 
 const TEASER_PROMPT = `
 You are generating a preview teaser for a blog post. The teaser appears as
@@ -22,10 +22,8 @@ read like the first few lines of the article, adapted to make sense without
 the surrounding context.
 
 Guidelines:
-- Plain text only. No markdown, HTML, or formatting.
-- Always use curly quotes (“” ‘’), em-dashes (—), and
-ellipses (…). Never straight quotes or hyphens as dashes. Em-dashes must
-have spaces on both sides (\` — \`).
+- Plain text only. No markdown, HTML, or formatting. Unicode punctuation is fine.
+- Em-dashes must have spaces on both sides (\` — \`).
 - Target ~200 characters. Never exceed 250.
 - Skip blockquotes. Bridge the text before and after naturally, including
 only essential context from the quote if needed for surrounding text to
@@ -40,8 +38,10 @@ won’t be present.
 - Output only the teaser text. No explanation, no quotes around it.
 
 Examples of correct output:
-- Maybe you’ve heard of the \u201Csocial contract.” It’s a concept in philosophy popularized during the Enlightenment…
-- I’ve reimplemented everything to target WebAssembly using SIMD instructions\u2014a language I’ve wanted to learn…
+- John Gruber is scathing about macOS Tahoe's window corners. In general I think the larger corner radiuses look fine. But if Apple really wanted to make this new look functional it needed to rethink how windows work…
+- Maybe you've heard of the "social contract." It's a concept in philosophy popularized during the Enlightenment…
+- I've reimplemented everything to target WebAssembly using SIMD instructions — a language I've wanted to learn…
+- Simon P. Couch used energy-per-token estimates to calculate his AI coding energy use — about 1,300 Wh through Claude Code on a median day. This matches my mental model…
 `.trim()
 
 export interface TeaserDecision {
@@ -220,7 +220,9 @@ async function main() {
   console.log(`Done. ${generatedCount} teaser(s) generated.`)
 }
 
-main().catch((error: unknown) => {
-  console.error(error)
-  process.exit(1)
-})
+if (import.meta.url === `file://${process.argv[1]}`) {
+  main().catch((error: unknown) => {
+    console.error(error)
+    process.exit(1)
+  })
+}

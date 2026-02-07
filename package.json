@@ -11,7 +11,7 @@
     "clean": "del-cli *.tsbuildinfo coverage dist",
     "predev": "npm run prebuild",
     "dev": "eleventy --serve --incremental",
-    "generate-teasers": "node 11ty/generate-teasers.ts",
+    "generate-teasers": "node bin/generate-teasers.ts",
     "update-revisions": "node 11ty/update-revisions.ts",
     "lint": "eslint *.js *.ts 11ty www infra types",
     "postinstall": "patch-package",
