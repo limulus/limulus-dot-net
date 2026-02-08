@@ -14,10 +14,10 @@ teaser: >-
 
 [John Gruber][link]:
 
-> The windows on MacOS 26 Tahoe don't really have comically large, childish corner radiuses.
+> The windows on MacOS 26 Tahoe don’t really have comically large, childish corner radiuses.
 > They just look like they do because some jackasses at Apple — all of whom, I pray, are now
-> at Meta — thought they looked better that way. It's a straight-up inversion of Steve
-> Jobs's maxim that design is about how things work, not how they look. I can think of no
+> at Meta — thought they looked better that way. It’s a straight-up inversion of Steve
+> Jobs’s maxim that design is about how things work, not how they look. I can think of no
 > better example to prove that the new UI in MacOS 26 Tahoe was designed by people who do
 > not understand or care about the most basic fundamental principles of good design.
 
