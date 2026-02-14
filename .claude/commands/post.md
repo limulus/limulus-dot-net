@@ -21,10 +21,15 @@ If no title is provided, prompt the user for a title interactively.
 
 3. Generate a slugified directory name from the title:
 
+   - Aim for around 5 words maximum - remove filler words like "a", "the", "to", "for", "using", "how"
+   - Focus on the core concepts and key terms
    - Convert to lowercase
    - Replace spaces with hyphens
    - Remove special characters (keep only alphanumeric and hyphens)
-   - Example: "My Great Post!" → "my-great-post"
+   - Examples:
+     - "My Great Post!" → "my-great-post"
+     - "Using Coding Agents to Improve Code Quality" → "coding-agents-improve-quality"
+     - "How to Build a REST API" → "build-rest-api"
 
 4. Create the directory at: `www/feed/<slugified-title>/`
 
@@ -51,7 +56,11 @@ If no title is provided, prompt the user for a title interactively.
    <!-- Write your blog post content here -->
    ```
 
-8. Open the newly created file in the editor for the user to start writing.
+8. Open the newly created file in VS Code by running:
+
+   ```bash
+   code www/feed/<slugified-title>/index.md
+   ```
 
 **Important notes:**
 

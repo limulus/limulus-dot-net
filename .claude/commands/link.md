@@ -27,10 +27,14 @@ If no title is provided, prompt the user for a title interactively.
 
 6. Generate a slugified directory name from the title:
 
+   - Aim for around 5 words maximum - remove filler words like "a", "the", "to", "for", "using", "how"
+   - Focus on the core concepts and key terms
    - Convert to lowercase
    - Replace spaces with hyphens
    - Remove special characters (keep only alphanumeric and hyphens)
-   - Example: "My Great Link!" → "my-great-link"
+   - Examples:
+     - "My Great Link!" → "my-great-link"
+     - "The Future of Web Development" → "future-web-development"
 
 7. Extract the year, month, and day from the timestamp obtained in step 1
    (e.g., `2026-01-29 14:30:00 -07:00` → `2026/01/29`).
@@ -64,7 +68,11 @@ If no title is provided, prompt the user for a title interactively.
     - If the user provided a blockquote, include it as a markdown blockquote (prefixed with `> `)
     - Add a blank line and a comment: `<!-- Write your commentary here -->`
 
-12. Open the newly created file in the editor for the user to start writing.
+12. Open the newly created file in VS Code by running:
+
+    ```bash
+    code www/links/YYYY/MM/DD/<slugified-title>/index.md
+    ```
 
 **Important notes:**
 

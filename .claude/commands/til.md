@@ -20,10 +20,14 @@ If no title is provided after the topic, prompt the user for a title interactive
 2. If no title was provided, ask the user: "What is the title for this TIL?"
 
 3. Generate a slugified filename from the title:
+   - Aim for around 5 words maximum - remove filler words like "a", "the", "to", "for", "using", "how"
+   - Focus on the core concepts and key terms
    - Convert to lowercase
    - Replace spaces with hyphens
    - Remove special characters (keep only alphanumeric and hyphens)
-   - Example: "My Great TIL!" → "my-great-til"
+   - Examples:
+     - "My Great TIL!" → "my-great-til"
+     - "Using TypeScript Generic Constraints" → "typescript-generic-constraints"
 
 4. Create the file at: `www/tils/$1/<slugified-title>.md`
 
@@ -46,7 +50,11 @@ If no title is provided after the topic, prompt the user for a title interactive
    <!-- Write your TIL content here -->
    ```
 
-7. Open the newly created file in the editor for the user to start writing.
+7. Open the newly created file in VS Code by running:
+
+   ```bash
+   code www/tils/$1/<slugified-title>.md
+   ```
 
 **Important notes:**
 - The topic ($1) becomes the directory name under `www/tils/`
