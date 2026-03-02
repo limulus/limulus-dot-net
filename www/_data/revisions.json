@@ -165,6 +165,19 @@
         }
       ]
     },
+    "www/links/2026/03/01/surviving-ai-revolution-software-development/index.md": {
+      "revisions": [
+        {
+          "v": 1,
+          "hash": "3a3a3e8f52eb",
+          "date": "2026-03-02T04:44:56.597Z",
+          "commit": "20f9178",
+          "message": "feat: add link post"
+        }
+      ],
+      "teaserHash": "3a3a3e8f52eb",
+      "generatedTeaserHash": "2cba730660fa"
+    },
     "www/penumbra/journal/canvas-and-matrices/index.md": {
       "revisions": [
         {
