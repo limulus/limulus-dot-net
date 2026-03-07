@@ -2692,5 +2692,130 @@
         "size": 21849
       }
     ]
+  },
+  "all-in-all-by-beth-lipman": "9qxkPdx9",
+  "9qxkPdx9": {
+    "id": "9qxkPdx9",
+    "alias": "all-in-all-by-beth-lipman",
+    "baseUrl": "https://pho.limulus.net/9qxkPdx9",
+    "original": "1.png",
+    "width": 3892,
+    "height": 2780,
+    "title": "All in All by Beth Lipman",
+    "description": "A large-scale glass and mixed-media sculpture by Beth Lipman titled \"All in All,\" displayed at the Corning Museum of Glass. The piece centers on a long white table, itself part of the work, with dozens of clear glass forms rising from its surface — tall columnar shapes resembling cacti or architectural spires, surrounded by sweeping frond-like glass elements and smaller delicate flower forms, all emerging from a white base. Glass vessels are affixed to the underside of the table, visible beneath. The sculpture is set against floor-to-ceiling windows looking out onto a seemingly misty, overcast landscape, giving the entire scene a quiet, monochrome quality.",
+    "date": "2024-10-14T12:49:29-04:00",
+    "tags": [
+      "license:cc-by",
+      "limulus.net",
+      "limulus.net/photos"
+    ],
+    "make": "Apple",
+    "camera": "iPhone 16 Pro",
+    "lens": "iPhone 16 Pro back triple camera 6.765mm f/1.78",
+    "focalLength": "6.764999865652793 mm",
+    "exposureTime": "1/1385",
+    "fNumber": "f/1.7799999713880652",
+    "iso": 80,
+    "flash": "Flash did not fire, compulsory flash mode",
+    "exposureMode": "Auto exposure",
+    "whiteBalance": "Auto white balance",
+    "blurhash": "LDGu:r00~qRj%MM|t6t700xuofM{",
+    "location": {
+      "latitude": 42.150394444444444,
+      "longitude": -77.05377222222222,
+      "altitude": 257.69594594594594
+    },
+    "renditions": [
+      {
+        "name": "xl",
+        "format": "avif",
+        "url": "https://pho.limulus.net/9qxkPdx9/xl.URgG6Rfx.avif",
+        "file": "xl.URgG6Rfx.avif",
+        "width": 3892,
+        "height": 2780,
+        "size": 262153
+      },
+      {
+        "name": "xl",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/9qxkPdx9/xl.PRuatJ2D.jpeg",
+        "file": "xl.PRuatJ2D.jpeg",
+        "width": 3892,
+        "height": 2780,
+        "size": 1127098
+      },
+      {
+        "name": "lg",
+        "format": "avif",
+        "url": "https://pho.limulus.net/9qxkPdx9/lg.HH24SGCM.avif",
+        "file": "lg.HH24SGCM.avif",
+        "width": 3000,
+        "height": 2143,
+        "size": 202941
+      },
+      {
+        "name": "lg",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/9qxkPdx9/lg.kNseqs0T.jpeg",
+        "file": "lg.kNseqs0T.jpeg",
+        "width": 3000,
+        "height": 2143,
+        "size": 741180
+      },
+      {
+        "name": "md",
+        "format": "avif",
+        "url": "https://pho.limulus.net/9qxkPdx9/md.Id5hl37s.avif",
+        "file": "md.Id5hl37s.avif",
+        "width": 1500,
+        "height": 1071,
+        "size": 89426
+      },
+      {
+        "name": "md",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/9qxkPdx9/md.9wZX1KUJ.jpeg",
+        "file": "md.9wZX1KUJ.jpeg",
+        "width": 1500,
+        "height": 1071,
+        "size": 221324
+      },
+      {
+        "name": "sm",
+        "format": "avif",
+        "url": "https://pho.limulus.net/9qxkPdx9/sm.mVyWwPlo.avif",
+        "file": "sm.mVyWwPlo.avif",
+        "width": 750,
+        "height": 536,
+        "size": 32425
+      },
+      {
+        "name": "sm",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/9qxkPdx9/sm.OFOEsrG9.jpeg",
+        "file": "sm.OFOEsrG9.jpeg",
+        "width": 750,
+        "height": 536,
+        "size": 66215
+      },
+      {
+        "name": "xs",
+        "format": "avif",
+        "url": "https://pho.limulus.net/9qxkPdx9/xs.3i3hc7gd.avif",
+        "file": "xs.3i3hc7gd.avif",
+        "width": 325,
+        "height": 232,
+        "size": 13237
+      },
+      {
+        "name": "xs",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/9qxkPdx9/xs._ofxn_Pu.jpeg",
+        "file": "xs._ofxn_Pu.jpeg",
+        "width": 325,
+        "height": 232,
+        "size": 20330
+      }
+    ]
   }
 }
