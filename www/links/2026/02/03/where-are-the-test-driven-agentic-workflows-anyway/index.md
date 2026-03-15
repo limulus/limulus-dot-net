@@ -32,3 +32,8 @@ system prompts are interfering.
 
 I honestly wouldn’t be surprised if next Tuesday Claude Code _does_ ship a TDD mode that
 explicitly takes the LLM through the TDD process.
+
+**Update:** Justin Searls has had some success getting Opus 4.6 to follow a [dual-loop BDD
+workflow][dual-loop].
+
+[dual-loop]: /links/2026/03/15/dual-loop-bdd-new-red-green-tdd/
