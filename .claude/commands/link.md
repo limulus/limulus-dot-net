@@ -1,13 +1,13 @@
 ---
-argument-hint: [title]
+argument-hint: [url]
 description: Create a new link blog post
 ---
 
 Create a new link blog post with the following specifications:
 
-**Title**: $REMAINING_ARGS (all arguments)
+**URL**: $REMAINING_ARGS (all arguments)
 
-If no title is provided, prompt the user for a title interactively.
+If no URL is provided, prompt the user for the URL interactively.
 
 **Steps to create the link post:**
 
@@ -17,15 +17,15 @@ If no title is provided, prompt the user for a title interactively.
    TZ=America/Phoenix date +"%Y-%m-%d %H:%M:%S -07:00"
    ```
 
-2. If no title was provided, ask the user: "What is the title for this link post?"
+2. If no URL was provided, ask the user: "What is the URL for this link?"
 
-3. Ask the user: "What is the URL for this link?"
+3. Fetch the linked page using `WebFetch` and extract the `<title>` tag content. This becomes the `linkTitle`. Clean up the title by trimming whitespace and removing any site name suffixes after common separators like ` | `, ` - `, ` — `, or ` · ` (only remove the last such segment if it looks like a site name, i.e., 3 words or fewer).
 
 4. Ask the user: "Do you have a via URL?" (optional — the URL where you found the link, e.g., Hacker News, a blog, etc.)
 
 5. Ask the user: "Do you have a blockquote to include?" (optional — a quote from the linked article to include in the post body)
 
-6. Generate a slugified directory name from the title:
+6. Generate a slugified directory name from the `linkTitle`:
 
    - Aim for around 5 words maximum - remove filler words like "a", "the", "to", "for", "using", "how"
    - Focus on the core concepts and key terms
@@ -51,7 +51,7 @@ If no title is provided, prompt the user for a title interactively.
       - article
       - link
     author: eric
-    title: <user-provided title>
+    linkTitle: <fetched page title>
     date: <datetime from step 1>
     linkUrl: <user-provided URL>
     viaUrl: <user-provided via URL>
@@ -62,6 +62,9 @@ If no title is provided, prompt the user for a title interactively.
     and should NOT be included in the frontmatter.
 
     Note: Only include the `viaUrl` field if the user provided a via URL.
+
+    Note: Do NOT include a `title` field — it will be computed automatically
+    from `linkTitle` by the data cascade in `www/_data/eleventyComputed.js`.
 
 11. After the frontmatter, add the post body:
 
@@ -82,5 +85,6 @@ If no title is provided, prompt the user for a title interactively.
 - Always use the `-07:00` timezone offset
 - Tags (`article` and `link`) MUST be included in the frontmatter
 - Do NOT include `layout` in the frontmatter — it is provided by the data cascade in `www/links/links.json`
+- Do NOT include `title` in the frontmatter — it is computed from `linkTitle` by `www/_data/eleventyComputed.js`
 - The `linkUrl` field is required and should be a full URL (e.g., `https://example.com/article`)
 - The `viaUrl` field is optional and should be a full URL if provided

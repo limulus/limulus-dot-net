@@ -22,6 +22,13 @@ function extractTilTopic(filePathStem) {
 }
 
 export default {
+  // Compute title from linkTitle for link posts without an explicit title
+  title: (data) => {
+    if (data.title) return data.title
+    if (data.linkTitle) return `Link: ${data.linkTitle}`
+    return data.title
+  },
+
   // Extract topic from directory path for TILs
   tilTopic: (data) => extractTilTopic(data.page.filePathStem),
 
