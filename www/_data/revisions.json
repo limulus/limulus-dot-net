@@ -129,6 +129,13 @@
           "date": "2026-02-04T00:24:26.140Z",
           "commit": "e0c91a8",
           "message": "fix: refine teaser text for clarity and conciseness"
+        },
+        {
+          "v": 1,
+          "hash": "23ba6e95d96f",
+          "date": "2026-03-15T19:12:20.099Z",
+          "commit": "3d8112e",
+          "message": "feat: add link post on dual-loop BDD and agent TDD workflows"
         }
       ],
       "teaserHash": "37652a7ac088",
@@ -177,6 +184,17 @@
       ],
       "teaserHash": "3a3a3e8f52eb",
       "generatedTeaserHash": "2cba730660fa"
+    },
+    "www/links/2026/03/15/dual-loop-bdd-new-red-green-tdd/index.md": {
+      "revisions": [
+        {
+          "v": 1,
+          "hash": "6ce563493891",
+          "date": "2026-03-15T19:12:20.106Z",
+          "commit": "3d8112e",
+          "message": "feat: add link post on dual-loop BDD and agent TDD workflows"
+        }
+      ]
     },
     "www/penumbra/journal/canvas-and-matrices/index.md": {
       "revisions": [
