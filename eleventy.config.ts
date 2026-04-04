@@ -116,6 +116,8 @@ export default function (eleventyConfig: UserConfig) {
     },
   })
   md.use(markdownItFootnote)
+  md.renderer.rules.footnote_block_open = () =>
+    '<section class="footnotes section-separator">\n<ol class="footnotes-list">\n'
   md.use(markdownItTaskLists)
   md.use(markdownItAttrs)
   md.use(markdownItAnchor)

@@ -26,7 +26,7 @@
 
     const label = revisions.length === 1 ? 'Revision' : 'Revisions'
     result = /* HTML */ `
-      <details>
+      <details class="section-separator">
         <summary>${revisions.length} ${label}</summary>
         <ul>${items}</ul>
       </details>
@@ -36,10 +36,9 @@
 </script>
 
 <style webc:scoped>
-  :host {
-    display: block;
+  :host details {
     margin: 2rem 0;
-    font-size: 0.85rem;
+    font-size: var(--fine-print-font-size);
     font-variant-numeric: tabular-nums;
   }
 

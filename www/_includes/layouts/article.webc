@@ -11,9 +11,9 @@ layout: page
 
   <div @raw="content" webc:nokeep></div>
 
-  <footer>
-    <revision-history></revision-history>
+  <revision-history></revision-history>
 
+  <footer class="section-separator">
     <section>
       <h2>You Might Enjoy…</h2>
 
@@ -30,12 +30,5 @@ layout: page
     margin-bottom: 1.5rem;
   }
 
-  :host > footer > section::before {
-    content: '';
-    display: block;
-    border: none;
-    border-top: var(--card-border);
-    margin: 2rem auto;
-    width: 70%;
-  }
+
 </style>

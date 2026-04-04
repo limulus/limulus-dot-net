@@ -77,6 +77,18 @@ figcaption {
   font-family: 'Hubot Sans', sans-serif;
 }
 
+.section-separator::before {
+  content: '';
+  display: block;
+  border-top: var(--card-border);
+  margin: 2rem auto;
+  width: 70%;
+}
+
+.footnotes {
+  font-size: var(--fine-print-font-size);
+}
+
 :root {
   --background-color: #f3f3f3;
   --body-padding: 2rem;
@@ -90,6 +102,7 @@ figcaption {
   --card-padding: 0.75rem 1rem;
   --chip-background-color: #e0e0e0;
   --color: #333;
+  --fine-print-font-size: 0.85rem;
   --hairline-pixels: 1px;
   --inline-text-highlight-color: #e8e8e8;
 }
