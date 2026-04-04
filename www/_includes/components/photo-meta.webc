@@ -5,6 +5,7 @@
     const lenses = {
       'iPhone 6s back camera 4.15mm f/2.2': 'Rear Camera',
       'iPhone X back dual camera 4mm f/1.8': 'Wide-angle',
+      'iPhone 16 Pro back dual wide camera 6.765mm f/1.78': '1x Fusion',
       'iPhone 16 Pro back triple camera 6.765mm f/1.78': '1x Fusion',
       'iPhone 16 Pro back triple camera 15.66mm f/2.8': '5x Telephoto',
       'AF-S DX Nikkor 35mm f/1.8G': 'AF-S DX NIKKOR 35mm ƒ/1.8G',
@@ -21,6 +22,7 @@
       },
       'iPhone 16 Pro': {
         'iPhone 16 Pro front TrueDepth camera 2.69mm f/1.9': 8.55,
+        'iPhone 16 Pro back dual wide camera 6.765mm f/1.78': 3.55,
         'iPhone 16 Pro back triple camera 6.765mm f/1.78': 3.55,
         'iPhone 16 Pro back triple camera 15.66mm f/2.8': 7.66,
       },
