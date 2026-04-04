@@ -12,6 +12,17 @@
     }
   },
   "entries": {
+    "www/feed/better-software-with-ai/index.md": {
+      "revisions": [
+        {
+          "v": 1,
+          "hash": "4d1ce7b1783e",
+          "date": "2026-04-04T17:31:16.420Z",
+          "commit": "9a1de17",
+          "message": "feat: add new article 'Better Software with AI'"
+        }
+      ]
+    },
     "www/feed/new-york-2024/index.md": {
       "revisions": [
         {
