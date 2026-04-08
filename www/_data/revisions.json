@@ -207,6 +207,17 @@
         }
       ]
     },
+    "www/links/2026/04/07/eight-years-wanting-building-ai/index.md": {
+      "revisions": [
+        {
+          "v": 1,
+          "hash": "39ca1a2864f2",
+          "date": "2026-04-08T04:17:58.066Z",
+          "commit": "fe50542",
+          "message": "feat: add new link 'Eight years of wanting, three months of building with AI'"
+        }
+      ]
+    },
     "www/penumbra/journal/canvas-and-matrices/index.md": {
       "revisions": [
         {
