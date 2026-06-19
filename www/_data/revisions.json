@@ -23,6 +23,17 @@
         }
       ]
     },
+    "www/feed/lima-agent-isolation/index.md": {
+      "revisions": [
+        {
+          "v": 1,
+          "hash": "96cf3f554346",
+          "date": "2026-06-19T22:24:48.026Z",
+          "commit": "215b988",
+          "message": "feat: remove auto teaser generation"
+        }
+      ]
+    },
     "www/feed/new-york-2024/index.md": {
       "revisions": [
         {
