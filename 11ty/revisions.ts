@@ -24,8 +24,6 @@ export interface Revision {
 
 export interface RevisionEntry {
   revisions: Revision[]
-  teaserHash?: string
-  generatedTeaserHash?: string
 }
 
 export interface RevisionsFile {
@@ -44,14 +42,6 @@ export function computeHash(
     outputLength: HASH_OUTPUT_BYTES,
   })
   hash.update(input)
-  return hash.digest('hex')
-}
-
-export function computeTeaserHash(teaser: string): string {
-  const hash = createHash(HASH_ALGORITHM, {
-    outputLength: HASH_OUTPUT_BYTES,
-  })
-  hash.update(teaser)
   return hash.digest('hex')
 }
 

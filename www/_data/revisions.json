@@ -122,8 +122,7 @@
           "commit": "1fe13f7",
           "message": "fix: skip pre-push hook on bot teaser commit in CD workflow"
         }
-      ],
-      "teaserHash": "5e88211a5a2b"
+      ]
     },
     "www/links/2026/02/03/where-are-the-test-driven-agentic-workflows-anyway/index.md": {
       "revisions": [
@@ -148,9 +147,7 @@
           "commit": "3d8112e",
           "message": "feat: add link post on dual-loop BDD and agent TDD workflows"
         }
-      ],
-      "teaserHash": "37652a7ac088",
-      "generatedTeaserHash": "15ca4e666bee"
+      ]
     },
     "www/links/2026/02/07/good-taste/index.md": {
       "revisions": [
@@ -161,9 +158,7 @@
           "commit": "db33a7b",
           "message": "feat: add link to embedding-shape’s good taste post"
         }
-      ],
-      "teaserHash": "c3845531eaf3",
-      "generatedTeaserHash": "f9b9bf70bfce"
+      ]
     },
     "www/links/2026/02/07/tahoes-windows/index.md": {
       "revisions": [
@@ -192,9 +187,7 @@
           "commit": "20f9178",
           "message": "feat: add link post"
         }
-      ],
-      "teaserHash": "3a3a3e8f52eb",
-      "generatedTeaserHash": "2cba730660fa"
+      ]
     },
     "www/links/2026/03/15/dual-loop-bdd-new-red-green-tdd/index.md": {
       "revisions": [
