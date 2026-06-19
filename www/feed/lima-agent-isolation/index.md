@@ -4,7 +4,7 @@ tags:
 layout: article
 author: eric
 title: Using Lima for Coding Agent Isolation
-date: 2026-06-16 14:41:28 -07:00
+date: 2026-06-19 15:28:00 -07:00
 hero: saguaro-bouquet
 teaser: >-
   With a bit of configuration, I started using Lima to contain Claude Code running in auto
