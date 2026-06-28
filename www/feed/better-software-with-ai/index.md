@@ -43,11 +43,15 @@ engineering despite qualms they may share with you.
     will write about this some day, but my bandwidth to write long-form is not as wide as I
     wish it was.
 
+    **Update**: I [fully endorse] Charity Majors’ piece on [AI ethics].
+
 [agentic engineering]: https://simonwillison.net/guides/agentic-engineering-patterns/what-is-agentic-engineering/
 [better-code]: https://simonwillison.net/guides/agentic-engineering-patterns/better-code/
 [writing for Substack]: https://www.anildash.com/2024/11/19/dont-call-it-a-substack/
 [slowing-us-down]: https://newsletter.pragmaticengineer.com/p/are-ai-agents-actually-slowing-us
 [nazi-bar]: https://arstechnica.com/tech-policy/2025/07/substacks-nazi-problem-wont-go-away-after-push-notification-apology/
+[fully endorse]: /links/2026/06/28/make-ai-boring-again/
+[ai ethics]: https://charity.wtf/2026/06/24/make-ai-boring-again-xpost/
 
 ## The Contradiction
 
