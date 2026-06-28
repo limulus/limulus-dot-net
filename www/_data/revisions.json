@@ -20,6 +20,13 @@
           "date": "2026-04-04T17:31:16.420Z",
           "commit": "9a1de17",
           "message": "feat: add new article 'Better Software with AI'"
+        },
+        {
+          "v": 1,
+          "hash": "bd366db13dd9",
+          "date": "2026-06-28T18:40:44.770Z",
+          "commit": "de19a8d",
+          "message": "feat: add link article, make ai boring again"
         }
       ]
     },
@@ -219,6 +226,17 @@
           "date": "2026-04-08T04:17:58.066Z",
           "commit": "fe50542",
           "message": "feat: add new link 'Eight years of wanting, three months of building with AI'"
+        }
+      ]
+    },
+    "www/links/2026/06/28/make-ai-boring-again/index.md": {
+      "revisions": [
+        {
+          "v": 1,
+          "hash": "088943cb63d2",
+          "date": "2026-06-28T18:40:44.776Z",
+          "commit": "de19a8d",
+          "message": "feat: add link article, make ai boring again"
         }
       ]
     },
