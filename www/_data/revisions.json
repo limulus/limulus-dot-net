@@ -240,6 +240,17 @@
         }
       ]
     },
+    "www/links/2026/07/04/why-usa-1-0-failed/index.md": {
+      "revisions": [
+        {
+          "v": 1,
+          "hash": "e2ed5301f134",
+          "date": "2026-07-04T16:27:55.533Z",
+          "commit": "c91dc26",
+          "message": "feat: add link article to johnny harris video"
+        }
+      ]
+    },
     "www/penumbra/journal/canvas-and-matrices/index.md": {
       "revisions": [
         {
