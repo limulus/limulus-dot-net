@@ -237,6 +237,13 @@
           "date": "2026-06-28T18:40:44.776Z",
           "commit": "de19a8d",
           "message": "feat: add link article, make ai boring again"
+        },
+        {
+          "v": 1,
+          "hash": "679fc8d9a725",
+          "date": "2026-07-10T20:40:16.146Z",
+          "commit": "e2c3ee6",
+          "message": "fix: link to charity.wtf"
         }
       ]
     },
