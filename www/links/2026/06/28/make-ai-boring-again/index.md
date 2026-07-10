@@ -3,9 +3,9 @@ tags:
   - article
   - link
 author: eric
-linkTitle: Make AI Boring Again
+linkTitle: Is it ethical to use AI?
 date: 2026-06-28 11:45:00 -07:00
-linkUrl: https://charity.wtf/2026/06/24/make-ai-boring-again-xpost/
+linkUrl: https://charity.wtf/p/make-ai-boring-again
 teaser: >-
   I previously suggested that I might write about my thoughts on the ethics of generative
   AI. Now I don’t need to, because Charity Majors covered just about everything I
