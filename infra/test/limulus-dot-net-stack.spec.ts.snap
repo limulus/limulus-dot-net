@@ -394,9 +394,9 @@ def sort_filter_rules(json_obj):
           ],
           "CacheBehaviors": [
             {
-              "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+              "CachePolicyId": "4135ea2d-6df8-44a3-9df3-4b5a84be39ad",
               "Compress": true,
-              "OriginRequestPolicyId": "88a5eaf4-2fd4-4709-b370-b4c650ea3fcf",
+              "OriginRequestPolicyId": "b689b0a8-53d0-40ab-baf2-68738e2966ac",
               "PathPattern": "/.well-known/webfinger",
               "TargetOriginId": "TestStackCloudFrontDistributionOrigin2141047F8",
               "ViewerProtocolPolicy": "redirect-to-https",
@@ -1905,9 +1905,9 @@ def sort_filter_rules(json_obj):
           ],
           "CacheBehaviors": [
             {
-              "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+              "CachePolicyId": "4135ea2d-6df8-44a3-9df3-4b5a84be39ad",
               "Compress": true,
-              "OriginRequestPolicyId": "88a5eaf4-2fd4-4709-b370-b4c650ea3fcf",
+              "OriginRequestPolicyId": "b689b0a8-53d0-40ab-baf2-68738e2966ac",
               "PathPattern": "/.well-known/webfinger",
               "TargetOriginId": "TestStackCloudFrontDistributionOrigin2141047F8",
               "ViewerProtocolPolicy": "redirect-to-https",
