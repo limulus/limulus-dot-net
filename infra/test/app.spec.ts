@@ -123,6 +123,13 @@ describe('App deployment logic', () => {
           },
         ],
       })
+
+      // Check the Bluesky handle record
+      template.hasResourceProperties('AWS::Route53::RecordSet', {
+        Name: '_atproto.limulus.net',
+        Type: 'TXT',
+        ResourceRecords: ['"did=did:plc:m26xajbedax5paqvfewsqona"'],
+      })
     })
 
     test('feature branch creates branch-specific domain configuration', () => {
@@ -155,6 +162,9 @@ describe('App deployment logic', () => {
           },
         ],
       })
+
+      // Branch deploys share the zone, so they must not claim the handle
+      template.resourceCountIs('AWS::Route53::RecordSet', 0)
     })
   })
 })

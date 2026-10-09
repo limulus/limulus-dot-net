@@ -1699,6 +1699,18 @@ exports[`LimulusDotNetStack > main branch creates expected resources 1`] = `
     },
   },
   "Resources": {
+    "AtprotoHandleRecord": {
+      "Properties": {
+        "HostedZoneId": "Z123456789ABCDEFGH",
+        "Name": "_atproto.limulus.net",
+        "ResourceRecords": [
+          ""did=did:plc:m26xajbedax5paqvfewsqona"",
+        ],
+        "TTL": "3600",
+        "Type": "TXT",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
     "BucketNotificationsHandler050a0587b7544547bf325f094a3db8347ECC3691": {
       "DependsOn": [
         "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleDefaultPolicy2CF63D36",

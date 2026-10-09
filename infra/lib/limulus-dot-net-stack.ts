@@ -407,6 +407,18 @@ export class LimulusDotNetStack extends cdk.Stack {
       recordSets,
     })
 
+    if (isMainBranch) {
+      // Makes limulus.net the Bluesky handle for this DID. The DID stays the same if
+      // the account moves to another PDS, so this record does not change with it.
+      new route53.CfnRecordSet(this, 'AtprotoHandleRecord', {
+        hostedZoneId: zoneId,
+        name: '_atproto.limulus.net',
+        type: 'TXT',
+        ttl: '3600',
+        resourceRecords: ['"did=did:plc:m26xajbedax5paqvfewsqona"'],
+      })
+    }
+
     // Outputs
     new cdk.CfnOutput(this, 'StaticSiteBucketName', {
       description: 'Name of the static site S3 bucket',
