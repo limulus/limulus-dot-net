@@ -20,6 +20,15 @@ describe('computeHash', () => {
     expect(hashWithout).not.toBe(hashWith)
   })
 
+  it('hashes a post with a lem call as the same post with its WebC form', () => {
+    const lem = 'Prose.\n\n<lem.articlePhoto(site.photos["middle-falls"], .left)>\n'
+    const webc =
+      "Prose.\n\n{% renderTemplate 'webc' %}\n" +
+      '<article-photo id="middle-falls" placement="left"></article-photo>\n' +
+      '{% endrenderTemplate %}\n'
+    expect(computeHash('Title', 'Sub', lem)).toBe(computeHash('Title', 'Sub', webc))
+  })
+
   it('is deterministic', () => {
     const hash1 = computeHash('Title', 'Sub', 'Body')
     const hash2 = computeHash('Title', 'Sub', 'Body')

@@ -63,9 +63,7 @@ And it can be like this. In the hands of someone who is ignorant to what quality
 looks like, the end result will be slop. Like a house where the owner adds room after room
 with no architect, no structural engineer, further changes become increasingly dangerous.
 
-{% renderTemplate 'webc' %}
-<article-photo id="through-the-cone-by-jaroslava-brychtova-and-stanislav-libensky" placement="right"></article-photo>
-{% endrenderTemplate %}
+<lem.articlePhoto(site.photos["through-the-cone-by-jaroslava-brychtova-and-stanislav-libensky"], .right)>
 
 But in the hands of someone who cares about quality and knows what it looks like, things can
 play out differently.
@@ -115,9 +113,7 @@ type everything out manually. I would argue this alone justifies adopting agenti
 engineering, so long as we are keeping our changes small and incremental enough to avoid
 accumulating [cognitive debt].
 
-{% renderTemplate 'webc' %}
-<article-photo id="lynx-after-duerer-by-marta-klonowska" placement="left"></article-photo>
-{% endrenderTemplate %}
+<lem.articlePhoto(site.photos["lynx-after-duerer-by-marta-klonowska"], .left)>
 
 But we don’t have to stop here! There’s a whole lot more we can now do to improve the
 quality of our software with a coding agent’s help.
@@ -171,9 +167,7 @@ If you’ve got an older codebase, chances are there are lots of large refactors
 but don‘t have the time for. If you have good test coverage, agents can reduce the effort
 required and let you refactor sooner.
 
-{% renderTemplate 'webc' %}
-<article-photo id="forest-glass-by-katherine-gray" placement="right"></article-photo>
-{% endrenderTemplate %}
+<lem.articlePhoto(site.photos["forest-glass-by-katherine-gray"], .right)>
 
 Alas, if it’s an active codebase with more than a few contributors, this won’t help avoid a
 large refactor being disruptive. Still, agents can reduce the effort of splitting out

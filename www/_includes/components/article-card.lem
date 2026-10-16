@@ -1,0 +1,26 @@
+<lem-fn articleCard(post: Post)>
+  <lem-let preview = post.image ?? post.hero />
+  <article-card class="articleCard">
+    <article>
+      <a href="<lem.post.url>">
+        <lem-if preview>
+          <lem.phoPicture(preview, ["md"], preview.description, "preview")>
+        </lem-if>
+        <lem-if post.image == null>
+          <lem-if post is VideoPost>
+            <img async crossorigin="anonymous" loading="lazy" decoding="async"
+              src="https://vod.limulus.net/<lem.post.vod.id>/poster.jpeg"
+              width="1280" height="720" alt="<lem.post.vod.alt>" class="preview">
+          </lem-if>
+        </lem-if>
+        <div class="text-content">
+          <header>
+            <h1><lem.post.title></h1>
+            <lem.chipList("small", articleChips(post, true))>
+          </header>
+          <p><lem.(post.subhead ?? post.teaser ?? "")></p>
+        </div>
+      </a>
+    </article>
+  </article-card>
+</lem-fn>

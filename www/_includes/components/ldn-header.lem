@@ -1,0 +1,42 @@
+<lem-fn numeric(s: string): bool =
+  s.replace("0", "").replace("1", "").replace("2", "").replace("3", "").replace("4", "")
+    .replace("5", "").replace("6", "").replace("7", "").replace("8", "").replace("9", "")
+    == "" />
+
+<lem-fn ldnHeader(p: Page)>
+  <lem-let dirs = p.url.text().split("/").filter(|dir| dir != "" && !numeric(dir)) />
+  <lem-let source =
+    url("https://github.com/limulus/limulus-dot-net/blob/main/" + p.inputPath) />
+  <header class="ldnHeader">
+    <nav>
+      <h2 class="visually-hidden">Top level navigation menu</h2>
+      <ul>
+        <li>
+          <a href="/"><lem.svgUse("ldn")></a>
+        </li>
+        <li>
+          <a href="/">limulus.net</a>
+        </li>
+        <lem-for dir, i in dirs.reverse().drop(1).reverse()>
+          <li><a href="/<lem.dirs.take(i + 1).join("/")>/"><lem.dir></a></li>
+        </lem-for>
+      </ul>
+    </nav>
+    <section class="engagement">
+      <h2 class="visually-hidden">Please Engage</h2>
+      <ul>
+        <li>
+          <lem.pillButton(source, "code-solid", "Source")>
+        </li>
+        <li>
+          <share-button>
+            <lem.pillButton(p.url, "arrow-up-from-bracket-solid", "Share")>
+          </share-button>
+        </li>
+        <li>
+          <lem.pillButton(site.info.feedUrl, "bell-solid", "Subscribe")>
+        </li>
+      </ul>
+    </section>
+  </header>
+</lem-fn>

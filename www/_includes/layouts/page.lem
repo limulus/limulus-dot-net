@@ -1,0 +1,30 @@
+<lem-fn pageLayout(p: Page, title: string, description: string?, body: html)>
+  <lem-let content>
+    <lem.svgSprite()>
+
+    <a href="#main" class="visually-hidden">Skip to main content</a>
+
+    <lem.ldnHeader(p)>
+
+    <main id="main">
+      <lem.body>
+    </main>
+
+    <footer>
+      <p class="copyright" xmlns:cc="http://creativecommons.org/ns#">
+        <span>
+          This work by
+          <a rel="cc:attributionURL dct:creator" property="cc:attributionName"
+            href="/eric/">Eric McCarthy</a>
+          is licensed under
+          <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"
+            rel="license noopener noreferrer">CC BY 4.0</a>.
+        </span>
+        <a class="cc-icons" href="https://creativecommons.org/licenses/by/4.0/">
+          <lem.svgUse("creative-commons")><lem.svgUse("creative-commons-by")>
+        </a>
+      </p>
+    </footer>
+  </lem-let>
+  <lem.base(p, title, description, content)>
+</lem-fn>

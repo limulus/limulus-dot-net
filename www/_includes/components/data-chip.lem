@@ -1,0 +1,6 @@
+<lem-fn dataChip(icon: string, slot: html)>
+  <data-chip class="dataChip">
+    <lem.svgUse(icon)>
+    <lem.slot>
+  </data-chip>
+</lem-fn>

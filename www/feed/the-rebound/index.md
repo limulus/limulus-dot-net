@@ -24,9 +24,7 @@ little homepage with some hand-written HTML. I even [410ed] my blog.
 
 [410ed]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/410
 
-{% renderTemplate 'webc' %}
-<article-photo id="middle-falls-letchworth-state-park" placement="right"></article-photo>
-{% endrenderTemplate %}
+<lem.articlePhoto(site.photos["middle-falls-letchworth-state-park"], .right)>
 
 ## The Last Glacial Period
 
@@ -62,9 +60,7 @@ But I was wrong. It turned out this entire time folks had been working on a [web
 to make decentralization work and open-source social media server software like [Mastodon]
 was proving it out.
 
-{% renderTemplate 'webc' %}
-<article-photo id="mist-middle-falls-letchworth-state-park" placement="left"></article-photo>
-{% endrenderTemplate %}
+<lem.articlePhoto(site.photos["mist-middle-falls-letchworth-state-park"], .left)>
 
 Getting on Mastodon awakened in me a renewed enthusiasm for the web and having a place of my
 own. After a too-brief period on an instance named mastodon.lol, I migrated my account to my
@@ -108,9 +104,7 @@ populace with an agreement on basic facts — so they seek to destroy even that.
 [early contributor]: https://www.motherjones.com/politics/2024/07/peter-thiel-donald-trump-vance-hulk-hogan/
 [right-wing entertainment machine]: https://en.wikipedia.org/wiki/List_of_assets_owned_by_News_Corp
 
-{% renderTemplate 'webc' %}
-<article-photo id="base-of-the-genesee-arch-bridge-letchworth-state-park" placement="right"></article-photo>
-{% endrenderTemplate %}
+<lem.articlePhoto(site.photos["base-of-the-genesee-arch-bridge-letchworth-state-park"], .right)>
 
 ## A Fair and Famous Stream
 

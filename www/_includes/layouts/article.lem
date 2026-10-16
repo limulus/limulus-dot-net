@@ -1,0 +1,21 @@
+<lem-fn article(post: Post, body: html)>
+  <lem-let main>
+    <article class="article">
+      <header>
+        <lem.articleHeader(post)>
+      </header>
+
+      <lem.body>
+
+      <lem.revisionHistory(post)>
+
+      <footer class="section-separator">
+        <section>
+          <h2>You Might Enjoy…</h2>
+          <lem.articleList(site.articles.filter(|other| other.url != post.url).take(5))>
+        </section>
+      </footer>
+    </article>
+  </lem-let>
+  <lem.pageLayout(post, post.title, post.subhead ?? post.teaser, main)>
+</lem-fn>

@@ -1,0 +1,11 @@
+<lem-fn articleList(posts: [Post])>
+  <article-list class="articleList">
+    <ul>
+      <lem-for post in posts>
+        <li>
+          <lem.articleCard(post)>
+        </li>
+      </lem-for>
+    </ul>
+  </article-list>
+</lem-fn>

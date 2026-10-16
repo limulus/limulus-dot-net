@@ -1,0 +1,14 @@
+<lem-fn articleHeader(post: Post)>
+  <article-header class="articleHeader">
+    <lem-if post.hero>
+      <lem.articlePhoto(post.hero, .hero)>
+    </lem-if>
+    <hgroup>
+      <h1><lem.post.title></h1>
+      <lem-if post.subhead>
+        <p><lem.post.subhead></p>
+      </lem-if>
+    </hgroup>
+    <lem.chipList(null, articleChips(post, false))>
+  </article-header>
+</lem-fn>

@@ -41,3 +41,28 @@
 - `/infra/functions`: CloudFront Functions (JS)
 - `/infra/test`: Infrastructure tests
 - `/types`: TypeScript type definitions
+
+## Lemmon port (branch `lemmon-port`)
+
+This branch ports the site to Lemmon beside Eleventy; both builds read the same `www/`.
+
+- Prerequisite: the lemmon repo checked out at `../lemmon`, with `npm install` and
+  `npm run rust:wasm` run there. Without it `npm ci` here still succeeds, leaving a
+  dangling link, and the failure shows only at `npx lem`
+- `npx lem build` writes `dist/lemmon` from `lemmon.config.ts`, `www/site.lem`, and the
+  `.lem` layouts and components beside the WebC ones in `www/_includes/`. Its pages use
+  absolute paths, so view them over HTTP: `python3 -m http.server -d dist/lemmon 8080`
+- `npm run build` still writes the Eleventy reference to `dist/www`. Its `clean` removes
+  only `dist/www`, `dist/infra`, `coverage`, and `*.tsbuildinfo`, so the two builds run in
+  either order; nothing empties `dist/lemmon`, so delete it by hand to drop a stale page
+- `npm run lemmon:photos` regenerates `www/_lemmon/photos.json` (photos keyed by alias)
+  from `www/_data/photos.json`; `npm test` fails if the two have drifted
+- `11ty/lemmon-calls.ts` turns a lem call on its own line in a post back into the WebC it
+  replaced, for Eleventy (the `lemmonCalls` preprocessor) and for the revision hash, so
+  the port records no revision; a lem line it cannot translate fails both
+- `npm run parity`, comparing the two builds as rendered HTML, is coming (∆Zo7)
+- Deliberately missing this slice, each with the item in the lemmon repo's `BACKLOG.md`
+  that brings it: component CSS (`lem-style`, ∆D3R; three interim `<link>`s stand in),
+  the hashed `/lib` scripts (∆d1N), code highlighting (∆Nxd), footnote markup and computed
+  defaults (∆ITg), links, TILs and the other collections (∆tAw), the svg-sprite plugin
+  (∆IvY; the sprite is inlined), and the photos data hook (∆c4j)

@@ -2,6 +2,8 @@ import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { readFile, writeFile } from 'node:fs/promises'
 
+import { webcForLemmonCalls } from './lemmon-calls.ts'
+
 export const REVISIONS_PATH = 'www/_data/revisions.json'
 
 const HASH_ALGORITHM = 'shake128'
@@ -31,12 +33,17 @@ export interface RevisionsFile {
   entries: Record<string, RevisionEntry>
 }
 
+/**
+ * The revision hash of a post: its title, subhead, and content, the content as Eleventy
+ * reads it — a lem call the Lemmon port wrote hashes as the WebC it stands for.
+ */
 export function computeHash(
   title: string,
   subhead: string | undefined,
   content: string
 ): string {
-  const fields = subhead != null ? [title, subhead, content] : [title, content]
+  const body = webcForLemmonCalls(content)
+  const fields = subhead != null ? [title, subhead, body] : [title, body]
   const input = fields.join('\n')
   const hash = createHash(HASH_ALGORITHM, {
     outputLength: HASH_OUTPUT_BYTES,

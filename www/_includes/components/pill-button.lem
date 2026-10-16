@@ -1,0 +1,8 @@
+<lem-fn pillButton(href: url, icon: string, label: string)>
+  <pill-button class="pillButton">
+    <a href="<lem.href>">
+      <lem.svgUse(icon)>
+      <span class="visually-hidden"><lem.label></span>
+    </a>
+  </pill-button>
+</lem-fn>

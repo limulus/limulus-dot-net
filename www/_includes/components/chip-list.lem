@@ -1,0 +1,19 @@
+<lem-fn chipList(size: string?, slot: html)>
+  <chip-list class="chipList"<lem-if size> size="<lem.size>"</lem-if>>
+    <ul>
+      <lem.slot>
+    </ul>
+  </chip-list>
+</lem-fn>
+
+<lem-fn articleChips(post: Post, nolink: bool)>
+  <li>
+    <lem.authorChip(post.author, nolink)>
+  </li>
+  <li>
+    <lem.publishedChip(post.date)>
+  </li>
+  <li>
+    <lem.timeChip(post)>
+  </li>
+</lem-fn>

@@ -1,0 +1,112 @@
+<lem-enum Placement = hero | left | right />
+
+<lem-type SiteInfo>
+  name: string
+  url: url
+  feedUrl: url
+</lem-type>
+
+<lem-type Rendition>
+  name: string
+  format: string
+  url: url
+  file: string
+  width: int
+  height: int
+  size: int
+</lem-type>
+
+<lem-type Location>
+  latitude: float
+  longitude: float
+  altitude: float?
+</lem-type>
+
+<lem-type Photo>
+  id: string
+  alias: string
+  baseUrl: url
+  original: string
+  width: int
+  height: int
+  title: string
+  description: string
+  date: datetime
+  tags: [string]
+  make: string?
+  camera: string?
+  lens: string?
+  focalLength: string?
+  exposureTime: string?
+  fNumber: string?
+  iso: int?
+  flash: string?
+  exposureMode: string?
+  whiteBalance: string?
+  sourceExposureTimesOfCompositeImage: string?
+  blurhash: string?
+  location: Location?
+  renditions: [Rendition]
+</lem-type>
+
+<lem-type Author>
+  name: string
+  fediverse: string?
+  photo: Photo by site.photos
+  url: url
+</lem-type>
+
+<lem-type Vod>
+  id: string
+  alt: string
+  duration: duration?
+</lem-type>
+
+<lem-type RevisionScheme>
+  algorithm: string
+  outputBytes: int
+  fields: [string]
+  separator: string
+</lem-type>
+
+<lem-type Revision>
+  v: int
+  hash: string
+  date: datetime
+  commit: string
+  message: string?
+</lem-type>
+
+<lem-type RevisionLog>
+  revisions: [Revision]
+</lem-type>
+
+<lem-type Revisions>
+  versions: {string: RevisionScheme}
+  entries: {string: RevisionLog}
+</lem-type>
+
+<lem-type Post extends Page>
+  title: string
+  subhead: string?
+  teaser: string?
+  date: datetime
+  author: Author by site.authors
+  hero: Photo? by site.photos
+  image: Photo? by site.photos
+  tags: [string] = []
+  readingTime: duration = body.readingTime()
+  layout: (Post, html): html = article
+</lem-type>
+
+<lem-type VideoPost extends Post>
+  vod: Vod
+  layout: (Post, html): html = video
+</lem-type>
+
+<lem-let info: SiteInfo from "_data/site.json" />
+<lem-let photos: {string: Photo} from "_lemmon/photos.json" />
+<lem-let authors: {string: Author} from "_data/authors.json" />
+<lem-let revisions: Revisions from "_data/revisions.json" />
+<lem-let posts: [Post] from "feed/*/index.md" />
+<lem-let articles: [Post] = posts.sortBy(|p| p.date).reverse() />

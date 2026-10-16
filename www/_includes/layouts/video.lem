@@ -1,0 +1,25 @@
+<lem-fn video(post: Post, body: html)>
+  <lem-match post>
+    <lem-case VideoPost as videoPost>
+      <lem-let main>
+        <article class="video">
+          <lem.articleVod(videoPost.vod)>
+
+          <header>
+            <lem.articleHeader(videoPost)>
+          </header>
+
+          <lem.body>
+
+          <footer>
+            <article-footer></article-footer>
+          </footer>
+        </article>
+      </lem-let>
+      <lem.pageLayout(post, post.title, post.subhead ?? post.teaser, main)>
+    </lem-case>
+    <lem-default>
+      <lem.article(post, body)>
+    </lem-default>
+  </lem-match>
+</lem-fn>

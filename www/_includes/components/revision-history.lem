@@ -1,0 +1,29 @@
+<lem-fn revisionsOf(p: Page): [Revision] =
+  site.revisions.entries.has(p.inputPath)
+    ? site.revisions.entries[p.inputPath].revisions
+    : [] />
+
+<lem-fn revisionHistory(post: Post)>
+  <lem-let revisions = revisionsOf(post).drop(1).reverse() />
+  <lem-let label = revisions.length() == 1 ? "Revision" : "Revisions" />
+  <revision-history class="revisionHistory">
+    <lem-if revisions.length() gt 0>
+      <details class="section-separator">
+        <summary><lem.revisions.length()> <lem.label></summary>
+        <ul>
+          <lem-for r in revisions>
+            <li>
+              <a href="https://github.com/limulus/limulus-dot-net/commit/<lem.r.commit>"
+                ><time datetime="<lem.r.date>" title="<lem.r.date.rfc822()>"
+                  ><lem.r.date.format("%Y-%m-%d %H:%M:%S")></time></a>
+              <lem-let message>
+                <lem-if r.message><span><lem.r.message></span></lem-if>
+              </lem-let>
+              <pre><code><lem.message></code></pre>
+            </li>
+          </lem-for>
+        </ul>
+      </details>
+    </lem-if>
+  </revision-history>
+</lem-fn>

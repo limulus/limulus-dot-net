@@ -1,0 +1,12 @@
+<lem-fn articlePhoto(photo: Photo, placement: Placement)>
+  <lem-let linked = photo.tags.contains("limulus.net/photos") />
+  <lem-let picture = phoPicture(photo, ["lg", "md"], photo.description, null) />
+  <article-photo class="articlePhoto" placement="<lem.placement>">
+    <figure>
+      <a<lem-if linked> href="/photos/<lem.photo.alias>/"</lem-if>><lem.picture></a>
+      <figcaption>
+        <span><lem.photo.title></span>
+      </figcaption>
+    </figure>
+  </article-photo>
+</lem-fn>
