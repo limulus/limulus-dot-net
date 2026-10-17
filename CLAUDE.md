@@ -58,10 +58,15 @@ This branch ports the site to Lemmon beside Eleventy; both builds read the same 
   stays until `npm run parity` (which empties it before building) or a deletion by hand
 - `npm run lemmon:photos` regenerates `www/_lemmon/photos.json` (photos keyed by alias)
   from `www/_data/photos.json`; `npm test` fails if the two have drifted
-- `www/_lemmon/site-styles.lem` is generated: `npm run lemmon:css` writes it from
-  `www/_includes/css/*.css` as `siteStyles()`, one `lem-style` per global stylesheet,
-  which `base.lem` calls so they end every page's CSS bundle. Edit the CSS, not the
-  `.lem`, and rerun it; `npm test` fails if the two have drifted
+- Each page's CSS bundle holds the `lem-style` blocks of the components and layouts it
+  ran, in Eleventy's order, then the global stylesheets. A block keeps that order by
+  where it stands: a component's at the end of its body, after every call it makes, and
+  a layout's between its `lem-let` capture and its call to the next layout. Under its
+  `.fnName { … }` wrapper every selector starts with `&` (a spec checks it). The globals
+  come from `www/_lemmon/site-styles.lem`, which is generated: `npm run lemmon:css`
+  writes it from `www/_includes/css/*.css` as `siteStyles()`, one `lem-style` per
+  stylesheet, which `base.lem` calls. Edit the CSS, not the `.lem`, and rerun it;
+  `npm test` fails if the two have drifted
 - `11ty/lemmon-calls.ts` turns a lem call on its own line in a post back into the WebC it
   replaced, for Eleventy (the `lemmonCalls` preprocessor) and for the revision hash, so
   the port records no revision; a lem line it cannot translate fails both
@@ -70,7 +75,7 @@ This branch ports the site to Lemmon beside Eleventy; both builds read the same 
   `bin/parity/expected.ts`; `-- --no-build` compares the dists already there. It runs
   under `node --conditions=source` so the shell loads from the lemmon checkout's source
 - Deliberately missing this slice, each with the item in the lemmon repo's `BACKLOG.md`
-  that brings it: component CSS (`lem-style`, ∆D3R; the bundle holds only the globals),
-  the hashed `/lib` scripts (∆d1N), code highlighting (∆Nxd), footnote markup and computed
-  defaults (∆ITg), links, TILs and the other collections (∆tAw), the svg-sprite plugin
-  (∆IvY; the sprite is inlined), and the photos data hook (∆c4j)
+  that brings it: the hashed `/lib` scripts (∆d1N), code highlighting (∆Nxd), footnote
+  markup and computed defaults (∆ITg), links, TILs and the other collections (∆tAw), the
+  svg-sprite plugin (∆IvY; the sprite is inlined, its CSS a `lem-style` in `page.lem`),
+  and the photos data hook (∆c4j)

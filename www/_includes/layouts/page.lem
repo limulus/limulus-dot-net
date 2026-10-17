@@ -26,5 +26,73 @@
       </p>
     </footer>
   </lem-let>
+  <lem-style>
+    @supports not (color: oklch(0% 0 0)) {
+      g#elogo-p3 {
+        display: none;
+      }
+    }
+
+    @supports (color: oklch(0% 0 0)) {
+      @media (color-gamut: p3) {
+        g#elogo-srgb {
+          display: none;
+        }
+
+        g#elogo-p3 {
+          display: block;
+        }
+      }
+    }
+
+    @supports not (color: oklch(0% 0 0)) {
+      g#logo-p3 {
+        display: none;
+      }
+    }
+
+    @supports (color: oklch(0% 0 0)) {
+      @media (color-gamut: p3) {
+        g#logo-srgb {
+          display: none;
+        }
+
+        g#logo-p3 {
+          display: block;
+        }
+      }
+    }
+  </lem-style>
+  <lem-style>
+    a[href='#main'] {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+    }
+
+    footer p.copyright {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 3rem 0 2rem 0;
+      padding: 1rem;
+      text-align: center;
+      font-size: 0.9rem;
+      stroke: var(--color);
+      fill: var(--color);
+    }
+
+    footer p.copyright a.cc-icons {
+      margin: 0.5rem 0;
+    }
+
+    footer p.copyright svg {
+      display: inline-block;
+      vertical-align: text-bottom;
+      height: 2em;
+      width: 2em;
+      margin: 0 0.25em;
+    }
+  </lem-style>
   <lem.base(p, title, description, content)>
 </lem-fn>

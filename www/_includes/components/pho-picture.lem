@@ -24,4 +24,11 @@
       </picture>
     </blur-hash>
   </pho-picture>
+  <lem-style>
+    pho-picture img {
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+  </lem-style>
 </lem-fn>

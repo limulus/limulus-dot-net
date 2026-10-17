@@ -5,4 +5,26 @@
       <span class="visually-hidden"><lem.label></span>
     </a>
   </pill-button>
+  <lem-style>
+    .pillButton {
+      & a {
+        display: flex;
+        border: none;
+        align-items: center;
+        justify-content: center;
+        width: 1.5em;
+        height: 1.5em;
+        border-radius: 1.5em;
+        background-color: var(--color);
+        fill: var(--background-color);
+        cursor: pointer;
+        overflow: hidden;
+      }
+
+      & svg {
+        display: block;
+        width: 50%;
+      }
+    }
+  </lem-style>
 </lem-fn>

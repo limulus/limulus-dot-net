@@ -13,9 +13,12 @@ import {
   comrakSlug,
   cssBundle,
   feedCards,
+  firstDifference,
   lastDifference,
+  normalized,
   forgiveness,
   recommendedSet,
+  renamed,
   SITE_DISPLAY,
   type Bundles,
 } from './classes.ts'
@@ -154,8 +157,13 @@ describe('css-bundle', () => {
   }
   const ours = (text: string) => bundle('/assets/immutable/bundle/', text)
   const theirs = (text: string) => bundle('/assets/immutable/11ty/bundle/', text)
-  const OURS = ours(GLOBALS)
-  const THEIRS = theirs(`.wvormuvo0{display:flex}\n${GLOBALS}`)
+
+  /** Two components' styles as a `.lem` function writes them, and WebC's for them. */
+  const DATA_CHIP = '.dataChip {\n  & svg { width: 1.2em; }\n}'
+  const CHIP_LIST = '.chipList {\n  & ul { gap: 0.5rem; }\n}'
+  const SCOPED_CSS = '.wvormuvo0 svg{width:1.2em}\n.wu_v_wm2n ul{gap:0.5rem}'
+  const OURS = ours(`${DATA_CHIP}\n${CHIP_LIST}\n${GLOBALS}`)
+  const THEIRS = theirs(`${SCOPED_CSS}\n${GLOBALS}`)
 
   const link = (href: string, more = '') => `<link rel="stylesheet" href="${href}"${more}>`
 
@@ -221,51 +229,108 @@ describe('css-bundle', () => {
   })
 
   it('should refuse ours where one byte of a global stylesheet changed', () => {
-    const changed = ours(GLOBALS.replace('margin: 0', 'margin: 1'))
+    const changed = ours(OURS[1].toString().replace('margin: 0', 'margin: 1'))
     expect(linked(changed[0], THEIRS[0], bundles({ ours: [changed] }))).toEqual({
       clean: false,
       refusals: [
         'css-bundle: ours does not end with the global stylesheets, ' +
-          'at offset 3 from the end, "html { line-height: 1.15; }\\nbody { margin: 1; }" ' +
+          'at offset 3 from the end, ' +
+          '"ap: 0.5rem; }\\n}\\nhtml { line-height: 1.15; }\\nbody { margin: 1; }" ' +
           'where expected "html { line-height: 1.15; }\\nbody { margin: 0; }"',
       ],
     })
   })
 
   it('should refuse ours holding anything after the global stylesheets', () => {
-    const after = ours(`${GLOBALS}\n.x{}`)
+    const after = ours(`${OURS[1].toString()}\n.x{}`)
     expect(linked(after[0], THEIRS[0], bundles({ ours: [after] }))).toEqual({
       clean: false,
       refusals: [
         'css-bundle: ours does not end with the global stylesheets, ' +
           'at offset 1 from the end, ' +
-          '"html { line-height: 1.15; }\\nbody { margin: 0; }\\n.x{}" ' +
+          '"rem; }\\n}\\nhtml { line-height: 1.15; }\\nbody { margin: 0; }\\n.x{}" ' +
           'where expected "html { line-height: 1.15; }\\nbody { margin: 0; }"',
       ],
     })
   })
 
   it('should refuse theirs where it does not end with the global stylesheets', () => {
-    const lacking = theirs('.wvormuvo0{display:flex}')
+    const lacking = theirs(SCOPED_CSS)
     expect(linked(OURS[0], lacking[0], bundles({ theirs: [lacking] }))).toEqual({
       clean: false,
       refusals: [
         'css-bundle: theirs does not end with the global stylesheets, ' +
-          'at offset 1 from the end, ".wvormuvo0{display:flex}" ' +
+          'at offset 1 from the end, ' +
+          '".wvormuvo0 svg{width:1.2em}\\n.wu_v_wm2n ul{gap:0.5rem}" ' +
           'where expected "html { line-height: 1.15; }\\nbody { margin: 0; }"',
       ],
     })
   })
 
-  it('should refuse ours holding anything before the global stylesheets', () => {
-    const more = ours(`.dataChip { display: flex; }\n${GLOBALS}`)
-    expect(linked(more[0], THEIRS[0], bundles({ ours: [more] }))).toEqual({
+  /** What css-bundle says of ours' bundle holding `css` before the globals. */
+  const judged = (css: string) => {
+    const changed = ours(`${css}\n${GLOBALS}`)
+    return linked(changed[0], THEIRS[0], bundles({ ours: [changed] }))
+  }
+
+  it('should refuse a value changed in a component’s styles', () => {
+    expect(judged(`${DATA_CHIP.replace('1.2em', '1.3em')}\n${CHIP_LIST}`)).toEqual({
       clean: false,
       refusals: [
-        'css-bundle: ours holds 29 characters before the global stylesheets, ' +
-          'which no component collects yet',
+        'css-bundle: the bundles differ once normalized and renamed, at offset 22, ' +
+          'ours ".dataChip svg{width:1.3em}.chipList ul{gap:.5rem}' +
+          'html{line-height:1.15}body{margin" ' +
+          'where theirs ".dataChip svg{width:1.2em}.chipList ul{gap:.5rem}' +
+          'html{line-height:1.15}body{margin"',
       ],
     })
+  })
+
+  it('should refuse ours lacking a component’s styles theirs has', () => {
+    // Ours would end theirs, so a check that took either for a part would pass it.
+    expect(judged(CHIP_LIST).refusals).toEqual([
+      'css-bundle: the bundles differ once normalized and renamed, at offset 1, ' +
+        'ours ".chipList ul{gap:.5rem}html{line-height:1.15}body{margin:0}" ' +
+        'where theirs ".dataChip svg{width:1.2em}.chipList ul{gap:.5rem}html{line-he"',
+    ])
+  })
+
+  it('should refuse ours holding a component’s styles theirs lacks', () => {
+    const extra = '.pillButton {\n  & a { color: red; }\n}'
+    // Theirs would end ours, so a check that took either for a part would pass it.
+    expect(judged(`${extra}\n${DATA_CHIP}\n${CHIP_LIST}`).refusals).toEqual([
+      'css-bundle: the bundles differ once normalized and renamed, at offset 1, ' +
+        'ours ".pillButton a{color:red}.dataChip svg{width:1.2em}.chipList u" ' +
+        'where theirs ".dataChip svg{width:1.2em}.chipList ul{gap:.5rem}html{line-he"',
+    ])
+  })
+
+  it('should refuse two components’ styles in the other order', () => {
+    expect(judged(`${CHIP_LIST}\n${DATA_CHIP}`).refusals).toEqual([
+      'css-bundle: the bundles differ once normalized and renamed, at offset 1, ' +
+        'ours ".chipList ul{gap:.5rem}.dataChip svg{width:1.2em}html{line-he" ' +
+        'where theirs ".dataChip svg{width:1.2em}.chipList ul{gap:.5rem}html{line-he"',
+    ])
+  })
+
+  it('should refuse a component’s styles under another one’s name', () => {
+    const misnamed = DATA_CHIP.replace('.dataChip', '.chipList')
+    expect(judged(`${misnamed}\n${CHIP_LIST}`).refusals).toEqual([
+      'css-bundle: the bundles differ once normalized and renamed, at offset 1, ' +
+        'ours ".chipList svg{width:1.2em}.chipList ul{gap:.5rem}html{line-he" ' +
+        'where theirs ".dataChip svg{width:1.2em}.chipList ul{gap:.5rem}html{line-he"',
+    ])
+  })
+
+  it('should refuse a bundle that does not parse, on either side', () => {
+    expect(judged(`}\n${DATA_CHIP}\n${CHIP_LIST}`).refusals).toEqual([
+      'css-bundle: ours does not parse: Invalid empty selector at line 1, column 1',
+    ])
+    const broken = theirs(`}\n${SCOPED_CSS}\n${GLOBALS}`)
+    expect(linked(OURS[0], broken[0], bundles({ theirs: [broken] })).refusals).toEqual([
+      'css-bundle: theirs, renamed, does not parse: ' +
+        'Invalid empty selector at line 1, column 1',
+    ])
   })
 
   it('should not take a bundle link outside head', () => {
@@ -305,6 +370,46 @@ describe('css-bundle', () => {
     expect(
       linked(OURS[0], theirsMisplaced[0], bundles({ theirs: [theirsMisplaced] }))
     ).toEqual({ clean: false, refusals: [] })
+  })
+})
+
+describe('renamed()', () => {
+  it('should give each WebC hash its function name on class selectors only', () => {
+    expect(
+      renamed('.wvormuvo0 svg,#wvormuvo0,[class=wvormuvo0],.wo-ywfb1w>header,.x{a:b}')
+    ).toBe('.dataChip svg,#wvormuvo0,[class=wvormuvo0],.article>header,.x{a:b}')
+  })
+})
+
+describe('normalized()', () => {
+  it('should flatten nesting and print it minified, as WebC printed calc()', () => {
+    const css = [
+      '.a {',
+      '  & b { margin: calc(var(--p) * -1); }',
+      '  @media (min-width: 600px) {',
+      '    & c { margin: 0; }',
+      '  }',
+      '}',
+    ].join('\n')
+    expect(normalized(css)).toBe(
+      '.a b{margin:calc(var(--p)*-1)}@media (width >= 600px){.a c{margin:0}}'
+    )
+  })
+
+  it('should throw where the CSS does not parse', () => {
+    expect(() => normalized('a{}}')).toThrow('Unexpected end of input')
+  })
+})
+
+describe('firstDifference()', () => {
+  it('should show up to 60 characters of each text either side of where they part', () => {
+    const a = 'x'.repeat(100) + 'a' + 'y'.repeat(100)
+    const b = 'x'.repeat(100) + 'b' + 'y'.repeat(100)
+    expect(firstDifference(a, b)).toBe(
+      `at offset 100, ours "${'x'.repeat(60)}a${'y'.repeat(59)}" ` +
+        `where theirs "${'x'.repeat(60)}b${'y'.repeat(59)}"`
+    )
+    expect(firstDifference('ab', 'abc')).toBe('at offset 2, ours "ab" where theirs "abc"')
   })
 })
 

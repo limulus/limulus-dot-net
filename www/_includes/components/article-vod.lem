@@ -10,4 +10,26 @@
       </noscript>
     </video-on-demand>
   </article-vod>
+  <lem-style>
+    .articleVod {
+      & noscript p {
+        text-align: center;
+      }
+
+      & img.loadingAnimation {
+        animation: throbbing-fade 1.5s infinite;
+        animation-delay: 0.5s;
+      }
+    }
+
+    @keyframes throbbing-fade {
+      0%,
+      100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.5;
+      }
+    }
+  </lem-style>
 </lem-fn>

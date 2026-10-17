@@ -15,6 +15,8 @@ import type {
   RenderedPage,
   Scope,
 } from '@limulus/lemmon-shell'
+import * as csstree from 'css-tree'
+import { Features, transform } from 'lightningcss'
 import { createHash } from 'node:crypto'
 
 /** A card in an `article-list`: its `li`, the `article-card`, and the url it links to. */
@@ -36,7 +38,7 @@ export interface Bundles {
   ours: Map<string, Buffer>
   /** Every file Eleventy wrote under `/assets/immutable/11ty/bundle/`, by url. */
   theirs: Map<string, Buffer>
-  /** The global stylesheets, each trimmed, joined by newlines: how ours must end. */
+  /** The global stylesheets, each trimmed, joined by newlines: how each must end. */
   globals: string
 }
 
@@ -98,12 +100,13 @@ const rootsOf = (at: Scope): MatchedPair => at.ancestors[0] ?? at
 const sameNames = (a: string[], b: string[]): boolean =>
   a.length === b.length && [...a].sort().join(' ') === [...b].sort().join(' ')
 
-// --- ∆D3R: component CSS ----------------------------------------------------------
+// --- D20: component CSS is scoped by function name, until the cutover (∆oAl) -------
 
 /**
  * Each component or layout whose WebC `<style webc:scoped>` adds a class: the tag of
  * the element that hosts it, the hash WebC adds, and the D20 function-name class the
- * port's `.lem` function writes in its place.
+ * port's `.lem` function writes in its place. Eleventy keeps the hashes until the
+ * cutover, so scoped-class and css-bundle both read this.
  */
 const SCOPED = [
   { host: 'header', named: 'ldnHeader', hash: 'w5jpt_6fe' },
@@ -153,7 +156,7 @@ const scopedClass: Forgiveness = {
   },
 }
 
-// --- D20: a page's CSS is one bundle, until the cutover ---------------------------
+// --- D20: a page's CSS is one bundle, until the cutover (∆oAl) ---------------------
 
 const OURS_BUNDLE = /^\/assets\/immutable\/bundle\/[\w-]{10}\.css$/
 const THEIRS_BUNDLE = /^\/assets\/immutable\/11ty\/bundle\/[\w-]{10}\.css$/
@@ -186,6 +189,47 @@ export function lastDifference(text: string, expected: string): string {
   return `${where}, ${around(text)} where expected ${around(expected)}`
 }
 
+/** Where two texts first differ, with up to 60 characters of each on either side. */
+export function firstDifference(ours: string, theirs: string): string {
+  let at = 0
+  while (at < ours.length && at < theirs.length && ours[at] === theirs[at]) at += 1
+  const around = (text: string): string =>
+    JSON.stringify(text.slice(Math.max(0, at - 60), at + 60))
+  return `at offset ${at}, ours ${around(ours)} where theirs ${around(theirs)}`
+}
+
+const NAMED = new Map(SCOPED.map(({ hash, named }) => [hash, named]))
+
+/** `css` with each WebC hash a class selector names renamed to its function name. */
+export function renamed(css: string): string {
+  const ast = csstree.parse(css)
+  csstree.walk(ast, {
+    visit: 'ClassSelector',
+    enter(node) {
+      node.name = NAMED.get(node.name) ?? node.name
+    },
+  })
+  return csstree.generate(ast)
+}
+
+/**
+ * `css` as css-bundle compares it: lightningcss flattens the nesting, then css-tree
+ * prints it minified, which also collapses the whitespace inside `var()` as WebC's
+ * printer did. lightningcss does not minify, which would merge adjacent rules with one
+ * selector and drop overridden declarations, so that two bundles differing so compared
+ * equal.
+ *
+ * @throws lightningcss's error where `css` does not parse
+ */
+export function normalized(css: string): string {
+  const { code } = transform({
+    filename: 'bundle.css',
+    code: Buffer.from(css),
+    include: Features.Nesting,
+  })
+  return csstree.generate(csstree.parse(Buffer.from(code).toString('utf8')))
+}
+
 /** A bundle's bytes, or why `url` names none: nothing written there, or a misnamed file. */
 function bundleAt(written: Map<string, Buffer>, url: string): Buffer | string {
   const bytes = written.get(url)
@@ -207,12 +251,23 @@ function bundleRefusal(css: Bundles, ours: string, theirs: string): string | und
       return `${side} does not end with the global stylesheets, ${where}`
     }
   }
-  if (texts.ours !== css.globals) {
-    const before = texts.ours.length - css.globals.length
-    return (
-      `ours holds ${before} characters before the global stylesheets, ` +
-      'which no component collects yet'
-    )
+  const normal: string[] = []
+  for (const [side, text] of [
+    ['ours', texts.ours],
+    ['theirs, renamed,', renamed(texts.theirs)],
+  ]) {
+    try {
+      normal.push(normalized(text))
+    } catch (error) {
+      const { message, loc } = error as Error & { loc?: { line: number; column: number } }
+      const at = loc === undefined ? '' : ` at line ${loc.line}, column ${loc.column}`
+      return `${side} does not parse: ${message}${at}`
+    }
+  }
+  const [oursCss, theirsCss] = normal
+  if (oursCss !== theirsCss) {
+    const where = firstDifference(oursCss, theirsCss)
+    return `the bundles differ once normalized and renamed, ${where}`
   }
   return undefined
 }
@@ -229,10 +284,11 @@ export interface CssBundle extends Forgiveness {
  * under `/assets/immutable/bundle/` and theirs under `/assets/immutable/11ty/bundle/`.
  * Ours' element alone is checked: a pair shares its tag and its parent's tag, and
  * another attribute differing would fail the element whatever this class said. It is
- * explained only where both files were written, each named by the hash of its bytes, and
- * each ends with the global stylesheets, trimmed and joined by newlines, byte for byte —
- * ours, while no component has a `lem-style` (∆D3R), holding them alone. Each refusal
- * records why.
+ * explained only where both files were written, each named by the hash of its bytes;
+ * each ends with the global stylesheets, trimmed and joined by newlines, byte for byte;
+ * and the two are the same CSS once normalized, with theirs' hashes renamed to the
+ * function names ours' components scope by — so a fragment collected out of order, a
+ * value changed, or a block under the wrong name is refused. Each refusal records why.
  */
 export function cssBundle(post: Post): CssBundle {
   const refusals: string[] = []

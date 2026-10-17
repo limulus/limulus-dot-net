@@ -4,6 +4,37 @@
       <lem.slot>
     </ul>
   </chip-list>
+  <lem-style>
+    .chipList {
+      & ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        list-style: none;
+        padding: 0;
+        margin: 0.5rem 0;
+      }
+
+      &[justify='center'] ul {
+        justify-content: center;
+      }
+
+      &[size='small'] ul {
+        font-size: 0.7rem;
+      }
+
+      & li {
+        display: flex;
+      }
+
+      & ul a,
+      & ul a:visited,
+      & ul a:hover {
+        text-decoration: none;
+        color: inherit;
+      }
+    }
+  </lem-style>
 </lem-fn>
 
 <lem-fn articleChips(post: Post, nolink: bool)>

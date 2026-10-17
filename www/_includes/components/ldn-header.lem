@@ -39,4 +39,77 @@
       </ul>
     </section>
   </header>
+  <lem-style>
+    .ldnHeader {
+      & {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin: var(--body-padding) 0;
+        font-size: 1.2rem;
+        --var-font-wght: 700;
+        font-synthesis: none;
+      }
+
+      & nav {
+        flex: 1;
+        min-width: 0;
+      }
+
+      & section.engagement {
+        flex-shrink: 0;
+        align-self: flex-start;
+      }
+
+      & ul {
+        margin: 0;
+        padding: 0;
+      }
+
+      & nav ul {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      & li {
+        display: block;
+        text-wrap: nowrap;
+        white-space: nowrap;
+      }
+
+      & nav,
+      & section {
+        display: flex;
+        align-items: center;
+      }
+
+      & nav li + li::after {
+        content: '/';
+        margin: 0 0.5em;
+      }
+
+      & nav svg {
+        display: block;
+        width: 1.5em;
+        height: 1.5em;
+        margin-right: 0.8em;
+        margin-bottom: 0.4em;
+      }
+
+      & section.engagement {
+        margin-left: auto;
+      }
+
+      & section.engagement li + li {
+        margin-left: 0.5em;
+      }
+
+      & section.engagement ul {
+        display: flex;
+        flex-wrap: nowrap;
+      }
+    }
+  </lem-style>
 </lem-fn>

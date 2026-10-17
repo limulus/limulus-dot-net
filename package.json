@@ -90,11 +90,13 @@
     "@dprint/formatter": "^0.4.1",
     "@limulus/lemmon-shell": "file:../lemmon/packages/shell",
     "@types/aws-cloudfront-function": "^1.0.5",
+    "@types/css-tree": "^2.3.11",
     "@types/raf": "^3.4.3",
     "aws-cdk": "^2.1023.0",
     "aws-cdk-lib": "^2.208.0",
     "cdk-nag": "^2.36.50",
     "constructs": "^10.4.2",
+    "css-tree": "^2.3.1",
     "dotenv": "^16.4.7",
     "dprint": "^0.50.2",
     "dprint-plugin-markup": "^0.24.0",
@@ -102,6 +104,7 @@
     "globby": "^14.0.1",
     "gray-matter": "^4.0.3",
     "husky": "^9.1.5",
+    "lightningcss": "^1.33.0",
     "patch-package": "^8.0.1",
     "vitest": "^3.2.4"
   }

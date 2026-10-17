@@ -23,4 +23,66 @@
       </a>
     </article>
   </article-card>
+  <lem-style>
+    .articleCard {
+      & > article > a {
+        text-decoration: none;
+      }
+
+      & > article > a {
+        display: block;
+        overflow: hidden;
+        border: var(--card-border);
+        background-color: var(--card-background-color);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--card-box-shadow);
+      }
+
+      & img.preview {
+        display: block;
+        width: 100%;
+        height: auto;
+        border-bottom: var(--card-border);
+      }
+
+      & .text-content {
+        margin: 0.5rem 0.7rem 0.5rem 0.7rem;
+      }
+
+      & h1 {
+        margin: 0;
+        font-size: 1.2rem;
+      }
+
+      & p {
+        margin: 0;
+      }
+
+      @media (min-width: 600px) {
+        & article {
+          container-type: inline-size;
+        }
+
+        & img.preview {
+          border-bottom: unset;
+          border: var(--card-border);
+          border-radius: var(--card-border-radius);
+          box-shadow: var(--card-box-shadow);
+          float: left;
+          margin: 0.5rem 1rem 0.5rem 0.5rem;
+          width: 40cqi;
+        }
+
+        & .text-content {
+          margin: 0.3rem 0.8rem 0.6rem 0.8rem;
+        }
+      }
+
+      @media (prefers-color-scheme: dark) {
+        & chip-list {
+          --chip-background-color: var(--background-color);
+        }
+      }
+    }
+  </lem-style>
 </lem-fn>

@@ -26,4 +26,32 @@
       </details>
     </lem-if>
   </revision-history>
+  <lem-style>
+    .revisionHistory {
+      & details {
+        margin: 2rem 0;
+        font-size: var(--fine-print-font-size);
+        font-variant-numeric: tabular-nums;
+      }
+
+      & summary {
+        cursor: pointer;
+      }
+
+      & ul {
+        margin: 2em 0.5em;
+        margin-bottom: 4em;
+        list-style: none;
+      }
+
+      & ul li {
+        margin-bottom: 2em;
+      }
+
+      & ul a {
+        --var-font-wght: 500;
+        font-family: 'Hubot Sans', sans-serif;
+      }
+    }
+  </lem-style>
 </lem-fn>

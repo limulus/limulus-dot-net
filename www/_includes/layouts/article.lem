@@ -17,5 +17,12 @@
       </footer>
     </article>
   </lem-let>
+  <lem-style>
+    .article {
+      & > header {
+        margin-bottom: 1.5rem;
+      }
+    }
+  </lem-style>
   <lem.pageLayout(post, post.title, post.subhead ?? post.teaser, main)>
 </lem-fn>
