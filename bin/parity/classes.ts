@@ -735,7 +735,8 @@ export function minuteUnder(ours: string, theirs: string): boolean {
  * A reading-time chip in the post's header reads `N min read` one minute under theirs:
  * the reading-time package counts the markdown source, where a link is its URL, and
  * Lemmon's `readingTime()` the rendered text, on purpose (its doc comment in lemmon's
- * `builtins/text.rs`). Only that direction has been seen, so only it is accepted.
+ * `builtins/text.rs`); Eric accepted the difference for this site on 2026-10-17 (lemmon's
+ * D38). Only that direction has been seen, so only it is accepted.
  */
 const readingTime: Forgiveness = {
   name: 'reading-time',
