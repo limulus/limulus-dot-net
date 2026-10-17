@@ -74,6 +74,24 @@ This branch ports the site to Lemmon beside Eleventy; both builds read the same 
   the forgiveness classes in `bin/parity/classes.ts`, each held to its count in
   `bin/parity/expected.ts`; `-- --no-build` compares the dists already there. It runs
   under `node --conditions=source` so the shell loads from the lemmon checkout's source
+- `npm run parity:look`, run after `npm run parity`, checks that the posts also look the
+  same. It builds nothing, and shoots no post parity's own comparison fails: it serves
+  both dists, shoots each post in the installed Google Chrome (needed; `playwright-core`
+  drives it headless, rasterizing in software, and downloads no browser) at 1280 px
+  light, 390 px light and 1280 px dark, and fails on any pixel that differs, writing each
+  pair and its diff to `dist/look/<slug>/`. So that exact equality can be the bar, every
+  request to another host gets one fixed PNG, `/lib/**` is refused on both sides, and
+  each post is served with every visible difference parity forgives undone, by a
+  neutralizer in `bin/parity/neutralizers.ts` named for its class: recommended-set (each
+  page drops the cards the other does not list; lists sharing none fail), footnote-markup
+  (ours takes theirs' footnote classes, `[n]` markers and `↩︎`), reading-time (ours'
+  header chip takes theirs' minutes), md-photo-wrap (theirs drops the empty `p`s the
+  parser leaves in a photo's `figure`). A difference no neutralizer covers fails the run
+- `npm run parity:look -- --serve` serves `dist/www` on port 8081 and `dist/lemmon` on
+  8082 as built, listing each post's two URLs, until Ctrl-C. Nothing is neutralized or
+  refused there, so the differences parity forgives show, and Eleventy's pages run their
+  `/lib` scripts (the video player, the share buttons, the blur-hash placeholders), which
+  Lemmon's build has none of until ∆d1N
 - Deliberately missing this slice, each with the item in the lemmon repo's `BACKLOG.md`
   that brings it: the hashed `/lib` scripts (∆d1N), code highlighting (∆Nxd), footnote
   markup and computed defaults (∆ITg), links, TILs and the other collections (∆tAw), the

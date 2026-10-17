@@ -65,16 +65,19 @@ export const SITE_DISPLAY: Record<string, Display> = {
 
 // --- Reading the trees ------------------------------------------------------------
 
-const tokens = (value: string | undefined): string[] =>
+export const tokens = (value: string | undefined): string[] =>
   (value ?? '').split(/\s+/).filter(Boolean)
 
-const isElement = (node: RenderedNode | undefined, tag?: string): node is RenderedElement =>
+export const isElement = (
+  node: RenderedNode | undefined,
+  tag?: string
+): node is RenderedElement =>
   node?.kind === 'element' && (tag === undefined || node.tag === tag)
 
-const hasClass = (element: RenderedElement, name: string): boolean =>
+export const hasClass = (element: RenderedElement, name: string): boolean =>
   tokens(element.attrs.get('class')).includes(name)
 
-function* descendants(element: RenderedElement): Generator<RenderedElement> {
+export function* descendants(element: RenderedElement): Generator<RenderedElement> {
   for (const child of element.children) {
     if (isElement(child)) {
       yield child
@@ -83,11 +86,11 @@ function* descendants(element: RenderedElement): Generator<RenderedElement> {
   }
 }
 
-const textOf = (node: RenderedNode): string =>
+export const textOf = (node: RenderedNode): string =>
   node.kind === 'text' ? node.text : node.children.map(textOf).join('')
 
 /** The element children of `element`. */
-const elementsIn = (element: RenderedElement): RenderedElement[] =>
+export const elementsIn = (element: RenderedElement): RenderedElement[] =>
   element.children.filter((child) => isElement(child))
 
 /** The pair enclosing the one `at` is about. */
@@ -97,7 +100,7 @@ const parentOf = (at: Scope): MatchedPair | undefined => at.ancestors.at(-1)
 const rootsOf = (at: Scope): MatchedPair => at.ancestors[0] ?? at
 
 /** Two lists of class names holding the same names, in any order. */
-const sameNames = (a: string[], b: string[]): boolean =>
+export const sameNames = (a: string[], b: string[]): boolean =>
   a.length === b.length && [...a].sort().join(' ') === [...b].sort().join(' ')
 
 // --- D20: component CSS is scoped by function name, until the cutover (∆oAl) -------
@@ -541,47 +544,53 @@ const headingId: Forgiveness = {
 }
 
 /**
+ * Whether `p` is a husk the parser left in `figure`: an empty `p`, or one holding one
+ * empty `a`, in a `figure` holding a `pho-picture`. A `p` with content is not one.
+ */
+export function photoHusk(figure: RenderedElement, p: RenderedElement): boolean {
+  if (figure.tag !== 'figure' || p.tag !== 'p') return false
+  if (![...descendants(figure)].some((d) => d.tag === 'pho-picture')) return false
+  const [only, ...rest] = p.children
+  return (
+    only === undefined ||
+    (rest.length === 0 && isElement(only, 'a') && only.children.length === 0)
+  )
+}
+
+/**
  * markdown-it wraps the tail of an in-body `article-photo` in a `<p>`, which the parser
- * leaves as an empty `p`, or a `p` holding one empty `a`, in a `figure` holding a
- * `pho-picture`; ours splices the markup unwrapped. A `p` with content is a dropped
- * paragraph and is not this class (fidelity class).
+ * leaves as husks in its `figure` (photoHusk); ours splices the markup unwrapped. A `p`
+ * with content is a dropped paragraph and is not this class (fidelity class).
  */
 const mdPhotoWrap: Forgiveness = {
   name: 'md-photo-wrap',
-  theirsOnly: (theirs, at) => {
-    if (at.theirs.tag !== 'figure' || theirs.tag !== 'p') return false
-    if (![...descendants(at.theirs)].some((d) => d.tag === 'pho-picture')) return false
-    const [only, ...rest] = theirs.children
-    return (
-      only === undefined ||
-      (rest.length === 0 && isElement(only, 'a') && only.children.length === 0)
-    )
-  },
+  theirsOnly: (theirs, at) => photoHusk(at.theirs, theirs),
 }
 
 /** A footnote, its reference in the prose, and the link back to that reference. */
-interface Note {
+export interface Note {
   item: RenderedElement
   ref: RenderedElement
   backref: RenderedElement
 }
 
 /** One side's footnotes section, its list, and its notes in list order. */
-interface Footnotes {
+export interface Footnotes {
   section: RenderedElement
   list: RenderedElement
   notes: Note[]
 }
 
 /** Whether a note's and its reference's ids are one generator's, the note `n`th. */
-type IdScheme = (item: string, ref: string, n: number) => boolean
+export type IdScheme = (item: string, ref: string, n: number) => boolean
 
 /** comrak's ids name the footnote's label: `fn-<label>` and `fnref-<label>`. */
-const COMRAK_IDS: IdScheme = (item, ref) =>
+export const COMRAK_IDS: IdScheme = (item, ref) =>
   item.startsWith('fn-') && ref === `fnref-${item.slice(3)}`
 
 /** markdown-it-footnote's ids number the notes: `fn<n>` and `fnref<n>`. */
-const MARKDOWN_IT_IDS: IdScheme = (item, ref, n) => item === `fn${n}` && ref === `fnref${n}`
+export const MARKDOWN_IT_IDS: IdScheme = (item, ref, n) =>
+  item === `fn${n}` && ref === `fnref${n}`
 
 const footnotesCache = new WeakMap<RenderedElement, Footnotes | null>()
 
@@ -591,7 +600,7 @@ const footnotesCache = new WeakMap<RenderedElement, Footnotes | null>()
  * `sup.footnote-ref`, which names that note back, with ids in `scheme` — and no
  * reference left over.
  */
-function footnotesOf(root: RenderedElement, scheme: IdScheme): Footnotes | null {
+export function footnotesOf(root: RenderedElement, scheme: IdScheme): Footnotes | null {
   const cached = footnotesCache.get(root)
   if (cached !== undefined) return cached
   const all = [...descendants(root)]
@@ -703,6 +712,25 @@ function paired(at: Scope): {
   return { o, t, n: { role: null, number: 0 } }
 }
 
+/** Whether `chip` is a reading-time chip: a `data-chip` showing the scroll icon. */
+export const isReadingChip = (chip: RenderedElement): boolean =>
+  chip.tag === 'data-chip' &&
+  [...descendants(chip)].some(
+    (use) => use.tag === 'use' && use.attrs.get('href') === '#svg-scroll-solid'
+  )
+
+/** The minutes a chip's text reads, where it is exactly `N min read`. */
+export const minutesRead = (text: string): number | undefined => {
+  const minutes = /^(\d+) min read$/.exec(text)?.[1]
+  return minutes === undefined ? undefined : Number(minutes)
+}
+
+/** Whether ours reads one minute under theirs, the one direction seen. */
+export function minuteUnder(ours: string, theirs: string): boolean {
+  const [o, t] = [minutesRead(ours), minutesRead(theirs)]
+  return o !== undefined && t !== undefined && o === t - 1
+}
+
 /**
  * A reading-time chip in the post's header reads `N min read` one minute under theirs:
  * the reading-time package counts the markdown source, where a link is its URL, and
@@ -711,21 +739,10 @@ function paired(at: Scope): {
  */
 const readingTime: Forgiveness = {
   name: 'reading-time',
-  text: (ours, theirs, at) => {
-    const chip = at.ours
-    const scroll = [...descendants(chip)].some(
-      (use) => use.tag === 'use' && use.attrs.get('href') === '#svg-scroll-solid'
-    )
-    const [o, t] = [ours, theirs].map((text) => /^(\d+) min read$/.exec(text)?.[1])
-    return (
-      chip.tag === 'data-chip' &&
-      scroll &&
-      at.ancestors.some((pair) => pair.ours.tag === 'article-header') &&
-      o !== undefined &&
-      t !== undefined &&
-      Number(o) === Number(t) - 1
-    )
-  },
+  text: (ours, theirs, at) =>
+    isReadingChip(at.ours) &&
+    at.ancestors.some((pair) => pair.ours.tag === 'article-header') &&
+    minuteUnder(ours, theirs),
 }
 
 // --- ∆tAw: the other collections --------------------------------------------------
@@ -785,7 +802,7 @@ const svgDescCounter: Forgiveness = {
 const RECOMMENDED = 5
 
 /** An `article-list`'s `ul` and its cards, whether text stands among them, or null. */
-function listOf(
+export function listOf(
   list: RenderedElement
 ): { ul: RenderedElement; cards: Card[]; text: boolean } | null {
   const [ul, ...rest] = elementsIn(list)
@@ -801,6 +818,16 @@ function listOf(
     cards.push({ li, card, href })
   }
   return { ul, cards, text }
+}
+
+/** Whether `list` is the "You Might Enjoy…" `article-list`, in the `section` it heads. */
+export function isRecommendedList(
+  list: RenderedElement,
+  section: RenderedElement | undefined
+): boolean {
+  if (list.tag !== 'article-list' || section?.tag !== 'section') return false
+  const heading = elementsIn(section)[0]
+  return isElement(heading, 'h2') && textOf(heading) === 'You Might Enjoy…'
 }
 
 /** The instant a card's `time[datetime]` names. */
@@ -838,10 +865,7 @@ export function recommendedSet(post: Post): Forgiveness {
   return {
     name: 'recommended-set',
     subtree: (at, sub) => {
-      const section = parentOf(at)
-      if (at.ours.tag !== 'article-list' || section?.ours.tag !== 'section') return null
-      const heading = elementsIn(section.ours)[0]
-      if (!isElement(heading, 'h2') || textOf(heading) !== 'You Might Enjoy…') return null
+      if (!isRecommendedList(at.ours, parentOf(at)?.ours)) return null
       const ours = listOf(at.ours)
       const theirs = listOf(at.theirs)
       if (ours === null || theirs === null) return null

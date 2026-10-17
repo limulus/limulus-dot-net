@@ -13,6 +13,7 @@ import {
   type Bundles,
   type ReferenceCard,
 } from './classes.ts'
+import { readStylesheets } from '../lemmon-css.ts'
 
 /** The url of each post a build wrote: every directory under `feed/` with a page. */
 export async function postsIn(dist: string): Promise<string[]> {
@@ -61,6 +62,26 @@ export async function filesIn(dist: string, dir: string): Promise<Map<string, Bu
 /** Every feed post's card from the page of Eleventy's feed index, if there is one. */
 export function referenceFeed(index: string | null): ReferenceCard[] | null {
   return index === null ? null : feedCards(renderedPage(index, { display: SITE_DISPLAY }))
+}
+
+/**
+ * What comparing a post needs beside its two pages, from the dists `ours` and `theirs`:
+ * every feed post's card on Eleventy's feed index (null without one), and both builds'
+ * CSS bundles with the global stylesheets, read up front since the comparison's hooks
+ * are synchronous.
+ */
+export async function siteInputs(
+  ours: string,
+  theirs: string
+): Promise<{ feed: ReferenceCard[] | null; css: Bundles }> {
+  return {
+    feed: referenceFeed(await pageAt(theirs, '/feed/')),
+    css: {
+      ours: await filesIn(ours, '/assets/immutable/bundle/'),
+      theirs: await filesIn(theirs, '/assets/immutable/11ty/bundle/'),
+      globals: (await readStylesheets()).map(({ text }) => text.trim()).join('\n'),
+    },
+  }
 }
 
 /** The rows of the expected table for a url neither build wrote. */

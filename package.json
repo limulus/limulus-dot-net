@@ -19,6 +19,7 @@
     "lemmon:photos": "node bin/lemmon-photos.ts",
     "lemmon:css": "node bin/lemmon-css.ts",
     "parity": "node --conditions=source bin/parity.ts",
+    "parity:look": "node --conditions=source bin/parity-look.ts",
     "test": "vitest run --project unit",
     "test:integration": "vitest run --project integration --reporter=verbose",
     "test:all": "vitest run",
@@ -105,7 +106,9 @@
     "gray-matter": "^4.0.3",
     "husky": "^9.1.5",
     "lightningcss": "^1.33.0",
+    "parse5": "^7.1.2",
     "patch-package": "^8.0.1",
+    "playwright-core": "^1.61.0",
     "vitest": "^3.2.4"
   }
 }

@@ -20,7 +20,6 @@ import { rm } from 'node:fs/promises'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { readStylesheets } from './lemmon-css.ts'
 import { EXPECTED } from './parity/expected.ts'
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
@@ -40,16 +39,8 @@ if (!existsSync(LEM)) {
   process.exit(1)
 }
 
-const {
-  comparePost,
-  failed,
-  filesIn,
-  pageAt,
-  postsIn,
-  referenceFeed,
-  reportLines,
-  staleRows,
-} = await import('./parity/check.ts')
+const { comparePost, failed, pageAt, postsIn, reportLines, siteInputs, staleRows } =
+  await import('./parity/check.ts')
 
 const args = process.argv.slice(2)
 const unknown = args.filter((arg) => arg !== '--no-build')
@@ -83,19 +74,12 @@ if (!args.includes('--no-build')) {
 const ours = join(ROOT, OURS)
 const theirs = join(ROOT, THEIRS)
 const urls = [...new Set([...(await postsIn(ours)), ...(await postsIn(theirs))])].sort()
-const feed = referenceFeed(await pageAt(theirs, '/feed/'))
+const { feed, css } = await siteInputs(ours, theirs)
 if (feed === null) {
   console.error(
     `FAIL: no feed index in ${THEIRS}, which recommended-set compares cards with`
   )
   process.exit(1)
-}
-
-// The comparison's hooks are synchronous, so every bundle is read before it starts.
-const css = {
-  ours: await filesIn(ours, '/assets/immutable/bundle/'),
-  theirs: await filesIn(theirs, '/assets/immutable/11ty/bundle/'),
-  globals: (await readStylesheets()).map(({ text }) => text.trim()).join('\n'),
 }
 
 const stale = staleRows(EXPECTED, urls)

@@ -1,4 +1,4 @@
-import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises'
+import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
@@ -12,6 +12,7 @@ import {
   postsIn,
   referenceFeed,
   reportLines,
+  siteInputs,
   staleRows,
   type PageReport,
 } from './check.ts'
@@ -260,6 +261,47 @@ describe('referenceFeed()', () => {
     )
     expect(referenceFeed(index)?.map(({ href }) => href)).toEqual(['/feed/a/'])
     expect(referenceFeed(null)).toBeNull()
+  })
+})
+
+describe('siteInputs()', () => {
+  let dists: string
+
+  beforeEach(async () => {
+    dists = await mkdtemp(join(tmpdir(), 'parity-'))
+  })
+
+  afterEach(async () => {
+    await rm(dists, { recursive: true, force: true })
+  })
+
+  it("should read the feed's cards, both builds' bundles and the stylesheets", async () => {
+    const [ours, theirs] = [join(dists, 'ours'), join(dists, 'theirs')]
+    await mkdir(join(ours, 'assets/immutable/bundle'), { recursive: true })
+    await writeFile(join(ours, 'assets/immutable/bundle/a.css'), 'a{}')
+    await mkdir(join(theirs, 'assets/immutable/11ty/bundle'), { recursive: true })
+    await writeFile(join(theirs, 'assets/immutable/11ty/bundle/b.css'), 'b{}')
+    await mkdir(join(theirs, 'feed'), { recursive: true })
+    await writeFile(
+      join(theirs, 'feed/index.html'),
+      page(
+        '<article-list><ul><li><article-card><a href="/feed/a/">' +
+          '<time datetime="2026-01-01T00:00:00.000Z">t</time></a></article-card></li>' +
+          '</ul></article-list>'
+      )
+    )
+    const { feed, css } = await siteInputs(ours, theirs)
+    expect(feed?.map(({ href }) => href)).toEqual(['/feed/a/'])
+    expect([...css.ours.keys()]).toEqual(['/assets/immutable/bundle/a.css'])
+    expect([...css.theirs.keys()]).toEqual(['/assets/immutable/11ty/bundle/b.css'])
+    const sheet = (name: string) =>
+      readFile(new URL(`../../www/_includes/css/${name}.css`, import.meta.url), 'utf8')
+    const sheets = await Promise.all(['normalize', 'main', 'hljs-github'].map(sheet))
+    expect(css.globals).toBe(sheets.map((text) => text.trim()).join('\n'))
+  })
+
+  it('should give no feed where Eleventy wrote no feed index', async () => {
+    expect((await siteInputs(dists, dists)).feed).toBeNull()
   })
 })
 
