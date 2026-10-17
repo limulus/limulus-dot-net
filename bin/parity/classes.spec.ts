@@ -8,12 +8,16 @@ import { describe, expect, it } from 'vitest'
 
 import {
   anchorSlug,
+  bundleName,
   CLASSES,
   comrakSlug,
+  cssBundle,
   feedCards,
+  lastDifference,
   forgiveness,
   recommendedSet,
   SITE_DISPLAY,
+  type Bundles,
 } from './classes.ts'
 
 /** Compares two documents built from a head and a body, through `classes`. */
@@ -41,6 +45,9 @@ const forgiven = (comparison: Comparison): [string, number][] => [...comparison.
 
 /** Whether the comparison found nothing it could not explain. */
 const clean = (comparison: Comparison): boolean => comparison.differences.length === 0
+
+/** No CSS bundles, for the classes that do not read them. */
+const NO_CSS: Bundles = { ours: new Map(), theirs: new Map(), globals: '' }
 
 describe('scoped-class', () => {
   const { scopedClass } = CLASSES
@@ -137,52 +144,181 @@ describe('scoped-class', () => {
   })
 })
 
-describe('interim-css', () => {
-  const { interimCss } = CLASSES
-  const css = (name: string) => `<link rel="stylesheet" href="/_includes/css/${name}.css">`
-  const bundle =
-    '<link rel="stylesheet" href="/assets/immutable/11ty/bundle/ObF0q0O62B.css">'
+describe('css-bundle', () => {
+  const GLOBALS = 'html { line-height: 1.15; }\nbody { margin: 0; }'
 
-  it('should accept the three interim stylesheets where theirs links the bundle', () => {
+  /** A bundle holding `text` under `dir`, at the url its hash names. */
+  const bundle = (dir: string, text: string): [string, Buffer] => {
+    const bytes = Buffer.from(text)
+    return [`${dir}${bundleName(bytes)}.css`, bytes]
+  }
+  const ours = (text: string) => bundle('/assets/immutable/bundle/', text)
+  const theirs = (text: string) => bundle('/assets/immutable/11ty/bundle/', text)
+  const OURS = ours(GLOBALS)
+  const THEIRS = theirs(`.wvormuvo0{display:flex}\n${GLOBALS}`)
+
+  const link = (href: string, more = '') => `<link rel="stylesheet" href="${href}"${more}>`
+
+  /** A css-bundle that reads the bundles given, ours' and theirs' above by default. */
+  const bundles = (
+    files: { ours?: [string, Buffer][]; theirs?: [string, Buffer][] } = {}
+  ) =>
+    cssBundle({
+      url: '/feed/x/',
+      feed: [],
+      css: {
+        ours: new Map(files.ours ?? [OURS]),
+        theirs: new Map(files.theirs ?? [THEIRS]),
+        globals: GLOBALS,
+      },
+    })
+
+  /** Two links in head compared through `cls`, and what it refused. */
+  const linked = (oursHref: string, theirsHref: string, cls = bundles()) => {
+    const result = heads(link(oursHref), link(theirsHref), cls)
+    return { clean: clean(result), refusals: cls.refusals }
+  }
+
+  it('should name a bundle as Eleventy and the bundler do', () => {
+    expect(bundleName(Buffer.from(''))).toBe('47DEQpj8HB')
+    expect(bundleName(Buffer.from('0'))).toBe('X-zrZv_Ibz')
+  })
+
+  it('should accept ours’ bundle where theirs links Eleventy’s, once', () => {
+    const cls = bundles()
     const result = heads(
-      `${css('normalize')}${css('main')}${css('hljs-github')}<title>t</title>`,
-      `${bundle}<title>t</title>`,
-      interimCss
+      `${link(OURS[0])}<title>t</title>`,
+      `${link(THEIRS[0])}<title>t</title>`,
+      cls
     )
     expect(clean(result)).toBe(true)
-    expect(forgiven(result)).toEqual([['interim-css', 3]])
+    expect(forgiven(result)).toEqual([['css-bundle', 1]])
+    expect(cls.refusals).toEqual([])
   })
 
-  it('should not accept a stylesheet beyond the three, or the three out of order', () => {
-    const extra = heads(
-      `${css('normalize')}${css('main')}${css('hljs-github')}${css('extra')}`,
-      bundle,
-      interimCss
-    )
-    expect(clean(extra)).toBe(false)
-    const reordered = heads(
-      `${css('normalize')}${css('hljs-github')}${css('main')}`,
-      bundle,
-      interimCss
-    )
-    expect(clean(reordered)).toBe(false)
+  it('should refuse a bundle not named by its hash, on either side', () => {
+    const o = '/assets/immutable/bundle/AAAAAAAAAA.css'
+    expect(linked(o, THEIRS[0], bundles({ ours: [[o, OURS[1]]] }))).toEqual({
+      clean: false,
+      refusals: [`css-bundle: ${o} is not named by its hash, ${bundleName(OURS[1])}`],
+    })
+    const t = '/assets/immutable/11ty/bundle/AAAAAAAAAA.css'
+    expect(linked(OURS[0], t, bundles({ theirs: [[t, THEIRS[1]]] }))).toEqual({
+      clean: false,
+      refusals: [`css-bundle: ${t} is not named by its hash, ${bundleName(THEIRS[1])}`],
+    })
   })
 
-  it('should not accept the stylesheets outside head, or another href for the bundle', () => {
+  it('should refuse a bundle that was not written, on either side', () => {
+    expect(linked(OURS[0], THEIRS[0], bundles({ ours: [] }))).toEqual({
+      clean: false,
+      refusals: [`css-bundle: ${OURS[0]} was not written`],
+    })
+    expect(linked(OURS[0], THEIRS[0], bundles({ theirs: [] }))).toEqual({
+      clean: false,
+      refusals: [`css-bundle: ${THEIRS[0]} was not written`],
+    })
+  })
+
+  it('should refuse ours where one byte of a global stylesheet changed', () => {
+    const changed = ours(GLOBALS.replace('margin: 0', 'margin: 1'))
+    expect(linked(changed[0], THEIRS[0], bundles({ ours: [changed] }))).toEqual({
+      clean: false,
+      refusals: [
+        'css-bundle: ours does not end with the global stylesheets, ' +
+          'at offset 3 from the end, "html { line-height: 1.15; }\\nbody { margin: 1; }" ' +
+          'where expected "html { line-height: 1.15; }\\nbody { margin: 0; }"',
+      ],
+    })
+  })
+
+  it('should refuse ours holding anything after the global stylesheets', () => {
+    const after = ours(`${GLOBALS}\n.x{}`)
+    expect(linked(after[0], THEIRS[0], bundles({ ours: [after] }))).toEqual({
+      clean: false,
+      refusals: [
+        'css-bundle: ours does not end with the global stylesheets, ' +
+          'at offset 1 from the end, ' +
+          '"html { line-height: 1.15; }\\nbody { margin: 0; }\\n.x{}" ' +
+          'where expected "html { line-height: 1.15; }\\nbody { margin: 0; }"',
+      ],
+    })
+  })
+
+  it('should refuse theirs where it does not end with the global stylesheets', () => {
+    const lacking = theirs('.wvormuvo0{display:flex}')
+    expect(linked(OURS[0], lacking[0], bundles({ theirs: [lacking] }))).toEqual({
+      clean: false,
+      refusals: [
+        'css-bundle: theirs does not end with the global stylesheets, ' +
+          'at offset 1 from the end, ".wvormuvo0{display:flex}" ' +
+          'where expected "html { line-height: 1.15; }\\nbody { margin: 0; }"',
+      ],
+    })
+  })
+
+  it('should refuse ours holding anything before the global stylesheets', () => {
+    const more = ours(`.dataChip { display: flex; }\n${GLOBALS}`)
+    expect(linked(more[0], THEIRS[0], bundles({ ours: [more] }))).toEqual({
+      clean: false,
+      refusals: [
+        'css-bundle: ours holds 29 characters before the global stylesheets, ' +
+          'which no component collects yet',
+      ],
+    })
+  })
+
+  it('should not take a bundle link outside head', () => {
+    const cls = bundles()
+    const result = bodies(
+      `<div>${link(OURS[0])}</div>`,
+      `<div>${link(THEIRS[0])}</div>`,
+      cls
+    )
+    expect(clean(result)).toBe(false)
+    expect(cls.refusals).toEqual([])
+  })
+
+  it('should not take a link carrying a third attribute, or another rel', () => {
+    const cls = bundles()
+    const media = ' media="print"'
+    expect(clean(heads(link(OURS[0], media), link(THEIRS[0], media), cls))).toBe(false)
+    const preload = (href: string) => `<link rel="preload" href="${href}">`
+    expect(clean(heads(preload(OURS[0]), preload(THEIRS[0]), cls))).toBe(false)
+    expect(cls.refusals).toEqual([])
+  })
+
+  it('should not take a bundle’s url in another attribute', () => {
+    const cls = bundles()
+    const src = (url: string) => `<link rel="stylesheet" src="${url}">`
+    expect(clean(heads(src(OURS[0]), src(THEIRS[0]), cls))).toBe(false)
+    expect(cls.refusals).toEqual([])
+  })
+
+  it('should not take an href outside its side’s bundle directory', () => {
+    const misplaced = theirs(GLOBALS)
+    expect(linked(misplaced[0], THEIRS[0], bundles({ ours: [misplaced] }))).toEqual({
+      clean: false,
+      refusals: [],
+    })
+    const theirsMisplaced = ours(THEIRS[1].toString())
     expect(
-      clean(bodies(`<div>${css('normalize')}</div>`, `<div>${bundle}</div>`, interimCss))
-    ).toBe(false)
-    expect(clean(heads(css('main'), bundle, interimCss))).toBe(false)
+      linked(OURS[0], theirsMisplaced[0], bundles({ theirs: [theirsMisplaced] }))
+    ).toEqual({ clean: false, refusals: [] })
   })
+})
 
-  it('should not accept the bundle’s place taken by anything but the bundle', () => {
-    const other = '<link rel="stylesheet" href="/assets/other.css">'
-    expect(clean(heads(css('normalize'), other, interimCss))).toBe(false)
-  })
-
-  it('should not accept an interim stylesheet carrying another attribute', () => {
-    const printed = '<link rel="stylesheet" href="/_includes/css/main.css" media="print">'
-    expect(clean(heads(`${css('normalize')}${printed}`, bundle, interimCss))).toBe(false)
+describe('lastDifference()', () => {
+  it('should show up to 60 characters of each text either side of where they part', () => {
+    const a = 'x'.repeat(100) + 'a' + 'y'.repeat(100)
+    const b = 'x'.repeat(100) + 'b' + 'y'.repeat(100)
+    expect(lastDifference(a, b)).toBe(
+      `at offset 100 from the end, "${'x'.repeat(59)}a${'y'.repeat(60)}" ` +
+        `where expected "${'x'.repeat(59)}b${'y'.repeat(60)}"`
+    )
+    expect(lastDifference('ab', 'cab')).toBe(
+      'at offset 2 from the end, "ab" where expected "cab"'
+    )
   })
 })
 
@@ -820,7 +956,7 @@ describe('recommended-set', () => {
         '</ul></article-list></main></body></html>'
     )
   const FEED = feedCards(index(Object.keys(DATES)))
-  const POST = { url: TR, feed: FEED }
+  const POST = { url: TR, feed: FEED, css: NO_CSS }
 
   /** Ours' five cards, each numbered as one page counts them. */
   const ours = (
@@ -913,7 +1049,7 @@ describe('recommended-set', () => {
   })
 
   it('should list min(5, posts − 1), counting the posts on the feed index', () => {
-    const three = { url: TSC, feed: feedCards(index([LAI, BSWA, TSC])) }
+    const three = { url: TSC, feed: feedCards(index([LAI, BSWA, TSC])), css: NO_CSS }
     const twoCards = footer([card(LAI, { counter: '0' }), card(BSWA, { counter: '1' })])
     const result = bodies(
       twoCards,
@@ -983,10 +1119,10 @@ describe('recommended-set', () => {
 
 describe('forgiveness()', () => {
   it('should consult every class but the card-only one, recommended-set last', () => {
-    const names = forgiveness({ url: '/feed/x/', feed: [] }).map((cls) => cls.name)
-    expect(names).toEqual([
+    const { classes } = forgiveness({ url: '/feed/x/', feed: [], css: NO_CSS })
+    expect(classes.map((cls) => cls.name)).toEqual([
       'scoped-class',
-      'interim-css',
+      'css-bundle',
       'unbuilt-scripts',
       'webc-attr-leak',
       'datetime-text',

@@ -19,9 +19,8 @@
       <link rel="icon" href="/assets/images/ldn-inverted-128.75ea619b.png" type="image/png">
       <link rel="icon" href="/assets/svg/ldn.dcaedd8b.svg" type="image/svg+xml">
 
-      <link rel="stylesheet" href="/_includes/css/normalize.css">
-      <link rel="stylesheet" href="/_includes/css/main.css">
-      <link rel="stylesheet" href="/_includes/css/hljs-github.css">
+      <lem.mark("styles")>
+      <lem.siteStyles()>
 
       <title><lem.docTitle(p.url)></title>
 

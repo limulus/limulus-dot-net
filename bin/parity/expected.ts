@@ -8,7 +8,7 @@
 export const EXPECTED: Record<string, Record<string, number>> = {
   '/feed/better-software-with-ai/': {
     'scoped-class': 56,
-    'interim-css': 3,
+    'css-bundle': 1,
     'unbuilt-scripts': 2,
     'webc-attr-leak': 14,
     'datetime-text': 9,
@@ -22,7 +22,7 @@ export const EXPECTED: Record<string, Record<string, number>> = {
   },
   '/feed/lima-agent-isolation/': {
     'scoped-class': 47,
-    'interim-css': 3,
+    'css-bundle': 1,
     'unbuilt-scripts': 2,
     'webc-attr-leak': 5,
     'datetime-text': 7,
@@ -34,7 +34,7 @@ export const EXPECTED: Record<string, Record<string, number>> = {
   },
   '/feed/new-york-2024/': {
     'scoped-class': 18,
-    'interim-css': 3,
+    'css-bundle': 1,
     'unbuilt-scripts': 3,
     'webc-attr-leak': 3,
     'datetime-text': 2,
@@ -42,7 +42,7 @@ export const EXPECTED: Record<string, Record<string, number>> = {
   },
   '/feed/the-rebound/': {
     'scoped-class': 56,
-    'interim-css': 3,
+    'css-bundle': 1,
     'unbuilt-scripts': 2,
     'webc-attr-leak': 14,
     'datetime-text': 9,
@@ -57,7 +57,7 @@ export const EXPECTED: Record<string, Record<string, number>> = {
   },
   '/feed/the-social-contract/': {
     'scoped-class': 47,
-    'interim-css': 3,
+    'css-bundle': 1,
     'unbuilt-scripts': 2,
     'webc-attr-leak': 5,
     'datetime-text': 8,
@@ -70,7 +70,7 @@ export const EXPECTED: Record<string, Record<string, number>> = {
   },
   '/feed/workout-exporter/': {
     'scoped-class': 47,
-    'interim-css': 3,
+    'css-bundle': 1,
     'unbuilt-scripts': 2,
     'webc-attr-leak': 5,
     'datetime-text': 7,
@@ -81,7 +81,7 @@ export const EXPECTED: Record<string, Record<string, number>> = {
   },
   '/feed/write-to-your-rep/': {
     'scoped-class': 47,
-    'interim-css': 3,
+    'css-bundle': 1,
     'unbuilt-scripts': 2,
     'webc-attr-leak': 5,
     'datetime-text': 7,

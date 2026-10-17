@@ -15,6 +15,7 @@ import type {
   RenderedPage,
   Scope,
 } from '@limulus/lemmon-shell'
+import { createHash } from 'node:crypto'
 
 /** A card in an `article-list`: its `li`, the `article-card`, and the url it links to. */
 export interface Card {
@@ -29,12 +30,24 @@ export interface ReferenceCard extends Card {
   published: number
 }
 
+/** The CSS bundles both builds wrote, and what ours must hold. */
+export interface Bundles {
+  /** Every file `lem build` wrote under `/assets/immutable/bundle/`, by url. */
+  ours: Map<string, Buffer>
+  /** Every file Eleventy wrote under `/assets/immutable/11ty/bundle/`, by url. */
+  theirs: Map<string, Buffer>
+  /** The global stylesheets, each trimmed, joined by newlines: how ours must end. */
+  globals: string
+}
+
 /** The post a comparison is of, for the classes that judge it against the site. */
 export interface Post {
   /** Its url, `/feed/<slug>/`. */
   url: string
   /** The card of every feed post, from Eleventy's feed index. */
   feed: ReferenceCard[]
+  /** The CSS bundles both builds wrote, which css-bundle reads. */
+  css: Bundles
 }
 
 /**
@@ -140,35 +153,110 @@ const scopedClass: Forgiveness = {
   },
 }
 
-const INTERIM_CSS = [
-  '/_includes/css/normalize.css',
-  '/_includes/css/main.css',
-  '/_includes/css/hljs-github.css',
-]
+// --- D20: a page's CSS is one bundle, until the cutover ---------------------------
 
-const isStylesheet = (element: RenderedElement): boolean =>
-  element.tag === 'link' && element.attrs.get('rel') === 'stylesheet'
+const OURS_BUNDLE = /^\/assets\/immutable\/bundle\/[\w-]{10}\.css$/
+const THEIRS_BUNDLE = /^\/assets\/immutable\/11ty\/bundle\/[\w-]{10}\.css$/
 
 /**
- * Where theirs links Eleventy's CSS bundle, ours links the three stylesheets
- * `_includes/css/` passes through: the first in the bundle's place, the other two
- * after it in order, all in `head`.
+ * A bundle's name, the shell's `bundler()`'s and Eleventy's alike: the first ten
+ * base64url characters of the SHA-256 of its bytes.
  */
-const interimCss: Forgiveness = {
-  name: 'interim-css',
-  attr: (name, ours, theirs, at) =>
-    name === 'href' &&
-    isStylesheet(at.ours) &&
-    parentOf(at)?.ours.tag === 'head' &&
-    ours === INTERIM_CSS[0] &&
-    /^\/assets\/immutable\/11ty\/bundle\/[\w-]+\.css$/.test(theirs ?? ''),
-  oursOnly: (ours, at) => {
-    if (at.ours.tag !== 'head' || !isStylesheet(ours) || ours.attrs.size !== 2) return false
-    const n = INTERIM_CSS.indexOf(ours.attrs.get('href') ?? '')
-    const siblings = elementsIn(at.ours)
-    const before = siblings[siblings.indexOf(ours) - 1]
-    return n > 0 && isElement(before) && before.attrs.get('href') === INTERIM_CSS[n - 1]
-  },
+export const bundleName = (bytes: Uint8Array): string =>
+  createHash('sha256').update(bytes).digest('base64url').slice(0, 10)
+
+/**
+ * Where `text` stops ending as `expected` does: how far from the end their common suffix
+ * reaches, with up to 60 characters of each on either side of where it starts.
+ */
+export function lastDifference(text: string, expected: string): string {
+  let shared = 0
+  while (
+    shared < text.length &&
+    shared < expected.length &&
+    text[text.length - 1 - shared] === expected[expected.length - 1 - shared]
+  ) {
+    shared += 1
+  }
+  const around = (side: string): string => {
+    const at = side.length - shared
+    return JSON.stringify(side.slice(Math.max(0, at - 60), at + 60))
+  }
+  const where = `at offset ${shared} from the end`
+  return `${where}, ${around(text)} where expected ${around(expected)}`
+}
+
+/** A bundle's bytes, or why `url` names none: nothing written there, or a misnamed file. */
+function bundleAt(written: Map<string, Buffer>, url: string): Buffer | string {
+  const bytes = written.get(url)
+  if (bytes === undefined) return `${url} was not written`
+  const hash = bundleName(bytes)
+  return url.endsWith(`/${hash}.css`) ? bytes : `${url} is not named by its hash, ${hash}`
+}
+
+/** Why the bundles `ours` and `theirs` link are not css-bundle's, if they are not. */
+function bundleRefusal(css: Bundles, ours: string, theirs: string): string | undefined {
+  const o = bundleAt(css.ours, ours)
+  const t = bundleAt(css.theirs, theirs)
+  if (typeof o === 'string') return o
+  if (typeof t === 'string') return t
+  const texts = { ours: o.toString('utf8'), theirs: t.toString('utf8') }
+  for (const [side, text] of Object.entries(texts)) {
+    if (!text.endsWith(css.globals)) {
+      const where = lastDifference(text, css.globals)
+      return `${side} does not end with the global stylesheets, ${where}`
+    }
+  }
+  if (texts.ours !== css.globals) {
+    const before = texts.ours.length - css.globals.length
+    return (
+      `ours holds ${before} characters before the global stylesheets, ` +
+      'which no component collects yet'
+    )
+  }
+  return undefined
+}
+
+/** css-bundle, with why it refused each bundle link it was offered. */
+export interface CssBundle extends Forgiveness {
+  /** One line per refusal, naming the class, for the report. */
+  refusals: string[]
+}
+
+/**
+ * Where theirs links Eleventy's CSS bundle, ours links the one the shell's `bundler()`
+ * wrote: the `href` of a `link` in `head` holding only it and `rel="stylesheet"`, ours
+ * under `/assets/immutable/bundle/` and theirs under `/assets/immutable/11ty/bundle/`.
+ * Ours' element alone is checked: a pair shares its tag and its parent's tag, and
+ * another attribute differing would fail the element whatever this class said. It is
+ * explained only where both files were written, each named by the hash of its bytes, and
+ * each ends with the global stylesheets, trimmed and joined by newlines, byte for byte —
+ * ours, while no component has a `lem-style` (∆D3R), holding them alone. Each refusal
+ * records why.
+ */
+export function cssBundle(post: Post): CssBundle {
+  const refusals: string[] = []
+  return {
+    name: 'css-bundle',
+    refusals,
+    attr: (name, ours, theirs, at) => {
+      const link = at.ours
+      if (
+        name !== 'href' ||
+        link.tag !== 'link' ||
+        link.attrs.size !== 2 ||
+        link.attrs.get('rel') !== 'stylesheet' ||
+        parentOf(at)?.ours.tag !== 'head' ||
+        !OURS_BUNDLE.test(ours ?? '') ||
+        !THEIRS_BUNDLE.test(theirs ?? '')
+      ) {
+        return false
+      }
+      const refusal = bundleRefusal(post.css, ours ?? '', theirs ?? '')
+      if (refusal !== undefined) refusals.push(`css-bundle: ${refusal}`)
+      return refusal === undefined
+    },
+  }
 }
 
 // --- ∆d1N: the asset pipeline -----------------------------------------------------
@@ -743,11 +831,20 @@ export function recommendedSet(post: Post): Forgiveness {
   }
 }
 
+/** The classes `npm run parity` accepts on a post, and why any of them refused. */
+export interface Allowlist {
+  /** Every class, in the order they are consulted. */
+  classes: Forgiveness[]
+  /** Why a class refused what it was offered, where it records that: css-bundle's. */
+  refusals: string[]
+}
+
 /** Every class `npm run parity` accepts on `post`, in the order they are consulted. */
-export function forgiveness(post: Post): Forgiveness[] {
-  return [
+export function forgiveness(post: Post): Allowlist {
+  const bundle = cssBundle(post)
+  const classes = [
     scopedClass,
-    interimCss,
+    bundle,
     unbuiltScripts,
     webcAttrLeak,
     datetimeText,
@@ -760,11 +857,11 @@ export function forgiveness(post: Post): Forgiveness[] {
     readingTime,
     recommendedSet(post),
   ]
+  return { classes, refusals: bundle.refusals }
 }
 
 export const CLASSES = {
   scopedClass,
-  interimCss,
   unbuiltScripts,
   webcAttrLeak,
   datetimeText,

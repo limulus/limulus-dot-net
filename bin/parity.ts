@@ -1,11 +1,12 @@
 // `npm run parity`: builds the site both ways — Eleventy to dist/www, `lem build` to
 // dist/lemmon — and compares every post under feed/ that either build wrote, as
 // rendered HTML (lemmon's D28), through the forgiveness classes in bin/parity/, with
-// Eleventy's feed index as the reference for recommended cards only ours lists. Each
-// page reports every difference no class explains, how often each class fired, and
-// what matched; the run exits 1 on any unexplained difference, any class firing other
-// than its count in bin/parity/expected.ts, a row there for a post neither build
-// wrote, or a post one build lacks.
+// Eleventy's feed index as the reference for recommended cards only ours lists, and both
+// builds' CSS bundles read beside the global stylesheets for css-bundle. Each page
+// reports every difference no class explains, why a class refused one where it says,
+// how often each class fired, and what matched; the run exits 1 on any unexplained
+// difference, any class firing other than its count in bin/parity/expected.ts, a row
+// there for a post neither build wrote, or a post one build lacks.
 //
 //   npm run parity [-- --no-build]     --no-build compares the dists already there
 //
@@ -19,6 +20,7 @@ import { rm } from 'node:fs/promises'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+import { readStylesheets } from './lemmon-css.ts'
 import { EXPECTED } from './parity/expected.ts'
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
@@ -38,8 +40,16 @@ if (!existsSync(LEM)) {
   process.exit(1)
 }
 
-const { comparePost, failed, pageAt, postsIn, referenceFeed, reportLines, staleRows } =
-  await import('./parity/check.ts')
+const {
+  comparePost,
+  failed,
+  filesIn,
+  pageAt,
+  postsIn,
+  referenceFeed,
+  reportLines,
+  staleRows,
+} = await import('./parity/check.ts')
 
 const args = process.argv.slice(2)
 const unknown = args.filter((arg) => arg !== '--no-build')
@@ -81,6 +91,13 @@ if (feed === null) {
   process.exit(1)
 }
 
+// The comparison's hooks are synchronous, so every bundle is read before it starts.
+const css = {
+  ours: await filesIn(ours, '/assets/immutable/bundle/'),
+  theirs: await filesIn(theirs, '/assets/immutable/11ty/bundle/'),
+  globals: (await readStylesheets()).map(({ text }) => text.trim()).join('\n'),
+}
+
 const stale = staleRows(EXPECTED, urls)
 let failures = 0
 console.log()
@@ -90,6 +107,7 @@ for (const url of urls) {
     ours: await pageAt(ours, url),
     theirs: await pageAt(theirs, url),
     feed,
+    css,
     expected: EXPECTED[url] ?? {},
   })
   for (const line of reportLines(report, { ours: OURS, theirs: THEIRS })) console.log(line)

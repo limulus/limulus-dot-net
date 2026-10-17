@@ -6,7 +6,13 @@ import { compareRendered, renderedPage, type Comparison } from '@limulus/lemmon-
 import { readdir, readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 
-import { feedCards, forgiveness, SITE_DISPLAY, type ReferenceCard } from './classes.ts'
+import {
+  feedCards,
+  forgiveness,
+  SITE_DISPLAY,
+  type Bundles,
+  type ReferenceCard,
+} from './classes.ts'
 
 /** The url of each post a build wrote: every directory under `feed/` with a page. */
 export async function postsIn(dist: string): Promise<string[]> {
@@ -34,6 +40,22 @@ export async function pageAt(dist: string, url: string): Promise<string | null> 
       throw error
     }
   )
+}
+
+/**
+ * Every file a build wrote in the directory at the url path `dir`, keyed by its url,
+ * read as bytes; none where it wrote no such directory.
+ */
+export async function filesIn(dist: string, dir: string): Promise<Map<string, Buffer>> {
+  const names = await readdir(join(dist, dir)).catch((error: NodeJS.ErrnoException) => {
+    if (error.code === 'ENOENT') return []
+    throw error
+  })
+  const files = new Map<string, Buffer>()
+  for (const name of names.sort()) {
+    files.set(`${dir}${name}`, await readFile(join(dist, dir, name)))
+  }
+  return files
 }
 
 /** Every feed post's card from the page of Eleventy's feed index, if there is one. */
@@ -74,6 +96,8 @@ export interface PageReport {
   missing?: 'ours' | 'theirs'
   comparison?: Comparison
   miscounts: Miscount[]
+  /** Why a class refused a difference, where it records that: css-bundle's. */
+  refusals: string[]
 }
 
 export interface PostInput {
@@ -84,20 +108,30 @@ export interface PostInput {
   theirs: string | null
   /** The card of every feed post, from Eleventy's feed index. */
   feed: ReferenceCard[]
+  /** The CSS bundles both builds wrote, and the global stylesheets. */
+  css: Bundles
   /** How often each class should fire on this page. */
   expected: Record<string, number>
 }
 
 /** Compares one post's two pages, or reports the side that lacks it. */
-export function comparePost({ url, ours, theirs, feed, expected }: PostInput): PageReport {
-  if (ours === null) return { url, missing: 'ours', miscounts: [] }
-  if (theirs === null) return { url, missing: 'theirs', miscounts: [] }
+export function comparePost({
+  url,
+  ours,
+  theirs,
+  feed,
+  css,
+  expected,
+}: PostInput): PageReport {
+  if (ours === null) return { url, missing: 'ours', miscounts: [], refusals: [] }
+  if (theirs === null) return { url, missing: 'theirs', miscounts: [], refusals: [] }
+  const { classes, refusals } = forgiveness({ url, feed, css })
   const comparison = compareRendered(
     renderedPage(ours, { display: SITE_DISPLAY }),
     renderedPage(theirs, { display: SITE_DISPLAY }),
-    forgiveness({ url, feed })
+    classes
   )
-  return { url, comparison, miscounts: miscounts(expected, comparison.forgiven) }
+  return { url, comparison, miscounts: miscounts(expected, comparison.forgiven), refusals }
 }
 
 /** Whether a page fails parity: missing on a side, unexplained, or miscounted. */
@@ -111,8 +145,8 @@ export function failed(report: PageReport): boolean {
 
 /**
  * The report of one page as printed: a summary line, then what fails it — each
- * unexplained difference first, since a refused subtree also moves counts — then the
- * counts.
+ * unexplained difference first, since a refused subtree also moves counts, and why a
+ * class refused one where it says so — then the counts.
  */
 export function reportLines(
   report: PageReport,
@@ -134,6 +168,7 @@ export function reportLines(
     lines.push(`  -${theirs ?? '(nothing)'}`)
     lines.push(`  +${ours ?? '(nothing)'}`)
   }
+  for (const refusal of report.refusals) lines.push(`  ${refusal}`)
   for (const { name, forgave, expected } of report.miscounts) {
     lines.push(`  miscounted: ${name} forgave ${forgave}, expected ${expected}`)
   }

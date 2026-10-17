@@ -6,6 +6,7 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import {
   comparePost,
   failed,
+  filesIn,
   miscounts,
   pageAt,
   postsIn,
@@ -14,8 +15,10 @@ import {
   staleRows,
   type PageReport,
 } from './check.ts'
+import { bundleName } from './classes.ts'
 
 const SIDES = { ours: 'dist/lemmon', theirs: 'dist/www' }
+const NO_CSS = { ours: new Map(), theirs: new Map(), globals: '' }
 const page = (body: string) =>
   `<!doctype html><html><head></head><body>${body}</body></html>`
 
@@ -59,6 +62,37 @@ describe('postsIn()', () => {
   })
 })
 
+describe('filesIn()', () => {
+  let dist: string
+
+  beforeEach(async () => {
+    dist = await mkdtemp(join(tmpdir(), 'parity-'))
+  })
+
+  afterEach(async () => {
+    await rm(dist, { recursive: true, force: true })
+  })
+
+  it('should read each file in a directory as bytes, by its url', async () => {
+    await mkdir(join(dist, 'assets/bundle'), { recursive: true })
+    await writeFile(join(dist, 'assets/bundle/b.css'), 'b{}')
+    await writeFile(join(dist, 'assets/bundle/a.css'), 'a{}')
+    const files = await filesIn(dist, '/assets/bundle/')
+    expect([...files.keys()]).toEqual(['/assets/bundle/a.css', '/assets/bundle/b.css'])
+    expect(files.get('/assets/bundle/a.css')).toEqual(Buffer.from('a{}'))
+  })
+
+  it('should read nothing where the build wrote no such directory', async () => {
+    expect(await filesIn(dist, '/assets/bundle/')).toEqual(new Map())
+  })
+
+  it('should fail on anything but a missing directory', async () => {
+    await mkdir(join(dist, 'assets'), { recursive: true })
+    await writeFile(join(dist, 'assets/bundle'), 'not a directory')
+    await expect(filesIn(dist, '/assets/bundle/')).rejects.toThrow(/ENOTDIR/)
+  })
+})
+
 describe('miscounts()', () => {
   it('should report a class that fired more, fewer, or never, by name', () => {
     const forgiven = new Map([
@@ -75,13 +109,14 @@ describe('miscounts()', () => {
 })
 
 describe('comparePost()', () => {
-  const post = { url: '/feed/x/', feed: [], expected: {} }
+  const post = { url: '/feed/x/', feed: [], css: NO_CSS, expected: {} }
 
   it('should report the side that has no page', () => {
     expect(comparePost({ ...post, ours: null, theirs: page('x') })).toEqual({
       url: '/feed/x/',
       missing: 'ours',
       miscounts: [],
+      refusals: [],
     })
     expect(comparePost({ ...post, ours: page('x'), theirs: null }).missing).toBe('theirs')
   })
@@ -108,15 +143,60 @@ describe('comparePost()', () => {
     expect(report.miscounts).toEqual([{ name: 'scoped-class', forgave: 1, expected: 2 }])
     expect(failed(report)).toBe(true)
   })
+
+  describe('with a bundle link on each side', () => {
+    const GLOBALS = 'a{}'
+    const bytes = Buffer.from(GLOBALS)
+    const OURS = `/assets/immutable/bundle/${bundleName(bytes)}.css`
+    const THEIRS = `/assets/immutable/11ty/bundle/${bundleName(bytes)}.css`
+    const head = (href: string) =>
+      `<!doctype html><html><head><link rel="stylesheet" href="${href}"></head>` +
+      '<body></body></html>'
+    const compared = (globals: string) =>
+      comparePost({
+        ...post,
+        ours: head(OURS),
+        theirs: head(THEIRS),
+        css: {
+          ours: new Map([[OURS, bytes]]),
+          theirs: new Map([[THEIRS, bytes]]),
+          globals,
+        },
+        expected: { 'css-bundle': 1 },
+      })
+
+    it('should give css-bundle both builds’ bundles and the global stylesheets', () => {
+      const report = compared(GLOBALS)
+      expect(report.comparison?.differences).toEqual([])
+      expect(report.refusals).toEqual([])
+      expect(failed(report)).toBe(false)
+    })
+
+    it('should report why css-bundle refused, under the difference it left', () => {
+      const report = compared('b{}')
+      expect(failed(report)).toBe(true)
+      expect(reportLines(report, SIDES)).toEqual([
+        '/feed/x/: FAIL, 3 matched, 1 unexplained',
+        '  --- html > head[0] > link[0] (attributes differ: href)',
+        `  -<link rel="stylesheet" href="${THEIRS}">`,
+        `  +<link rel="stylesheet" href="${OURS}">`,
+        '  css-bundle: ours does not end with the global stylesheets, ' +
+          'at offset 2 from the end, "a{}" where expected "b{}"',
+        '  miscounted: css-bundle forgave 0, expected 1',
+      ])
+    })
+  })
 })
 
 describe('failed()', () => {
   const comparison = { differences: [], forgiven: new Map<string, number>(), matched: 1 }
 
   it('should fail a page missing, unexplained, or miscounted, and pass one that is none', () => {
-    const ok: PageReport = { url: '/feed/x/', comparison, miscounts: [] }
+    const ok: PageReport = { url: '/feed/x/', comparison, miscounts: [], refusals: [] }
     expect(failed(ok)).toBe(false)
-    expect(failed({ url: '/feed/x/', missing: 'theirs', miscounts: [] })).toBe(true)
+    expect(
+      failed({ url: '/feed/x/', missing: 'theirs', miscounts: [], refusals: [] })
+    ).toBe(true)
     const differences = [{ path: 'html', ours: '<html>', theirs: '<html>' }]
     expect(failed({ ...ok, comparison: { ...comparison, differences } })).toBe(true)
     expect(failed({ ...ok, miscounts: [{ name: 'x', forgave: 0, expected: 1 }] })).toBe(
@@ -127,12 +207,13 @@ describe('failed()', () => {
 
 describe('reportLines()', () => {
   it('should name the build a missing page is missing from', () => {
-    expect(reportLines({ url: '/feed/x/', missing: 'ours', miscounts: [] }, SIDES)).toEqual(
-      ['/feed/x/: FAIL, no page in dist/lemmon']
-    )
-    expect(
-      reportLines({ url: '/feed/x/', missing: 'theirs', miscounts: [] }, SIDES)
-    ).toEqual(['/feed/x/: FAIL, no page in dist/www'])
+    const missing = { url: '/feed/x/', miscounts: [], refusals: [] }
+    expect(reportLines({ ...missing, missing: 'ours' }, SIDES)).toEqual([
+      '/feed/x/: FAIL, no page in dist/lemmon',
+    ])
+    expect(reportLines({ ...missing, missing: 'theirs' }, SIDES)).toEqual([
+      '/feed/x/: FAIL, no page in dist/www',
+    ])
   })
 
   it('should give a page where nothing differs one line', () => {
@@ -141,6 +222,7 @@ describe('reportLines()', () => {
       ours: page('<p>a</p>'),
       theirs: page('<p>a</p>'),
       feed: [],
+      css: NO_CSS,
       expected: {},
     })
     expect(reportLines(report, SIDES)).toEqual(['/feed/x/: ok, 5 matched, 0 unexplained'])
@@ -152,6 +234,7 @@ describe('reportLines()', () => {
       ours: page('<data-chip class="dataChip">a</data-chip><p class="x">b</p><p>c</p>'),
       theirs: page('<data-chip class="wvormuvo0">a</data-chip><p class="y">b</p>'),
       feed: [],
+      css: NO_CSS,
       expected: {},
     })
     expect(reportLines(report, SIDES)).toEqual([
