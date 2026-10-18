@@ -47,6 +47,12 @@
 
         <lem.ogImage(p)>
       </lem-if>
+      <lem-if p is SitePage>
+        <lem-let preview = p.image ?? p.hero />
+        <lem-if preview>
+          <lem.ogPhoto(preview)>
+        </lem-if>
+      </lem-if>
 
       <lem-if description>
         <meta name="description" content="<lem.description>">
@@ -60,6 +66,7 @@
       <meta name="generator" content="<lem.build.generator>">
 
       <script type="module" src="<lem.asset("/lib/common/index.js")>" async></script>
+      <lem.mark("head")>
     </head>
     <body>
       <lem.body>
@@ -70,12 +77,7 @@
 <lem-fn ogImage(post: Post)>
   <lem-let photo = post.image ?? post.hero />
   <lem-if photo>
-    <lem-let md = photo.renditions.filter(|r| r.name == "md" && r.format == "jpeg")[0] />
-    <meta property="og:image" content="<lem.md.url>">
-    <meta property="og:image:type" content="image/jpeg">
-    <meta property="og:image:width" content="<lem.md.width>">
-    <meta property="og:image:height" content="<lem.md.height>">
-    <meta property="og:image:alt" content="<lem.photo.description>">
+    <lem.ogPhoto(photo)>
   <lem-else-if post is VideoPost />
     <meta property="og:image"
       content="https://vod.limulus.net/<lem.post.vod.id>/poster.jpeg">
@@ -84,4 +86,13 @@
     <meta property="og:image:height" content="2160">
     <meta property="og:image:alt" content="<lem.post.vod.alt>">
   </lem-if>
+</lem-fn>
+
+<lem-fn ogPhoto(photo: Photo)>
+  <lem-let md = photo.renditions.filter(|r| r.name == "md" && r.format == "jpeg")[0] />
+  <meta property="og:image" content="<lem.md.url>">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="<lem.md.width>">
+  <meta property="og:image:height" content="<lem.md.height>">
+  <meta property="og:image:alt" content="<lem.photo.description>">
 </lem-fn>

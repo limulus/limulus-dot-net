@@ -1,5 +1,5 @@
-// The forgiveness classes `npm run parity` accepts between a document's page `lem build`
-// writes and the one Eleventy writes. Each states one difference as narrowly as it can be
+// The forgiveness classes `npm run parity` accepts between a page `lem build` writes and
+// the one Eleventy writes at its url. Each states one difference as narrowly as it can be
 // told apart from a regression beside it: a class that forgives more than it claims hides
 // real differences (the lemmon repo's ∆xWs retrospective), so every predicate checks what
 // the difference must be, not only where it may be. Each names the lemmon backlog item or
@@ -100,6 +100,7 @@ const SCOPED = [
   { host: 'article-list', named: 'articleList', hash: 'wi9jish7p' },
   { host: 'article-card', named: 'articleCard', hash: 'wjjnq-bzf' },
   { host: 'article-vod', named: 'articleVod', hash: 'wyaf15udt' },
+  { host: 'photo-list', named: 'photoList', hash: 'w7nhgg7k0' },
 ]
 
 /**
@@ -296,11 +297,20 @@ export function cssBundle(css: Bundles): CssBundle {
 
 // --- WebC's own markup ------------------------------------------------------------
 
+/** The text of the author chip — the first `data-chip` — of each card in `list`. */
+const cardAuthors = (list: RenderedElement): string[] =>
+  [...descendants(list)]
+    .filter((card) => card.tag === 'article-card')
+    .map((card) => [...descendants(card)].find((chip) => chip.tag === 'data-chip'))
+    .map((chip) => (chip === undefined ? '' : textOf(chip).trim()))
+
 /**
  * An attribute WebC copies from a component's props onto an element, which ours does
  * not: `href` on a `pill-button` (its `a`'s), `placement` on the `pho-picture` and `img`
- * inside an `article-photo` (the photo's), and `id` on an in-body `article-photo` (the
- * alias of the photo it links to).
+ * inside an `article-photo` (the photo's), `id` on an in-body `article-photo` (the
+ * alias of the photo it links to), and on an `article-list` the `author` id and `limit`
+ * its page filtered it by — an id where every card's author chip names one author, and a
+ * count no fewer than its cards.
  */
 const webcAttrLeak: Forgiveness = {
   name: 'webc-attr-leak',
@@ -321,6 +331,13 @@ const webcAttrLeak: Forgiveness = {
         return [...descendants(element)].some(
           (a) => a.tag === 'a' && a.attrs.get('href') === `/photos/${theirs}/`
         )
+      case 'article-list author': {
+        const authors = new Set(cardAuthors(element))
+        const [only] = authors
+        return /^[a-z][a-z0-9-]*$/.test(theirs) && authors.size === 1 && only !== ''
+      }
+      case 'article-list limit':
+        return /^[1-9]\d*$/.test(theirs) && cardAuthors(element).length <= Number(theirs)
       default:
         return false
     }
@@ -352,14 +369,33 @@ const labelOf = (svg: RenderedElement): RenderedElement | undefined =>
       desc.tag === 'desc' && desc.attrs.get('id') === svg.attrs.get('aria-labelledby')
   )
 
+/** Whether `at` is in the TIL topics' list: a topic's link in a `chip-list` of `main`. */
+function inTopicList(at: Scope): boolean {
+  const list = at.ancestors.findIndex((pair) => pair.ours.tag === 'chip-list')
+  return (
+    list > 0 &&
+    at.ancestors[list - 1].ours.tag === 'main' &&
+    at.ancestors
+      .slice(list)
+      .some(
+        (pair) =>
+          pair.ours.tag === 'a' &&
+          /^\/tils\/[^/]+\/$/.test(pair.ours.attrs.get('href') ?? '')
+      )
+  )
+}
+
 /**
  * Inside an `article-card`, an icon's `svg[aria-labelledby]` and its `desc[id]` are
  * `symbol-<icon>-desc-<n>` with the same icon and another `n`: eleventy-plugin-svg-sprite
  * numbers each icon's uses on a page in the order WebC renders them, which is not the
  * document's — a card with a preview photo is numbered after the cards without one that
- * follow it — where ours' `uniqueId` counts in document order. On each side the `svg`
- * must still name its own `desc`, and no other element on that side's page may carry the
- * id.
+ * follow it — where ours' `uniqueId` counts in the order the page renders them. That is
+ * the document's but on `/tils/`, which renders its cards before the topics' list above
+ * them, so that their components' styles collect in the order WebC bundles them, and so
+ * numbers the topics' icons after the cards' too: there the topics' list is this class's
+ * as well. On each side the `svg` must still name its own `desc`, and no other element
+ * on that side's page may carry the id.
  */
 const svgDescCounter: Forgiveness = {
   name: 'svg-desc-counter',
@@ -368,7 +404,8 @@ const svgDescCounter: Forgiveness = {
     const isDesc = at.ours.tag === 'desc' && name === 'id'
     const svg = isSvg ? at : parentOf(at)
     if (!(isSvg || isDesc) || svg?.ours.tag !== 'svg') return false
-    const inCard = at.ancestors.some((pair) => pair.ours.tag === 'article-card')
+    const inCard =
+      at.ancestors.some((pair) => pair.ours.tag === 'article-card') || inTopicList(at)
     const [o, t] = [ours, theirs].map((id) => DESC_ID.exec(id ?? '')?.[1])
     const labels = [labelOf(svg.ours), labelOf(svg.theirs)]
     const own = isSvg
@@ -422,6 +459,81 @@ const attrEscaping: Forgiveness = {
       .map(([junkAttr]) => junkName(junkAttr))
     return sameNames([...words], [...new Set(junk)])
   },
+}
+
+// --- Page templates beside their WebC sources, until the cutover (∆oAl) ----------
+
+/** A `.lem` under www/ on GitHub, and its path without the extension. */
+const SOURCE_LEM =
+  /^(https:\/\/github\.com\/limulus\/limulus-dot-net\/blob\/main\/www\/.+)\.lem$/
+
+/**
+ * The header's Source pill links the page's source on GitHub, and a page template's is
+ * the `.lem` ours was built from where theirs links the `.webc` beside it: the `href` of
+ * the `a` in a `pill-button` in the `ldnHeader`'s header, showing the `code-solid` icon,
+ * where ours names a `.lem` under www/ and theirs the same path ending `.webc`.
+ */
+const sourcePill: Forgiveness = {
+  name: 'source-pill',
+  attr: (name, ours, theirs, at) => {
+    const stem = SOURCE_LEM.exec(ours ?? '')?.[1]
+    return (
+      name === 'href' &&
+      stem !== undefined &&
+      theirs === `${stem}.webc` &&
+      at.ours.tag === 'a' &&
+      parentOf(at)?.ours.tag === 'pill-button' &&
+      at.ancestors.some(
+        (pair) => pair.ours.tag === 'header' && hasClass(pair.ours, 'ldnHeader')
+      ) &&
+      [...descendants(at.ours)].some(
+        (use) => use.tag === 'use' && use.attrs.get('href') === '#svg-code-solid'
+      )
+    )
+  },
+}
+
+// --- Eleventy's bugs a reader would call one, fixed in the port ---------------------
+
+/** Each photo's title by its alias, as www/_lemmon/photos.json holds them. */
+export type PhotoTitles = ReadonlyMap<string, string>
+
+const PHOTO_LINK = /^\/photos\/([^/]+)\/$/
+
+/** `text` as a page renders it: each run of HTML whitespace one space, the ends trimmed. */
+const collapsed = (text: string): string => text.replace(/[\t\n\f\r ]+/g, ' ').trim()
+
+/**
+ * In `/photos/`'s list each photo's visually hidden `h1` is empty in theirs, since
+ * `photo-list.webc` writes it with `webc:text`, which WebC does not know, where ours
+ * holds the photo's title: an `h1.visually-hidden` alone in the `header` of a photo's
+ * link to `/photos/<alias>/` in a `photo-list`, empty in theirs and in ours the title
+ * `titles` holds for that alias, as rendered. Fixed rather than reproduced, so it lasts until
+ * the cutover (∆oAl), on the list of what readers will see change.
+ */
+export function photoListHeading(titles: PhotoTitles): Forgiveness {
+  return {
+    name: 'photo-list-heading',
+    subtree: (at) => {
+      const [link, header] = at.ancestors.slice(-2)
+      const [only, ...rest] = at.ours.children
+      const alias = PHOTO_LINK.exec(link?.ours.attrs.get('href') ?? '')?.[1]
+      const title = alias === undefined ? undefined : titles.get(alias)
+      const heading =
+        at.ours.tag === 'h1' &&
+        hasClass(at.ours, 'visually-hidden') &&
+        header?.ours.tag === 'header' &&
+        elementsIn(header.ours).length === 1 &&
+        link?.ours.tag === 'a' &&
+        at.ancestors.some((pair) => pair.ours.tag === 'photo-list') &&
+        at.theirs.children.length === 0 &&
+        rest.length === 0 &&
+        only?.kind === 'text' &&
+        title !== undefined &&
+        only.text.trim() === collapsed(title)
+      return heading ? 1 : null
+    },
+  }
 }
 
 // --- D38: datetimes print in their written offset ---------------------------------
@@ -727,19 +839,24 @@ export function minuteUnder(ours: string, theirs: string): boolean {
   return o !== undefined && t !== undefined && o === t - 1
 }
 
+/** Whether `at` is inside an article's header or an article's card in a list. */
+const inArticleChips = (at: Scope): boolean =>
+  at.ancestors.some(
+    (pair) => pair.ours.tag === 'article-header' || pair.ours.tag === 'article-card'
+  )
+
 /**
- * A reading-time chip in the article's header reads `N min read` one minute under theirs:
- * the reading-time package counts the markdown source, where a link is its URL, and
- * Lemmon's `readingTime()` the rendered text, on purpose (its doc comment in lemmon's
- * `builtins/text.rs`); Eric accepted the difference for this site on 2026-10-17 (lemmon's
- * D38). Only that direction has been seen, so only it is accepted.
+ * A reading-time chip in an article's header, or in its card in a list, reads `N min
+ * read` one minute under theirs: the reading-time package counts the markdown source,
+ * where a link is its URL, and Lemmon's `readingTime()` the rendered text, on purpose
+ * (its doc comment in lemmon's `builtins/text.rs`); Eric accepted the difference for this
+ * site on 2026-10-17 (lemmon's D38). Only that direction has been seen, so only it is
+ * accepted.
  */
 const readingTime: Forgiveness = {
   name: 'reading-time',
   text: (ours, theirs, at) =>
-    isReadingChip(at.ours) &&
-    at.ancestors.some((pair) => pair.ours.tag === 'article-header') &&
-    minuteUnder(ours, theirs),
+    isReadingChip(at.ours) && inArticleChips(at) && minuteUnder(ours, theirs),
 }
 
 /** The classes `npm run parity` accepts on a page, and why any of them refused. */
@@ -751,10 +868,10 @@ export interface Allowlist {
 }
 
 /**
- * Every class `npm run parity` accepts on a page whose builds wrote the bundles `css`, in
- * the order they are consulted.
+ * Every class `npm run parity` accepts on a page whose builds wrote the bundles `css`, on
+ * a site whose photos have the titles `titles`, in the order they are consulted.
  */
-export function forgiveness(css: Bundles): Allowlist {
+export function forgiveness(css: Bundles, titles: PhotoTitles): Allowlist {
   const bundle = cssBundle(css)
   const classes = [
     scopedClass,
@@ -769,6 +886,8 @@ export function forgiveness(css: Bundles): Allowlist {
     attrEscaping,
     footnoteMarkup,
     readingTime,
+    sourcePill,
+    photoListHeading(titles),
   ]
   return { classes, refusals: bundle.refusals }
 }
@@ -785,4 +904,5 @@ export const CLASSES = {
   attrEscaping,
   footnoteMarkup,
   readingTime,
+  sourcePill,
 }

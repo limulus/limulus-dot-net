@@ -1,4 +1,4 @@
-// What `npm run parity:look` serves in place of each document: both pages with every
+// What `npm run parity:look` serves in place of each page: both builds' pages with every
 // visible difference a parity class forgives undone, so their screenshots can be held to
 // exact equality. Each neutralizer is named for the class in classes.ts whose difference
 // it undoes, and finds what to undo with that class's own predicates, read over a parse5
@@ -151,35 +151,48 @@ function footnoteMarkup(ours: View, theirs: View): Outcome {
   return { edits, problems: [] }
 }
 
-/** The text of a page's reading-time chip in its `article-header`. */
-function readingText(view: View): RenderedText | null {
-  for (const header of descendants(view.root)) {
-    if (header.tag !== 'article-header') continue
-    for (const chip of descendants(header)) {
-      if (!isReadingChip(chip)) continue
-      for (const text of chip.children) {
-        if (text.kind === 'text' && minutesRead(text.text.trim()) !== undefined) return text
+/**
+ * The text of each reading-time chip in an article's header or in an article's card, in
+ * page order.
+ */
+function readingTexts(view: View): RenderedText[] {
+  const texts: RenderedText[] = []
+  const walk = (element: RenderedElement, inArticle: boolean): void => {
+    const here =
+      inArticle || element.tag === 'article-header' || element.tag === 'article-card'
+    if (here && isReadingChip(element)) {
+      for (const text of element.children) {
+        if (text.kind === 'text' && minutesRead(text.text.trim()) !== undefined) {
+          texts.push(text)
+        }
       }
+      return
     }
+    for (const child of elementsIn(element)) walk(child, here)
   }
-  return null
+  walk(view.root, false)
+  return texts
 }
 
 /**
- * reading-time: the header's reading-time chip in ours reads theirs' minutes where it
- * reads one minute under them, the one direction parity accepts. Only the number
- * changes; the chip's text is otherwise ours.
+ * reading-time: each reading-time chip in an article's header or card in ours reads
+ * theirs' minutes where it reads one minute under them, the one direction parity accepts,
+ * the chips paired in page order where both pages have as many. Only the number changes;
+ * the chip's text is otherwise ours.
  */
 function readingTime(ours: View, theirs: View): Outcome {
-  const o = readingText(ours)
-  const t = readingText(theirs)
-  if (o === null || t === null || !minuteUnder(o.text.trim(), t.text.trim())) {
-    return { edits: 0, problems: [] }
+  const o = readingTexts(ours)
+  const t = readingTexts(theirs)
+  if (o.length !== t.length) return { edits: 0, problems: [] }
+  let edits = 0
+  for (const [n, mine] of o.entries()) {
+    const reference = t[n].text.trim()
+    if (!minuteUnder(mine.text.trim(), reference)) continue
+    const node = ours.text(mine)
+    node.value = node.value.replace(/\d+(?= min read)/, String(minutesRead(reference)))
+    edits += 1
   }
-  const node = ours.text(o)
-  const minutes = minutesRead(t.text.trim())
-  node.value = node.value.replace(/\d+(?= min read)/, String(minutes))
-  return { edits: 1, problems: [] }
+  return { edits, problems: [] }
 }
 
 /**
@@ -230,7 +243,7 @@ function served(doc: Document, side: string): { html: string; problems: string[]
   return { html, problems }
 }
 
-/** A document's two pages as served for the look check, and what neutralizing did. */
+/** Both builds' pages at a url as served for the look check, and what neutralizing did. */
 export interface Neutralized {
   ours: string
   theirs: string
@@ -240,7 +253,7 @@ export interface Neutralized {
   problems: string[]
 }
 
-/** Both pages of a document with every neutralizer applied, as served. */
+/** Both builds' pages at a url with every neutralizer applied, as served. */
 export function neutralize(ours: string, theirs: string): Neutralized {
   const docs = { ours: parse(ours), theirs: parse(theirs) }
   const edits = new Map<string, number>()

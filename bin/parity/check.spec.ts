@@ -1,108 +1,143 @@
 import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
 import {
   bundlesIn,
   comparePage,
-  documentsIn,
   failed,
   filesIn,
   miscounts,
   pageAt,
+  pagesIn,
+  photoTitlesIn,
   reportLines,
-  SECTIONS,
+  rosterOf,
   staleRows,
-  urlOf,
   type PageReport,
 } from './check.ts'
 import { bundleName } from './classes.ts'
 
 const SIDES = { ours: 'dist/lemmon', theirs: 'dist/www' }
 const NO_CSS = { ours: new Map(), theirs: new Map(), globals: '' }
+const NO_TITLES = new Map<string, string>()
 const page = (body: string) =>
   `<!doctype html><html><head></head><body>${body}</body></html>`
 
-describe('urlOf()', () => {
-  it('should give an index document its directory’s url', () => {
-    expect(urlOf('feed/the-rebound/index.md')).toBe('/feed/the-rebound/')
-    expect(urlOf('links/2026/02/07/good-taste/index.md')).toBe(
-      '/links/2026/02/07/good-taste/'
-    )
-  })
-
-  it('should give any other document its path without `.md`', () => {
-    expect(urlOf('penumbra/journal/nerd-sniped.md')).toBe('/penumbra/journal/nerd-sniped/')
-    expect(urlOf('tils/git/reindex.md')).toBe('/tils/git/reindex/')
-  })
-})
-
-describe('SECTIONS', () => {
-  it('should be what www/site.lem’s `articles` glob matches, exactly', async () => {
-    const site = await readFile(new URL('../../www/site.lem', import.meta.url), 'utf8')
-    const glob = /<lem-let articles: \[Post\] from "([^"]*)" \/>/.exec(site)?.[1]
-    expect(glob).toBe(`{${SECTIONS.join(',')}}/**/*.md`)
-  })
-})
-
-describe('documentsIn()', () => {
-  let input: string
+describe('pagesIn()', () => {
+  let dist: string
 
   beforeEach(async () => {
-    input = await mkdtemp(join(tmpdir(), 'parity-'))
+    dist = await mkdtemp(join(tmpdir(), 'parity-'))
   })
 
   afterEach(async () => {
-    await rm(input, { recursive: true, force: true })
+    await rm(dist, { recursive: true, force: true })
   })
 
-  /** Writes each file named, relative to the input directory. */
+  /** Writes each file named, relative to the dist. */
   const files = async (...paths: string[]) => {
     for (const path of paths) {
-      await mkdir(join(input, path, '..'), { recursive: true })
-      await writeFile(join(input, path), 'x')
+      await mkdir(join(dist, path, '..'), { recursive: true })
+      await writeFile(join(dist, path), 'x')
     }
   }
 
-  it('should list every markdown document under the four sections, by url', async () => {
+  it('should list the url of every index.html at any depth, the root’s as /', async () => {
     await files(
-      'feed/b-post/index.md',
-      'feed/a-post/index.md',
-      'links/2026/02/07/a-link/index.md',
-      'penumbra/journal/an-entry.md',
-      'tils/git/a-til.md'
+      'index.html',
+      'feed/the-rebound/index.html',
+      'feed/index.html',
+      '404/index.html',
+      'links/2026/02/07/good-taste/index.html'
     )
-    expect(await documentsIn(input)).toEqual([
-      '/feed/a-post/',
-      '/feed/b-post/',
-      '/links/2026/02/07/a-link/',
-      '/penumbra/journal/an-entry/',
-      '/tils/git/a-til/',
-    ])
+    expect(await pagesIn(dist)).toEqual({
+      pages: [
+        '/',
+        '/404/',
+        '/feed/',
+        '/feed/the-rebound/',
+        '/links/2026/02/07/good-taste/',
+      ],
+      strays: [],
+    })
   })
 
-  it('should leave out every other file, and every other directory', async () => {
+  it('should name every other .html file a stray, and leave out what is not HTML', async () => {
     await files(
-      'feed/index.webc',
-      'feed/a-post/index.md',
-      'feed/a-post/order.pdf',
-      'links/links.json',
-      'penumbra/journal/rust/lib/index.ts',
-      'tils/topics.webc',
-      'photos/a-photo.md',
-      'about.md'
+      'feed.xml',
+      'sitemap.xml',
+      'tils/feed.xml',
+      'feed/a-post/index.html',
+      'feed/a-post/photo.index.html',
+      'feed/a-post/index.htm',
+      '404.html',
+      'assets/immutable/bundle/a.css',
+      'lib/common/index.ABCDEFGH.js'
     )
-    expect(await documentsIn(input)).toEqual(['/feed/a-post/'])
+    expect(await pagesIn(dist)).toEqual({
+      pages: ['/feed/a-post/'],
+      strays: ['404.html', 'feed/a-post/photo.index.html'],
+    })
   })
 
-  it('should list nothing for an input directory with no sections', async () => {
-    expect(await documentsIn(input)).toEqual([])
+  it('should list nothing where the build wrote no dist', async () => {
+    expect(await pagesIn(join(dist, 'missing'))).toEqual({ pages: [], strays: [] })
   })
 
-  it('should fail on anything but a missing section', async () => {
-    await writeFile(join(input, 'feed'), 'not a directory')
-    await expect(documentsIn(input)).rejects.toThrow(/ENOTDIR/)
+  it('should fail on anything but a missing dist', async () => {
+    await writeFile(join(dist, 'file'), 'not a directory')
+    await expect(pagesIn(join(dist, 'file'))).rejects.toThrow(/ENOTDIR/)
+  })
+})
+
+describe('photoTitlesIn()', () => {
+  it('should read each photo’s title by its alias from the port’s photos', async () => {
+    const titles = await photoTitlesIn(fileURLToPath(new URL('../../www', import.meta.url)))
+    expect(titles.get('split')).toBe('Split')
+    expect(titles.get('lynx-after-duerer-by-marta-klonowska')).toBe(
+      'Lynx After Dürer by Marta Klonowska'
+    )
+  })
+
+  it('should key a photo by the alias it carries', async () => {
+    const input = await mkdtemp(join(tmpdir(), 'parity-'))
+    try {
+      await mkdir(join(input, '_lemmon'))
+      await writeFile(
+        join(input, '_lemmon/photos.json'),
+        JSON.stringify({ key: { alias: 'carried', title: 'A Title' } })
+      )
+      expect([...(await photoTitlesIn(input))]).toEqual([['carried', 'A Title']])
+    } finally {
+      await rm(input, { recursive: true, force: true })
+    }
+  })
+})
+
+describe('rosterOf()', () => {
+  const PENDING = { '/photos/a/': '∆hvm', '/tils/git/': '∆hvm' }
+
+  it('should compare every page either build wrote, once each, sorted', () => {
+    const roster = rosterOf(['/b/', '/', '/c/'], ['/c/', '/a/', '/'], {})
+    expect(roster).toEqual({ urls: ['/', '/a/', '/b/', '/c/'], written: [], unwritten: [] })
+  })
+
+  it('should set aside a pending page that only Eleventy writes', () => {
+    const roster = rosterOf(['/'], ['/', '/photos/a/', '/tils/git/'], PENDING)
+    expect(roster).toEqual({ urls: ['/'], written: [], unwritten: [] })
+  })
+
+  it('should name a pending page Lemmon wrote, and still not compare it', () => {
+    const roster = rosterOf(['/', '/tils/git/'], ['/', '/photos/a/', '/tils/git/'], PENDING)
+    expect(roster).toEqual({ urls: ['/'], written: ['/tils/git/'], unwritten: [] })
+  })
+
+  it('should name a pending page Eleventy no longer writes', () => {
+    const roster = rosterOf(['/'], ['/', '/tils/git/'], PENDING)
+    expect(roster).toEqual({ urls: ['/'], written: [], unwritten: ['/photos/a/'] })
   })
 })
 
@@ -174,7 +209,7 @@ describe('miscounts()', () => {
 })
 
 describe('comparePage()', () => {
-  const post = { url: '/feed/x/', css: NO_CSS, expected: {} }
+  const post = { url: '/feed/x/', css: NO_CSS, titles: NO_TITLES, expected: {} }
 
   it('should report the side that has no page', () => {
     expect(comparePage({ ...post, ours: null, theirs: page('x') })).toEqual({
@@ -287,6 +322,7 @@ describe('reportLines()', () => {
       ours: page('<p>a</p>'),
       theirs: page('<p>a</p>'),
       css: NO_CSS,
+      titles: NO_TITLES,
       expected: {},
     })
     expect(reportLines(report, SIDES)).toEqual(['/feed/x/: ok, 5 matched, 0 unexplained'])
@@ -298,6 +334,7 @@ describe('reportLines()', () => {
       ours: page('<data-chip class="dataChip">a</data-chip><p class="x">b</p><p>c</p>'),
       theirs: page('<data-chip class="wvormuvo0">a</data-chip><p class="y">b</p>'),
       css: NO_CSS,
+      titles: NO_TITLES,
       expected: {},
     })
     expect(reportLines(report, SIDES)).toEqual([
@@ -342,7 +379,7 @@ describe('bundlesIn()', () => {
 })
 
 describe('staleRows()', () => {
-  it('should name each row for a url no document has', () => {
+  it('should name each row for a url no page compared has', () => {
     const expected = { '/feed/a/': {}, '/feed/gone/': {}, '/feed/b/': {} }
     expect(staleRows(expected, ['/feed/a/', '/feed/b/'])).toEqual(['/feed/gone/'])
   })

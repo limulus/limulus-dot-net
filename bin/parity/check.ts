@@ -1,48 +1,87 @@
-// What `npm run parity` does with each document: find its page in both builds, compare
-// the two as rendered HTML through the allowlist, and hold every class to its expected
-// count, as lemmon's fidelity harness does for its own page.
+// What `npm run parity` does with each page: find it in both builds, compare the two as
+// rendered HTML through the allowlist, and hold every class to its expected count, as
+// lemmon's fidelity harness does for its own page.
 
 import { compareRendered, renderedPage, type Comparison } from '@limulus/lemmon-shell'
 import { readdir, readFile } from 'node:fs/promises'
-import { join } from 'node:path'
+import { join, sep } from 'node:path'
 
-import { forgiveness, SITE_DISPLAY, type Bundles } from './classes.ts'
+import { forgiveness, SITE_DISPLAY, type Bundles, type PhotoTitles } from './classes.ts'
 import { readStylesheets } from '../lemmon-css.ts'
 
-/**
- * The sections of the input directory whose markdown documents, at any depth, are the
- * site's articles: those www/site.lem's `articles` glob matches, and Eleventy tags
- * `article`.
- */
-export const SECTIONS = ['feed', 'links', 'penumbra', 'tils']
-
-/**
- * The url both builds give the document at `path`, relative to the input directory: its
- * path without `.md`, or without `index.md` for an index, between slashes.
- */
-export function urlOf(path: string): string {
-  return `/${path.replace(/\.md$/, '').replace(/(^|\/)index$/, '')}/`
+/** What a build wrote as HTML: its pages' urls, and every other `.html` file. */
+export interface Written {
+  /** The url of each `index.html` at any depth: its directory's, `/` for the root's. */
+  pages: string[]
+  /** The path of every other `.html` file, which no page is written as. */
+  strays: string[]
 }
 
 /**
- * The url of every article in the input directory `input` — each `.md` file at any depth
- * under one of SECTIONS — read from the source, so that a page either build left out is
- * still compared, and the section indexes and topic pages neither are.
+ * What the build in `dist` wrote as HTML, sorted: nothing where it wrote no such
+ * directory. A page is an `index.html`; any other `.html` is a stray, which fails the
+ * run, since parity would compare no page there. Feeds and the sitemap are `.xml`.
  */
-export async function documentsIn(input: string): Promise<string[]> {
-  const urls: string[] = []
-  for (const section of SECTIONS) {
-    const files = await readdir(join(input, section), { recursive: true }).catch(
-      (error: NodeJS.ErrnoException) => {
-        if (error.code === 'ENOENT') return []
-        throw error
-      }
-    )
-    for (const file of files) {
-      if (file.endsWith('.md')) urls.push(urlOf(`${section}/${file}`))
+export async function pagesIn(dist: string): Promise<Written> {
+  const files = await readdir(dist, { recursive: true }).catch(
+    (error: NodeJS.ErrnoException) => {
+      if (error.code === 'ENOENT') return []
+      throw error
     }
+  )
+  const html = files
+    .map((file) => file.split(sep).join('/'))
+    .filter((file) => file.endsWith('.html'))
+  const page = (file: string): boolean =>
+    file === 'index.html' || file.endsWith('/index.html')
+  return {
+    pages: html
+      .filter(page)
+      .map((file) => `/${file.slice(0, -'index.html'.length)}`)
+      .sort(),
+    strays: html.filter((file) => !page(file)).sort(),
   }
-  return urls.sort()
+}
+
+/** Each photo's title by its alias, from the input directory's `_lemmon/photos.json`. */
+export async function photoTitlesIn(input: string): Promise<PhotoTitles> {
+  const photos = JSON.parse(
+    await readFile(join(input, '_lemmon/photos.json'), 'utf8')
+  ) as Record<string, { alias: string; title: string }>
+  return new Map(Object.values(photos).map(({ alias, title }) => [alias, title]))
+}
+
+/** Which pages a run compares, and what is wrong with its list of pending pages. */
+export interface Roster {
+  /** Every url either build wrote a page at, but the pending, sorted. */
+  urls: string[]
+  /** Each pending url Lemmon wrote a page at, which is to be compared instead. */
+  written: string[]
+  /** Each pending url Eleventy wrote no page at, which nothing is waiting for. */
+  unwritten: string[]
+}
+
+/**
+ * The pages to compare, from the urls each build wrote a page at (`ours` and `theirs`),
+ * and `pending`, the pages Eleventy writes that Lemmon does not write yet, each with the
+ * lemmon backlog item that brings it. A page only one build wrote is compared, and fails
+ * as missing from the other; a pending page is set aside until Lemmon writes it, and the
+ * roster says so then, and where Eleventy stops writing one, so that the list cannot
+ * outlive what it is waiting for.
+ */
+export function rosterOf(
+  ours: string[],
+  theirs: string[],
+  pending: Record<string, string>
+): Roster {
+  const waiting = (url: string): boolean => Object.hasOwn(pending, url)
+  return {
+    urls: [...new Set([...ours, ...theirs])].filter((url) => !waiting(url)).sort(),
+    written: ours.filter(waiting).sort(),
+    unwritten: Object.keys(pending)
+      .filter((url) => !theirs.includes(url))
+      .sort(),
+  }
 }
 
 /** The page a build wrote for `url`, or null if it wrote none. */
@@ -84,7 +123,7 @@ export async function bundlesIn(ours: string, theirs: string): Promise<Bundles> 
   }
 }
 
-/** The rows of the expected table for a url no document has. */
+/** The rows of the expected table for a url no page compared has. */
 export function staleRows(expected: Record<string, unknown>, urls: string[]): string[] {
   return Object.keys(expected).filter((url) => !urls.includes(url))
 }
@@ -129,15 +168,24 @@ export interface PageInput {
   theirs: string | null
   /** The CSS bundles both builds wrote, and the global stylesheets. */
   css: Bundles
+  /** The site's photos' titles, by alias. */
+  titles: PhotoTitles
   /** How often each class should fire on this page. */
   expected: Record<string, number>
 }
 
-/** Compares one document's two pages, or reports the side that lacks it. */
-export function comparePage({ url, ours, theirs, css, expected }: PageInput): PageReport {
+/** Compares the two builds' pages at one url, or reports the side that lacks it. */
+export function comparePage({
+  url,
+  ours,
+  theirs,
+  css,
+  titles,
+  expected,
+}: PageInput): PageReport {
   if (ours === null) return { url, missing: 'ours', miscounts: [], refusals: [] }
   if (theirs === null) return { url, missing: 'theirs', miscounts: [], refusals: [] }
-  const { classes, refusals } = forgiveness(css)
+  const { classes, refusals } = forgiveness(css, titles)
   const comparison = compareRendered(
     renderedPage(ours, { display: SITE_DISPLAY }),
     renderedPage(theirs, { display: SITE_DISPLAY }),

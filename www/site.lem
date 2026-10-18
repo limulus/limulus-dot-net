@@ -115,6 +115,16 @@
   layout: (Post, html): html = video
 </lem-type>
 
+<lem-type SitePage extends Page>
+  title: string
+  subtitle: string?
+  teaser: string?
+  image: Photo? by site.photos
+  hero: Photo? by site.photos
+  nav: bool = true
+  layout: (SitePage, html): html = sitePage
+</lem-type>
+
 <lem-fn hostOf(u: string?): string? =
   unprefixed(u?.split("/")?.drop(2)?.first()?.split("?")?.first()?.split("#")?.first()
     ?.split("@")?.last()?.split(":")?.first()?.lower()) />
@@ -134,4 +144,14 @@
 <lem-let revisions: Revisions from "_data/revisions.json" />
 <lem-let penumbra: FeedSection from "penumbra/penumbra.json" />
 <lem-let articles: [Post] from "{feed,links,penumbra,tils}/**/*.md" />
+<lem-let pages: [SitePage] from "**/index.lem" />
 <lem-let newest: [Post] = articles.sortBy(|p| p.date).reverse() />
+<lem-let linkPosts: [Post] = newest.filter(|p| p.tags.contains("link")) />
+<lem-let penumbraPosts: [Post] = newest.filter(|p| p.tags.contains("penumbra")) />
+<lem-let tilPosts: [Post] = newest.filter(|p| p.tilTopic != null) />
+<lem-let tilTopics: [string] =
+  tilPosts.groupBy(|p| p.tilTopic ?? "").keys().sortBy(|topic| topic) />
+<lem-let gallery: [Photo] = photos.values()
+  .filter(|photo| photo.tags.contains("limulus.net/photos"))
+  .sortBy(|photo| photo.date.rfc3339())
+  .reverse() />

@@ -43,7 +43,7 @@
           }
         }
       </lem-style>
-      <lem.pageLayout(post, post.title, post.subhead ?? post.teaser, main)>
+      <lem.pageLayout(post, post.title, post.subhead ?? post.teaser, true, main)>
     </lem-case>
     <lem-default>
       <lem.article(post, body)>

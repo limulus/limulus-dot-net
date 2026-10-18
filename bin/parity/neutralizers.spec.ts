@@ -144,7 +144,30 @@ describe('neutralize()', () => {
       }
     })
 
-    it('should leave a chip outside the header, or with another icon', () => {
+    it("should give each card's chip theirs' minutes, paired in page order", () => {
+      const card = (text: string): string =>
+        `<article-card><a>${chip(text)}</a></article-card>`
+      const cards = (...texts: string[]): string => texts.map(card).join('')
+      const result = neutralize(
+        page(header(chip('5 min read')) + cards('3 min read', '5 min read', '9 min read')),
+        page(header(chip('6 min read')) + cards('3 min read', '6 min read', '9 min read'))
+      )
+      expect(bodyOf(result.ours)).toBe(
+        header(chip('6 min read')) + cards('3 min read', '6 min read', '9 min read')
+      )
+      expect([...result.edits]).toEqual([['reading-time', 2]])
+    })
+
+    it('should leave the chips where the pages have not as many', () => {
+      const card = (text: string): string =>
+        `<article-card><a>${chip(text)}</a></article-card>`
+      const ours = card('5 min read') + card('5 min read')
+      const result = neutralize(page(ours), page(card('6 min read')))
+      expect(result.ours).toBe(untouched(ours))
+      expect(result.edits.size).toBe(0)
+    })
+
+    it('should leave a chip outside a header or card, or with another icon', () => {
       for (const [ours, theirs] of [
         [chip('5 min read'), chip('6 min read')],
         [

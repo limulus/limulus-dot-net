@@ -1,13 +1,50 @@
-// How often each forgiveness class fires on each document's page, which `npm run parity`
-// holds the comparison to. A class that forgives less than this fails already, since what
-// it stopped absorbing becomes unexplained; one that starts forgiving more is silent
-// without these numbers. A class absent from a page's row is expected to fire there
-// never. When a change to the port or the content moves a count, the new number goes
-// here once the difference it forgives has been read and judged. Where a page still
-// differs unexplained, the comparison stops at that difference in its parent, so the row
-// counts only what came before it, and the change that clears the difference moves it.
+// How often each forgiveness class fires on each page, which `npm run parity` holds the
+// comparison to. Every page either dist holds but those PENDING (below) is compared and
+// needs a row, since `generator` and `css-bundle` fire on every page; a row for a page not
+// compared — neither build wrote it, or it is pending — fails as stale. A class that
+// forgives less than this fails already, since what it stopped absorbing becomes
+// unexplained; one that starts forgiving more is silent without these numbers. A class
+// absent from a page's row is expected to fire there never. When a change to the port or
+// the content moves a count, the new number goes here once the difference it forgives has
+// been read and judged. Where a page still differs unexplained, the comparison stops at
+// that difference in its parent, so the row counts only what came before it, and the change
+// that clears the difference moves it.
 
 export const EXPECTED: Record<string, Record<string, number>> = {
+  '/': {
+    'scoped-class': 7,
+    'css-bundle': 1,
+    'webc-attr-leak': 3,
+    generator: 1,
+    'source-pill': 1,
+  },
+  '/404/': {
+    'scoped-class': 7,
+    'css-bundle': 1,
+    'webc-attr-leak': 3,
+    generator: 1,
+    'source-pill': 1,
+  },
+  '/eric/': {
+    'scoped-class': 31,
+    'css-bundle': 1,
+    'webc-attr-leak': 6,
+    'svg-desc-counter': 4,
+    'datetime-text': 4,
+    generator: 1,
+    'source-pill': 1,
+  },
+  '/feed/': {
+    'scoped-class': 135,
+    'css-bundle': 1,
+    'webc-attr-leak': 3,
+    'svg-desc-counter': 78,
+    'datetime-text': 25,
+    generator: 1,
+    'attr-escaping': 1,
+    'reading-time': 1,
+    'source-pill': 1,
+  },
   '/feed/better-software-with-ai/': {
     'scoped-class': 56,
     'css-bundle': 1,
@@ -78,6 +115,14 @@ export const EXPECTED: Record<string, Record<string, number>> = {
     'datetime-text': 7,
     generator: 1,
     'attr-escaping': 1,
+  },
+  '/links/': {
+    'scoped-class': 53,
+    'css-bundle': 1,
+    'webc-attr-leak': 3,
+    'datetime-text': 9,
+    generator: 1,
+    'source-pill': 1,
   },
   '/links/2026/01/30/im-not-sweating-my-ai-energy-usage/': {
     'scoped-class': 44,
@@ -161,6 +206,24 @@ export const EXPECTED: Record<string, Record<string, number>> = {
     generator: 1,
     'attr-escaping': 1,
   },
+  '/penumbra/': {
+    'scoped-class': 43,
+    'css-bundle': 1,
+    'webc-attr-leak': 3,
+    'svg-desc-counter': 26,
+    'datetime-text': 7,
+    generator: 1,
+    'source-pill': 1,
+  },
+  '/penumbra/journal/': {
+    'scoped-class': 43,
+    'css-bundle': 1,
+    'webc-attr-leak': 3,
+    'svg-desc-counter': 26,
+    'datetime-text': 7,
+    generator: 1,
+    'source-pill': 1,
+  },
   '/penumbra/journal/canvas-and-matrices/': {
     'scoped-class': 44,
     'css-bundle': 1,
@@ -232,6 +295,24 @@ export const EXPECTED: Record<string, Record<string, number>> = {
     'heading-id': 1,
     'attr-escaping': 1,
   },
+  '/photos/': {
+    'scoped-class': 8,
+    'css-bundle': 1,
+    'webc-attr-leak': 3,
+    generator: 1,
+    'attr-escaping': 2,
+    'source-pill': 1,
+    'photo-list-heading': 19,
+  },
+  '/tils/': {
+    'scoped-class': 23,
+    'css-bundle': 1,
+    'webc-attr-leak': 3,
+    'svg-desc-counter': 8,
+    'datetime-text': 2,
+    generator: 1,
+    'source-pill': 1,
+  },
   '/tils/git/private-branches-in-public-repos/': {
     'scoped-class': 45,
     'css-bundle': 1,
@@ -251,4 +332,33 @@ export const EXPECTED: Record<string, Record<string, number>> = {
     generator: 1,
     'attr-escaping': 1,
   },
+}
+
+/**
+ * The pages Eleventy writes that Lemmon does not write yet, by url, each with the lemmon
+ * backlog item that brings it: parity sets them aside, and fails once Lemmon writes one
+ * (which then wants a row above instead) or Eleventy no longer does.
+ */
+export const PENDING: Record<string, string> = {
+  '/photos/stereotypical-cloud/': '∆hvm',
+  '/photos/split/': '∆hvm',
+  '/photos/all-laced-up/': '∆hvm',
+  '/photos/saguaro-flower/': '∆hvm',
+  '/photos/saguaro-bouquet/': '∆hvm',
+  '/photos/middle-falls-letchworth-state-park/': '∆hvm',
+  '/photos/mist-middle-falls-letchworth-state-park/': '∆hvm',
+  '/photos/base-of-the-genesee-arch-bridge-letchworth-state-park/': '∆hvm',
+  '/photos/upper-falls-letchworth-state-park/': '∆hvm',
+  '/photos/through-the-cone-by-jaroslava-brychtova-and-stanislav-libensky/': '∆hvm',
+  '/photos/forest-glass-by-katherine-gray/': '∆hvm',
+  '/photos/lynx-after-duerer-by-marta-klonowska/': '∆hvm',
+  '/photos/all-in-all-by-beth-lipman/': '∆hvm',
+  '/photos/one-long-cut/': '∆hvm',
+  '/photos/spiny-side-eye/': '∆hvm',
+  '/photos/eric-on-his-honeymoon-maui-hawaii/': '∆hvm',
+  '/photos/punk-and-trash/': '∆hvm',
+  '/photos/capitol-restoration/': '∆hvm',
+  '/photos/comte-de-rochambeau/': '∆hvm',
+  '/tils/git/': '∆hvm',
+  '/tils/nodejs/': '∆hvm',
 }

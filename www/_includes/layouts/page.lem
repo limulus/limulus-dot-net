@@ -1,10 +1,10 @@
-<lem-fn pageLayout(p: Page, title: string, description: string?, body: html)>
+<lem-fn pageLayout(p: Page, title: string, description: string?, nav: bool, body: html)>
   <lem-let content>
     <lem.mark("sprite")>
 
     <a href="#main" class="visually-hidden">Skip to main content</a>
 
-    <lem.ldnHeader(p)>
+    <lem.ldnHeader(p, nav)>
 
     <main id="main">
       <lem.body>

@@ -1,0 +1,81 @@
+---
+nav: false
+title: limulus.net
+teaser: >-
+  Eric McCarthy’s projects, writing, videos, and photos. If I make it for myself, I put it
+  here.
+image: limulus-dot-net-2024-11-29
+---
+<lem-head>
+  <link rel="me" href="https://github.com/limulus/" />
+  <link rel="me" href="https://www.npmjs.org/~limulus/" />
+  <link rel="me" href="https://www.linkedin.com/in/limulus/" />
+  <link rel="me" href="https://www.facebook.com/theLimulus" />
+</lem-head>
+<header>
+  <lem.svgUse("ldn")>
+  <h1>limulus.net</h1>
+</header>
+
+<lem-if page.teaser>
+  <p><lem.page.teaser></p>
+</lem-if>
+
+<h2><a href="/eric/">eric</a></h2>
+
+<p><lem.(site.pages.find(|p| p.url.text() == "/eric/")?.teaser ?? "")></p>
+
+<h2><a href="/feed/">feed</a></h2>
+
+<p><lem.(site.pages.find(|p| p.url.text() == "/feed/")?.teaser ?? "")></p>
+
+<lem-if site.linkPosts.length() gt 0>
+  <h2><a href="/links/">links</a></h2>
+
+  <p><lem.(site.pages.find(|p| p.url.text() == "/links/")?.teaser ?? "")></p>
+</lem-if>
+
+<h2><a href="/penumbra/">penumbra</a></h2>
+
+<p><lem.(site.pages.find(|p| p.url.text() == "/penumbra/")?.teaser ?? "")></p>
+
+<h2><a href="/photos/">photos</a></h2>
+
+<p><lem.(site.pages.find(|p| p.url.text() == "/photos/")?.teaser ?? "")></p>
+
+<h2><a href="/tils/">tils</a></h2>
+
+<p><lem.(site.pages.find(|p| p.url.text() == "/tils/")?.teaser ?? "")></p>
+
+<lem-style>
+  main {
+    max-width: 40rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  main header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  main header h1 {
+    margin: 1rem 0;
+  }
+
+  main header svg {
+    width: 6rem;
+    height: 6rem;
+  }
+
+  main :is(h1, h2, h3)::after {
+    content: ' /';
+  }
+
+  /* Keep the text content centered */
+  main header h1::before {
+    content: ' /';
+    visibility: hidden;
+  }
+</lem-style>

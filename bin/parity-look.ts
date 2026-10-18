@@ -1,10 +1,10 @@
-// `npm run parity:look`: whether the articles look the same in both builds. Run it after
+// `npm run parity:look`: whether the pages look the same in both builds. Run it after
 // `npm run parity`, whose dists it reads as they stand: it builds nothing. It serves
-// dist/www and dist/lemmon over HTTP, shoots the page of every document parity compares in
-// the installed Google Chrome (headless, rasterizing in software) at 1280 px light, 390 px
-// light and 1280 px dark, and compares each pair of full-page screenshots pixel for pixel,
-// writing both and their difference to dist/look/<url>/. Any difference fails the run:
-// there is no allowance.
+// dist/www and dist/lemmon over HTTP, shoots every page parity compares in the installed
+// Google Chrome (headless, rasterizing in software) at 1280 px light, 390 px light and
+// 1280 px dark, and compares each pair of full-page screenshots pixel for pixel, writing
+// both and their difference to dist/look/<url>/. Any difference fails the run: there is
+// no allowance.
 //
 // So that none is needed, what the pages fetch is pinned, the order it arrives in is
 // fixed, what a script draws from a clock or a worker is masked, and what parity forgives
@@ -44,12 +44,14 @@ import sharp from 'sharp'
 import {
   bundlesIn,
   comparePage,
-  documentsIn,
   failed,
   pageAt,
+  pagesIn,
+  photoTitlesIn,
   reportLines,
+  rosterOf,
 } from './parity/check.ts'
-import { EXPECTED } from './parity/expected.ts'
+import { EXPECTED, PENDING } from './parity/expected.ts'
 import { neutralize } from './parity/neutralizers.ts'
 import { entriesIn, isScriptFile } from './parity/scripts.ts'
 
@@ -562,6 +564,7 @@ async function compareShots(
 async function look(urls: string[]): Promise<boolean> {
   const started = Date.now()
   const css = await bundlesIn(join(ROOT, OURS), join(ROOT, THEIRS))
+  const titles = await photoTitlesIn(join(ROOT, INPUT))
   const { chromium } = await import('playwright-core')
   // Software rasterizing: on the GPU, the same page shot twice differed (settle).
   const browser = await chromium
@@ -598,7 +601,7 @@ async function look(urls: string[]): Promise<boolean> {
     shooters.push({ variant, tabs: { ours: await tab(), theirs: await tab() } })
   }
   await rm(join(ROOT, LOOK), { recursive: true, force: true })
-  console.log(`parity:look: ${urls.length} documents, Chrome ${browser.version()} headless`)
+  console.log(`parity:look: ${urls.length} pages, Chrome ${browser.version()} headless`)
   console.log()
 
   let failures = 0
@@ -612,6 +615,7 @@ async function look(urls: string[]): Promise<boolean> {
         ours,
         theirs,
         css,
+        titles,
         expected: EXPECTED[url] ?? {},
       })
       if (ours === null || theirs === null || failed(parity)) {
@@ -665,7 +669,7 @@ async function look(urls: string[]): Promise<boolean> {
     console.log(`PASS: ${shots} screenshots identical, pixel for pixel (${seconds} s)`)
   } else {
     console.error(
-      `FAIL: ${failures} of ${urls.length} documents differ, listed above; ` +
+      `FAIL: ${failures} of ${urls.length} pages differ, listed above; ` +
         `the screenshots are in ${LOOK}/ (${seconds} s)`
     )
   }
@@ -713,9 +717,15 @@ if (esMain(import.meta)) {
     console.error('usage: npm run parity:look [-- --serve]')
     process.exit(2)
   }
-  const urls = await documentsIn(join(ROOT, INPUT))
+  // The pages parity compares; what is wrong with the dists' other HTML or the pending
+  // list is parity's to say.
+  const { urls } = rosterOf(
+    (await pagesIn(join(ROOT, OURS))).pages,
+    (await pagesIn(join(ROOT, THEIRS))).pages,
+    PENDING
+  )
   if (urls.length === 0) {
-    console.error(`parity:look: no document under ${INPUT}/`)
+    console.error(`parity:look: no page in ${OURS} or ${THEIRS}`)
     process.exit(1)
   }
   if (args.includes('--serve')) await serveBoth(urls)

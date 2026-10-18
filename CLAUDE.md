@@ -50,8 +50,11 @@ This branch ports the site to Lemmon beside Eleventy; both builds read the same 
   `npm run rust:wasm` run there. Without it `npm ci` here still succeeds, leaving a
   dangling link, and the failure shows only at `npx lem`
 - `npx lem build` writes `dist/lemmon` from `lemmon.config.ts`, `www/site.lem`, and the
-  `.lem` layouts and components beside the WebC ones in `www/_includes/`. `npx lem check`
-  runs the same and writes nothing, printing each diagnostic with the source it covers
+  `.lem` layouts and components beside the WebC ones in `www/_includes/`. The index pages
+  and 404 are page templates beside their `.webc` (`www/index.lem`, `www/404.lem`, each
+  section's `index.lem`), typed `SitePage`; `site.pages` holds every `index.lem`, which is
+  how `/` reads the sections' teasers. `npx lem check` runs the same and writes nothing,
+  printing each diagnostic with the source it covers
 - The client scripts are bundled by the shell's `esbuild()`, which `lemmon.config.ts` lists
   with 11ty/esbuild.ts's asset path and its `MAPBOX_PUBLIC_TOKEN`; the config loads the
   `.env` beside it, wherever `lem` starts, and a build without the token fails naming it.
@@ -79,7 +82,11 @@ This branch ports the site to Lemmon beside Eleventy; both builds read the same 
 - Each page's CSS bundle holds the `lem-style` blocks of the components and layouts it
   ran, in Eleventy's order, then the global stylesheets. A block keeps that order by
   where it stands: a component's at the end of its body, after every call it makes, and
-  a layout's between its `lem-let` capture and its call to the next layout. Under its
+  a layout's between its `lem-let` capture and its call to the next layout. WebC bundles
+  a component after those it depends on, wherever the page first uses it, so
+  `www/tils/index.lem` captures its article list before the topics' chips above it,
+  whose `dataChip` would otherwise collect ahead of the cards' `pho-picture` (its icons
+  then number after the cards', which parity's `svg-desc-counter` allows). Under its
   `.fnName { … }` wrapper every selector starts with `&` (a spec checks it). The globals
   come from `www/_lemmon/site-styles.lem`, which is generated: `npm run lemmon:css`
   writes it from `www/_includes/css/*.css` as `siteStyles()`, one `lem-style` per
@@ -101,38 +108,47 @@ This branch ports the site to Lemmon beside Eleventy; both builds read the same 
   eleventy.config.ts's `linkPostContent` appends — the `[link]` definition, and with a
   `viaUrl` the `[via]` one and the "Via" paragraph — which its spec checks by running
   that preprocessor beside it over every document
-- `npm run parity` builds both sides and compares the page of every article — each `.md`
-  under `www/{feed,links,penumbra,tils}/`, which `www/site.lem`'s `articles` glob also
-  matches — as rendered HTML through the forgiveness classes in `bin/parity/classes.ts`,
-  each held to its count in `bin/parity/expected.ts`; then every file both wrote for an
-  `index.ts` or `worker.ts` under `www/`, and under esbuild's asset path, byte for byte
-  (`bin/parity/scripts.ts`), setting Eleventy's unhashed stubs aside by their content and
-  counting them. `-- --no-build` compares the dists already there, where a bundle `lem dev`
-  left from an earlier edit fails as one only Lemmon wrote. It runs under
-  `node --conditions=source` so the shell loads from the lemmon checkout's source
-- `npm run parity:look`, run after `npm run parity`, checks that the articles also look the
-  same. It builds nothing, and shoots no page parity's own comparison fails: it serves both
-  dists, shoots each page in the installed Google Chrome (needed; `playwright-core` drives
-  it headless, rasterizing in software, and downloads no browser) at 1280 px light, 390 px
-  light and 1280 px dark, and fails on any pixel that differs, writing each pair and its
-  diff to `dist/look/<url>/`. So that exact equality can be the bar, every request to
-  another host gets one fixed PNG; the scripts run on both sides, held until the page is
-  parsed, and the photos held until every blur-hash placeholder is painted (limulus.net's
-  placeholders otherwise race the parser and the photos, differently each run); what a
-  script draws from a clock or a worker is masked, both sides alike — the pixel clock, the
-  sphere shadows and their render times, the video player — by the list `MASKED` in
-  `bin/parity-look.ts`, which fails a run where one masked nothing, and is checked instead
-  by parity's byte comparison and by page errors, any of which fails a shot; and each page
-  is served with every visible difference parity forgives undone, by a neutralizer in
-  `bin/parity/neutralizers.ts` named for its class: footnote-markup (ours takes theirs'
-  footnote classes, `[n]` markers and `↩︎`), reading-time (ours' header chip takes theirs'
-  minutes), md-photo-wrap (theirs drops the empty `p`s the parser leaves in a photo's
-  `figure`). A difference no neutralizer covers fails the run
+- `npm run parity` builds both sides and compares every page either wrote — each
+  `index.html` under `dist/www` or `dist/lemmon`, so not the feeds or the sitemap; any
+  other `.html` file in either fails the run — as rendered HTML through the forgiveness
+  classes in `bin/parity/classes.ts`, each held to its count in `bin/parity/expected.ts`.
+  The pages Lemmon does not write yet are listed there as `PENDING`, each with the lemmon
+  item that brings it, and set aside; the run fails once Lemmon writes one, or Eleventy
+  stops writing one. Every other page either dist holds is compared, and needs a row in
+  `EXPECTED` (`generator` and `css-bundle` fire on every page, so a page without one
+  fails), and a row for a page not compared — one neither build wrote, or a pending one
+  — fails as stale. Then every file both wrote for an `index.ts` or `worker.ts` under
+  `www/`, and under esbuild's asset path, byte for byte (`bin/parity/scripts.ts`), setting
+  Eleventy's unhashed stubs aside by their content and counting them. `-- --no-build`
+  compares the dists already there, where a page or a bundle `lem dev` left from an
+  earlier edit fails as one only Lemmon wrote. It runs under `node --conditions=source`
+  so the shell loads from the lemmon checkout's source
+- `npm run parity:look`, run after `npm run parity`, checks that the pages it compares
+  also look the same. It builds nothing, and shoots no page parity's own comparison fails:
+  it serves both dists, shoots each page in the installed Google Chrome (needed;
+  `playwright-core` drives it headless, rasterizing in software, and downloads no browser)
+  at 1280 px light, 390 px light and 1280 px dark, and fails on any pixel that differs,
+  writing each pair and its diff to `dist/look/<url>/`. So that exact equality can be the
+  bar, every request to another host gets one fixed PNG; the scripts run on both sides,
+  held until the page is parsed, and the photos held until every blur-hash placeholder is
+  painted (limulus.net's placeholders otherwise race the parser and the photos,
+  differently each run); what a script draws from a clock or a worker is masked, both
+  sides alike — the pixel clock, the sphere shadows and their render times, the video
+  player — by the list `MASKED` in `bin/parity-look.ts`, which fails a run where one
+  masked nothing, and is checked instead by parity's byte comparison and by page errors,
+  any of which fails a shot; and each page is served with every visible difference parity
+  forgives undone, by a neutralizer in `bin/parity/neutralizers.ts` named for its class:
+  footnote-markup (ours takes theirs' footnote classes, `[n]` markers and `↩︎`),
+  reading-time (ours' header and card chips take theirs' minutes), md-photo-wrap (theirs
+  drops the empty `p`s the parser leaves in a photo's `figure`). A difference no
+  neutralizer covers fails the run
 - `npm run parity:look -- --serve` serves `dist/www` on port 8081 and `dist/lemmon` on
   8082 as built, each running its own scripts, listing each page's two URLs, until
   Ctrl-C. Nothing is neutralized, held or masked there, so the differences parity
   forgives show
 - Deliberately missing this slice, with the item in the lemmon repo's `BACKLOG.md` that
-  brings it: the photos plugin's data (∆pP5, on ∆wOn's data hook). Not built at all:
-  markdown-it-footnote's markup, since Lemmon writes comrak's footnotes, which parity's
-  `footnote-markup` forgives until the cutover (∆oAl)
+  brings it: the 19 photo pages and the 2 TIL topic pages (∆hvm), which parity lists as
+  pending; and the three feeds and the sitemap (∆zu0, slice 6), which parity, comparing
+  only `index.html` pages, does not look at. Not built at all: markdown-it-footnote's
+  markup, since Lemmon writes comrak's footnotes, which parity's `footnote-markup`
+  forgives until the cutover (∆oAl)

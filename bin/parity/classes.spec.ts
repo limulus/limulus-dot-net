@@ -16,6 +16,7 @@ import {
   lastDifference,
   normalized,
   forgiveness,
+  photoListHeading,
   renamed,
   SITE_DISPLAY,
   type Bundles,
@@ -484,6 +485,65 @@ describe('webc-attr-leak', () => {
       webcAttrLeak
     )
     expect(clean(result)).toBe(false)
+  })
+
+  describe('on an article-list', () => {
+    const card = (author: string) =>
+      `<article-card><a><data-chip><picture></picture> ${author} </data-chip>` +
+      '<data-chip>November 24, 2024</data-chip></a></article-card>'
+    const list = (attrs: string, ...authors: string[]) =>
+      `<article-list${attrs}><ul>${authors.map((a) => `<li>${card(a)}</li>`).join('')}</ul></article-list>`
+    const eric = ['Eric McCarthy', 'Eric McCarthy']
+
+    it('should accept the author and limit its page filtered it by', () => {
+      const result = bodies(
+        list('', ...eric),
+        list(' author="eric" limit="4"', ...eric),
+        webcAttrLeak
+      )
+      expect(clean(result)).toBe(true)
+      expect(forgiven(result)).toEqual([['webc-attr-leak', 1]])
+      const full = bodies(list('', ...eric), list(' limit="2"', ...eric), webcAttrLeak)
+      expect(clean(full)).toBe(true)
+    })
+
+    it('should not accept an author where the cards name more than one', () => {
+      const mixed = ['Eric McCarthy', 'Rebecca Reyes']
+      expect(
+        clean(bodies(list('', ...mixed), list(' author="eric"', ...mixed), webcAttrLeak))
+      ).toBe(false)
+    })
+
+    it('should not accept an author with no cards, no author chips, or no id', () => {
+      expect(clean(bodies(list(''), list(' author="eric"'), webcAttrLeak))).toBe(false)
+      const chipless = (attrs: string) =>
+        `<article-list${attrs}><ul><li><article-card><a>x</a></article-card></li></ul></article-list>`
+      expect(clean(bodies(chipless(''), chipless(' author="eric"'), webcAttrLeak))).toBe(
+        false
+      )
+      expect(
+        clean(
+          bodies(list('', ...eric), list(' author="Eric McCarthy"', ...eric), webcAttrLeak)
+        )
+      ).toBe(false)
+    })
+
+    it('should not accept a limit fewer than its cards, or one that is no count', () => {
+      for (const limit of ['1', '0', 'four', '', '4.5', '1e3', ' 4']) {
+        const result = bodies(
+          list('', ...eric),
+          list(` limit="${limit}"`, ...eric),
+          webcAttrLeak
+        )
+        expect(clean(result)).toBe(false)
+      }
+    })
+
+    it('should not accept either on another element', () => {
+      expect(
+        clean(bodies('<ul></ul>', '<ul author="eric" limit="4"></ul>', webcAttrLeak))
+      ).toBe(false)
+    })
   })
 })
 
@@ -989,6 +1049,15 @@ describe('reading-time', () => {
   it('should not accept ours a minute over theirs', () => {
     expect(clean(bodies(chip('7 min read'), chip('6 min read'), readingTime))).toBe(false)
   })
+
+  it('should accept a reading time one minute off theirs in an article’s card', () => {
+    const card = (text: string) =>
+      `<article-card><a><data-chip><svg><use href="#svg-scroll-solid"></use></svg>${text}</data-chip></a></article-card>`
+    const result = bodies(card('5 min read'), card('6 min read'), readingTime)
+    expect(clean(result)).toBe(true)
+    expect(forgiven(result)).toEqual([['reading-time', 1]])
+    expect(clean(bodies(card('4 min read'), card('6 min read'), readingTime))).toBe(false)
+  })
 })
 
 describe('svg-desc-counter', () => {
@@ -1035,6 +1104,34 @@ describe('svg-desc-counter', () => {
     expect(clean(bodies(card(icon(1)), card(lettered), svgDescCounter))).toBe(true)
   })
 
+  describe('in the TIL topics’ list', () => {
+    const topics = (...labels: number[]) =>
+      `<main><chip-list><ul>${labels
+        .map(
+          (n, i) =>
+            `<li><a href="/tils/topic-${i}/"><data-chip>${icon(n, n, 'lightbulb-solid')}</data-chip></a></li>`
+        )
+        .join('')}</ul></chip-list></main>`
+
+    it('should accept the topics numbered after the cards in ours', () => {
+      const result = bodies(topics(2, 3), topics(0, 1), svgDescCounter)
+      expect(clean(result)).toBe(true)
+      expect(forgiven(result)).toEqual([['svg-desc-counter', 4]])
+    })
+
+    it('should not accept another counter in another chip list', () => {
+      const header = (html: string) => `<article-header>${html}</article-header>`
+      const chips = (n: number) =>
+        `<chip-list><ul><li><a href="/tils/git/"><data-chip>${icon(n, n, 'lightbulb-solid')}</data-chip></a></li></ul></chip-list>`
+      expect(clean(bodies(header(chips(2)), header(chips(0)), svgDescCounter))).toBe(false)
+      const linked = (n: number, href: string) =>
+        `<main><chip-list><ul><li><a href="${href}"><data-chip>${icon(n)}</data-chip></a></li></ul></chip-list></main>`
+      for (const href of ['/feed/', '/tils/git/reindex/', '/tils/']) {
+        expect(clean(bodies(linked(2, href), linked(0, href), svgDescCounter))).toBe(false)
+      }
+    })
+  })
+
   it('should not accept a counter another icon on the page also carries', () => {
     const result = bodies(
       card(`${icon(1)}${icon(1)}`),
@@ -1045,9 +1142,177 @@ describe('svg-desc-counter', () => {
   })
 })
 
+describe('source-pill', () => {
+  const { sourcePill } = CLASSES
+  const SOURCE = 'https://github.com/limulus/limulus-dot-net/blob/main/'
+  const pill = (href: string, icon = 'code-solid') =>
+    `<pill-button><a href="${href}"><svg><use href="#svg-${icon}"></use></svg>Source</a></pill-button>`
+  const header = (inner: string) =>
+    `<header class="ldnHeader"><section><ul><li>${inner}</li></ul></section></header>`
+
+  it('should accept the page template’s .lem where theirs links the .webc beside it', () => {
+    const result = bodies(
+      header(pill(`${SOURCE}www/photos/index.lem`)),
+      header(pill(`${SOURCE}www/photos/index.webc`)),
+      sourcePill
+    )
+    expect(clean(result)).toBe(true)
+    expect(forgiven(result)).toEqual([['source-pill', 1]])
+  })
+
+  it('should not accept another path, or another pair of extensions', () => {
+    for (const [ours, theirs] of [
+      ['www/feed/index.lem', 'www/links/index.webc'],
+      ['www/feed/index.md', 'www/feed/index.webc'],
+      ['www/feed/index.lem', 'www/feed/index.md'],
+      ['_includes/x.lem', '_includes/x.webc'],
+    ]) {
+      const result = bodies(
+        header(pill(`${SOURCE}${ours}`)),
+        header(pill(`${SOURCE}${theirs}`)),
+        sourcePill
+      )
+      expect(clean(result)).toBe(false)
+    }
+    expect(
+      clean(
+        bodies(
+          header(pill('https://example.com/www/feed/index.lem')),
+          header(pill('https://example.com/www/feed/index.webc')),
+          sourcePill
+        )
+      )
+    ).toBe(false)
+  })
+
+  it('should not accept a link that is not the header’s Source pill', () => {
+    const [ours, theirs] = [`${SOURCE}www/index.lem`, `${SOURCE}www/index.webc`]
+    expect(clean(bodies(pill(ours), pill(theirs), sourcePill))).toBe(false)
+    expect(
+      clean(
+        bodies(
+          header(pill(ours, 'bell-solid')),
+          header(pill(theirs, 'bell-solid')),
+          sourcePill
+        )
+      )
+    ).toBe(false)
+    const bare = (href: string) =>
+      header(`<a href="${href}"><svg><use href="#svg-code-solid"></use></svg></a>`)
+    expect(clean(bodies(bare(ours), bare(theirs), sourcePill))).toBe(false)
+  })
+
+  it('should not accept the same pill in another header', () => {
+    const plain = (inner: string) =>
+      `<header><section><ul><li>${inner}</li></ul></section></header>`
+    const result = bodies(
+      plain(pill(`${SOURCE}www/index.lem`)),
+      plain(pill(`${SOURCE}www/index.webc`)),
+      sourcePill
+    )
+    expect(clean(result)).toBe(false)
+  })
+
+  it('should not accept the paths in another attribute', () => {
+    const titled = (title: string) =>
+      header(
+        `<pill-button><a href="/" title="${title}"><svg><use href="#svg-code-solid"></use></svg></a></pill-button>`
+      )
+    const result = bodies(
+      titled(`${SOURCE}www/index.lem`),
+      titled(`${SOURCE}www/index.webc`),
+      sourcePill
+    )
+    expect(clean(result)).toBe(false)
+  })
+})
+
+describe('photo-list-heading', () => {
+  const heading = photoListHeading(
+    new Map([
+      ['split', 'Split'],
+      ['all-laced-up', 'All Laced Up'],
+      ['through-the-cone', 'Through the Cone by Jaroslava  Brychtová'],
+    ])
+  )
+  const item = (heading: string, href = '/photos/split/') =>
+    `<li><article><a href="${href}"><header>${heading}</header><pho-picture></pho-picture></a></article></li>`
+  const list = (...items: string[]) => `<photo-list><ul>${items.join('')}</ul></photo-list>`
+  const h1 = (text: string) => `<h1 class="visually-hidden">${text}</h1>`
+
+  it('should accept ours’ title where theirs’ heading is empty, once a photo', () => {
+    const result = bodies(
+      list(item(h1('Split')), item(h1('All Laced Up'), '/photos/all-laced-up/')),
+      list(item(h1('')), item(h1(''), '/photos/all-laced-up/')),
+      heading
+    )
+    expect(clean(result)).toBe(true)
+    expect(forgiven(result)).toEqual([['photo-list-heading', 2]])
+  })
+
+  it('should not accept a heading theirs filled, or ours left empty or marked up', () => {
+    expect(clean(bodies(list(item(h1('Split'))), list(item(h1('Spilt'))), heading))).toBe(
+      false
+    )
+    expect(clean(bodies(list(item(h1(''))), list(item(h1('Split'))), heading))).toBe(false)
+    for (const marked of ['<em>Split</em>', 'Split<em>!</em>']) {
+      expect(clean(bodies(list(item(h1(marked))), list(item(h1(''))), heading))).toBe(false)
+    }
+  })
+
+  it('should accept a title whose whitespace the page collapses', () => {
+    const href = '/photos/through-the-cone/'
+    const result = bodies(
+      list(item(h1('Through the Cone by Jaroslava  Brychtová'), href)),
+      list(item(h1(''), href)),
+      heading
+    )
+    expect(clean(result)).toBe(true)
+  })
+
+  it('should not accept a title other than the linked photo’s', () => {
+    for (const [text, href] of [
+      ['All Laced Up', '/photos/split/'],
+      ['A person using a large telescope inside an observatory dome', '/photos/split/'],
+      ['undefined', '/photos/split/'],
+      ['Split', '/photos/unknown/'],
+    ]) {
+      const result = bodies(list(item(h1(text), href)), list(item(h1(''), href)), heading)
+      expect(clean(result)).toBe(false)
+    }
+  })
+
+  it('should not accept an empty heading anywhere else', () => {
+    for (const [ours, theirs] of [
+      [item(h1('Split')), item(h1(''))],
+      [list(item('<h1>Split</h1>')), list(item('<h1></h1>'))],
+      [list(item(h1('Split'), '/feed/split/')), list(item(h1(''), '/feed/split/'))],
+      [list(item(`${h1('Split')}<p>x</p>`)), list(item(`${h1('')}<p>x</p>`))],
+      [
+        list(`<li><header>${h1('Split')}</header></li>`),
+        list(`<li><header>${h1('')}</header></li>`),
+      ],
+      [
+        list(item('<h2 class="visually-hidden">Split</h2>')),
+        list(item('<h2 class="visually-hidden"></h2>')),
+      ],
+      [
+        list(`<li><a href="/photos/split/"><div>${h1('Split')}</div></a></li>`),
+        list(`<li><a href="/photos/split/"><div>${h1('')}</div></a></li>`),
+      ],
+      [
+        list(`<li><span href="/photos/split/"><header>${h1('Split')}</header></span></li>`),
+        list(`<li><span href="/photos/split/"><header>${h1('')}</header></span></li>`),
+      ],
+    ]) {
+      expect(clean(bodies(ours, theirs, heading))).toBe(false)
+    }
+  })
+})
+
 describe('forgiveness()', () => {
   it('should consult every class, in order', () => {
-    const { classes } = forgiveness(NO_CSS)
+    const { classes } = forgiveness(NO_CSS, new Map())
     expect(classes.map((cls) => cls.name)).toEqual([
       'scoped-class',
       'css-bundle',
@@ -1061,6 +1326,8 @@ describe('forgiveness()', () => {
       'attr-escaping',
       'footnote-markup',
       'reading-time',
+      'source-pill',
+      'photo-list-heading',
     ])
   })
 })

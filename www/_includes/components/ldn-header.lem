@@ -3,25 +3,27 @@
     .replace("5", "").replace("6", "").replace("7", "").replace("8", "").replace("9", "")
     == "" />
 
-<lem-fn ldnHeader(p: Page)>
+<lem-fn ldnHeader(p: Page, nav: bool)>
   <lem-let dirs = p.url.text().split("/").filter(|dir| dir != "" && !numeric(dir)) />
   <lem-let source =
     url("https://github.com/limulus/limulus-dot-net/blob/main/" + p.inputPath) />
   <header class="ldnHeader">
-    <nav>
-      <h2 class="visually-hidden">Top level navigation menu</h2>
-      <ul>
-        <li>
-          <a href="/"><lem.svgUse("ldn")></a>
-        </li>
-        <li>
-          <a href="/">limulus.net</a>
-        </li>
-        <lem-for dir, i in dirs.reverse().drop(1).reverse()>
-          <li><a href="/<lem.dirs.take(i + 1).join("/")>/"><lem.dir></a></li>
-        </lem-for>
-      </ul>
-    </nav>
+    <lem-if nav>
+      <nav>
+        <h2 class="visually-hidden">Top level navigation menu</h2>
+        <ul>
+          <li>
+            <a href="/"><lem.svgUse("ldn")></a>
+          </li>
+          <li>
+            <a href="/">limulus.net</a>
+          </li>
+          <lem-for dir, i in dirs.reverse().drop(1).reverse()>
+            <li><a href="/<lem.dirs.take(i + 1).join("/")>/"><lem.dir></a></li>
+          </lem-for>
+        </ul>
+      </nav>
+    </lem-if>
     <section class="engagement">
       <h2 class="visually-hidden">Please Engage</h2>
       <ul>

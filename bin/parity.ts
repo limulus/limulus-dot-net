@@ -1,15 +1,18 @@
 // `npm run parity`: builds the site both ways — Eleventy to dist/www, `lem build` to
-// dist/lemmon — and compares the page of every article, each markdown document under
-// www/feed/, links/, penumbra/ and tils/, as rendered HTML (lemmon's D28), through the
-// forgiveness classes in bin/parity/, with both builds' CSS bundles read beside the
-// global stylesheets for css-bundle. Each page reports every difference no class
-// explains, why a class refused one where it says, how often each class fired, and what
-// matched. Then the client scripts both builds bundled — every file esbuild writes for an
-// `index.ts` or `worker.ts` under www/, and its assets — are compared byte for byte,
-// Eleventy's unhashed stubs set aside and counted (bin/parity/scripts.ts). The run exits
-// 1 on any unexplained difference, any class firing other than its count in
-// bin/parity/expected.ts, a row there for a url no document has, a page one build lacks,
-// or a script file one build lacks or writes differently.
+// dist/lemmon — and compares every page either build wrote, each `index.html` under
+// either dist, as rendered HTML (lemmon's D28), through the forgiveness classes in
+// bin/parity/, with both builds' CSS bundles read beside the global stylesheets for
+// css-bundle and the photos' titles from www/_lemmon/photos.json for photo-list-heading;
+// the pages bin/parity/expected.ts lists as PENDING, which Lemmon does not write yet, are
+// set aside. Each page reports every difference no class explains, why a
+// class refused one where it says, how often each class fired, and what matched. Then
+// the client scripts both builds bundled — every file esbuild writes for an `index.ts` or
+// `worker.ts` under www/, and its assets — are compared byte for byte, Eleventy's
+// unhashed stubs set aside and counted (bin/parity/scripts.ts). The run exits 1 on any
+// unexplained difference, any class firing other than its count in EXPECTED, a row there
+// for a url no page compared has, an `.html` file in either dist that is no `index.html`,
+// a page one build lacks, a pending page Lemmon wrote or Eleventy did not, or a script
+// file one build lacks or writes differently.
 //
 //   npm run parity [-- --no-build]     --no-build compares the dists already there
 //
@@ -23,7 +26,7 @@ import { rm } from 'node:fs/promises'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { EXPECTED } from './parity/expected.ts'
+import { EXPECTED, PENDING } from './parity/expected.ts'
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
 const INPUT = 'www'
@@ -46,11 +49,12 @@ if (!existsSync(LEM)) {
 const {
   bundlesIn,
   comparePage,
-  documentsIn,
   failed,
   pageAt,
+  pagesIn,
+  photoTitlesIn,
   reportLines,
-  SECTIONS,
+  rosterOf,
   staleRows,
 } = await import('./parity/check.ts')
 const { compareScripts, entriesIn, scriptLines, scriptsFailed, scriptsIn } = await import(
@@ -88,8 +92,11 @@ if (!args.includes('--no-build')) {
 
 const ours = join(ROOT, OURS)
 const theirs = join(ROOT, THEIRS)
-const urls = await documentsIn(join(ROOT, INPUT))
+const written = { ours: await pagesIn(ours), theirs: await pagesIn(theirs) }
+const roster = rosterOf(written.ours.pages, written.theirs.pages, PENDING)
+const { urls } = roster
 const css = await bundlesIn(ours, theirs)
+const titles = await photoTitlesIn(join(ROOT, INPUT))
 
 const stale = staleRows(EXPECTED, urls)
 let failures = 0
@@ -100,6 +107,7 @@ for (const url of urls) {
     ours: await pageAt(ours, url),
     theirs: await pageAt(theirs, url),
     css,
+    titles,
     expected: EXPECTED[url] ?? {},
   })
   for (const line of reportLines(report, { ours: OURS, theirs: THEIRS })) console.log(line)
@@ -116,22 +124,54 @@ for (const line of scriptLines(scripts, { ours: OURS, theirs: THEIRS })) console
 
 console.log()
 for (const url of stale) {
-  console.error(`FAIL: bin/parity/expected.ts has a row for ${url}, which no document has`)
+  console.error(
+    `FAIL: bin/parity/expected.ts has a row for ${url}, which is no page compared: ` +
+      'neither build wrote one, or it is pending'
+  )
+}
+for (const url of roster.written) {
+  console.error(
+    `FAIL: ${OURS} has ${url}, which bin/parity/expected.ts lists as pending ` +
+      `(${PENDING[url]}): give it a row in EXPECTED instead`
+  )
+}
+for (const url of roster.unwritten) {
+  console.error(
+    `FAIL: bin/parity/expected.ts lists ${url} as pending (${PENDING[url]}), ` +
+      `where ${THEIRS} has no page`
+  )
+}
+for (const [side, dist] of [
+  ['ours', OURS],
+  ['theirs', THEIRS],
+] as const) {
+  for (const path of written[side].strays) {
+    console.error(`FAIL: ${dist} has ${path}, which is no page: only an index.html is one`)
+  }
 }
 if (urls.length === 0) {
-  console.error(`FAIL: no document under ${INPUT}/{${SECTIONS.join(',')}}/`)
+  console.error(`FAIL: no page in ${OURS} or ${THEIRS}`)
 }
 if (failures > 0) {
-  console.error(`FAIL: ${failures} of ${urls.length} documents differ, listed above`)
+  console.error(`FAIL: ${failures} of ${urls.length} pages differ, listed above`)
 }
 if (scriptsFailed(scripts)) {
   console.error('FAIL: the client scripts differ, listed above')
 }
-if (stale.length > 0 || urls.length === 0 || failures > 0 || scriptsFailed(scripts)) {
+const pending = Object.keys(PENDING).length
+if (
+  stale.length > 0 ||
+  written.ours.strays.length + written.theirs.strays.length > 0 ||
+  roster.written.length > 0 ||
+  roster.unwritten.length > 0 ||
+  urls.length === 0 ||
+  failures > 0 ||
+  scriptsFailed(scripts)
+) {
   process.exitCode = 1
 } else {
   console.log(
-    `PASS: ${urls.length} documents, every difference in a named class at its count, ` +
-      `and ${scripts.identical} script files byte for byte`
+    `PASS: ${urls.length} pages, every difference in a named class at its count, ` +
+      `${pending} pending, and ${scripts.identical} script files byte for byte`
   )
 }
