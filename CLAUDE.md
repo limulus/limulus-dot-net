@@ -76,6 +76,14 @@ This branch ports the site to Lemmon beside Eleventy; both builds read the same 
 - `11ty/lemmon-calls.ts` turns a lem call on its own line in a post back into the WebC it
   replaced, for Eleventy (the `lemmonCalls` preprocessor) and for the revision hash, so
   the port records no revision; a lem line it cannot translate fails both
+- `lemmon/` holds the port's own plugins, written against `@limulus/lemmon-shell`'s
+  exports, with their specs. `svgSprite()` (`lemmon/svg-sprite.ts`) fills `page.lem`'s
+  `mark("sprite")` with the inline sprite of `www/assets/svg/common`, built by svg-sprite
+  as eleventy-plugin-svg-sprite builds it, so a new icon there is in the next build's
+  sprite, and a file svg-sprite cannot read stops the build. It drops the `<style>` WebC
+  hoists out of the logo's symbol, whose rules `page.lem` carries under svg-sprite's
+  namespaced ids; `npm test` fails if they drift (the plugin's header says what renames
+  them)
 - `npm run parity` builds both sides and compares the page of every article — each `.md`
   under `www/{feed,links,penumbra,tils}/`, which `www/site.lem`'s `articles` glob also
   matches — as rendered HTML through the forgiveness classes in `bin/parity/classes.ts`,
@@ -101,6 +109,5 @@ This branch ports the site to Lemmon beside Eleventy; both builds read the same 
   Lemmon's build has none of until ∆d1N
 - Deliberately missing this slice, each with the item in the lemmon repo's `BACKLOG.md`
   that brings it: the hashed `/lib` scripts (∆d1N), code highlighting (∆Nxd), footnote
-  markup, the link-post appender and the Liquid include (∆ITg), the svg-sprite plugin
-  (∆IvY; the sprite is inlined, its CSS a `lem-style` in `page.lem`), and the photos data
-  hook (∆c4j)
+  markup, the link-post appender and the Liquid include (∆ITg), and the photos data hook
+  (∆c4j)

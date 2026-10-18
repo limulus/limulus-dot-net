@@ -1,10 +1,20 @@
 import { bundler, type Config } from '@limulus/lemmon-shell'
+import { fileURLToPath } from 'node:url'
+
+import { svgSprite } from './lemmon/svg-sprite.ts'
 
 export default {
   input: 'www',
   output: 'dist/lemmon',
   passthrough: ['assets/**/*', '**/*.{png,svg,jpg,jpeg,xsd,xsl,txt,pdf}'],
-  plugins: [bundler()],
+  plugins: [
+    bundler(),
+    // eleventy.config.ts's `svgspriteCommon`, which page.lem places; its
+    // `svgspritePhotos` joins as a second entry with the photo pages (lemmon ∆hvm).
+    svgSprite({
+      sprite: fileURLToPath(new URL('www/assets/svg/common', import.meta.url)),
+    }),
+  ],
   // What eleventy.config.ts's server middleware and the CloudFront response headers
   // policies send, so the pages are cross-origin isolated in `lem dev` as they are live.
   dev: {

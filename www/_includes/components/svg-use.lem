@@ -1,0 +1,7 @@
+<lem-fn svgUse(name: string)>
+  <lem-let desc = uniqueId("symbol-" + name + "-desc") />
+  <svg aria-labelledby="<lem.desc>" role="group">
+    <desc id="<lem.desc>"><lem.name> icon</desc>
+    <use href="#svg-<lem.name>"></use>
+  </svg>
+</lem-fn>

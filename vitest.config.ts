@@ -14,7 +14,12 @@ export default defineConfig({
         },
         test: {
           name: 'unit',
-          include: ['infra/test/**/*.spec.ts', '11ty/**/*.spec.ts', 'bin/**/*.spec.ts'],
+          include: [
+            'infra/test/**/*.spec.ts',
+            '11ty/**/*.spec.ts',
+            'bin/**/*.spec.ts',
+            'lemmon/**/*.spec.ts',
+          ],
           exclude: ['node_modules/**', 'dist/**'],
           environment: 'node',
         },

@@ -1,6 +1,6 @@
 <lem-fn pageLayout(p: Page, title: string, description: string?, body: html)>
   <lem-let content>
-    <lem.svgSprite()>
+    <lem.mark("sprite")>
 
     <a href="#main" class="visually-hidden">Skip to main content</a>
 
