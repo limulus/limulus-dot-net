@@ -1,4 +1,4 @@
-import { bundler, type Config } from '@limulus/lemmon-shell'
+import { bundler, highlighter, type Config } from '@limulus/lemmon-shell'
 import { fileURLToPath } from 'node:url'
 
 import { svgSprite } from './lemmon/svg-sprite.ts'
@@ -9,6 +9,8 @@ export default {
   passthrough: ['assets/**/*', '**/*.{png,svg,jpg,jpeg,xsd,xsl,txt,pdf}'],
   plugins: [
     bundler(),
+    // eleventy.config.ts's markdown-it `highlight`: highlight.js 11.9.0, `hljs` markup.
+    highlighter(),
     // eleventy.config.ts's `svgspriteCommon`, which page.lem places; its
     // `svgspritePhotos` joins as a second entry with the photo pages (lemmon ∆hvm).
     svgSprite({
