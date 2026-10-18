@@ -294,47 +294,6 @@ export function cssBundle(css: Bundles): CssBundle {
   }
 }
 
-// --- ∆d1N: the asset pipeline -----------------------------------------------------
-
-const HASHED = '[A-Z0-9]{8}'
-
-/** Which `/lib` bundle a module script loads, by the element it stands in. */
-const SCRIPT_LIBS: Partial<Record<string, string>> = {
-  head: 'common',
-  'article-vod': 'video-on-demand',
-}
-
-/**
- * The three module scripts Eleventy's esbuild step hashes, which ours omits until the
- * asset pipeline: `/lib/common` in `head`, `/lib/video-on-demand` in `article-vod`, and
- * the inline loader of `/lib/rum` at the end of `body`, each with no other attribute.
- */
-const unbuiltScripts: Forgiveness = {
-  name: 'unbuilt-scripts',
-  theirsOnly: (theirs, at) => {
-    if (theirs.tag !== 'script' || theirs.attrs.get('type') !== 'module') return false
-    if (theirs.attrs.get('async') !== '') return false
-    const src = theirs.attrs.get('src')
-    if (src === undefined) {
-      return (
-        at.theirs.tag === 'body' &&
-        theirs.attrs.size === 2 &&
-        new RegExp(
-          `^if \\(window\\.location\\.hostname\\.endsWith\\('limulus\\.net'\\)\\) \\{\\n` +
-            `import\\('/lib/rum/index\\.${HASHED}\\.js'\\)\\n\\}$`
-        ).test(textOf(theirs))
-      )
-    }
-    const lib = SCRIPT_LIBS[at.theirs.tag]
-    return (
-      lib !== undefined &&
-      theirs.attrs.size === 3 &&
-      theirs.children.length === 0 &&
-      new RegExp(`^/lib/${lib}/index\\.${HASHED}\\.js$`).test(src)
-    )
-  },
-}
-
 // --- WebC's own markup ------------------------------------------------------------
 
 /**
@@ -800,7 +759,6 @@ export function forgiveness(css: Bundles): Allowlist {
   const classes = [
     scopedClass,
     bundle,
-    unbuiltScripts,
     webcAttrLeak,
     svgDescCounter,
     datetimeText,
@@ -817,7 +775,6 @@ export function forgiveness(css: Bundles): Allowlist {
 
 export const CLASSES = {
   scopedClass,
-  unbuiltScripts,
   webcAttrLeak,
   svgDescCounter,
   datetimeText,

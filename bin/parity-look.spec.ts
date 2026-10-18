@@ -1,11 +1,16 @@
+import { readdir, readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 
 import {
   bandsText,
   fileFor,
+  Gate,
+  MASKED,
+  maskedNothing,
   pixelDiff,
   rowBands,
+  sameMasks,
   settle,
   type Bitmap,
 } from './parity-look.ts'
@@ -129,5 +134,167 @@ describe('fileFor()', () => {
     expect(fileFor(root, '/%2e%2e/secret')).toBeNull()
     expect(fileFor(root, '/%2e%2e%2fdist-other/x')).toBeNull()
     expect(fileFor(root, '/%E0%A4%A')).toBeNull()
+  })
+})
+
+describe('MASKED', () => {
+  /** The custom elements a script under www/lib defines, by name. */
+  const defined = async (): Promise<Set<string>> => {
+    const lib = new URL('../www/lib/', import.meta.url)
+    const names = new Set<string>()
+    for (const file of await readdir(lib, { recursive: true })) {
+      if (!file.endsWith('.ts')) continue
+      const text = await readFile(new URL(file, lib), 'utf8')
+      for (const [, name] of text.matchAll(/customElements\.define\('([^']+)'/g)) {
+        names.add(name)
+      }
+    }
+    return names
+  }
+
+  /** The element each selector in a list starts at. */
+  const hosts = (selector: string): string[] =>
+    selector.split(',').map((part) => part.trim().split(/[\s>#.[:]/)[0])
+
+  it('should start each selector at an element a script under www/lib defines', async () => {
+    const names = await defined()
+    expect(names.has('pixel-clock')).toBe(true)
+    expect(names.has('no-such-element')).toBe(false)
+    for (const { selector } of MASKED) {
+      for (const host of hosts(selector)) expect(names, selector).toContain(host)
+    }
+  })
+
+  it('should read the element a selector starts at', () => {
+    expect(hosts('sphere-shadow #hud, sphere-shadow-wasm #hud')).toEqual([
+      'sphere-shadow',
+      'sphere-shadow-wasm',
+    ])
+    expect(hosts('video-on-demand')).toEqual(['video-on-demand'])
+  })
+
+  it('should mask exactly these parts, each no wider than what a script draws', () => {
+    // Widening one to its whole demo, or adding one, is a change to what the look check
+    // compares, so it changes this list too.
+    expect(MASKED.map(({ selector }) => selector)).toEqual([
+      'pixel-clock canvas',
+      'sphere-shadow canvas, sphere-shadow-wasm canvas',
+      'sphere-shadow #hud, sphere-shadow-wasm #hud',
+      'video-on-demand',
+    ])
+  })
+
+  it('should say why each is masked, each selector once', () => {
+    for (const { why } of MASKED) expect(why).not.toBe('')
+    const selectors = MASKED.map(({ selector }) => selector)
+    expect(new Set(selectors).size).toBe(selectors.length)
+  })
+
+  it('should not mask a blur-hash or a projectile-cannon, which hold still', () => {
+    const all = MASKED.flatMap(({ selector }) => hosts(selector))
+    expect(all).not.toContain('blur-hash')
+    expect(all).not.toContain('projectile-cannon')
+  })
+})
+
+describe('maskedNothing()', () => {
+  const masks = [{ selector: 'a' }, { selector: 'b' }]
+  const page = (entries: [string, number][]) => new Map(entries)
+
+  it('should pass over a mask that masked something on some page', () => {
+    const pages = [
+      page([
+        ['a', 0],
+        ['b', 0],
+      ]),
+      page([
+        ['a', 2],
+        ['b', 1],
+      ]),
+    ]
+    expect(maskedNothing(pages, masks)).toEqual([])
+  })
+
+  it('should name each mask that masked nothing on any page', () => {
+    const pages = [
+      page([
+        ['a', 1],
+        ['b', 0],
+      ]),
+      page([['a', 0]]),
+    ]
+    expect(maskedNothing(pages, masks)).toEqual(['b'])
+    expect(maskedNothing([], masks)).toEqual(['a', 'b'])
+  })
+
+  it('should hold MASKED itself to it by default', () => {
+    expect(maskedNothing([])).toEqual(MASKED.map(({ selector }) => selector))
+  })
+})
+
+describe('sameMasks()', () => {
+  const counts = (entries: [string, number][]) => new Map(entries)
+
+  it('should agree where every selector masked as many elements', () => {
+    expect(
+      sameMasks(
+        counts([
+          ['a', 1],
+          ['b', 0],
+        ]),
+        counts([
+          ['b', 0],
+          ['a', 1],
+        ])
+      )
+    ).toBe(true)
+  })
+
+  it('should not agree where a count or a selector differs', () => {
+    expect(sameMasks(counts([['a', 1]]), counts([['a', 2]]))).toBe(false)
+    expect(sameMasks(counts([['a', 1]]), counts([['b', 1]]))).toBe(false)
+    expect(
+      sameMasks(
+        counts([['a', 1]]),
+        counts([
+          ['a', 1],
+          ['b', 0],
+        ])
+      )
+    ).toBe(false)
+  })
+})
+
+describe('Gate', () => {
+  /** Whether `promise` has settled once pending callbacks have run. */
+  const settled = (promise: Promise<void>): Promise<boolean> =>
+    Promise.race([
+      promise.then(() => true),
+      new Promise<boolean>((resolve) => setImmediate(() => resolve(false))),
+    ])
+
+  it('should let everything through while open, as it starts', async () => {
+    expect(await settled(new Gate().passed())).toBe(true)
+  })
+
+  it('should hold what comes while shut, and let it through in order once open', async () => {
+    const gate = new Gate()
+    gate.shut()
+    const order: number[] = []
+    const first = gate.passed().then(() => order.push(1))
+    const second = gate.passed().then(() => order.push(2))
+    expect(await settled(gate.passed())).toBe(false)
+    gate.open()
+    await Promise.all([first, second])
+    expect(order).toEqual([1, 2])
+    expect(await settled(gate.passed())).toBe(true)
+  })
+
+  it('should hold again once shut again', async () => {
+    const gate = new Gate()
+    gate.shut()
+    gate.open()
+    gate.shut()
+    expect(await settled(gate.passed())).toBe(false)
   })
 })

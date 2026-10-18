@@ -9,6 +9,8 @@
         <p>Enable JavaScript to Watch</p>
       </noscript>
     </video-on-demand>
+
+    <script type="module" src="<lem.asset("/lib/video-on-demand/index.js")>" async></script>
   </article-vod>
   <lem-style>
     .articleVod {

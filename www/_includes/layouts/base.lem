@@ -58,6 +58,8 @@
       </lem-if>
 
       <meta name="generator" content="<lem.build.generator>">
+
+      <script type="module" src="<lem.asset("/lib/common/index.js")>" async></script>
     </head>
     <body>
       <lem.body>

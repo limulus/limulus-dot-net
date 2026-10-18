@@ -25,6 +25,18 @@
         </a>
       </p>
     </footer>
+
+    <lem-if p is Post>
+      <lem-if p.scripts>
+        <script type="module" src="<lem.p.scripts>" async></script>
+      </lem-if>
+    </lem-if>
+
+    <script type="module" async>
+      if (window.location.hostname.endsWith('limulus.net')) {
+        import('<lem.asset("/lib/rum/index.js")>')
+      }
+    </script>
   </lem-let>
   <lem-style>
     @supports not (color: oklch(0% 0 0)) {

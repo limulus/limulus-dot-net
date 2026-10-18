@@ -10,7 +10,7 @@ image: pixel-clock
 teaser: >-
   An overdue and long update covering 3 chapters! The site has moved to its permanent home
   and the demo for these chapters is a neat little animated clock.
-scripts: ./lib/index.js
+scripts: /penumbra/journal/canvas-and-matrices/lib/index.js
 ---
 
 In the [previous post][tuples] I went a little further than the exercise at the end of the

@@ -14,7 +14,7 @@ imageAlt: >-
 teaser: >-
   Switching from JavaScript to Rust/WebAssembly has (unsurprisingly) significantly increased
   performance!
-scripts: ./lib/index.js
+scripts: /penumbra/journal/rust/lib/index.js
 ---
 
 I’ve [previously] [mentioned] my intention to eventually switch from targeting JavaScript to

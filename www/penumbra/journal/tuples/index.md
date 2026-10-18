@@ -10,7 +10,7 @@ image: projectile-cannon
 imageAlt: Screenshot of the projectile-cannon component demo.
 teaser: >-
   An interactive web component already!
-scripts: ./lib/index.js
+scripts: /penumbra/journal/tuples/lib/index.js
 ---
 
 The first chapter of the book focuses on setting up a foundational “tuple” library for

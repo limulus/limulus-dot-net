@@ -9,7 +9,7 @@ date: 2023-12-29 14:00:00 -07:00
 image: sphere-shadow
 teaser: >-
   Finally! Ray casting! Plus an interactive demo of a sphere’s shadow.
-scripts: ./lib/index.js
+scripts: /penumbra/journal/ray-sphere-interactions/lib/index.js
 ---
 
 In chapter 5 of [The Ray Tracer Challenge] you finally get to implement something that

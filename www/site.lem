@@ -100,7 +100,7 @@
   image: Photo? by site.photos
   imageAlt: string?
   tags: [string] = []
-  scripts: string?
+  scripts: asset?
   linkUrl: url?
   linkTitle: string?
   linkDomain: string? = hostOf(self.linkUrl?.text())

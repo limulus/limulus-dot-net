@@ -6,12 +6,23 @@
 // writing both and their difference to dist/look/<url>/. Any difference fails the run:
 // there is no allowance.
 //
-// So that none is needed, what the pages fetch is pinned and what parity forgives is
-// evened out. Every request to another host (the photos and video posters, on pho. and
-// vod.limulus.net) is answered with one fixed PNG, and `/lib/**` is refused on both sides,
-// since Lemmon's build has no client scripts until ∆d1N in the lemmon repo. Each page is
-// served neutralized: parsed with parse5, every visible difference a parity class forgives
-// undone by a neutralizer named for that class (bin/parity/neutralizers.ts), and
+// So that none is needed, what the pages fetch is pinned, the order it arrives in is
+// fixed, what a script draws from a clock or a worker is masked, and what parity forgives
+// is evened out. Every request to another host (the photos and the video's poster and
+// stream, on pho. and vod.limulus.net) is answered with one fixed PNG. The client scripts
+// run on both sides, each build's own bundles, which parity compares byte for byte, in
+// one order (Gate): held until the page is parsed, so that each runs against the whole
+// document, and the photos held until every blur-hash placeholder is painted. Left to
+// race, as on the live site, a placeholder the parser adds after its script has run finds
+// no photo inside it and throws, and one painted after its photo has loaded stays behind
+// it, showing in the photo's rounded corners, and which happens changes from run to run.
+// In this order each placeholder is painted, then cleared by its photo, as the script
+// means. What the scripts draw that can still differ between two shots of one build is
+// masked, both sides alike, its box still compared (MASKED): what is drawn there is
+// checked not by pixels but by `npm run parity`, which compares the scripts byte for
+// byte, and by the page errors each tab collects, any of which fails its shot. Each page
+// is served neutralized: parsed with parse5, every visible difference a parity class
+// forgives undone by a neutralizer named for that class (bin/parity/neutralizers.ts), and
 // serialized again, both sides alike. A page is shot only where parity's own comparison
 // of it passes, since every match here stands on what parity explained.
 //
@@ -19,8 +30,7 @@
 //
 // --serve serves both dists as built instead, Eleventy's on SERVE_PORTS.theirs and
 // Lemmon's on SERVE_PORTS.ours, and prints each page's two URLs to open side by side,
-// until interrupted. Nothing is neutralized or refused there, so Eleventy's pages run
-// their scripts, which Lemmon's do not have.
+// until interrupted. Nothing is neutralized, held or masked there.
 
 import esMain from 'es-main'
 import { readFile, mkdir, rm, writeFile } from 'node:fs/promises'
@@ -28,7 +38,7 @@ import { createServer, type Server } from 'node:http'
 import type { AddressInfo } from 'node:net'
 import { extname, join, normalize, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import type { BrowserContext, Page } from 'playwright-core'
+import type { Page } from 'playwright-core'
 import sharp from 'sharp'
 
 import {
@@ -41,6 +51,7 @@ import {
 } from './parity/check.ts'
 import { EXPECTED } from './parity/expected.ts'
 import { neutralize } from './parity/neutralizers.ts'
+import { entriesIn, isScriptFile } from './parity/scripts.ts'
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
 const INPUT = 'www'
@@ -154,6 +165,7 @@ const TYPES: Record<string, string> = {
   '.png': 'image/png',
   '.svg': 'image/svg+xml',
   '.txt': 'text/plain; charset=utf-8',
+  '.wasm': 'application/wasm',
   '.webmanifest': 'application/manifest+json',
   '.webp': 'image/webp',
   '.woff': 'font/woff',
@@ -215,6 +227,65 @@ async function serve(root: string, port: number, pages = new Map<string, string>
 const origin = (server: Server): string =>
   `http://127.0.0.1:${(server.address() as AddressInfo).port}`
 
+// --- What the scripts change -------------------------------------------------------
+
+/**
+ * What every screenshot masks, on both sides alike, and why: each is drawn by a client
+ * script, from bundles parity compares byte for byte, and changes with the clock, or
+ * arrives from a worker or the stand-in host at a moment nothing here waits for, so that
+ * two shots of one build can differ.
+ * Playwright paints the mask over the element's box, so a box placed or sized otherwise
+ * still shows. Each selector starts at an element a script under www/lib defines (a spec
+ * checks), and one that no page matched fails the run, so a renamed element cannot leave
+ * its mask standing over nothing. Not here: `projectile-cannon` draws its canvas once
+ * and again only when its Fire button is pressed, and a `blur-hash` is put in one order
+ * by Gate instead, so that its photo is compared.
+ */
+export const MASKED = [
+  {
+    selector: 'pixel-clock canvas',
+    why: 'the clock, which a worker draws with the time ten times a second',
+  },
+  {
+    selector: 'sphere-shadow canvas, sphere-shadow-wasm canvas',
+    why: 'the shadow, which a worker draws when it is ready',
+  },
+  {
+    selector: 'sphere-shadow #hud, sphere-shadow-wasm #hud',
+    why: 'how long the worker took to draw it',
+  },
+  {
+    selector: 'video-on-demand',
+    why: 'the player: its controls, then the poster when the stand-in host answers',
+  },
+] as const
+
+/**
+ * Requests a tab holds while the gate is shut and lets through when it opens, so that the
+ * look check chooses when they arrive: each tab has one for its scripts and one for its
+ * photos. Open until shut.
+ */
+export class Gate {
+  #shut = false
+  #held: (() => void)[] = []
+
+  /** Settles once the gate is open: at once, where it is. */
+  passed(): Promise<void> {
+    if (!this.#shut) return Promise.resolve()
+    return new Promise((resolve) => this.#held.push(resolve))
+  }
+
+  shut(): void {
+    this.#shut = true
+  }
+
+  /** Lets through everything held, in the order it came, and all that comes after. */
+  open(): void {
+    this.#shut = false
+    for (const release of this.#held.splice(0)) release()
+  }
+}
+
 // --- The look check -----------------------------------------------------------------
 
 const LOCAL = new Set(['127.0.0.1', 'localhost'])
@@ -224,6 +295,10 @@ interface Shot {
   png: Buffer
   settled: boolean
   broken: number
+  /** What kept the page from the state it is shot in. */
+  problems: string[]
+  /** How many elements each of MASKED masked, by selector. */
+  masked: Map<string, number>
 }
 
 /**
@@ -249,12 +324,40 @@ export async function settle(
 }
 
 /**
- * Shoots one page full length once every image has loaded and decoded, the fonts are
+ * Shoots one page full length in `tab`, MASKED masked, once it has been parsed with its
+ * scripts held, every blur-hash placeholder has then been painted with its photos held,
+ * every image has then loaded and decoded and cleared its placeholder, the fonts are
  * ready, and two screenshots agree. A lazy image is made eager first, or one below the
  * fold would be shot as its placeholder.
  */
-async function shoot(page: Page, url: string): Promise<Shot> {
-  await page.goto(url, { waitUntil: 'load' })
+async function shoot({ page, scripts, photos, errors }: Tab, url: string): Promise<Shot> {
+  const problems: string[] = []
+  errors.length = 0
+  scripts.shut()
+  photos.shut()
+  try {
+    // Every script on these pages is `async`, which DOMContentLoaded does not wait for,
+    // so the page is parsed whole while they are held; `load` would wait for them.
+    await page.goto(url, { waitUntil: 'domcontentloaded' })
+    scripts.open()
+    const painted = await holds(page, () =>
+      [...document.querySelectorAll<HTMLImageElement>('blur-hash[blurhash] img')].every(
+        (image) => image.style.backgroundImage !== ''
+      )
+    )
+    if (!painted) {
+      const unpainted = await page.evaluate(() =>
+        [...document.querySelectorAll<HTMLImageElement>('blur-hash[blurhash] img')]
+          .filter((image) => image.style.backgroundImage === '')
+          .map((image) => `${image.complete ? 'loaded' : 'held'} ${image.currentSrc}`)
+      )
+      problems.push(`blur-hash placeholders never painted: ${unpainted.join('; ')}`)
+    }
+  } finally {
+    scripts.open()
+    photos.open()
+  }
+  await page.waitForLoadState('load')
   const broken = await page.evaluate(async () => {
     const images = [...document.images]
     for (const image of images) image.loading = 'eager'
@@ -269,11 +372,34 @@ async function shoot(page: Page, url: string): Promise<Shot> {
     await document.fonts.ready
     return decoded.filter((ok) => !ok).length
   })
-  const shot = await settle(() =>
-    page.screenshot({ fullPage: true, animations: 'disabled' })
+  // A photo's `load` clears its placeholder a frame later; one that failed keeps it.
+  const cleared = await holds(page, () =>
+    [...document.querySelectorAll<HTMLImageElement>('blur-hash[blurhash] img')].every(
+      (image) => image.naturalWidth === 0 || image.style.backgroundImage === ''
+    )
   )
-  return { ...shot, broken }
+  if (!cleared) problems.push('a photo never cleared its blur-hash placeholder')
+  const mask = MASKED.map(({ selector }) => page.locator(selector))
+  const masked = new Map<string, number>()
+  for (const [n, { selector }] of MASKED.entries()) {
+    masked.set(selector, await mask[n].count())
+  }
+  const shot = await settle(() =>
+    page.screenshot({ fullPage: true, animations: 'disabled', mask })
+  )
+  problems.push(...errors.map((error) => `the page threw: ${error}`))
+  return { ...shot, broken, problems, masked }
 }
+
+/**
+ * Whether `predicate` comes to hold in `page` within ten seconds, checked every 100 ms
+ * rather than every frame, which a busy renderer can hold back.
+ */
+const holds = (page: Page, predicate: () => boolean): Promise<boolean> =>
+  page.waitForFunction(predicate, undefined, { polling: 100, timeout: 10_000 }).then(
+    () => true,
+    () => false
+  )
 
 async function bitmapOf(png: Buffer): Promise<Bitmap> {
   const { data, info } = await sharp(png)
@@ -283,20 +409,32 @@ async function bitmapOf(png: Buffer): Promise<Bitmap> {
   return { data, width: info.width, height: info.height }
 }
 
-/** Pins what a context's pages fetch: `image` from every other host, no `/lib`. */
-async function pin(context: BrowserContext, image: Buffer): Promise<void> {
-  await context.route('**/*', (route) => {
+/**
+ * Pins what `tab` fetches from every other host to `image`, and holds each request at
+ * its gate: a file esbuild writes for one of `entries`, as parity's scripts.ts tells one,
+ * at its scripts', and each request to another host at its photos'. Collects what its
+ * page throws.
+ */
+async function pin(
+  { page, scripts, photos, errors }: Tab,
+  image: Buffer,
+  entries: ReadonlySet<string>
+): Promise<void> {
+  page.on('pageerror', (error) => errors.push(error.message))
+  await page.route('**/*', async (route) => {
     const url = new URL(route.request().url())
-    if (!LOCAL.has(url.hostname)) {
-      return route.fulfill({
-        status: 200,
-        contentType: 'image/png',
-        // The photos load `crossorigin="anonymous"`, which a stand-in must allow.
-        headers: { 'access-control-allow-origin': '*' },
-        body: image,
-      })
+    if (LOCAL.has(url.hostname)) {
+      if (isScriptFile(url.pathname, entries)) await scripts.passed()
+      return route.continue()
     }
-    return url.pathname.startsWith('/lib/') ? route.abort() : route.continue()
+    await photos.passed()
+    return route.fulfill({
+      status: 200,
+      contentType: 'image/png',
+      // The photos load `crossorigin="anonymous"`, which a stand-in must allow.
+      headers: { 'access-control-allow-origin': '*' },
+      body: image,
+    })
   })
 }
 
@@ -312,21 +450,50 @@ async function standIn(): Promise<Buffer> {
     .toBuffer()
 }
 
-/** A variant and a tab for each side, in a browser context of its own, pinned. */
+/**
+ * A tab, pinned, the gates its scripts and its photos wait at, and the errors its page
+ * has thrown since its last shot began.
+ */
+interface Tab {
+  page: Page
+  scripts: Gate
+  photos: Gate
+  errors: string[]
+}
+
+/** A variant and a tab for each side, in a browser context of its own. */
 interface Shooter {
   variant: (typeof VARIANTS)[number]
-  tabs: { ours: Page; theirs: Page }
+  tabs: { ours: Tab; theirs: Tab }
+}
+
+/** Whether two counts of what MASKED masked agree, selector by selector. */
+export const sameMasks = (a: Map<string, number>, b: Map<string, number>): boolean =>
+  a.size === b.size && [...a].every(([selector, n]) => b.get(selector) === n)
+
+/**
+ * The selectors of `masks` that masked nothing on any page, given how many elements each
+ * masked on each page shot, which fail the run: a mask standing over nothing is stale.
+ */
+export function maskedNothing(
+  pages: Map<string, number>[],
+  masks: readonly { selector: string }[] = MASKED
+): string[] {
+  return masks
+    .map(({ selector }) => selector)
+    .filter((selector) => pages.every((counts) => (counts.get(selector) ?? 0) === 0))
 }
 
 /**
  * Shoots both sides of one page in one variant, writes the pair and its difference
- * under dist/look/ at its url, and returns the report's lines and whether they matched.
+ * under dist/look/ at its url, and returns the report's lines, whether they matched, and
+ * what MASKED masked on ours.
  */
 async function compareShots(
   { variant, tabs }: Shooter,
   url: string,
   origins: { ours: string; theirs: string }
-): Promise<{ lines: string[]; same: boolean }> {
+): Promise<{ lines: string[]; same: boolean; masked: Map<string, number> }> {
   const [o, t] = await Promise.all([
     shoot(tabs.ours, `${origins.ours}${url}`),
     shoot(tabs.theirs, `${origins.theirs}${url}`),
@@ -363,11 +530,32 @@ async function compareShots(
     ['theirs', t],
   ] as const) {
     if (!shot.settled) lines.push(`  ${variant.name}: FAIL, ${side} never shot alike twice`)
+    for (const problem of shot.problems) {
+      lines.push(`  ${variant.name}: FAIL, on ${side} ${problem}`)
+    }
     if (shot.broken > 0) {
       lines.push(`    note: ${shot.broken} images on ${side} did not decode`)
     }
   }
-  return { lines, same: diff.pixels === 0 && o.settled && t.settled }
+  const masks = sameMasks(o.masked, t.masked)
+  if (!masks) {
+    const counts = (masked: Map<string, number>) =>
+      [...masked].map(([selector, n]) => `${selector} (${n})`).join('; ')
+    lines.push(
+      `  ${variant.name}: FAIL, the masks cover other elements — ours: ` +
+        `${counts(o.masked)} — theirs: ${counts(t.masked)}`
+    )
+  }
+  return {
+    lines,
+    same:
+      diff.pixels === 0 &&
+      o.settled &&
+      t.settled &&
+      o.problems.length + t.problems.length === 0 &&
+      masks,
+    masked: o.masked,
+  }
 }
 
 /** The look check over every page: true where every screenshot matched. */
@@ -389,6 +577,7 @@ async function look(urls: string[]): Promise<boolean> {
   }
   const origins = { ours: origin(servers.ours), theirs: origin(servers.theirs) }
   const stand = await standIn()
+  const entries = await entriesIn(join(ROOT, INPUT))
   const shooters: Shooter[] = []
   for (const variant of VARIANTS) {
     const context = await browser.newContext({
@@ -396,17 +585,24 @@ async function look(urls: string[]): Promise<boolean> {
       colorScheme: variant.scheme,
       deviceScaleFactor: 1,
     })
-    await pin(context, stand)
-    shooters.push({
-      variant,
-      tabs: { ours: await context.newPage(), theirs: await context.newPage() },
-    })
+    const tab = async (): Promise<Tab> => {
+      const made = {
+        page: await context.newPage(),
+        scripts: new Gate(),
+        photos: new Gate(),
+        errors: [],
+      }
+      await pin(made, stand, entries)
+      return made
+    }
+    shooters.push({ variant, tabs: { ours: await tab(), theirs: await tab() } })
   }
   await rm(join(ROOT, LOOK), { recursive: true, force: true })
   console.log(`parity:look: ${urls.length} documents, Chrome ${browser.version()} headless`)
   console.log()
 
   let failures = 0
+  const maskedOnPages: Map<string, number>[] = []
   try {
     for (const url of urls) {
       const ours = await pageAt(join(ROOT, OURS), url)
@@ -436,11 +632,20 @@ async function look(urls: string[]): Promise<boolean> {
       )
       for (const problem of neutralized.problems) console.log(`  FAIL, ${problem}`)
       let same = neutralized.problems.length === 0
+      let masked = new Map<string, number>()
       for (const shooter of shooters) {
         const result = await compareShots(shooter, url, origins)
         for (const line of result.lines) console.log(line)
         same &&= result.same
+        masked = result.masked
       }
+      const shown = [...masked].filter(([, n]) => n > 0)
+      if (shown.length > 0) {
+        console.log(
+          `  masked ${shown.map(([selector, n]) => `${selector} (${n})`).join('; ')}`
+        )
+      }
+      maskedOnPages.push(masked)
       if (!same) failures += 1
     }
   } finally {
@@ -451,8 +656,12 @@ async function look(urls: string[]): Promise<boolean> {
 
   const seconds = ((Date.now() - started) / 1000).toFixed(1)
   const shots = urls.length * VARIANTS.length
+  const unused = maskedNothing(maskedOnPages)
   console.log()
-  if (failures === 0) {
+  for (const selector of unused) {
+    console.error(`FAIL: MASKED's \`${selector}\` masked nothing on any page`)
+  }
+  if (failures === 0 && unused.length === 0) {
     console.log(`PASS: ${shots} screenshots identical, pixel for pixel (${seconds} s)`)
   } else {
     console.error(
@@ -460,7 +669,7 @@ async function look(urls: string[]): Promise<boolean> {
         `the screenshots are in ${LOOK}/ (${seconds} s)`
     )
   }
-  return failures === 0
+  return failures === 0 && unused.length === 0
 }
 
 /** Serves both dists as built on SERVE_PORTS, listing each page's pair, until Ctrl-C. */
@@ -486,11 +695,10 @@ async function serveBoth(urls: string[]): Promise<void> {
   for (const [theirs, ours] of rows) console.log(`${theirs.padEnd(width)}  ${ours}`)
   console.log()
   console.log(
-    "Both are served as built. Eleventy's pages run their /lib scripts (the video " +
-      "player,\nthe share buttons, the blur-hash placeholders); Lemmon's build has none " +
-      'until ∆d1N,\nso those parts differ here, as do the differences parity forgives ' +
-      "(footnote markup,\na reading-time minute, the photo figures' gaps), which " +
-      '`npm run parity:look`\nneutralizes before it compares. Ctrl-C stops the servers.'
+    'Both are served as built, each running its own /lib bundles, so the differences ' +
+      'parity\nforgives show here (footnote markup, a reading-time minute, the photo ' +
+      "figures' gaps),\nwhich `npm run parity:look` neutralizes before it compares. " +
+      'Ctrl-C stops the servers.'
   )
   await new Promise<void>((resolve) => process.once('SIGINT', resolve))
   servers.theirs.close()

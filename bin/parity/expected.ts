@@ -11,7 +11,6 @@ export const EXPECTED: Record<string, Record<string, number>> = {
   '/feed/better-software-with-ai/': {
     'scoped-class': 56,
     'css-bundle': 1,
-    'unbuilt-scripts': 2,
     'webc-attr-leak': 14,
     'svg-desc-counter': 6,
     'datetime-text': 9,
@@ -24,7 +23,6 @@ export const EXPECTED: Record<string, Record<string, number>> = {
   '/feed/lima-agent-isolation/': {
     'scoped-class': 47,
     'css-bundle': 1,
-    'unbuilt-scripts': 2,
     'webc-attr-leak': 5,
     'svg-desc-counter': 4,
     'datetime-text': 7,
@@ -35,7 +33,6 @@ export const EXPECTED: Record<string, Record<string, number>> = {
   '/feed/new-york-2024/': {
     'scoped-class': 18,
     'css-bundle': 1,
-    'unbuilt-scripts': 3,
     'webc-attr-leak': 3,
     'datetime-text': 2,
     generator: 1,
@@ -43,7 +40,6 @@ export const EXPECTED: Record<string, Record<string, number>> = {
   '/feed/the-rebound/': {
     'scoped-class': 56,
     'css-bundle': 1,
-    'unbuilt-scripts': 2,
     'webc-attr-leak': 14,
     'svg-desc-counter': 4,
     'datetime-text': 9,
@@ -57,7 +53,6 @@ export const EXPECTED: Record<string, Record<string, number>> = {
   '/feed/the-social-contract/': {
     'scoped-class': 47,
     'css-bundle': 1,
-    'unbuilt-scripts': 2,
     'webc-attr-leak': 5,
     'svg-desc-counter': 4,
     'datetime-text': 8,
@@ -69,7 +64,6 @@ export const EXPECTED: Record<string, Record<string, number>> = {
   '/feed/workout-exporter/': {
     'scoped-class': 47,
     'css-bundle': 1,
-    'unbuilt-scripts': 2,
     'webc-attr-leak': 5,
     'svg-desc-counter': 4,
     'datetime-text': 7,
@@ -79,7 +73,6 @@ export const EXPECTED: Record<string, Record<string, number>> = {
   '/feed/write-to-your-rep/': {
     'scoped-class': 47,
     'css-bundle': 1,
-    'unbuilt-scripts': 2,
     'webc-attr-leak': 5,
     'svg-desc-counter': 4,
     'datetime-text': 7,
@@ -89,7 +82,6 @@ export const EXPECTED: Record<string, Record<string, number>> = {
   '/links/2026/01/30/im-not-sweating-my-ai-energy-usage/': {
     'scoped-class': 44,
     'css-bundle': 1,
-    'unbuilt-scripts': 2,
     'webc-attr-leak': 3,
     'svg-desc-counter': 4,
     'datetime-text': 7,
@@ -100,7 +92,6 @@ export const EXPECTED: Record<string, Record<string, number>> = {
   '/links/2026/02/03/where-are-the-test-driven-agentic-workflows-anyway/': {
     'scoped-class': 44,
     'css-bundle': 1,
-    'unbuilt-scripts': 2,
     'webc-attr-leak': 3,
     'svg-desc-counter': 4,
     'datetime-text': 9,
@@ -110,7 +101,6 @@ export const EXPECTED: Record<string, Record<string, number>> = {
   '/links/2026/02/07/good-taste/': {
     'scoped-class': 44,
     'css-bundle': 1,
-    'unbuilt-scripts': 2,
     'webc-attr-leak': 3,
     'svg-desc-counter': 4,
     'datetime-text': 7,
@@ -120,7 +110,6 @@ export const EXPECTED: Record<string, Record<string, number>> = {
   '/links/2026/02/07/tahoes-windows/': {
     'scoped-class': 44,
     'css-bundle': 1,
-    'unbuilt-scripts': 2,
     'webc-attr-leak': 3,
     'svg-desc-counter': 4,
     'datetime-text': 8,
@@ -130,7 +119,6 @@ export const EXPECTED: Record<string, Record<string, number>> = {
   '/links/2026/03/01/surviving-ai-revolution-software-development/': {
     'scoped-class': 44,
     'css-bundle': 1,
-    'unbuilt-scripts': 2,
     'webc-attr-leak': 3,
     'svg-desc-counter': 4,
     'datetime-text': 7,
@@ -140,7 +128,6 @@ export const EXPECTED: Record<string, Record<string, number>> = {
   '/links/2026/03/15/dual-loop-bdd-new-red-green-tdd/': {
     'scoped-class': 44,
     'css-bundle': 1,
-    'unbuilt-scripts': 2,
     'webc-attr-leak': 3,
     'svg-desc-counter': 4,
     'datetime-text': 7,
@@ -150,7 +137,6 @@ export const EXPECTED: Record<string, Record<string, number>> = {
   '/links/2026/04/07/eight-years-wanting-building-ai/': {
     'scoped-class': 44,
     'css-bundle': 1,
-    'unbuilt-scripts': 2,
     'webc-attr-leak': 3,
     'svg-desc-counter': 6,
     'datetime-text': 7,
@@ -160,7 +146,6 @@ export const EXPECTED: Record<string, Record<string, number>> = {
   '/links/2026/06/28/make-ai-boring-again/': {
     'scoped-class': 44,
     'css-bundle': 1,
-    'unbuilt-scripts': 2,
     'webc-attr-leak': 3,
     'svg-desc-counter': 8,
     'datetime-text': 8,
@@ -170,7 +155,6 @@ export const EXPECTED: Record<string, Record<string, number>> = {
   '/links/2026/07/04/why-usa-1-0-failed/': {
     'scoped-class': 44,
     'css-bundle': 1,
-    'unbuilt-scripts': 2,
     'webc-attr-leak': 3,
     'svg-desc-counter': 8,
     'datetime-text': 7,
@@ -180,7 +164,6 @@ export const EXPECTED: Record<string, Record<string, number>> = {
   '/penumbra/journal/canvas-and-matrices/': {
     'scoped-class': 44,
     'css-bundle': 1,
-    'unbuilt-scripts': 1,
     'webc-attr-leak': 3,
     'svg-desc-counter': 4,
     'datetime-text': 10,
@@ -192,7 +175,6 @@ export const EXPECTED: Record<string, Record<string, number>> = {
   '/penumbra/journal/github-copilot/': {
     'scoped-class': 18,
     'css-bundle': 1,
-    'unbuilt-scripts': 3,
     'webc-attr-leak': 3,
     'datetime-text': 2,
     generator: 1,
@@ -200,7 +182,6 @@ export const EXPECTED: Record<string, Record<string, number>> = {
   '/penumbra/journal/nerd-sniped/': {
     'scoped-class': 44,
     'css-bundle': 1,
-    'unbuilt-scripts': 2,
     'webc-attr-leak': 3,
     'svg-desc-counter': 4,
     'datetime-text': 7,
@@ -211,7 +192,6 @@ export const EXPECTED: Record<string, Record<string, number>> = {
   '/penumbra/journal/one-more-yak/': {
     'scoped-class': 44,
     'css-bundle': 1,
-    'unbuilt-scripts': 2,
     'webc-attr-leak': 3,
     'svg-desc-counter': 4,
     'datetime-text': 7,
@@ -221,7 +201,6 @@ export const EXPECTED: Record<string, Record<string, number>> = {
   '/penumbra/journal/ray-sphere-interactions/': {
     'scoped-class': 44,
     'css-bundle': 1,
-    'unbuilt-scripts': 1,
     'webc-attr-leak': 3,
     'svg-desc-counter': 4,
     'datetime-text': 11,
@@ -234,7 +213,6 @@ export const EXPECTED: Record<string, Record<string, number>> = {
   '/penumbra/journal/rust/': {
     'scoped-class': 44,
     'css-bundle': 1,
-    'unbuilt-scripts': 1,
     'webc-attr-leak': 3,
     'svg-desc-counter': 4,
     'datetime-text': 11,
@@ -247,7 +225,6 @@ export const EXPECTED: Record<string, Record<string, number>> = {
   '/penumbra/journal/tuples/': {
     'scoped-class': 44,
     'css-bundle': 1,
-    'unbuilt-scripts': 1,
     'webc-attr-leak': 3,
     'svg-desc-counter': 4,
     'datetime-text': 9,
@@ -258,7 +235,6 @@ export const EXPECTED: Record<string, Record<string, number>> = {
   '/tils/git/private-branches-in-public-repos/': {
     'scoped-class': 45,
     'css-bundle': 1,
-    'unbuilt-scripts': 2,
     'webc-attr-leak': 3,
     'svg-desc-counter': 4,
     'datetime-text': 8,
@@ -269,7 +245,6 @@ export const EXPECTED: Record<string, Record<string, number>> = {
   '/tils/nodejs/type-stripping/': {
     'scoped-class': 45,
     'css-bundle': 1,
-    'unbuilt-scripts': 2,
     'webc-attr-leak': 3,
     'svg-desc-counter': 4,
     'datetime-text': 7,

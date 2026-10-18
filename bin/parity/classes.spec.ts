@@ -421,54 +421,6 @@ describe('lastDifference()', () => {
   })
 })
 
-describe('unbuilt-scripts', () => {
-  const { unbuiltScripts } = CLASSES
-  const rum =
-    '<script type="module" async>\n  if (window.location.hostname.endsWith(\'limulus.net\')) {\n' +
-    "    import('/lib/rum/index.VATR7HHP.js')\n  }\n</script>"
-
-  it('should accept the three hashed module scripts where each belongs', () => {
-    const result = compare(
-      { head: '<title>t</title>', body: '<article-vod>v</article-vod><p>x</p>' },
-      {
-        head: '<title>t</title><script type="module" src="/lib/common/index.YDUDOD6U.js" async></script>',
-        body:
-          '<article-vod>v<script type="module" src="/lib/video-on-demand/index.O25LTEX2.js" async></script></article-vod>' +
-          `<p>x</p>${rum}`,
-      },
-      [unbuiltScripts]
-    )
-    expect(clean(result)).toBe(true)
-    expect(forgiven(result)).toEqual([['unbuilt-scripts', 3]])
-  })
-
-  it('should not accept another bundle, a script elsewhere, or another attribute', () => {
-    const script = (src: string, more = '') =>
-      `<script type="module" src="${src}" async${more}></script>`
-    expect(clean(heads('', script('/lib/other/index.YDUDOD6U.js'), unbuiltScripts))).toBe(
-      false
-    )
-    expect(clean(bodies('', script('/lib/common/index.YDUDOD6U.js'), unbuiltScripts))).toBe(
-      false
-    )
-    expect(
-      clean(heads('', script('/lib/common/index.YDUDOD6U.js', ' nomodule'), unbuiltScripts))
-    ).toBe(false)
-    expect(clean(heads('', script('/lib/common/index.unhashed.js'), unbuiltScripts))).toBe(
-      false
-    )
-  })
-
-  it('should not accept an inline script that does more than load the bundle', () => {
-    const extended = rum.replace("import('/lib/rum", "track()\n    import('/lib/rum")
-    expect(clean(bodies('', extended, unbuiltScripts))).toBe(false)
-  })
-
-  it('should not accept the inline loader anywhere but body', () => {
-    expect(clean(heads('', rum, unbuiltScripts))).toBe(false)
-  })
-})
-
 describe('webc-attr-leak', () => {
   const { webcAttrLeak } = CLASSES
 
@@ -1099,7 +1051,6 @@ describe('forgiveness()', () => {
     expect(classes.map((cls) => cls.name)).toEqual([
       'scoped-class',
       'css-bundle',
-      'unbuilt-scripts',
       'webc-attr-leak',
       'svg-desc-counter',
       'datetime-text',

@@ -4,9 +4,12 @@
 // forgiveness classes in bin/parity/, with both builds' CSS bundles read beside the
 // global stylesheets for css-bundle. Each page reports every difference no class
 // explains, why a class refused one where it says, how often each class fired, and what
-// matched; the run exits 1 on any unexplained difference, any class firing other than its
-// count in bin/parity/expected.ts, a row there for a url no document has, or a page one
-// build lacks.
+// matched. Then the client scripts both builds bundled — every file esbuild writes for an
+// `index.ts` or `worker.ts` under www/, and its assets — are compared byte for byte,
+// Eleventy's unhashed stubs set aside and counted (bin/parity/scripts.ts). The run exits
+// 1 on any unexplained difference, any class firing other than its count in
+// bin/parity/expected.ts, a row there for a url no document has, a page one build lacks,
+// or a script file one build lacks or writes differently.
 //
 //   npm run parity [-- --no-build]     --no-build compares the dists already there
 //
@@ -50,6 +53,9 @@ const {
   SECTIONS,
   staleRows,
 } = await import('./parity/check.ts')
+const { compareScripts, entriesIn, scriptLines, scriptsFailed, scriptsIn } = await import(
+  './parity/scripts.ts'
+)
 
 const args = process.argv.slice(2)
 const unknown = args.filter((arg) => arg !== '--no-build')
@@ -100,6 +106,14 @@ for (const url of urls) {
   if (failed(report)) failures += 1
 }
 
+const entries = await entriesIn(join(ROOT, INPUT))
+const scripts = compareScripts(
+  await scriptsIn(ours, entries),
+  await scriptsIn(theirs, entries)
+)
+console.log()
+for (const line of scriptLines(scripts, { ours: OURS, theirs: THEIRS })) console.log(line)
+
 console.log()
 for (const url of stale) {
   console.error(`FAIL: bin/parity/expected.ts has a row for ${url}, which no document has`)
@@ -110,10 +124,14 @@ if (urls.length === 0) {
 if (failures > 0) {
   console.error(`FAIL: ${failures} of ${urls.length} documents differ, listed above`)
 }
-if (stale.length > 0 || urls.length === 0 || failures > 0) {
+if (scriptsFailed(scripts)) {
+  console.error('FAIL: the client scripts differ, listed above')
+}
+if (stale.length > 0 || urls.length === 0 || failures > 0 || scriptsFailed(scripts)) {
   process.exitCode = 1
 } else {
   console.log(
-    `PASS: ${urls.length} documents, every difference in a named class at its count`
+    `PASS: ${urls.length} documents, every difference in a named class at its count, ` +
+      `and ${scripts.identical} script files byte for byte`
   )
 }

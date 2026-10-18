@@ -1,8 +1,13 @@
-import { bundler, highlighter, type Config } from '@limulus/lemmon-shell'
+import { bundler, esbuild, highlighter, type Config } from '@limulus/lemmon-shell'
+import { config as loadEnv } from 'dotenv'
 import { fileURLToPath } from 'node:url'
 
 import { linkPosts } from './lemmon/link-posts.ts'
 import { svgSprite } from './lemmon/svg-sprite.ts'
+
+// The `.env` beside this file, wherever `lem` was started; eleventy.config.ts reads the
+// working directory's.
+loadEnv({ path: fileURLToPath(new URL('.env', import.meta.url)) })
 
 export default {
   input: 'www',
@@ -10,6 +15,13 @@ export default {
   passthrough: ['assets/**/*', '**/*.{png,svg,jpg,jpeg,xsd,xsl,txt,pdf}'],
   plugins: [
     bundler(),
+    // 11ty/esbuild.ts's bundles, byte for byte: every `index.ts` and `worker.ts` under
+    // www/ hashed beside its source, the `.wasm` under its asset path, and the Mapbox
+    // token its define reads, from the environment or `.env` (loaded above).
+    esbuild({
+      assetNames: 'assets/immutable/11ty/esbuild/[name].[hash]',
+      env: ['MAPBOX_PUBLIC_TOKEN'],
+    }),
     // eleventy.config.ts's markdown-it `highlight`: highlight.js 11.9.0, `hljs` markup.
     highlighter(),
     // eleventy.config.ts's `svgspriteCommon`, which page.lem places; its

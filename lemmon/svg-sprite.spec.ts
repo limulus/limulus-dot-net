@@ -24,7 +24,7 @@ const PAGE_LEM = fileURLToPath(
 
 /** Runs the asset hook of `plugin`, as a build does before its pages render. */
 async function prepared(plugin: Plugin): Promise<Plugin> {
-  const context = { input: SVG, output: SVG, writes: false, env: {} }
+  const context = { root: SVG, input: SVG, output: SVG, writes: false, env: {} }
   expect(await plugin.assets?.(context)).toEqual({})
   return plugin
 }
