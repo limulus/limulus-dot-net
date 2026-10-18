@@ -24,7 +24,7 @@ teaser: >-
       </li>
     </lem-for>
   </lem-let>
-  <lem.chipList(null, topics)>
+  <lem.chipList(null, null, topics)>
 <lem-else />
   <p>No topics yet.</p>
 </lem-if>

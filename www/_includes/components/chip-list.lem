@@ -1,5 +1,6 @@
-<lem-fn chipList(size: string?, slot: html)>
-  <chip-list class="chipList"<lem-if size> size="<lem.size>"</lem-if>>
+<lem-fn chipList(size: string?, justify: string?, slot: html)>
+  <chip-list class="chipList"<lem-if size> size="<lem.size>"</lem-if><lem-if justify>
+    justify="<lem.justify>"</lem-if>>
     <ul>
       <lem.slot>
     </ul>

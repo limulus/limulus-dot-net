@@ -51,6 +51,9 @@
   blurhash: string?
   location: Location?
   renditions: [Rendition]
+  focalLengthMm: float?
+  fNumberValue: float?
+  compositeExposureSeconds: float?
 </lem-type>
 
 <lem-type Author>
@@ -123,6 +126,22 @@
   hero: Photo? by site.photos
   nav: bool = true
   layout: (SitePage, html): html = sitePage
+</lem-type>
+
+<lem-type PhotoPage extends SitePage>
+  photo: Photo
+  title: string = self.photo.title
+  image: Photo? = self.photo
+  url: url = url("/photos/" + self.photo.alias + "/")
+  prev: PhotoPage?
+  next: PhotoPage?
+</lem-type>
+
+<lem-type TilTopicPage extends SitePage>
+  topic: string
+  title: string = "TILs: " + self.topic
+  teaser: string? = "Things I've learned about " + self.topic + "."
+  url: url = url("/tils/" + self.topic + "/")
 </lem-type>
 
 <lem-fn hostOf(u: string?): string? =

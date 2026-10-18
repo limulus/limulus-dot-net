@@ -121,7 +121,9 @@
         "size": 19717
       }
     ],
-    "blurhash": "LcEfy%oHJ.tRyZo#aebIIUV?s.V@"
+    "blurhash": "LcEfy%oHJ.tRyZo#aebIIUV?s.V@",
+    "focalLengthMm": 35,
+    "fNumberValue": 9
   },
   "base-of-the-genesee-arch-bridge-letchworth-state-park": {
     "id": "lnvAq0F9",
@@ -227,7 +229,9 @@
         "size": 263754
       }
     ],
-    "blurhash": "LFG8o]yV?tnO}n%fS0xGx]oynPWA"
+    "blurhash": "LFG8o]yV?tnO}n%fS0xGx]oynPWA",
+    "focalLengthMm": 15.659999847383,
+    "fNumberValue": 2.8
   },
   "mist-middle-falls-letchworth-state-park": {
     "id": "PlumNgPF",
@@ -333,7 +337,9 @@
         "size": 78899
       }
     ],
-    "blurhash": "LGDl~9_NE14n-:RPofxusiIUM|tR"
+    "blurhash": "LGDl~9_NE14n-:RPofxusiIUM|tR",
+    "focalLengthMm": 6.764999865652793,
+    "fNumberValue": 1.7799999713880652
   },
   "middle-falls-letchworth-state-park": {
     "id": "9S_9E3mC",
@@ -439,7 +445,9 @@
         "size": 115163
       }
     ],
-    "blurhash": "LLF$eQ%2M{oe}OMIWWt7^hs;t7V?"
+    "blurhash": "LLF$eQ%2M{oe}OMIWWt7^hs;t7V?",
+    "focalLengthMm": 6.764999865652793,
+    "fNumberValue": 1.7799999713880652
   },
   "upper-falls-letchworth-state-park": {
     "id": "ogMP7Pbu",
@@ -546,7 +554,9 @@
         "size": 76930
       }
     ],
-    "blurhash": "LWEo}iNg00t6.A%NVrIUkZogxtf+"
+    "blurhash": "LWEo}iNg00t6.A%NVrIUkZogxtf+",
+    "focalLengthMm": 35,
+    "fNumberValue": 9
   },
   "pixel-clock": {
     "id": "Srq_na9c",
@@ -1016,7 +1026,9 @@
         "size": 77798
       }
     ],
-    "blurhash": "LEC?r#~p%wbE5NNY%e%2IVNGRQV["
+    "blurhash": "LEC?r#~p%wbE5NNY%e%2IVNGRQV[",
+    "focalLengthMm": 300,
+    "fNumberValue": 5.6
   },
   "photos-page-2024-11-29": {
     "id": "1i3Fb4Wt",
@@ -1323,7 +1335,9 @@
         "size": 24548
       }
     ],
-    "blurhash": "LHJ7%EVG4r~C~1^%VtD-tm9u--9u"
+    "blurhash": "LHJ7%EVG4r~C~1^%VtD-tm9u--9u",
+    "focalLengthMm": 2.690000057250488,
+    "fNumberValue": 1.9
   },
   "one-long-cut": {
     "id": "tmj9u7Ht",
@@ -1447,7 +1461,9 @@
         "size": 32049
       }
     ],
-    "blurhash": "L3EMLC|m00n;8^0200tR00tp9Yxn"
+    "blurhash": "L3EMLC|m00n;8^0200tR00tp9Yxn",
+    "focalLengthMm": 35,
+    "fNumberValue": 8
   },
   "punk-and-trash": {
     "id": "qhCg333k",
@@ -1570,7 +1586,9 @@
         "size": 37874
       }
     ],
-    "blurhash": "LBC?_-^+0Mt,pfb_599brVxV$yIB"
+    "blurhash": "LBC?_-^+0Mt,pfb_599brVxV$yIB",
+    "focalLengthMm": 4.15,
+    "fNumberValue": 2.2
   },
   "capitol-restoration": {
     "id": "UGHjtSJr",
@@ -1693,7 +1711,9 @@
         "size": 20517
       }
     ],
-    "blurhash": "LsJkl#t7RjM{~qj[ayRjt7RjM{of"
+    "blurhash": "LsJkl#t7RjM{~qj[ayRjt7RjM{of",
+    "focalLengthMm": 5,
+    "fNumberValue": 8.4
   },
   "workout-exporter-development": {
     "id": "GIfv_p2A",
@@ -1924,7 +1944,9 @@
         "height": 195,
         "size": 15731
       }
-    ]
+    ],
+    "focalLengthMm": 5,
+    "fNumberValue": 8.4
   },
   "saguaro-bouquet": {
     "id": "_felbJPu",
@@ -2048,7 +2070,9 @@
         "height": 260,
         "size": 27052
       }
-    ]
+    ],
+    "focalLengthMm": 6.764999865652793,
+    "fNumberValue": 1.7799999713880652
   },
   "saguaro-flower": {
     "id": "BqdE9IcU",
@@ -2172,7 +2196,9 @@
         "height": 325,
         "size": 27231
       }
-    ]
+    ],
+    "focalLengthMm": 6.764999865652793,
+    "fNumberValue": 1.7799999713880652
   },
   "all-laced-up": {
     "id": "qhlJFGxk",
@@ -2296,7 +2322,9 @@
         "height": 406,
         "size": 29846
       }
-    ]
+    ],
+    "focalLengthMm": 6.764999865652793,
+    "fNumberValue": 1.7799999713880652
   },
   "split": {
     "id": "6WFfZpjz",
@@ -2421,7 +2449,10 @@
         "height": 433,
         "size": 29576
       }
-    ]
+    ],
+    "focalLengthMm": 6.764999865652793,
+    "fNumberValue": 1.7799999713880652,
+    "compositeExposureSeconds": 3.466736074960958
   },
   "stereotypical-cloud": {
     "id": "8JrRozip",
@@ -2545,7 +2576,9 @@
         "height": 232,
         "size": 21849
       }
-    ]
+    ],
+    "focalLengthMm": 6.764999865652793,
+    "fNumberValue": 1.7799999713880652
   },
   "all-in-all-by-beth-lipman": {
     "id": "9qxkPdx9",
@@ -2669,7 +2702,9 @@
         "height": 232,
         "size": 20330
       }
-    ]
+    ],
+    "focalLengthMm": 6.764999865652793,
+    "fNumberValue": 1.7799999713880652
   },
   "forest-glass-by-katherine-gray": {
     "id": "AdTgzjH3",
@@ -2793,7 +2828,9 @@
         "height": 217,
         "size": 20583
       }
-    ]
+    ],
+    "focalLengthMm": 6.764999865652793,
+    "fNumberValue": 1.7799999713880652
   },
   "through-the-cone-by-jaroslava-brychtova-and-stanislav-libensky": {
     "id": "TcgEL9hO",
@@ -2917,7 +2954,9 @@
         "height": 217,
         "size": 12696
       }
-    ]
+    ],
+    "focalLengthMm": 6.764999865652793,
+    "fNumberValue": 1.7799999713880652
   },
   "lynx-after-duerer-by-marta-klonowska": {
     "id": "hUvgc7Bh",
@@ -3041,6 +3080,8 @@
         "height": 541,
         "size": 32542
       }
-    ]
+    ],
+    "focalLengthMm": 6.764999865652793,
+    "fNumberValue": 1.7799999713880652
   }
 }

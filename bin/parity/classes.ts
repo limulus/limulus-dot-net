@@ -82,10 +82,19 @@ export const sameNames = (a: string[], b: string[]): boolean =>
 // --- D20: component CSS is scoped by function name, until the cutover (∆oAl) -------
 
 /**
+ * The page template whose WebC `<style webc:scoped>` scopes its own page, photo.webc:
+ * having no host, WebC adds its hash to every element the template writes, and the port's
+ * photo page names the `article` it writes, which holds all of them but the photos'
+ * sprite (page-scoped-sprite).
+ */
+const PHOTO_PAGE = { host: 'article', named: 'photoPage', hash: 'w3ey9fgef' }
+
+/**
  * Each component or layout whose WebC `<style webc:scoped>` adds a class: the tag of
  * the element that hosts it, the hash WebC adds, and the D20 function-name class the
- * port's `.lem` function writes in its place. Eleventy keeps the hashes until the
- * cutover, so scoped-class and css-bundle both read this.
+ * port's `.lem` function writes in its place — and the photo page's, whose `article`
+ * stands for its host. Eleventy keeps the hashes until the cutover, so scoped-class and
+ * css-bundle both read this.
  */
 const SCOPED = [
   { host: 'header', named: 'ldnHeader', hash: 'w5jpt_6fe' },
@@ -101,6 +110,9 @@ const SCOPED = [
   { host: 'article-card', named: 'articleCard', hash: 'wjjnq-bzf' },
   { host: 'article-vod', named: 'articleVod', hash: 'wyaf15udt' },
   { host: 'photo-list', named: 'photoList', hash: 'w7nhgg7k0' },
+  { host: 'photo-meta', named: 'photoMeta', hash: 'wtw5vxrij' },
+  { host: 'map-box', named: 'mapBox', hash: 'wz5lbi-ak' },
+  PHOTO_PAGE,
 ]
 
 /**
@@ -132,6 +144,36 @@ const scopedClass: Forgiveness = {
         o.filter((c) => !named.some((s) => s.named === c)),
         t.filter((c) => !hashed.some((s) => s.hash === c))
       )
+    )
+  },
+}
+
+/** The style of the `div` eleventy-plugin-svg-sprite and the port's svgSprite wrap in. */
+const SPRITE_WRAPPER = 'width: 0; height: 0; position: absolute; overflow: hidden'
+
+/**
+ * photo.webc writes the photos' sprite into its page (`this.svgspritePhotos()`), so WebC
+ * scopes it as it scopes the rest of the page: theirs' sprite carries the photo page's
+ * hash on its wrapper and on every element inside it, where ours, placed by a mark, has
+ * no class. Explained on a sprite — a `div` child of `main` with the wrapper's style, or
+ * an element inside one — where theirs' `class` is that hash alone and ours has none, and
+ * only where `main` also holds the photo page's `article`, hashed in theirs and named in
+ * ours, so the hash is that page's.
+ */
+const pageScopedSprite: Forgiveness = {
+  name: 'page-scoped-sprite',
+  attr: (name, ours, theirs, at) => {
+    if (name !== 'class' || ours !== undefined || theirs !== PHOTO_PAGE.hash) return false
+    // With no `main` above it, the first element on the path is the page's `html`.
+    const main = at.ancestors.findIndex((pair) => pair.ours.tag === 'main')
+    const wrapper = [...at.ancestors, at][main + 1].ours
+    const article = (side: RenderedElement, name: string): boolean =>
+      elementsIn(side).some((a) => a.tag === PHOTO_PAGE.host && hasClass(a, name))
+    return (
+      wrapper.tag === 'div' &&
+      wrapper.attrs.get('style') === SPRITE_WRAPPER &&
+      article(at.ancestors[main].ours, PHOTO_PAGE.named) &&
+      article(at.ancestors[main].theirs, PHOTO_PAGE.hash)
     )
   },
 }
@@ -306,7 +348,8 @@ const cardAuthors = (list: RenderedElement): string[] =>
 
 /**
  * An attribute WebC copies from a component's props onto an element, which ours does
- * not: `href` on a `pill-button` (its `a`'s), `placement` on the `pho-picture` and `img`
+ * not: `href`, and the photo pages' `title` and `rel`, on a `pill-button` (its `a`'s,
+ * which `@attributes` gives them), `placement` on the `pho-picture` and `img`
  * inside an `article-photo` (the photo's), `id` on an in-body `article-photo` (the
  * alias of the photo it links to), and on an `article-list` the `author` id and `limit`
  * its page filtered it by — an id where every card's author chip names one author, and a
@@ -319,8 +362,10 @@ const webcAttrLeak: Forgiveness = {
     const element = at.theirs
     switch (`${element.tag} ${name}`) {
       case 'pill-button href':
+      case 'pill-button title':
+      case 'pill-button rel':
         return elementsIn(element).some(
-          (a) => a.tag === 'a' && a.attrs.get('href') === theirs
+          (a) => a.tag === 'a' && a.attrs.get(name) === theirs
         )
       case 'pho-picture placement':
       case 'img placement': {
@@ -875,6 +920,7 @@ export function forgiveness(css: Bundles, titles: PhotoTitles): Allowlist {
   const bundle = cssBundle(css)
   const classes = [
     scopedClass,
+    pageScopedSprite,
     bundle,
     webcAttrLeak,
     svgDescCounter,
@@ -894,6 +940,7 @@ export function forgiveness(css: Bundles, titles: PhotoTitles): Allowlist {
 
 export const CLASSES = {
   scopedClass,
+  pageScopedSprite,
   webcAttrLeak,
   svgDescCounter,
   datetimeText,

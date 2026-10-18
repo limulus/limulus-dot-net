@@ -16,7 +16,7 @@
         <div class="text-content">
           <header>
             <h1><lem.post.title></h1>
-            <lem.chipList("small", articleChips(post, true))>
+            <lem.chipList("small", null, articleChips(post, true))>
           </header>
           <p><lem.(post.subhead ?? post.teaser ?? "")></p>
         </div>

@@ -20,11 +20,14 @@
 // means. What the scripts draw that can still differ between two shots of one build is
 // masked, both sides alike, its box still compared (MASKED): what is drawn there is
 // checked not by pixels but by `npm run parity`, which compares the scripts byte for
-// byte, and by the page errors each tab collects, any of which fails its shot. Each page
-// is served neutralized: parsed with parse5, every visible difference a parity class
-// forgives undone by a neutralizer named for that class (bin/parity/neutralizers.ts), and
-// serialized again, both sides alike. A page is shot only where parity's own comparison
-// of it passes, since every match here stands on what parity explained.
+// byte, and by the page errors each tab collects, any of which fails its shot. The photo
+// pages' map is kept from loading instead (MAP_BUNDLE): its style and tiles come from a
+// host the stand-in answers with a PNG, so its placeholder is what is compared. Each
+// page is served neutralized: parsed with parse5, every visible difference a parity
+// class forgives undone by a neutralizer named for that class
+// (bin/parity/neutralizers.ts), and serialized again, both sides alike. A page is shot
+// only where parity's own comparison of it passes, since every match here stands on
+// what parity explained.
 //
 //   npm run parity:look [-- --serve]
 //
@@ -51,7 +54,7 @@ import {
   reportLines,
   rosterOf,
 } from './parity/check.ts'
-import { EXPECTED, PENDING } from './parity/expected.ts'
+import { EXPECTED } from './parity/expected.ts'
 import { neutralize } from './parity/neutralizers.ts'
 import { entriesIn, isScriptFile } from './parity/scripts.ts'
 
@@ -292,6 +295,17 @@ export class Gate {
 
 const LOCAL = new Set(['127.0.0.1', 'localhost'])
 
+/**
+ * The map's bundle, which map-box's loader imports once two thirds of a photo page's map
+ * are in view, and which each tab is answered with an empty module, both sides alike,
+ * so that no map loads: mapbox-gl reads its style and tiles from api.mapbox.com, which
+ * the stand-in answers with a PNG, so a map that loaded would log that it cannot parse
+ * one and draw nothing over its placeholder. None loads as the pages stand, since no page
+ * shows two thirds of its map in a 900-pixel viewport; this keeps it so on one that
+ * would. Parity compares the bundle itself byte for byte.
+ */
+export const MAP_BUNDLE = /^\/lib\/map-box\/index\.[A-Z0-9]{8}\.js$/
+
 /** A screenshot, whether the page had settled, and how many images failed to decode. */
 interface Shot {
   png: Buffer
@@ -414,8 +428,8 @@ async function bitmapOf(png: Buffer): Promise<Bitmap> {
 /**
  * Pins what `tab` fetches from every other host to `image`, and holds each request at
  * its gate: a file esbuild writes for one of `entries`, as parity's scripts.ts tells one,
- * at its scripts', and each request to another host at its photos'. Collects what its
- * page throws.
+ * at its scripts', and each request to another host at its photos'. Answers the map's
+ * bundle with an empty module (MAP_BUNDLE). Collects what its page throws.
  */
 async function pin(
   { page, scripts, photos, errors }: Tab,
@@ -426,6 +440,9 @@ async function pin(
   await page.route('**/*', async (route) => {
     const url = new URL(route.request().url())
     if (LOCAL.has(url.hostname)) {
+      if (MAP_BUNDLE.test(url.pathname)) {
+        return route.fulfill({ contentType: TYPES['.js'], body: '' })
+      }
       if (isScriptFile(url.pathname, entries)) await scripts.passed()
       return route.continue()
     }
@@ -717,12 +734,11 @@ if (esMain(import.meta)) {
     console.error('usage: npm run parity:look [-- --serve]')
     process.exit(2)
   }
-  // The pages parity compares; what is wrong with the dists' other HTML or the pending
-  // list is parity's to say.
-  const { urls } = rosterOf(
+  // The pages parity compares; what is wrong with the dists' other HTML is parity's to
+  // say.
+  const urls = rosterOf(
     (await pagesIn(join(ROOT, OURS))).pages,
-    (await pagesIn(join(ROOT, THEIRS))).pages,
-    PENDING
+    (await pagesIn(join(ROOT, THEIRS))).pages
   )
   if (urls.length === 0) {
     console.error(`parity:look: no page in ${OURS} or ${THEIRS}`)

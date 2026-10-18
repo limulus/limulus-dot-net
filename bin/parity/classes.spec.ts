@@ -123,6 +123,26 @@ describe('scoped-class', () => {
     ).toBe(false)
   })
 
+  it('should accept the photo page’s hash on its article and inside it', () => {
+    const result = bodies(
+      '<article class="photoPage"><nav><ul><li>x</li></ul></nav></article>',
+      '<article class="w3ey9fgef"><nav class="w3ey9fgef"><ul class="w3ey9fgef">' +
+        '<li class="w3ey9fgef">x</li></ul></nav></article>',
+      scopedClass
+    )
+    expect(clean(result)).toBe(true)
+    expect(forgiven(result)).toEqual([['scoped-class', 4]])
+  })
+
+  it('should not accept the photo page’s hash outside its article', () => {
+    const result = bodies(
+      '<main><p>x</p><article class="photoPage">a</article></main>',
+      '<main><p class="w3ey9fgef">x</p><article class="w3ey9fgef">a</article></main>',
+      scopedClass
+    )
+    expect(clean(result)).toBe(false)
+  })
+
   it('should not accept a class shaped like a hash that is no component’s', () => {
     expect(clean(bodies('<p>x</p>', '<p class="wordcount">x</p>', scopedClass))).toBe(false)
   })
@@ -143,6 +163,82 @@ describe('scoped-class', () => {
       scopedClass
     )
     expect(clean(result)).toBe(false)
+  })
+})
+
+describe('page-scoped-sprite', () => {
+  const { pageScopedSprite, scopedClass } = CLASSES
+  const STYLE = 'width: 0; height: 0; position: absolute; overflow: hidden'
+  const HASH = ' class="w3ey9fgef"'
+
+  /** A sprite in `wrapper`, each element carrying `attrs`. */
+  const sprite = (attrs: string, wrapper = `div style="${STYLE}"`) =>
+    `<${wrapper}${attrs}><svg${attrs}><symbol id="svg-camera"${attrs}>` +
+    `<path d="M0 0h1v1H0z"${attrs}></path></symbol></svg></${wrapper.split(' ')[0]}>`
+
+  /** A page's main: a sprite carrying `attrs`, then an article of class `article`. */
+  const main = (attrs: string, article: string, wrapper?: string) =>
+    `<main>${sprite(attrs, wrapper)}<article class="${article}">Split</article></main>`
+
+  it('should accept the photo page’s hash on its sprite and all the sprite holds', () => {
+    const result = bodies(
+      main('', 'photoPage').replace('Split', '<h1>Split</h1>'),
+      main(HASH, 'w3ey9fgef').replace('Split', `<h1${HASH}>Split</h1>`),
+      scopedClass,
+      pageScopedSprite
+    )
+    expect(clean(result)).toBe(true)
+    expect(forgiven(result)).toEqual([
+      ['page-scoped-sprite', 4],
+      ['scoped-class', 2],
+    ])
+  })
+
+  it('should not accept the hash on an element that is not a sprite’s wrapper', () => {
+    for (const wrapper of ['div style="position: absolute"', `span style="${STYLE}"`]) {
+      const result = bodies(
+        main('', 'photoPage', wrapper),
+        main(HASH, 'w3ey9fgef', wrapper),
+        scopedClass,
+        pageScopedSprite
+      )
+      expect(clean(result)).toBe(false)
+    }
+  })
+
+  it('should not accept the hash where main holds no photo page on either side', () => {
+    for (const article of ['photoPage', 'w3ey9fgef', 'article']) {
+      const result = bodies(main('', article), main(HASH, article), pageScopedSprite)
+      expect(clean(result)).toBe(false)
+    }
+  })
+
+  it('should not accept a sprite outside main', () => {
+    const page = (attrs: string, article: string) =>
+      `<section>${sprite(attrs)}<article class="${article}">a</article></section>`
+    const result = bodies(
+      page('', 'photoPage'),
+      page(HASH, 'w3ey9fgef'),
+      scopedClass,
+      pageScopedSprite
+    )
+    expect(clean(result)).toBe(false)
+  })
+
+  it('should not accept another hash, another class beside it, or a class in ours', () => {
+    for (const [ours, theirs] of [
+      ['', ' class="wb7dbjyrb"'],
+      ['', ' class="w3ey9fgef hidden"'],
+      [' class="hidden"', ' class="w3ey9fgef"'],
+    ]) {
+      const result = bodies(
+        main(ours, 'photoPage'),
+        main(theirs, 'w3ey9fgef'),
+        scopedClass,
+        pageScopedSprite
+      )
+      expect(clean(result)).toBe(false)
+    }
   })
 })
 
@@ -374,6 +470,12 @@ describe('renamed()', () => {
       renamed('.wvormuvo0 svg,#wvormuvo0,[class=wvormuvo0],.wo-ywfb1w>header,.x{a:b}')
     ).toBe('.dataChip svg,#wvormuvo0,[class=wvormuvo0],.article>header,.x{a:b}')
   })
+
+  it('should give the photo page’s hash and its components’ their names', () => {
+    expect(
+      renamed('.w3ey9fgef nav{a:b}.wtw5vxrij section{a:b}.wz5lbi-ak.loading{a:b}')
+    ).toBe('.photoPage nav{a:b}.photoMeta section{a:b}.mapBox.loading{a:b}')
+  })
 })
 
 describe('normalized()', () => {
@@ -433,6 +535,35 @@ describe('webc-attr-leak', () => {
     )
     expect(clean(result)).toBe(true)
     expect(forgiven(result)).toEqual([['webc-attr-leak', 1]])
+  })
+
+  it('should accept a pill-button carrying its link’s title and rel', () => {
+    const link = '<a href="/photos/split/" title="Split" rel="prev">Previous</a>'
+    const result = bodies(
+      `<pill-button>${link}</pill-button>`,
+      `<pill-button href="/photos/split/" title="Split" rel="prev">${link}</pill-button>`,
+      webcAttrLeak
+    )
+    expect(clean(result)).toBe(true)
+    expect(forgiven(result)).toEqual([['webc-attr-leak', 1]])
+  })
+
+  it('should not accept a title or rel its link does not have', () => {
+    for (const leaked of [' title="Other"', ' rel="next"']) {
+      const link = '<a href="/photos/split/" title="Split" rel="prev">Previous</a>'
+      const result = bodies(
+        `<pill-button>${link}</pill-button>`,
+        `<pill-button${leaked}>${link}</pill-button>`,
+        webcAttrLeak
+      )
+      expect(clean(result)).toBe(false)
+    }
+    const bare = bodies(
+      '<pill-button><a href="/">x</a></pill-button>',
+      '<pill-button title="x"><a href="/">x</a></pill-button>',
+      webcAttrLeak
+    )
+    expect(clean(bare)).toBe(false)
   })
 
   it('should accept the photo’s placement inside it and its alias on it', () => {
@@ -1315,6 +1446,7 @@ describe('forgiveness()', () => {
     const { classes } = forgiveness(NO_CSS, new Map())
     expect(classes.map((cls) => cls.name)).toEqual([
       'scoped-class',
+      'page-scoped-sprite',
       'css-bundle',
       'webc-attr-leak',
       'svg-desc-counter',

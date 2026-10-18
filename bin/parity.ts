@@ -2,17 +2,15 @@
 // dist/lemmon — and compares every page either build wrote, each `index.html` under
 // either dist, as rendered HTML (lemmon's D28), through the forgiveness classes in
 // bin/parity/, with both builds' CSS bundles read beside the global stylesheets for
-// css-bundle and the photos' titles from www/_lemmon/photos.json for photo-list-heading;
-// the pages bin/parity/expected.ts lists as PENDING, which Lemmon does not write yet, are
-// set aside. Each page reports every difference no class explains, why a
-// class refused one where it says, how often each class fired, and what matched. Then
-// the client scripts both builds bundled — every file esbuild writes for an `index.ts` or
-// `worker.ts` under www/, and its assets — are compared byte for byte, Eleventy's
-// unhashed stubs set aside and counted (bin/parity/scripts.ts). The run exits 1 on any
-// unexplained difference, any class firing other than its count in EXPECTED, a row there
-// for a url no page compared has, an `.html` file in either dist that is no `index.html`,
-// a page one build lacks, a pending page Lemmon wrote or Eleventy did not, or a script
-// file one build lacks or writes differently.
+// css-bundle and the photos' titles from www/_lemmon/photos.json for photo-list-heading.
+// Each page reports every difference no class explains, why a class refused one where it
+// says, how often each class fired, and what matched. Then the client scripts both
+// builds bundled — every file esbuild writes for an `index.ts` or `worker.ts` under
+// www/, and its assets — are compared byte for byte, Eleventy's unhashed stubs set aside
+// and counted (bin/parity/scripts.ts). The run exits 1 on any unexplained difference,
+// any class firing other than its count in EXPECTED, a row there for a url no page
+// compared has, an `.html` file in either dist that is no `index.html`, a page one build
+// lacks, or a script file one build lacks or writes differently.
 //
 //   npm run parity [-- --no-build]     --no-build compares the dists already there
 //
@@ -26,7 +24,7 @@ import { rm } from 'node:fs/promises'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { EXPECTED, PENDING } from './parity/expected.ts'
+import { EXPECTED } from './parity/expected.ts'
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
 const INPUT = 'www'
@@ -93,8 +91,7 @@ if (!args.includes('--no-build')) {
 const ours = join(ROOT, OURS)
 const theirs = join(ROOT, THEIRS)
 const written = { ours: await pagesIn(ours), theirs: await pagesIn(theirs) }
-const roster = rosterOf(written.ours.pages, written.theirs.pages, PENDING)
-const { urls } = roster
+const urls = rosterOf(written.ours.pages, written.theirs.pages)
 const css = await bundlesIn(ours, theirs)
 const titles = await photoTitlesIn(join(ROOT, INPUT))
 
@@ -125,20 +122,7 @@ for (const line of scriptLines(scripts, { ours: OURS, theirs: THEIRS })) console
 console.log()
 for (const url of stale) {
   console.error(
-    `FAIL: bin/parity/expected.ts has a row for ${url}, which is no page compared: ` +
-      'neither build wrote one, or it is pending'
-  )
-}
-for (const url of roster.written) {
-  console.error(
-    `FAIL: ${OURS} has ${url}, which bin/parity/expected.ts lists as pending ` +
-      `(${PENDING[url]}): give it a row in EXPECTED instead`
-  )
-}
-for (const url of roster.unwritten) {
-  console.error(
-    `FAIL: bin/parity/expected.ts lists ${url} as pending (${PENDING[url]}), ` +
-      `where ${THEIRS} has no page`
+    `FAIL: bin/parity/expected.ts has a row for ${url}, where neither build wrote a page`
   )
 }
 for (const [side, dist] of [
@@ -158,12 +142,9 @@ if (failures > 0) {
 if (scriptsFailed(scripts)) {
   console.error('FAIL: the client scripts differ, listed above')
 }
-const pending = Object.keys(PENDING).length
 if (
   stale.length > 0 ||
   written.ours.strays.length + written.theirs.strays.length > 0 ||
-  roster.written.length > 0 ||
-  roster.unwritten.length > 0 ||
   urls.length === 0 ||
   failures > 0 ||
   scriptsFailed(scripts)
@@ -172,6 +153,6 @@ if (
 } else {
   console.log(
     `PASS: ${urls.length} pages, every difference in a named class at its count, ` +
-      `${pending} pending, and ${scripts.identical} script files byte for byte`
+      `and ${scripts.identical} script files byte for byte`
   )
 }

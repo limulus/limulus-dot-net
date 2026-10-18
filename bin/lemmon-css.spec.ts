@@ -1,7 +1,14 @@
 import { readFile } from 'node:fs/promises'
 import { describe, expect, it } from 'vitest'
 
-import { readStylesheets, siteStyles, TARGET } from './lemmon-css.ts'
+import {
+  MAPBOX_GL_TARGET,
+  mapboxGlStyles,
+  readMapboxGl,
+  readStylesheets,
+  siteStyles,
+  TARGET,
+} from './lemmon-css.ts'
 
 describe('siteStyles', () => {
   it('should define siteStyles() with one lem-style per stylesheet, in order', () => {
@@ -51,9 +58,37 @@ describe('siteStyles', () => {
   })
 })
 
+describe('mapboxGlStyles', () => {
+  it('should define mapboxGlStyles() with one lem-style holding the stylesheet', () => {
+    expect(mapboxGlStyles({ name: 'mapbox-gl', text: '.a{color:red}\n' })).toBe(
+      [
+        '<lem-fn mapboxGlStyles()>',
+        '  <lem-style>',
+        '    .a{color:red}',
+        '  </lem-style>',
+        '</lem-fn>',
+        '',
+      ].join('\n')
+    )
+  })
+
+  it('should refuse a stylesheet holding a "<", as siteStyles does', () => {
+    expect(() => mapboxGlStyles({ name: 'mapbox-gl', text: '/* <lem- */' })).toThrow(
+      'mapbox-gl.css: line 1 holds a "<"'
+    )
+  })
+})
+
 describe('www/_lemmon/site-styles.lem', () => {
   it('should be what `npm run lemmon:css` derives from www/_includes/css/', async () => {
     const expected = siteStyles(await readStylesheets())
     expect(await readFile(TARGET, 'utf8')).toBe(expected)
+  })
+})
+
+describe('www/_lemmon/mapbox-gl.lem', () => {
+  it('should be what `npm run lemmon:css` derives from mapbox-gl.css', async () => {
+    const expected = mapboxGlStyles(await readMapboxGl())
+    expect(await readFile(MAPBOX_GL_TARGET, 'utf8')).toBe(expected)
   })
 })

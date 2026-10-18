@@ -1,5 +1,5 @@
-<lem-fn dataChip(icon: string?, slot: html)>
-  <data-chip class="dataChip">
+<lem-fn dataChip(icon: string?, title: string?, slot: html)>
+  <data-chip class="dataChip"<lem-if title> title="<lem.title>"</lem-if>>
     <lem-if icon>
       <lem.svgUse(icon)>
     </lem-if>

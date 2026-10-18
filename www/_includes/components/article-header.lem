@@ -9,7 +9,7 @@
         <p><lem.post.subhead></p>
       </lem-if>
     </hgroup>
-    <lem.chipList(null, articleChips(post, false))>
+    <lem.chipList(null, null, articleChips(post, false))>
   </article-header>
   <lem-style>
     .articleHeader {

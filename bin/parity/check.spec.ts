@@ -118,26 +118,43 @@ describe('photoTitlesIn()', () => {
 })
 
 describe('rosterOf()', () => {
-  const PENDING = { '/photos/a/': '∆hvm', '/tils/git/': '∆hvm' }
-
   it('should compare every page either build wrote, once each, sorted', () => {
-    const roster = rosterOf(['/b/', '/', '/c/'], ['/c/', '/a/', '/'], {})
-    expect(roster).toEqual({ urls: ['/', '/a/', '/b/', '/c/'], written: [], unwritten: [] })
+    expect(rosterOf(['/b/', '/', '/c/'], ['/c/', '/a/', '/'])).toEqual([
+      '/',
+      '/a/',
+      '/b/',
+      '/c/',
+    ])
   })
 
-  it('should set aside a pending page that only Eleventy writes', () => {
-    const roster = rosterOf(['/'], ['/', '/photos/a/', '/tils/git/'], PENDING)
-    expect(roster).toEqual({ urls: ['/'], written: [], unwritten: [] })
-  })
-
-  it('should name a pending page Lemmon wrote, and still not compare it', () => {
-    const roster = rosterOf(['/', '/tils/git/'], ['/', '/photos/a/', '/tils/git/'], PENDING)
-    expect(roster).toEqual({ urls: ['/'], written: ['/tils/git/'], unwritten: [] })
-  })
-
-  it('should name a pending page Eleventy no longer writes', () => {
-    const roster = rosterOf(['/'], ['/', '/tils/git/'], PENDING)
-    expect(roster).toEqual({ urls: ['/'], written: [], unwritten: ['/photos/a/'] })
+  it('should fail a page only one build wrote, as missing from the other', async () => {
+    const dist = await mkdtemp(join(tmpdir(), 'parity-roster-'))
+    try {
+      for (const side of ['ours', 'theirs']) {
+        await mkdir(join(dist, side, 'both'), { recursive: true })
+        await writeFile(join(dist, side, 'both', 'index.html'), page('x'))
+      }
+      await mkdir(join(dist, 'theirs', 'only'), { recursive: true })
+      await writeFile(join(dist, 'theirs', 'only', 'index.html'), page('x'))
+      const sides = { ours: join(dist, 'ours'), theirs: join(dist, 'theirs') }
+      const urls = rosterOf(
+        (await pagesIn(sides.ours)).pages,
+        (await pagesIn(sides.theirs)).pages
+      )
+      expect(urls).toEqual(['/both/', '/only/'])
+      const report = comparePage({
+        url: '/only/',
+        ours: await pageAt(sides.ours, '/only/'),
+        theirs: await pageAt(sides.theirs, '/only/'),
+        css: NO_CSS,
+        titles: NO_TITLES,
+        expected: {},
+      })
+      expect(report.missing).toBe('ours')
+      expect(failed(report)).toBe(true)
+    } finally {
+      await rm(dist, { recursive: true, force: true })
+    }
   })
 })
 

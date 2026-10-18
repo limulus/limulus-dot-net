@@ -1,0 +1,115 @@
+<lem-fn lensNames(): {string: string} = {
+  "iPhone 6s back camera 4.15mm f/2.2": "Rear Camera",
+  "iPhone X back dual camera 4mm f/1.8": "Wide-angle",
+  "iPhone 16 Pro back dual wide camera 6.765mm f/1.78": "1x Fusion",
+  "iPhone 16 Pro back triple camera 6.765mm f/1.78": "1x Fusion",
+  "iPhone 16 Pro back triple camera 15.66mm f/2.8": "5x Telephoto",
+  "AF-S DX Nikkor 35mm f/1.8G": "AF-S DX NIKKOR 35mm ƒ/1.8G",
+  "AF-S VR Zoom-Nikkor 70-300mm f/4.5-5.6G IF-ED":
+    "AF-S VR Zoom-NIKKOR 70-300mm ƒ/4.5-5.6G IF-ED",
+} />
+
+<lem-fn lensCropFactors(): {string: {string: float}} = {
+  "iPhone 6s": {
+    "iPhone 6s back camera 4.15mm f/2.2": 7.0,
+  },
+  "iPhone X": {
+    "iPhone X back dual camera 4mm f/1.8": 7.0,
+  },
+  "iPhone 16 Pro": {
+    "iPhone 16 Pro front TrueDepth camera 2.69mm f/1.9": 8.55,
+    "iPhone 16 Pro back dual wide camera 6.765mm f/1.78": 3.55,
+    "iPhone 16 Pro back triple camera 6.765mm f/1.78": 3.55,
+    "iPhone 16 Pro back triple camera 15.66mm f/2.8": 7.66,
+  },
+} />
+
+<lem-fn cameraCropFactors(): {string: float} = {
+  "FinePix T400": 5.62,
+  "NIKON D5600": 1.5,
+} />
+
+<lem-fn cropFactor(camera: string, lens: string): float =
+  lensCropFactors().has(camera)
+    ? lensCropFactors()[camera][lens]
+    : cameraCropFactors()[camera] />
+
+<lem-fn cameraName(camera: string): string =
+  camera.replace("NIKON", "Nikon").replace("FinePix T400", "FujiFilm FinePix T400") />
+
+<lem-fn withoutTrailingZeros(fixed: string): string =
+  fixed.endsWith(".00")
+    ? fixed.split(".")[0]
+    : fixed.endsWith("0")
+      ? fixed.split(".")[0] + "." + fixed.split(".")[1].replace("0", "")
+      : fixed />
+
+<lem-fn photoMeta(photo: Photo)>
+  <lem-let camera = photo.camera ?? "" />
+  <lem-let lens = photo.lens ?? "" />
+  <lem-let crop = cropFactor(camera, lens) />
+  <lem-let chips>
+    <li>
+      <lem-let taken><lem.photo.date.format("%B %-d, %Y at %-I:%M %p")></lem-let>
+      <lem.dataChip("calendar-clock", photo.date.rfc3339(), taken)>
+    </li>
+    <li>
+      <lem-let model><lem.cameraName(camera)></lem-let>
+      <lem.dataChip("photo-camera", null, model)>
+    </li>
+    <lem-if camera != "FinePix T400">
+      <li>
+        <lem-let name><lem.lensNames()[lens]></lem-let>
+        <lem.dataChip("circle", null, name)>
+      </li>
+    </lem-if>
+    <lem-if photo.focalLengthMm>
+      <li>
+        <lem-let actual = photo.focalLengthMm.round() />
+        <lem-let equivalent = (photo.focalLengthMm * crop).round() />
+        <lem-let focal><lem.actual>mm (<lem.equivalent>mm)</lem-let>
+        <lem.dataChip("frame-inspect", null, focal)>
+      </li>
+    </lem-if>
+    <lem-if photo.fNumberValue>
+      <li>
+        <lem-let stop>ƒ/<lem.withoutTrailingZeros(photo.fNumberValue.fixed(2))></lem-let>
+        <lem.dataChip("camera", null, stop)>
+      </li>
+    </lem-if>
+    <lem-if photo.compositeExposureSeconds>
+      <li>
+        <lem-let exposure><lem.photo.compositeExposureSeconds.fixed(1)>s</lem-let>
+        <lem.dataChip("shutter-speed", null, exposure)>
+      </li>
+    <lem-else-if photo.exposureTime />
+      <li>
+        <lem-let exposure><lem.photo.exposureTime>s</lem-let>
+        <lem.dataChip("shutter-speed", null, exposure)>
+      </li>
+    </lem-if>
+    <lem-if photo.iso>
+      <li>
+        <lem-let sensitivity>ISO <lem.photo.iso></lem-let>
+        <lem.dataChip("camera-roll", null, sensitivity)>
+      </li>
+    </lem-if>
+  </lem-let>
+  <photo-meta class="photoMeta">
+    <section>
+      <h2 class="visually-hidden">Photo Metadata</h2>
+
+      <lem.chipList(null, "center", chips)>
+      <lem-if photo.location>
+        <lem.mapBox(photo.location)>
+      </lem-if>
+    </section>
+  </photo-meta>
+  <lem-style>
+    .photoMeta {
+      & section {
+        margin-top: 2rem;
+      }
+    }
+  </lem-style>
+</lem-fn>

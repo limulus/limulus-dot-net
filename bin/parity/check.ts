@@ -51,38 +51,13 @@ export async function photoTitlesIn(input: string): Promise<PhotoTitles> {
   return new Map(Object.values(photos).map(({ alias, title }) => [alias, title]))
 }
 
-/** Which pages a run compares, and what is wrong with its list of pending pages. */
-export interface Roster {
-  /** Every url either build wrote a page at, but the pending, sorted. */
-  urls: string[]
-  /** Each pending url Lemmon wrote a page at, which is to be compared instead. */
-  written: string[]
-  /** Each pending url Eleventy wrote no page at, which nothing is waiting for. */
-  unwritten: string[]
-}
-
 /**
- * The pages to compare, from the urls each build wrote a page at (`ours` and `theirs`),
- * and `pending`, the pages Eleventy writes that Lemmon does not write yet, each with the
- * lemmon backlog item that brings it. A page only one build wrote is compared, and fails
- * as missing from the other; a pending page is set aside until Lemmon writes it, and the
- * roster says so then, and where Eleventy stops writing one, so that the list cannot
- * outlive what it is waiting for.
+ * The pages to compare, sorted: every url either build wrote a page at (`ours` and
+ * `theirs`), once. A page only one build wrote is compared, and fails as missing from
+ * the other.
  */
-export function rosterOf(
-  ours: string[],
-  theirs: string[],
-  pending: Record<string, string>
-): Roster {
-  const waiting = (url: string): boolean => Object.hasOwn(pending, url)
-  return {
-    urls: [...new Set([...ours, ...theirs])].filter((url) => !waiting(url)).sort(),
-    written: ours.filter(waiting).sort(),
-    unwritten: Object.keys(pending)
-      .filter((url) => !theirs.includes(url))
-      .sort(),
-  }
-}
+export const rosterOf = (ours: string[], theirs: string[]): string[] =>
+  [...new Set([...ours, ...theirs])].sort()
 
 /** The page a build wrote for `url`, or null if it wrote none. */
 export async function pageAt(dist: string, url: string): Promise<string | null> {

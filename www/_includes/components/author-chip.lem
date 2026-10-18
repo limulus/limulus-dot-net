@@ -3,7 +3,7 @@
     <lem.phoPicture(author.photo, ["xs"], "", null)>
     <lem.author.name>
   </lem-let>
-  <lem-let chip = dataChip(null, content) />
+  <lem-let chip = dataChip(null, null, content) />
   <lem-if nolink>
     <lem.chip>
   <lem-else />

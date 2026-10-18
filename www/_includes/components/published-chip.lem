@@ -3,5 +3,5 @@
     <time datetime="<lem.date>"
       title="<lem.date.rfc822()>"><lem.date.format("%B %-d, %Y")></time>
   </lem-let>
-  <lem.dataChip("newspaper-solid", when)>
+  <lem.dataChip("newspaper-solid", null, when)>
 </lem-fn>

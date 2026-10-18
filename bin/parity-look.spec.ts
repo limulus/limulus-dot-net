@@ -6,6 +6,7 @@ import {
   bandsText,
   fileFor,
   Gate,
+  MAP_BUNDLE,
   MASKED,
   maskedNothing,
   pixelDiff,
@@ -194,6 +195,33 @@ describe('MASKED', () => {
     const all = MASKED.flatMap(({ selector }) => hosts(selector))
     expect(all).not.toContain('blur-hash')
     expect(all).not.toContain('projectile-cannon')
+  })
+})
+
+describe('MAP_BUNDLE', () => {
+  it("should match the map's hashed bundle, which its loader imports", () => {
+    expect(MAP_BUNDLE.test('/lib/map-box/index.GGIOBTUO.js')).toBe(true)
+  })
+
+  it('should not match its source map, its stub, or another bundle', () => {
+    for (const path of [
+      '/lib/map-box/index.GGIOBTUO.js.map',
+      '/lib/map-box/index.js',
+      '/lib/common/index.YDUDOD6U.js',
+      '/photos/lib/map-box/index.GGIOBTUO.js',
+    ]) {
+      expect(MAP_BUNDLE.test(path), path).toBe(false)
+    }
+  })
+
+  it("should match the bundle map-box.lem's loader names", async () => {
+    const lem = await readFile(
+      new URL('../www/_includes/components/map-box.lem', import.meta.url),
+      'utf8'
+    )
+    const [, entry] = /import\('<lem\.asset\("([^"]+)"\)>'\)/.exec(lem) ?? []
+    expect(entry).toBe('/lib/map-box/index.js')
+    expect(MAP_BUNDLE.test(entry.replace(/\.js$/, '.GGIOBTUO.js'))).toBe(true)
   })
 })
 

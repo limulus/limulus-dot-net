@@ -1,6 +1,6 @@
 <lem-fn tilChip(topic: string, nolink: bool)>
   <lem-let label><lem.topic></lem-let>
-  <lem-let chip = dataChip("lightbulb-solid", label) />
+  <lem-let chip = dataChip("lightbulb-solid", null, label) />
   <lem-if nolink>
     <lem.chip>
   <lem-else />

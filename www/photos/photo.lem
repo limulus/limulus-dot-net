@@ -1,0 +1,109 @@
+---
+type: PhotoPage
+for:
+  photo: site.gallery
+---
+<lem-if page.next>
+  <lem-head>
+    <link rel="next" href="<lem.page.next.url>" />
+  </lem-head>
+</lem-if>
+<lem-if page.prev>
+  <lem-head>
+    <link rel="prev" href="<lem.page.prev.url>" />
+  </lem-head>
+</lem-if>
+<lem.mark("photoSprite")>
+
+<article class="photoPage">
+  <section>
+    <nav>
+      <ul>
+        <li>
+          <lem-if page.prev>
+            <lem.pillButton(page.prev.url, "angle-left-solid", "Previous",
+              title: page.prev.title, rel: "prev")>
+          </lem-if>
+        </li>
+        <lem-let fullSize =
+          page.photo.renditions.find(|r| r.name == "xl" && r.format == "avif") />
+        <lem-if fullSize>
+          <li>
+            <lem.pillButton(fullSize.url, "file-image-solid", "Full Size",
+              title: null, rel: null)>
+          </li>
+        </lem-if>
+        <li>
+          <lem-if page.next>
+            <lem.pillButton(page.next.url, "angle-right-solid", "Next",
+              title: page.next.title, rel: "next")>
+          </lem-if>
+        </li>
+      </ul>
+    </nav>
+
+    <figure>
+      <figcaption>
+        <h1><lem.page.title></h1>
+      </figcaption>
+      <lem.phoPicture(page.photo, ["lg", "md"], page.photo.description, null)>
+    </figure>
+  </section>
+
+  <lem.photoMeta(page.photo)>
+</article>
+<lem-style>
+  .photoPage {
+    & nav {
+      margin: 1rem 0;
+      font-size: 1.2rem;
+    }
+
+    & nav ul {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    & nav li {
+      margin: 0;
+      width: 1.5em;
+    }
+
+    & figure {
+      display: flex;
+      flex-direction: column-reverse;
+    }
+
+    & img {
+      display: block;
+      margin-left: calc(var(--body-padding) * -1);
+      max-width: 100vw;
+      width: calc(100% + var(--body-padding) * 2);
+      height: auto;
+      max-height: calc(100vh - 4rem);
+      object-fit: contain;
+    }
+
+    & figcaption {
+      box-sizing: border-box;
+      margin: 0.5rem 0;
+      font-size: 0.9rem;
+      text-align: right;
+      --var-font-wght: 400;
+      --var-font-slnt: -10;
+      font-synthesis: none;
+    }
+
+    & figcaption h1 {
+      font-size: inherit;
+      font-weight: inherit;
+      --var-font-wght: inherit;
+      font-synthesis: none;
+    }
+  }
+</lem-style>

@@ -7,13 +7,13 @@
       <lem-let label>
         <lem.roundedMinutes(videoPost.vod.duration ?? post.readingTime)> min watch
       </lem-let>
-      <lem.dataChip("film-solid", label)>
+      <lem.dataChip("film-solid", null, label)>
     </lem-case>
     <lem-default>
       <lem-let label>
         <lem.roundedMinutes(post.readingTime)> min read
       </lem-let>
-      <lem.dataChip("scroll-solid", label)>
+      <lem.dataChip("scroll-solid", null, label)>
     </lem-default>
   </lem-match>
 </lem-fn>

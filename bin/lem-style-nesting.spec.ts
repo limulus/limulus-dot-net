@@ -1,15 +1,16 @@
-// A component's `lem-style` nests its rules under `.fnName { … }` (lemmon's D20). A
-// nested selector without its `&` — `img {` for `& img {` — is a relative selector, which
-// lightningcss accepts and normalizes as if the `&` were there, so css-bundle cannot see
-// it missing; but Chrome before 120 and Safari before 17.2 drop such a rule, and D20's
-// browser floor reaches below both. So every selector under a wrapper names its parent.
+// A component's `lem-style` nests its rules under `.fnName { … }` (lemmon's D20), and the
+// photo page's under the class on its `article`, `.photoPage { … }`. A nested selector
+// without its `&` — `img {` for `& img {` — is a relative selector, which lightningcss
+// accepts and normalizes as if the `&` were there, so css-bundle cannot see it missing;
+// but Chrome before 120 and Safari before 17.2 drop such a rule, and D20's browser floor
+// reaches below both. So every selector under a wrapper names its parent.
 
 import { readdir, readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
 
-const INCLUDES = fileURLToPath(new URL('../www/_includes/', import.meta.url))
+const WWW = fileURLToPath(new URL('../www/', import.meta.url))
 
 /**
  * The selector lines inside the `.fnName { … }` wrapper of each `lem-style` block in
@@ -78,15 +79,15 @@ describe('nestedSelectors()', () => {
   })
 })
 
-describe('www/_includes/**/*.lem', () => {
+describe('www/**/*.lem', () => {
   it('should nest every scoped selector under its wrapper with `&`', async () => {
-    const files = (await readdir(INCLUDES, { recursive: true })).filter((file) =>
+    const files = (await readdir(WWW, { recursive: true })).filter((file) =>
       file.endsWith('.lem')
     )
     const selectors = (
       await Promise.all(
         files.map(async (file) =>
-          nestedSelectors(await readFile(join(INCLUDES, file), 'utf8')).map((line) => ({
+          nestedSelectors(await readFile(join(WWW, file), 'utf8')).map((line) => ({
             file,
             line,
           }))
