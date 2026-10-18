@@ -44,7 +44,21 @@
   <li>
     <lem.publishedChip(post.date)>
   </li>
-  <li>
-    <lem.timeChip(post)>
-  </li>
+  <lem-if post.linkUrl == null>
+    <li>
+      <lem.timeChip(post)>
+    </li>
+  </lem-if>
+  <lem-if post.tilTopic>
+    <li>
+      <lem.tilChip(post.tilTopic, nolink)>
+    </li>
+  </lem-if>
+  <lem-if post.linkUrl>
+    <lem-if post.linkDomain>
+      <li>
+        <lem.linkChip(post.linkUrl, post.linkDomain, nolink)>
+      </li>
+    </lem-if>
+  </lem-if>
 </lem-fn>

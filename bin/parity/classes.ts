@@ -1,8 +1,8 @@
-// The forgiveness classes `npm run parity` accepts between a feed post `lem build` writes
-// and the one Eleventy writes. Each states one difference as narrowly as it can be told
-// apart from a regression beside it: a class that forgives more than it claims hides real
-// differences (the lemmon repo's ∆xWs retrospective), so every predicate checks what the
-// difference must be, not only where it may be. Each names the lemmon backlog item or
+// The forgiveness classes `npm run parity` accepts between a document's page `lem build`
+// writes and the one Eleventy writes. Each states one difference as narrowly as it can be
+// told apart from a regression beside it: a class that forgives more than it claims hides
+// real differences (the lemmon repo's ∆xWs retrospective), so every predicate checks what
+// the difference must be, not only where it may be. Each names the lemmon backlog item or
 // decision that retires it; one that names none is a difference in Eleventy's own output
 // and lasts until the cutover.
 
@@ -12,25 +12,11 @@ import type {
   MatchedPair,
   RenderedElement,
   RenderedNode,
-  RenderedPage,
   Scope,
 } from '@limulus/lemmon-shell'
 import * as csstree from 'css-tree'
 import { Features, transform } from 'lightningcss'
 import { createHash } from 'node:crypto'
-
-/** A card in an `article-list`: its `li`, the `article-card`, and the url it links to. */
-export interface Card {
-  li: RenderedElement
-  card: RenderedElement
-  href: string
-}
-
-/** A feed post's card on Eleventy's feed index, which lists every article. */
-export interface ReferenceCard extends Card {
-  /** The instant its `time[datetime]` names. */
-  published: number
-}
 
 /** The CSS bundles both builds wrote, and what ours must hold. */
 export interface Bundles {
@@ -40,16 +26,6 @@ export interface Bundles {
   theirs: Map<string, Buffer>
   /** The global stylesheets, each trimmed, joined by newlines: how each must end. */
   globals: string
-}
-
-/** The post a comparison is of, for the classes that judge it against the site. */
-export interface Post {
-  /** Its url, `/feed/<slug>/`. */
-  url: string
-  /** The card of every feed post, from Eleventy's feed index. */
-  feed: ReferenceCard[]
-  /** The CSS bundles both builds wrote, which css-bundle reads. */
-  css: Bundles
 }
 
 /**
@@ -293,7 +269,7 @@ export interface CssBundle extends Forgiveness {
  * function names ours' components scope by — so a fragment collected out of order, a
  * value changed, or a block under the wrong name is refused. Each refusal records why.
  */
-export function cssBundle(post: Post): CssBundle {
+export function cssBundle(css: Bundles): CssBundle {
   const refusals: string[] = []
   return {
     name: 'css-bundle',
@@ -311,7 +287,7 @@ export function cssBundle(post: Post): CssBundle {
       ) {
         return false
       }
-      const refusal = bundleRefusal(post.css, ours ?? '', theirs ?? '')
+      const refusal = bundleRefusal(css, ours ?? '', theirs ?? '')
       if (refusal !== undefined) refusals.push(`css-bundle: ${refusal}`)
       return refusal === undefined
     },
@@ -389,6 +365,60 @@ const webcAttrLeak: Forgiveness = {
       default:
         return false
     }
+  },
+}
+
+const DESC_ID = /^symbol-(.+)-desc-[0-9a-z]+$/
+
+const idCounts = new WeakMap<RenderedElement, Map<string, number>>()
+
+/** How many elements under `root` carry `id`. */
+function carriers(root: RenderedElement, id: string): number {
+  let counts = idCounts.get(root)
+  if (counts === undefined) {
+    counts = new Map()
+    for (const element of descendants(root)) {
+      const own = element.attrs.get('id')
+      if (own !== undefined) counts.set(own, (counts.get(own) ?? 0) + 1)
+    }
+    idCounts.set(root, counts)
+  }
+  return counts.get(id) ?? 0
+}
+
+/** The `desc` child of `svg` whose id its `aria-labelledby` names. */
+const labelOf = (svg: RenderedElement): RenderedElement | undefined =>
+  elementsIn(svg).find(
+    (desc) =>
+      desc.tag === 'desc' && desc.attrs.get('id') === svg.attrs.get('aria-labelledby')
+  )
+
+/**
+ * Inside an `article-card`, an icon's `svg[aria-labelledby]` and its `desc[id]` are
+ * `symbol-<icon>-desc-<n>` with the same icon and another `n`: eleventy-plugin-svg-sprite
+ * numbers each icon's uses on a page in the order WebC renders them, which is not the
+ * document's — a card with a preview photo is numbered after the cards without one that
+ * follow it — where ours' `uniqueId` counts in document order. On each side the `svg`
+ * must still name its own `desc`, and no other element on that side's page may carry the
+ * id.
+ */
+const svgDescCounter: Forgiveness = {
+  name: 'svg-desc-counter',
+  attr: (name, ours, theirs, at) => {
+    const isSvg = at.ours.tag === 'svg' && name === 'aria-labelledby'
+    const isDesc = at.ours.tag === 'desc' && name === 'id'
+    const svg = isSvg ? at : parentOf(at)
+    if (!(isSvg || isDesc) || svg?.ours.tag !== 'svg') return false
+    const inCard = at.ancestors.some((pair) => pair.ours.tag === 'article-card')
+    const [o, t] = [ours, theirs].map((id) => DESC_ID.exec(id ?? '')?.[1])
+    const labels = [labelOf(svg.ours), labelOf(svg.theirs)]
+    const own = isSvg
+      ? labels.every((label) => label !== undefined)
+      : labels[0] === at.ours && labels[1] === at.theirs
+    const roots = rootsOf(at)
+    const unique =
+      carriers(roots.ours, ours ?? '') <= 1 && carriers(roots.theirs, theirs ?? '') <= 1
+    return inCard && o !== undefined && o === t && own && unique
   },
 }
 
@@ -732,7 +762,7 @@ export function minuteUnder(ours: string, theirs: string): boolean {
 }
 
 /**
- * A reading-time chip in the post's header reads `N min read` one minute under theirs:
+ * A reading-time chip in the article's header reads `N min read` one minute under theirs:
  * the reading-time package counts the markdown source, where a link is its URL, and
  * Lemmon's `readingTime()` the rendered text, on purpose (its doc comment in lemmon's
  * `builtins/text.rs`); Eric accepted the difference for this site on 2026-10-17 (lemmon's
@@ -746,173 +776,7 @@ const readingTime: Forgiveness = {
     minuteUnder(ours, theirs),
 }
 
-// --- ∆tAw: the other collections --------------------------------------------------
-
-const DESC_ID = /^symbol-(.+)-desc-[0-9a-z]+$/
-
-const idCounts = new WeakMap<RenderedElement, Map<string, number>>()
-
-/** How many elements under `root` carry `id`. */
-function carriers(root: RenderedElement, id: string): number {
-  let counts = idCounts.get(root)
-  if (counts === undefined) {
-    counts = new Map()
-    for (const element of descendants(root)) {
-      const own = element.attrs.get('id')
-      if (own !== undefined) counts.set(own, (counts.get(own) ?? 0) + 1)
-    }
-    idCounts.set(root, counts)
-  }
-  return counts.get(id) ?? 0
-}
-
-/** The `desc` child of `svg` whose id its `aria-labelledby` names. */
-const labelOf = (svg: RenderedElement): RenderedElement | undefined =>
-  elementsIn(svg).find(
-    (desc) =>
-      desc.tag === 'desc' && desc.attrs.get('id') === svg.attrs.get('aria-labelledby')
-  )
-
-/**
- * Inside a recommended card, an icon's `svg[aria-labelledby]` and its `desc[id]` are
- * `symbol-<icon>-desc-<n>` with the same icon and another `n`: eleventy-plugin-svg-sprite
- * counts each icon's uses on a page, in base 36, and the cards' pages differ — another
- * card set, or the feed index. On each side the
- * `svg` must still name its own `desc`, and no other element on that side's page may
- * carry the id (∆tAw, with recommended-set).
- */
-const svgDescCounter: Forgiveness = {
-  name: 'svg-desc-counter',
-  attr: (name, ours, theirs, at) => {
-    const isSvg = at.ours.tag === 'svg' && name === 'aria-labelledby'
-    const isDesc = at.ours.tag === 'desc' && name === 'id'
-    const svg = isSvg ? at : parentOf(at)
-    if (!(isSvg || isDesc) || svg?.ours.tag !== 'svg') return false
-    const [o, t] = [ours, theirs].map((id) => DESC_ID.exec(id ?? '')?.[1])
-    const labels = [labelOf(svg.ours), labelOf(svg.theirs)]
-    const own = isSvg
-      ? labels.every((label) => label !== undefined)
-      : labels[0] === at.ours && labels[1] === at.theirs
-    const roots = rootsOf(at)
-    const unique =
-      carriers(roots.ours, ours ?? '') <= 1 && carriers(roots.theirs, theirs ?? '') <= 1
-    return o !== undefined && o === t && own && unique
-  },
-}
-
-const RECOMMENDED = 5
-
-/** An `article-list`'s `ul` and its cards, whether text stands among them, or null. */
-export function listOf(
-  list: RenderedElement
-): { ul: RenderedElement; cards: Card[]; text: boolean } | null {
-  const [ul, ...rest] = elementsIn(list)
-  if (!isElement(ul, 'ul') || rest.length > 0) return null
-  const cards: Card[] = []
-  let text = ul.children.some((child) => child.kind === 'text')
-  for (const li of elementsIn(ul)) {
-    const [card, ...more] = elementsIn(li)
-    if (li.tag !== 'li' || !isElement(card, 'article-card') || more.length > 0) return null
-    const href = [...descendants(card)].find((a) => a.tag === 'a')?.attrs.get('href')
-    if (href === undefined) return null
-    text ||= li.children.some((child) => child.kind === 'text')
-    cards.push({ li, card, href })
-  }
-  return { ul, cards, text }
-}
-
-/** Whether `list` is the "You Might Enjoy…" `article-list`, in the `section` it heads. */
-export function isRecommendedList(
-  list: RenderedElement,
-  section: RenderedElement | undefined
-): boolean {
-  if (list.tag !== 'article-list' || section?.tag !== 'section') return false
-  const heading = elementsIn(section)[0]
-  return isElement(heading, 'h2') && textOf(heading) === 'You Might Enjoy…'
-}
-
-/** The instant a card's `time[datetime]` names. */
-const publishedAt = (card: RenderedElement): number =>
-  Date.parse(
-    [...descendants(card)].find((time) => time.tag === 'time')?.attrs.get('datetime') ?? ''
-  )
-
-/** Every feed post's card on Eleventy's feed index page, in its order. */
-export function feedCards(index: RenderedPage): ReferenceCard[] {
-  const list = [...descendants(index.root)].find(
-    (element) => element.tag === 'article-list'
-  )
-  const cards = list === undefined ? [] : (listOf(list)?.cards ?? [])
-  return cards
-    .filter(({ href }) => href.startsWith('/feed/'))
-    .map((card) => ({ ...card, published: publishedAt(card.card) }))
-}
-
-/** `element` without its children, so a comparison sees only its attributes. */
-const alone = (element: RenderedElement): RenderedElement => ({ ...element, children: [] })
-
-/**
- * "You Might Enjoy…" lists the newest feed posts in ours and the newest of all articles
- * — feed posts, links and TILs — in theirs, so the lists differ by the cards one side
- * lists and the other does not, and by nothing else. Ours must list exactly the newest
- * min(5, posts − 1) feed posts but the page itself, newest first, as the feed index's
- * dates rank them; theirs' feed cards must be ours' first; no text may stand in the
- * list. The `ul`, each `li` and each card of ours are still compared: against theirs'
- * where it lists the post, else against the post's card on the feed index, with
- * svg-desc-counter in effect inside each card. Counted once per card one side lists and
- * the other does not, and not at all where the selection is refused.
- */
-export function recommendedSet(post: Post): Forgiveness {
-  return {
-    name: 'recommended-set',
-    subtree: (at, sub) => {
-      if (!isRecommendedList(at.ours, parentOf(at)?.ours)) return null
-      const ours = listOf(at.ours)
-      const theirs = listOf(at.theirs)
-      if (ours === null || theirs === null) return null
-      const hrefs = ours.cards.map(({ href }) => href)
-      const expected = [...post.feed]
-        .sort((a, b) => b.published - a.published)
-        .map(({ href }) => href)
-        .filter((href) => href !== post.url)
-        .slice(0, Math.min(RECOMMENDED, post.feed.length - 1))
-      const references = ours.cards.map((card) => ({
-        card,
-        reference:
-          theirs.cards.find(({ href }) => href === card.href) ??
-          post.feed.find(({ href }) => href === card.href),
-      }))
-      const problems: string[] = []
-      if (ours.text || theirs.text) problems.push('text stands in the card list')
-      if (hrefs.join(' ') !== expected.join(' ')) {
-        problems.push(
-          `ours lists ${hrefs.join(', ')}; the newest are ${expected.join(', ')}`
-        )
-      }
-      const feed = theirs.cards.filter(({ href }) => href.startsWith('/feed/'))
-      if (feed.some(({ href }, n) => hrefs[n] !== href)) {
-        problems.push("theirs' feed cards are not ours' first, in order")
-      }
-      for (const { card, reference } of references) {
-        if (reference === undefined) problems.push(`no card to compare ${card.href} with`)
-      }
-      if (problems.length > 0) sub.differ(`recommended-set: ${problems.join('; ')}`)
-      sub.compare(alone(ours.ul), alone(theirs.ul), 'ul')
-      for (const { card, reference } of references) {
-        if (reference === undefined) continue
-        sub.compare(alone(card.li), alone(reference.li), `li ${card.href}`)
-        sub.compare(card.card, reference.card, `card ${card.href}`, [svgDescCounter])
-      }
-      if (problems.length > 0) return 0
-      const shared = ours.cards.filter((card) =>
-        theirs.cards.some(({ href }) => href === card.href)
-      )
-      return ours.cards.length - shared.length + (theirs.cards.length - shared.length)
-    },
-  }
-}
-
-/** The classes `npm run parity` accepts on a post, and why any of them refused. */
+/** The classes `npm run parity` accepts on a page, and why any of them refused. */
 export interface Allowlist {
   /** Every class, in the order they are consulted. */
   classes: Forgiveness[]
@@ -920,14 +784,18 @@ export interface Allowlist {
   refusals: string[]
 }
 
-/** Every class `npm run parity` accepts on `post`, in the order they are consulted. */
-export function forgiveness(post: Post): Allowlist {
-  const bundle = cssBundle(post)
+/**
+ * Every class `npm run parity` accepts on a page whose builds wrote the bundles `css`, in
+ * the order they are consulted.
+ */
+export function forgiveness(css: Bundles): Allowlist {
+  const bundle = cssBundle(css)
   const classes = [
     scopedClass,
     bundle,
     unbuiltScripts,
     webcAttrLeak,
+    svgDescCounter,
     datetimeText,
     utcRevisionDisplay,
     generator,
@@ -936,7 +804,6 @@ export function forgiveness(post: Post): Allowlist {
     attrEscaping,
     footnoteMarkup,
     readingTime,
-    recommendedSet(post),
   ]
   return { classes, refusals: bundle.refusals }
 }
@@ -945,6 +812,7 @@ export const CLASSES = {
   scopedClass,
   unbuiltScripts,
   webcAttrLeak,
+  svgDescCounter,
   datetimeText,
   utcRevisionDisplay,
   generator,
@@ -953,5 +821,4 @@ export const CLASSES = {
   attrEscaping,
   footnoteMarkup,
   readingTime,
-  svgDescCounter,
 }

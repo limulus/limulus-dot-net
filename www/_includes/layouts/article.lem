@@ -12,7 +12,7 @@
       <footer class="section-separator">
         <section>
           <h2>You Might Enjoy…</h2>
-          <lem.articleList(site.articles.filter(|other| other.url != post.url).take(5))>
+          <lem.articleList(site.newest.filter(|other| other.url != post.url).take(5))>
         </section>
       </footer>
     </article>

@@ -1,33 +1,45 @@
-// What `npm run parity` does with each post: find it in both builds, compare the two
-// pages as rendered HTML through the allowlist, and hold every class to its expected
+// What `npm run parity` does with each document: find its page in both builds, compare
+// the two as rendered HTML through the allowlist, and hold every class to its expected
 // count, as lemmon's fidelity harness does for its own page.
 
 import { compareRendered, renderedPage, type Comparison } from '@limulus/lemmon-shell'
 import { readdir, readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 
-import {
-  feedCards,
-  forgiveness,
-  SITE_DISPLAY,
-  type Bundles,
-  type ReferenceCard,
-} from './classes.ts'
+import { forgiveness, SITE_DISPLAY, type Bundles } from './classes.ts'
 import { readStylesheets } from '../lemmon-css.ts'
 
-/** The url of each post a build wrote: every directory under `feed/` with a page. */
-export async function postsIn(dist: string): Promise<string[]> {
-  const feed = join(dist, 'feed')
-  const entries = await readdir(feed, { withFileTypes: true }).catch(
-    (error: NodeJS.ErrnoException) => {
-      if (error.code === 'ENOENT') return []
-      throw error
-    }
-  )
+/**
+ * The sections of the input directory whose markdown documents, at any depth, are the
+ * site's articles: those www/site.lem's `articles` glob matches, and Eleventy tags
+ * `article`.
+ */
+export const SECTIONS = ['feed', 'links', 'penumbra', 'tils']
+
+/**
+ * The url both builds give the document at `path`, relative to the input directory: its
+ * path without `.md`, or without `index.md` for an index, between slashes.
+ */
+export function urlOf(path: string): string {
+  return `/${path.replace(/\.md$/, '').replace(/(^|\/)index$/, '')}/`
+}
+
+/**
+ * The url of every article in the input directory `input` — each `.md` file at any depth
+ * under one of SECTIONS — read from the source, so that a page either build left out is
+ * still compared, and the section indexes and topic pages neither are.
+ */
+export async function documentsIn(input: string): Promise<string[]> {
   const urls: string[] = []
-  for (const entry of entries) {
-    if (entry.isDirectory() && (await pageAt(dist, `/feed/${entry.name}/`)) !== null) {
-      urls.push(`/feed/${entry.name}/`)
+  for (const section of SECTIONS) {
+    const files = await readdir(join(input, section), { recursive: true }).catch(
+      (error: NodeJS.ErrnoException) => {
+        if (error.code === 'ENOENT') return []
+        throw error
+      }
+    )
+    for (const file of files) {
+      if (file.endsWith('.md')) urls.push(urlOf(`${section}/${file}`))
     }
   }
   return urls.sort()
@@ -59,32 +71,20 @@ export async function filesIn(dist: string, dir: string): Promise<Map<string, Bu
   return files
 }
 
-/** Every feed post's card from the page of Eleventy's feed index, if there is one. */
-export function referenceFeed(index: string | null): ReferenceCard[] | null {
-  return index === null ? null : feedCards(renderedPage(index, { display: SITE_DISPLAY }))
-}
-
 /**
- * What comparing a post needs beside its two pages, from the dists `ours` and `theirs`:
- * every feed post's card on Eleventy's feed index (null without one), and both builds'
- * CSS bundles with the global stylesheets, read up front since the comparison's hooks
- * are synchronous.
+ * What comparing a page needs beside the page itself, from the dists `ours` and
+ * `theirs`: both builds' CSS bundles with the global stylesheets, read up front since
+ * the comparison's hooks are synchronous.
  */
-export async function siteInputs(
-  ours: string,
-  theirs: string
-): Promise<{ feed: ReferenceCard[] | null; css: Bundles }> {
+export async function bundlesIn(ours: string, theirs: string): Promise<Bundles> {
   return {
-    feed: referenceFeed(await pageAt(theirs, '/feed/')),
-    css: {
-      ours: await filesIn(ours, '/assets/immutable/bundle/'),
-      theirs: await filesIn(theirs, '/assets/immutable/11ty/bundle/'),
-      globals: (await readStylesheets()).map(({ text }) => text.trim()).join('\n'),
-    },
+    ours: await filesIn(ours, '/assets/immutable/bundle/'),
+    theirs: await filesIn(theirs, '/assets/immutable/11ty/bundle/'),
+    globals: (await readStylesheets()).map(({ text }) => text.trim()).join('\n'),
   }
 }
 
-/** The rows of the expected table for a url neither build wrote. */
+/** The rows of the expected table for a url no document has. */
 export function staleRows(expected: Record<string, unknown>, urls: string[]): string[] {
   return Object.keys(expected).filter((url) => !urls.includes(url))
 }
@@ -121,32 +121,23 @@ export interface PageReport {
   refusals: string[]
 }
 
-export interface PostInput {
+export interface PageInput {
   url: string
   /** The page `lem build` wrote, or null. */
   ours: string | null
   /** The page Eleventy wrote, or null. */
   theirs: string | null
-  /** The card of every feed post, from Eleventy's feed index. */
-  feed: ReferenceCard[]
   /** The CSS bundles both builds wrote, and the global stylesheets. */
   css: Bundles
   /** How often each class should fire on this page. */
   expected: Record<string, number>
 }
 
-/** Compares one post's two pages, or reports the side that lacks it. */
-export function comparePost({
-  url,
-  ours,
-  theirs,
-  feed,
-  css,
-  expected,
-}: PostInput): PageReport {
+/** Compares one document's two pages, or reports the side that lacks it. */
+export function comparePage({ url, ours, theirs, css, expected }: PageInput): PageReport {
   if (ours === null) return { url, missing: 'ours', miscounts: [], refusals: [] }
   if (theirs === null) return { url, missing: 'theirs', miscounts: [], refusals: [] }
-  const { classes, refusals } = forgiveness({ url, feed, css })
+  const { classes, refusals } = forgiveness(css)
   const comparison = compareRendered(
     renderedPage(ours, { display: SITE_DISPLAY }),
     renderedPage(theirs, { display: SITE_DISPLAY }),

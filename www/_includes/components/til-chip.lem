@@ -1,0 +1,9 @@
+<lem-fn tilChip(topic: string, nolink: bool)>
+  <lem-let label><lem.topic></lem-let>
+  <lem-let chip = dataChip("lightbulb-solid", label) />
+  <lem-if nolink>
+    <lem.chip>
+  <lem-else />
+    <a href="/tils/<lem.topic>/"><lem.chip></a>
+  </lem-if>
+</lem-fn>

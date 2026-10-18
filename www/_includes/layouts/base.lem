@@ -3,6 +3,9 @@
     ? site.info.name
     : site.info.name + " / " + u.text().split("/").filter(|dir| dir != "").join(" / ") />
 
+<lem-fn feedUrlOf(p: Page): url =
+  p.inputPath.startsWith("www/penumbra/") ? site.penumbra.feedUrl : site.info.feedUrl />
+
 <lem-fn base(p: Page, title: string, description: string?, body: html)>
   <!doctype html>
   <html lang="en">
@@ -24,7 +27,7 @@
 
       <title><lem.docTitle(p.url)></title>
 
-      <link rel="alternate" type="application/rss+xml" href="<lem.site.info.feedUrl>">
+      <link rel="alternate" type="application/rss+xml" href="<lem.feedUrlOf(p)>">
 
       <meta property="og:title" content="<lem.title>">
       <meta property="og:type" content="<lem.(p is Post ? "article" : "website")>">

@@ -1,7 +1,7 @@
-// What `npm run parity:look` serves in place of each post: both pages with every visible
-// difference a parity class forgives undone, so their screenshots can be held to exact
-// equality. Each neutralizer is named for the class in classes.ts whose difference it
-// undoes, and finds what to undo with that class's own predicates, read over a parse5
+// What `npm run parity:look` serves in place of each document: both pages with every
+// visible difference a parity class forgives undone, so their screenshots can be held to
+// exact equality. Each neutralizer is named for the class in classes.ts whose difference
+// it undoes, and finds what to undo with that class's own predicates, read over a parse5
 // tree; it edits the tree, which is served as parse5 prints it.
 
 import type { RenderedElement, RenderedNode, RenderedText } from '@limulus/lemmon-shell'
@@ -13,8 +13,6 @@ import {
   elementsIn,
   footnotesOf,
   isReadingChip,
-  isRecommendedList,
-  listOf,
   MARKDOWN_IT_IDS,
   minutesRead,
   minuteUnder,
@@ -101,79 +99,6 @@ interface Outcome {
   edits: number
   /** What stops the pair from comparing as the neutralizer means it to. */
   problems: string[]
-  /** How many recommended cards both pages list, where both list some: recommended-set. */
-  shared?: number
-}
-
-/** The cards a pair of lists share, and those each lists alone. */
-export interface Alignment {
-  shared: string[]
-  oursOnly: string[]
-  theirsOnly: string[]
-  /** Why the lists, once each drops what the other lacks, would not compare. */
-  problem?: string
-}
-
-/**
- * Lines up two pages' recommended cards by the url each links: what both list, and what
- * each lists alone. Dropping the cards one side lists alone leaves two lists to compare
- * only where they share a card, and both list the shared ones in one order.
- */
-export function alignCards(ours: string[], theirs: string[]): Alignment {
-  const shared = ours.filter((href) => theirs.includes(href))
-  const theirsShared = theirs.filter((href) => ours.includes(href))
-  const alignment: Alignment = {
-    shared,
-    oursOnly: ours.filter((href) => !theirs.includes(href)),
-    theirsOnly: theirs.filter((href) => !ours.includes(href)),
-  }
-  if (shared.length === 0) {
-    alignment.problem = 'the two lists share no card, so no card of either is compared'
-  } else if (shared.join(' ') !== theirsShared.join(' ')) {
-    alignment.problem =
-      `the cards both pages list come in another order: ours ${shared.join(', ')}; ` +
-      `theirs ${theirsShared.join(', ')}`
-  }
-  return alignment
-}
-
-/** A page's "You Might Enjoy…" list's cards, as recommended-set reads them. */
-function recommendedOf(view: View) {
-  for (const section of descendants(view.root)) {
-    for (const list of elementsIn(section)) {
-      if (isRecommendedList(list, section)) return listOf(list)?.cards ?? null
-    }
-  }
-  return null
-}
-
-/**
- * recommended-set: "You Might Enjoy…" lists the newest feed posts in ours and the newest
- * articles of every kind in theirs. Each page drops the cards the other does not list,
- * which leaves the cards both list, each side's own, in the order they must share.
- */
-function recommendedSet(ours: View, theirs: View): Outcome {
-  const o = recommendedOf(ours)
-  const t = recommendedOf(theirs)
-  if (o === null || t === null) return { edits: 0, problems: [] }
-  const alignment = alignCards(
-    o.map(({ href }) => href),
-    t.map(({ href }) => href)
-  )
-  const dropped = [
-    ...o
-      .filter(({ href }) => alignment.oursOnly.includes(href))
-      .map(({ li }) => ours.element(li)),
-    ...t
-      .filter(({ href }) => alignment.theirsOnly.includes(href))
-      .map(({ li }) => theirs.element(li)),
-  ]
-  for (const li of dropped) defaultTreeAdapter.detachNode(li)
-  return {
-    edits: dropped.length,
-    problems: alignment.problem === undefined ? [] : [alignment.problem],
-    shared: alignment.shared.length,
-  }
 }
 
 /**
@@ -272,7 +197,6 @@ function mdPhotoWrap(_ours: View, theirs: View): Outcome {
 
 /** Each neutralizer, by the parity class whose difference it undoes, in the order run. */
 const NEUTRALIZERS: Record<string, (ours: View, theirs: View) => Outcome> = {
-  'recommended-set': recommendedSet,
   'footnote-markup': footnoteMarkup,
   'reading-time': readingTime,
   'md-photo-wrap': mdPhotoWrap,
@@ -306,29 +230,25 @@ function served(doc: Document, side: string): { html: string; problems: string[]
   return { html, problems }
 }
 
-/** A post's two pages as served for the look check, and what neutralizing them did. */
+/** A document's two pages as served for the look check, and what neutralizing did. */
 export interface Neutralized {
   ours: string
   theirs: string
   /** How many edits each neutralizer made, by name, where it made any. */
   edits: Map<string, number>
-  /** How many recommended cards both pages list, or null where either has no list. */
-  sharedCards: number | null
   /** What stops the pages from comparing as neutralized, each with what found it. */
   problems: string[]
 }
 
-/** Both pages of a post with every neutralizer applied, as served. */
+/** Both pages of a document with every neutralizer applied, as served. */
 export function neutralize(ours: string, theirs: string): Neutralized {
   const docs = { ours: parse(ours), theirs: parse(theirs) }
   const edits = new Map<string, number>()
   const problems: string[] = []
-  let sharedCards: number | null = null
   for (const [name, neutralizer] of Object.entries(NEUTRALIZERS)) {
     // Read afresh for each, so that none reads what another has already edited away.
     const outcome = neutralizer(new View(docs.ours), new View(docs.theirs))
     if (outcome.edits > 0) edits.set(name, outcome.edits)
-    if (outcome.shared !== undefined) sharedCards = outcome.shared
     problems.push(...outcome.problems.map((problem) => `${name}: ${problem}`))
   }
   const servedOurs = served(docs.ours, 'ours')
@@ -336,5 +256,5 @@ export function neutralize(ours: string, theirs: string): Neutralized {
   problems.push(
     ...[...servedOurs.problems, ...servedTheirs.problems].map((p) => `serving: ${p}`)
   )
-  return { ours: servedOurs.html, theirs: servedTheirs.html, edits, sharedCards, problems }
+  return { ours: servedOurs.html, theirs: servedTheirs.html, edits, problems }
 }

@@ -6,6 +6,10 @@
   feedUrl: url
 </lem-type>
 
+<lem-type FeedSection>
+  feedUrl: url
+</lem-type>
+
 <lem-type Rendition>
   name: string
   format: string
@@ -87,14 +91,21 @@
 </lem-type>
 
 <lem-type Post extends Page>
-  title: string
+  title: string = "Link: " + (self.linkTitle ?? "")
   subhead: string?
   teaser: string?
   date: datetime
   author: Author by site.authors
   hero: Photo? by site.photos
   image: Photo? by site.photos
+  imageAlt: string?
   tags: [string] = []
+  scripts: string?
+  linkUrl: url?
+  linkTitle: string?
+  linkDomain: string? = hostOf(self.linkUrl?.text())
+  viaUrl: url?
+  tilTopic: string? = tilTopicOf(path.split("/"))
   readingTime: duration = body.readingTime()
   layout: (Post, html): html = article
 </lem-type>
@@ -104,9 +115,23 @@
   layout: (Post, html): html = video
 </lem-type>
 
+<lem-fn hostOf(u: string?): string? =
+  unprefixed(u?.split("/")?.drop(2)?.first()?.split("?")?.first()?.split("#")?.first()
+    ?.split("@")?.last()?.split(":")?.first()?.lower()) />
+
+<lem-fn unprefixed(host: string?): string? =
+  (host?.startsWith("www.") ?? false) ? host?.split(".")?.drop(1)?.join(".") : host />
+
+<lem-fn tilTopicOf(parts: [string]): string? =
+  parts.length() gte 3 && parts[0] == "tils" && parts[1] != "topics"
+    && parts[2] != "index" && parts[2] != "index.md"
+    ? parts[1]
+    : null />
+
 <lem-let info: SiteInfo from "_data/site.json" />
 <lem-let photos: {string: Photo} from "_lemmon/photos.json" />
 <lem-let authors: {string: Author} from "_data/authors.json" />
 <lem-let revisions: Revisions from "_data/revisions.json" />
-<lem-let posts: [Post] from "feed/*/index.md" />
-<lem-let articles: [Post] = posts.sortBy(|p| p.date).reverse() />
+<lem-let penumbra: FeedSection from "penumbra/penumbra.json" />
+<lem-let articles: [Post] from "{feed,links,penumbra,tils}/**/*.md" />
+<lem-let newest: [Post] = articles.sortBy(|p| p.date).reverse() />

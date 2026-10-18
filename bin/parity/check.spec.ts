@@ -4,16 +4,17 @@ import { join } from 'node:path'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
 import {
-  comparePost,
+  bundlesIn,
+  comparePage,
+  documentsIn,
   failed,
   filesIn,
   miscounts,
   pageAt,
-  postsIn,
-  referenceFeed,
   reportLines,
-  siteInputs,
+  SECTIONS,
   staleRows,
+  urlOf,
   type PageReport,
 } from './check.ts'
 import { bundleName } from './classes.ts'
@@ -23,7 +24,89 @@ const NO_CSS = { ours: new Map(), theirs: new Map(), globals: '' }
 const page = (body: string) =>
   `<!doctype html><html><head></head><body>${body}</body></html>`
 
-describe('postsIn()', () => {
+describe('urlOf()', () => {
+  it('should give an index document its directory’s url', () => {
+    expect(urlOf('feed/the-rebound/index.md')).toBe('/feed/the-rebound/')
+    expect(urlOf('links/2026/02/07/good-taste/index.md')).toBe(
+      '/links/2026/02/07/good-taste/'
+    )
+  })
+
+  it('should give any other document its path without `.md`', () => {
+    expect(urlOf('penumbra/journal/nerd-sniped.md')).toBe('/penumbra/journal/nerd-sniped/')
+    expect(urlOf('tils/git/reindex.md')).toBe('/tils/git/reindex/')
+  })
+})
+
+describe('SECTIONS', () => {
+  it('should be what www/site.lem’s `articles` glob matches, exactly', async () => {
+    const site = await readFile(new URL('../../www/site.lem', import.meta.url), 'utf8')
+    const glob = /<lem-let articles: \[Post\] from "([^"]*)" \/>/.exec(site)?.[1]
+    expect(glob).toBe(`{${SECTIONS.join(',')}}/**/*.md`)
+  })
+})
+
+describe('documentsIn()', () => {
+  let input: string
+
+  beforeEach(async () => {
+    input = await mkdtemp(join(tmpdir(), 'parity-'))
+  })
+
+  afterEach(async () => {
+    await rm(input, { recursive: true, force: true })
+  })
+
+  /** Writes each file named, relative to the input directory. */
+  const files = async (...paths: string[]) => {
+    for (const path of paths) {
+      await mkdir(join(input, path, '..'), { recursive: true })
+      await writeFile(join(input, path), 'x')
+    }
+  }
+
+  it('should list every markdown document under the four sections, by url', async () => {
+    await files(
+      'feed/b-post/index.md',
+      'feed/a-post/index.md',
+      'links/2026/02/07/a-link/index.md',
+      'penumbra/journal/an-entry.md',
+      'tils/git/a-til.md'
+    )
+    expect(await documentsIn(input)).toEqual([
+      '/feed/a-post/',
+      '/feed/b-post/',
+      '/links/2026/02/07/a-link/',
+      '/penumbra/journal/an-entry/',
+      '/tils/git/a-til/',
+    ])
+  })
+
+  it('should leave out every other file, and every other directory', async () => {
+    await files(
+      'feed/index.webc',
+      'feed/a-post/index.md',
+      'feed/a-post/order.pdf',
+      'links/links.json',
+      'penumbra/journal/rust/lib/index.ts',
+      'tils/topics.webc',
+      'photos/a-photo.md',
+      'about.md'
+    )
+    expect(await documentsIn(input)).toEqual(['/feed/a-post/'])
+  })
+
+  it('should list nothing for an input directory with no sections', async () => {
+    expect(await documentsIn(input)).toEqual([])
+  })
+
+  it('should fail on anything but a missing section', async () => {
+    await writeFile(join(input, 'feed'), 'not a directory')
+    await expect(documentsIn(input)).rejects.toThrow(/ENOTDIR/)
+  })
+})
+
+describe('pageAt()', () => {
   let dist: string
 
   beforeEach(async () => {
@@ -32,25 +115,6 @@ describe('postsIn()', () => {
 
   afterEach(async () => {
     await rm(dist, { recursive: true, force: true })
-  })
-
-  it('should list each directory under feed/ that holds a page, by url', async () => {
-    await mkdir(join(dist, 'feed/b-post'), { recursive: true })
-    await writeFile(join(dist, 'feed/b-post/index.html'), page('b'))
-    await mkdir(join(dist, 'feed/a-post'), { recursive: true })
-    await writeFile(join(dist, 'feed/a-post/index.html'), page('a'))
-    await mkdir(join(dist, 'feed/no-page'), { recursive: true })
-    await writeFile(join(dist, 'feed/index.html'), page('feed'))
-    expect(await postsIn(dist)).toEqual(['/feed/a-post/', '/feed/b-post/'])
-  })
-
-  it('should list nothing for a build with no feed/', async () => {
-    expect(await postsIn(dist)).toEqual([])
-  })
-
-  it('should fail on anything but a missing directory', async () => {
-    await writeFile(join(dist, 'feed'), 'not a directory')
-    await expect(postsIn(dist)).rejects.toThrow(/ENOTDIR/)
   })
 
   it('should read a page by url, or say there is none', async () => {
@@ -109,21 +173,21 @@ describe('miscounts()', () => {
   })
 })
 
-describe('comparePost()', () => {
-  const post = { url: '/feed/x/', feed: [], css: NO_CSS, expected: {} }
+describe('comparePage()', () => {
+  const post = { url: '/feed/x/', css: NO_CSS, expected: {} }
 
   it('should report the side that has no page', () => {
-    expect(comparePost({ ...post, ours: null, theirs: page('x') })).toEqual({
+    expect(comparePage({ ...post, ours: null, theirs: page('x') })).toEqual({
       url: '/feed/x/',
       missing: 'ours',
       miscounts: [],
       refusals: [],
     })
-    expect(comparePost({ ...post, ours: page('x'), theirs: null }).missing).toBe('theirs')
+    expect(comparePage({ ...post, ours: page('x'), theirs: null }).missing).toBe('theirs')
   })
 
   it('should compare the pages with the site’s display and the allowlist', () => {
-    const report = comparePost({
+    const report = comparePage({
       ...post,
       ours: page('<data-chip class="dataChip"> <b>a</b> </data-chip>'),
       theirs: page('<data-chip class="wvormuvo0"><b>a</b></data-chip>'),
@@ -135,7 +199,7 @@ describe('comparePost()', () => {
   })
 
   it('should hold the classes to the expected counts', () => {
-    const report = comparePost({
+    const report = comparePage({
       ...post,
       ours: page('<data-chip class="dataChip">a</data-chip>'),
       theirs: page('<data-chip class="wvormuvo0">a</data-chip>'),
@@ -154,7 +218,7 @@ describe('comparePost()', () => {
       `<!doctype html><html><head><link rel="stylesheet" href="${href}"></head>` +
       '<body></body></html>'
     const compared = (globals: string) =>
-      comparePost({
+      comparePage({
         ...post,
         ours: head(OURS),
         theirs: head(THEIRS),
@@ -218,11 +282,10 @@ describe('reportLines()', () => {
   })
 
   it('should give a page where nothing differs one line', () => {
-    const report = comparePost({
+    const report = comparePage({
       url: '/feed/x/',
       ours: page('<p>a</p>'),
       theirs: page('<p>a</p>'),
-      feed: [],
       css: NO_CSS,
       expected: {},
     })
@@ -230,11 +293,10 @@ describe('reportLines()', () => {
   })
 
   it('should list what fails a page: each difference with both sides, then miscounts', () => {
-    const report = comparePost({
+    const report = comparePage({
       url: '/feed/x/',
       ours: page('<data-chip class="dataChip">a</data-chip><p class="x">b</p><p>c</p>'),
       theirs: page('<data-chip class="wvormuvo0">a</data-chip><p class="y">b</p>'),
-      feed: [],
       css: NO_CSS,
       expected: {},
     })
@@ -252,19 +314,7 @@ describe('reportLines()', () => {
   })
 })
 
-describe('referenceFeed()', () => {
-  it('should read the feed posts’ cards off the feed index, or say there is none', () => {
-    const card = (url: string) =>
-      `<li><article-card><a href="${url}"><time datetime="2026-01-01T00:00:00.000Z">t</time></a></article-card></li>`
-    const index = page(
-      `<article-list><ul>${card('/links/x/')}${card('/feed/a/')}</ul></article-list>`
-    )
-    expect(referenceFeed(index)?.map(({ href }) => href)).toEqual(['/feed/a/'])
-    expect(referenceFeed(null)).toBeNull()
-  })
-})
-
-describe('siteInputs()', () => {
+describe('bundlesIn()', () => {
   let dists: string
 
   beforeEach(async () => {
@@ -275,23 +325,13 @@ describe('siteInputs()', () => {
     await rm(dists, { recursive: true, force: true })
   })
 
-  it("should read the feed's cards, both builds' bundles and the stylesheets", async () => {
+  it("should read both builds' bundles and the stylesheets", async () => {
     const [ours, theirs] = [join(dists, 'ours'), join(dists, 'theirs')]
     await mkdir(join(ours, 'assets/immutable/bundle'), { recursive: true })
     await writeFile(join(ours, 'assets/immutable/bundle/a.css'), 'a{}')
     await mkdir(join(theirs, 'assets/immutable/11ty/bundle'), { recursive: true })
     await writeFile(join(theirs, 'assets/immutable/11ty/bundle/b.css'), 'b{}')
-    await mkdir(join(theirs, 'feed'), { recursive: true })
-    await writeFile(
-      join(theirs, 'feed/index.html'),
-      page(
-        '<article-list><ul><li><article-card><a href="/feed/a/">' +
-          '<time datetime="2026-01-01T00:00:00.000Z">t</time></a></article-card></li>' +
-          '</ul></article-list>'
-      )
-    )
-    const { feed, css } = await siteInputs(ours, theirs)
-    expect(feed?.map(({ href }) => href)).toEqual(['/feed/a/'])
+    const css = await bundlesIn(ours, theirs)
     expect([...css.ours.keys()]).toEqual(['/assets/immutable/bundle/a.css'])
     expect([...css.theirs.keys()]).toEqual(['/assets/immutable/11ty/bundle/b.css'])
     const sheet = (name: string) =>
@@ -299,14 +339,10 @@ describe('siteInputs()', () => {
     const sheets = await Promise.all(['normalize', 'main', 'hljs-github'].map(sheet))
     expect(css.globals).toBe(sheets.map((text) => text.trim()).join('\n'))
   })
-
-  it('should give no feed where Eleventy wrote no feed index', async () => {
-    expect((await siteInputs(dists, dists)).feed).toBeNull()
-  })
 })
 
 describe('staleRows()', () => {
-  it('should name each row for a url neither build wrote', () => {
+  it('should name each row for a url no document has', () => {
     const expected = { '/feed/a/': {}, '/feed/gone/': {}, '/feed/b/': {} }
     expect(staleRows(expected, ['/feed/a/', '/feed/b/'])).toEqual(['/feed/gone/'])
   })

@@ -12,12 +12,10 @@ import {
   CLASSES,
   comrakSlug,
   cssBundle,
-  feedCards,
   firstDifference,
   lastDifference,
   normalized,
   forgiveness,
-  recommendedSet,
   renamed,
   SITE_DISPLAY,
   type Bundles,
@@ -172,13 +170,9 @@ describe('css-bundle', () => {
     files: { ours?: [string, Buffer][]; theirs?: [string, Buffer][] } = {}
   ) =>
     cssBundle({
-      url: '/feed/x/',
-      feed: [],
-      css: {
-        ours: new Map(files.ours ?? [OURS]),
-        theirs: new Map(files.theirs ?? [THEIRS]),
-        globals: GLOBALS,
-      },
+      ours: new Map(files.ours ?? [OURS]),
+      theirs: new Map(files.theirs ?? [THEIRS]),
+      globals: GLOBALS,
     })
 
   /** Two links in head compared through `cls`, and what it refused. */
@@ -987,249 +981,65 @@ describe('svg-desc-counter', () => {
   const { svgDescCounter } = CLASSES
   const icon = (label: number, desc = label, name = 'newspaper-solid') =>
     `<svg aria-labelledby="symbol-${name}-desc-${label}"><desc id="symbol-${name}-desc-${desc}">d</desc></svg>`
+  const card = (icons: string) => `<article-card><a>${icons}</a></article-card>`
 
-  it('should accept another counter for the same icon', () => {
-    const result = bodies(icon(1), icon(4), svgDescCounter)
+  it('should accept another counter for the same icon in a card', () => {
+    const result = bodies(card(icon(1)), card(icon(4)), svgDescCounter)
     expect(clean(result)).toBe(true)
     expect(forgiven(result)).toEqual([['svg-desc-counter', 2]])
   })
 
+  it('should accept cards numbered in another order, each id once a side', () => {
+    const result = bodies(
+      card(icon(1)) + card(icon(2)),
+      card(icon(2)) + card(icon(1)),
+      svgDescCounter
+    )
+    expect(clean(result)).toBe(true)
+    expect(forgiven(result)).toEqual([['svg-desc-counter', 4]])
+  })
+
+  it('should not accept another counter outside a card', () => {
+    expect(clean(bodies(icon(1), icon(4), svgDescCounter))).toBe(false)
+    const header = (icons: string) => `<article-header>${icons}</article-header>`
+    expect(clean(bodies(header(icon(1)), header(icon(4)), svgDescCounter))).toBe(false)
+  })
+
   it('should not accept another icon', () => {
-    const result = bodies(icon(1), icon(4, 4, 'bell-solid'), svgDescCounter)
+    const result = bodies(card(icon(1)), card(icon(4, 4, 'bell-solid')), svgDescCounter)
     expect(clean(result)).toBe(false)
   })
 
   it('should not accept an svg that names a desc other than its own', () => {
-    expect(clean(bodies(icon(1), icon(4, 5), svgDescCounter))).toBe(false)
-    expect(clean(bodies(icon(1, 2), icon(4), svgDescCounter))).toBe(false)
+    expect(clean(bodies(card(icon(1)), card(icon(4, 5)), svgDescCounter))).toBe(false)
+    expect(clean(bodies(card(icon(1, 2)), card(icon(4)), svgDescCounter))).toBe(false)
   })
 
   it('should accept the base-36 counter eleventy-plugin-svg-sprite writes past 9', () => {
     const lettered =
       '<svg aria-labelledby="symbol-newspaper-solid-desc-g"><desc id="symbol-newspaper-solid-desc-g">d</desc></svg>'
-    expect(clean(bodies(icon(1), lettered, svgDescCounter))).toBe(true)
+    expect(clean(bodies(card(icon(1)), card(lettered), svgDescCounter))).toBe(true)
   })
 
   it('should not accept a counter another icon on the page also carries', () => {
-    const result = bodies(`${icon(1)}${icon(1)}`, `${icon(4)}${icon(5)}`, svgDescCounter)
-    expect(clean(result)).toBe(false)
-  })
-})
-
-describe('recommended-set', () => {
-  const DATES: Record<string, string> = {
-    '/feed/lima-agent-isolation/': '2026-06-19T15:28:00-07:00',
-    '/feed/better-software-with-ai/': '2026-04-04T10:30:00-07:00',
-    '/feed/the-social-contract/': '2025-04-26T11:12:00-07:00',
-    '/feed/workout-exporter/': '2025-03-15T23:10:00-07:00',
-    '/feed/write-to-your-rep/': '2025-02-09T14:35:00-07:00',
-    '/feed/new-york-2024/': '2024-12-27T23:05:00-07:00',
-    '/feed/the-rebound/': '2024-11-24T11:35:00-07:00',
-    '/links/2026/07/04/usa/': '2026-07-04T16:40:00-07:00',
-    '/tils/2026/05/01/x/': '2026-05-01T10:00:00-07:00',
-    '/links/2026/04/01/y/': '2026-04-01T10:00:00-07:00',
-    '/tils/2025/01/01/z/': '2025-01-01T10:00:00-07:00',
-  }
-  const [LAI, BSWA, TSC, WE, WTYR, NY, TR] = Object.keys(DATES)
-
-  interface CardOptions {
-    counter?: string
-    title?: string
-    minutes?: string
-    li?: string
-  }
-
-  /** A card for `url` as article-card writes it, its icon's desc numbered `counter`. */
-  const card = (
-    url: string,
-    { counter = '0', title = url, minutes = '3', li = '' }: CardOptions = {}
-  ) =>
-    `<li${li}><article-card><article><a href="${url}"><h1>${title}</h1>` +
-    `<svg aria-labelledby="symbol-clock-desc-${counter}"><desc id="symbol-clock-desc-${counter}">d</desc></svg>` +
-    `<time datetime="${DATES[url]}">${DATES[url]}</time> ${minutes} min read</a></article></article-card></li>`
-
-  /** The footer's recommendations, as the article layout writes them. */
-  const footer = (cards: string[], ul = '') =>
-    '<footer><section><h2>You Might Enjoy…</h2>' +
-    `<article-list><ul${ul}>${cards.join('')}</ul></article-list></section></footer>`
-
-  /** Eleventy's feed index, listing every article newest first, its counters base 36. */
-  const index = (urls: string[]) =>
-    renderedPage(
-      '<!doctype html><html><body><main><article-list><ul>' +
-        urls.map((url, n) => card(url, { counter: (n + 10).toString(36) })).join('') +
-        '</ul></article-list></main></body></html>'
-    )
-  const FEED = feedCards(index(Object.keys(DATES)))
-  const POST = { url: TR, feed: FEED, css: NO_CSS }
-
-  /** Ours' five cards, each numbered as one page counts them. */
-  const ours = (
-    urls = [LAI, BSWA, TSC, WE, WTYR],
-    options: Record<string, CardOptions> = {}
-  ) => urls.map((url, n) => card(url, { counter: String(n), ...options[url] }))
-
-  const theirs = footer([
-    card('/links/2026/07/04/usa/', { counter: '0' }),
-    card(LAI, { counter: '1' }),
-    card('/tils/2026/05/01/x/', { counter: '2' }),
-    card(BSWA, { counter: '3' }),
-    card('/links/2026/04/01/y/', { counter: '4' }),
-  ])
-
-  const recommended = (list: string, post = POST) =>
-    bodies(list, theirs, recommendedSet(post))
-  const notes = (result: Comparison) => result.differences.map((d) => d.note)
-  const paths = (result: Comparison) =>
-    result.differences.map((d) =>
-      d.path.replace('html > body[0] > footer[0] > section[0] > ', '')
-    )
-
-  it('should read every feed post’s card off the feed index, and nothing else', () => {
-    expect(FEED.map(({ href }) => href)).toEqual([LAI, BSWA, TSC, WE, WTYR, NY, TR])
-    expect(FEED[0].published).toBe(Date.parse(DATES[LAI]))
-    expect(feedCards(renderedPage('<p>no list</p>'))).toEqual([])
-  })
-
-  it('should accept the newest feed posts where theirs lists links and TILs among them', () => {
-    const result = recommended(footer(ours()))
-    expect(result.differences).toEqual([])
-    // Three of ours theirs lacks and three of theirs ours lacks; every card's icon counter.
-    expect(forgiven(result)).toEqual([
-      ['svg-desc-counter', 10],
-      ['recommended-set', 6],
-    ])
-  })
-
-  it('should compare a card both sides list against theirs', () => {
-    const result = recommended(footer(ours(undefined, { [LAI]: { title: 'Another' } })))
-    expect(paths(result)).toEqual([
-      `article-list[0] > card ${LAI} > article[0] > a[0] > h1[0] > child 0`,
-    ])
-  })
-
-  it('should compare a card only ours lists against its card on the feed index', () => {
-    const retitled = recommended(footer(ours(undefined, { [WTYR]: { title: 'Another' } })))
-    expect(paths(retitled)).toEqual([
-      `article-list[0] > card ${WTYR} > article[0] > a[0] > h1[0] > child 0`,
-    ])
-    const slower = recommended(footer(ours(undefined, { [WTYR]: { minutes: '4' } })))
-    expect(paths(slower)).toEqual([
-      `article-list[0] > card ${WTYR} > article[0] > a[0] > child 3`,
-    ])
-  })
-
-  it('should compare the list’s and each item’s attributes', () => {
-    expect(notes(recommended(footer(ours(), ' class="oops"')))).toEqual([
-      'attributes differ: class',
-    ])
-    const item = recommended(footer(ours(undefined, { [WE]: { li: ' class="oops"' } })))
-    expect(paths(item)).toEqual([`article-list[0] > li ${WE}`])
-  })
-
-  it('should refuse text standing in the list or an item', () => {
-    const inList = footer(ours()).replace('<ul>', '<ul>stray')
-    expect(notes(recommended(inList))).toEqual([
-      'recommended-set: text stands in the card list',
-    ])
-    const inItem = footer(ours()).replace('<li>', '<li>stray')
-    expect(notes(recommended(inItem))).toEqual([
-      'recommended-set: text stands in the card list',
-    ])
-  })
-
-  it('should refuse a selection other than the newest five feed posts but the page', () => {
-    const newest = `the newest are ${[LAI, BSWA, TSC, WE, WTYR].join(', ')}`
-    const swapped = recommended(footer(ours([LAI, BSWA, TSC, WE, NY])))
-    expect(notes(swapped)).toEqual([
-      `recommended-set: ours lists ${[LAI, BSWA, TSC, WE, NY].join(', ')}; ${newest}`,
-    ])
-    expect(swapped.forgiven.has('recommended-set')).toBe(false)
-    const self = recommended(footer(ours([LAI, BSWA, TSC, WE, TR])))
-    expect(notes(self)[0]).toMatch(/^recommended-set: ours lists .*the-rebound/)
-    const misordered = recommended(footer(ours([LAI, BSWA, WE, TSC, WTYR])))
-    expect(notes(misordered)[0]).toMatch(/^recommended-set: ours lists /)
-    const short = recommended(footer(ours([LAI, BSWA, TSC, WE])))
-    expect(notes(short)[0]).toMatch(/^recommended-set: ours lists /)
-  })
-
-  it('should list min(5, posts − 1), counting the posts on the feed index', () => {
-    const three = { url: TSC, feed: feedCards(index([LAI, BSWA, TSC])), css: NO_CSS }
-    const twoCards = footer([card(LAI, { counter: '0' }), card(BSWA, { counter: '1' })])
     const result = bodies(
-      twoCards,
-      footer([card(LAI, { counter: '1' })]),
-      recommendedSet(three)
-    )
-    expect(result.differences).toEqual([])
-    expect(forgiven(result)).toEqual([
-      ['svg-desc-counter', 4],
-      ['recommended-set', 1],
-    ])
-  })
-
-  it('should refuse theirs’ feed cards anywhere but ours’ first', () => {
-    const late = footer([card(BSWA, { counter: '0' }), card(LAI, { counter: '1' })])
-    const result = recommended(footer(ours()), POST)
-    expect(result.differences).toEqual([])
-    const reordered = bodies(footer(ours()), late, recommendedSet(POST))
-    expect(notes(reordered)).toEqual([
-      "recommended-set: theirs' feed cards are not ours' first, in order",
-    ])
-  })
-
-  it('should refuse a card it has nothing to compare with', () => {
-    const tilled = recommended(footer(ours([LAI, BSWA, TSC, WE, '/tils/2025/01/01/z/'])))
-    expect(notes(tilled)).toEqual([
-      expect.stringMatching(/; no card to compare \/tils\/2025\/01\/01\/z\/ with$/),
-    ])
-  })
-
-  it('should still compare every card when it refuses the selection', () => {
-    const result = recommended(
-      footer(ours([LAI, BSWA, TSC, WE, NY], { [LAI]: { title: 'X' } }))
-    )
-    expect(notes(result)).toEqual([
-      expect.stringMatching(/^recommended-set: ours lists /),
-      undefined,
-    ])
-    expect(paths(result)[1]).toBe(
-      `article-list[0] > card ${LAI} > article[0] > a[0] > h1[0] > child 0`
-    )
-    expect(result.forgiven.get('svg-desc-counter')).toBe(10)
-  })
-
-  it('should leave a list that is not the recommendations to the comparison', () => {
-    const elsewhere = (cards: string[]) =>
-      `<section><h2>Elsewhere</h2><article-list><ul>${cards.join('')}</ul></article-list></section>`
-    const result = bodies(
-      elsewhere(ours()),
-      elsewhere(ours().slice(1)),
-      recommendedSet(POST)
+      card(`${icon(1)}${icon(1)}`),
+      card(`${icon(4)}${icon(5)}`),
+      svgDescCounter
     )
     expect(clean(result)).toBe(false)
-    expect(result.forgiven.size).toBe(0)
-  })
-
-  it('should leave a list shaped otherwise to the comparison', () => {
-    const doubled = footer(ours()).replace(
-      '</article-card></li>',
-      '</article-card><p>x</p></li>'
-    )
-    const result = recommended(doubled)
-    expect(clean(result)).toBe(false)
-    expect(result.forgiven.has('recommended-set')).toBe(false)
   })
 })
 
 describe('forgiveness()', () => {
-  it('should consult every class but the card-only one, recommended-set last', () => {
-    const { classes } = forgiveness({ url: '/feed/x/', feed: [], css: NO_CSS })
+  it('should consult every class, in order', () => {
+    const { classes } = forgiveness(NO_CSS)
     expect(classes.map((cls) => cls.name)).toEqual([
       'scoped-class',
       'css-bundle',
       'unbuilt-scripts',
       'webc-attr-leak',
+      'svg-desc-counter',
       'datetime-text',
       'utc-revision-display',
       'generator',
@@ -1238,7 +1048,6 @@ describe('forgiveness()', () => {
       'attr-escaping',
       'footnote-markup',
       'reading-time',
-      'recommended-set',
     ])
   })
 })

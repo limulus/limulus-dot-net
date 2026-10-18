@@ -1,7 +1,7 @@
 import { parse, serialize, type DefaultTreeAdapterMap } from 'parse5'
 import { describe, expect, it } from 'vitest'
 
-import { alignCards, neutralize } from './neutralizers.ts'
+import { neutralize } from './neutralizers.ts'
 
 const page = (body: string): string =>
   `<!doctype html><html><head></head><body>${body}</body></html>`
@@ -12,97 +12,7 @@ const untouched = (body: string): string => serialize(parse(page(body)))
 /** The body of a served page. */
 const bodyOf = (html: string): string => /<body>([\s\S]*)<\/body>/.exec(html)?.[1] ?? ''
 
-describe('alignCards()', () => {
-  it('should keep what both list and drop what each lists alone', () => {
-    expect(
-      alignCards(['/feed/a/', '/feed/b/', '/feed/c/'], ['/til/x/', '/feed/a/', '/feed/b/'])
-    ).toEqual({
-      shared: ['/feed/a/', '/feed/b/'],
-      oursOnly: ['/feed/c/'],
-      theirsOnly: ['/til/x/'],
-    })
-  })
-
-  it('should say so where the cards both list come in another order', () => {
-    expect(alignCards(['/feed/a/', '/feed/b/'], ['/feed/b/', '/feed/a/']).problem).toBe(
-      'the cards both pages list come in another order: ours /feed/a/, /feed/b/; ' +
-        'theirs /feed/b/, /feed/a/'
-    )
-  })
-
-  it('should say so where the lists share no card, which leaves none to compare', () => {
-    expect(alignCards(['/feed/a/'], ['/feed/b/'])).toEqual({
-      shared: [],
-      oursOnly: ['/feed/a/'],
-      theirsOnly: ['/feed/b/'],
-      problem: 'the two lists share no card, so no card of either is compared',
-    })
-  })
-})
-
 describe('neutralize()', () => {
-  describe('recommended-set', () => {
-    /** A card list under `heading`, each card linking its url and reading `side`'s. */
-    const list = (heading: string, side: string, ...hrefs: string[]): string =>
-      `<section><h2>${heading}</h2><article-list><ul>` +
-      hrefs
-        .map(
-          (href) =>
-            `<li><article-card><a href="${href}"><span>${side} on ${href}</span></a>` +
-            '</article-card></li>'
-        )
-        .join('') +
-      '</ul></article-list></section>'
-
-    it('should drop the cards the other page does not list, and only them', () => {
-      const result = neutralize(
-        page(list('You Might Enjoy…', 'ours', '/feed/a/', '/feed/b/', '/feed/c/')),
-        page(list('You Might Enjoy…', 'theirs', '/links/x/', '/feed/a/', '/feed/b/'))
-      )
-      expect(bodyOf(result.ours)).toBe(
-        list('You Might Enjoy…', 'ours', '/feed/a/', '/feed/b/')
-      )
-      expect(bodyOf(result.theirs)).toBe(
-        list('You Might Enjoy…', 'theirs', '/feed/a/', '/feed/b/')
-      )
-      expect([...result.edits]).toEqual([['recommended-set', 2]])
-      expect(result.sharedCards).toBe(2)
-      expect(result.problems).toEqual([])
-    })
-
-    it('should report lists that share no card', () => {
-      const result = neutralize(
-        page(list('You Might Enjoy…', 'ours', '/feed/a/')),
-        page(list('You Might Enjoy…', 'theirs', '/links/x/'))
-      )
-      expect(result.sharedCards).toBe(0)
-      expect(result.problems).toEqual([
-        'recommended-set: the two lists share no card, so no card of either is compared',
-      ])
-    })
-
-    it('should report shared cards out of order, which no dropping lines up', () => {
-      const result = neutralize(
-        page(list('You Might Enjoy…', 'ours', '/feed/a/', '/feed/b/')),
-        page(list('You Might Enjoy…', 'theirs', '/feed/b/', '/feed/a/'))
-      )
-      expect(result.problems).toEqual([
-        'recommended-set: the cards both pages list come in another order: ' +
-          'ours /feed/a/, /feed/b/; theirs /feed/b/, /feed/a/',
-      ])
-    })
-
-    it('should leave a card list under any other heading alone', () => {
-      const ours = list('Elsewhere', 'ours', '/feed/a/', '/feed/c/')
-      const theirs = list('Elsewhere', 'theirs', '/feed/a/', '/feed/b/')
-      const result = neutralize(page(ours), page(theirs))
-      expect(result.ours).toBe(untouched(ours))
-      expect(result.theirs).toBe(untouched(theirs))
-      expect(result.edits.size).toBe(0)
-      expect(result.sharedCards).toBeNull()
-    })
-  })
-
   describe('footnote-markup', () => {
     /** comrak's footnotes, with `refs` as each reference's text. */
     const comrak = (refs = ['1', '2'], section = 'footnotes'): string =>

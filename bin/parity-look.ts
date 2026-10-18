@@ -1,23 +1,24 @@
-// `npm run parity:look`: whether the feed posts look the same in both builds. Run it after
+// `npm run parity:look`: whether the articles look the same in both builds. Run it after
 // `npm run parity`, whose dists it reads as they stand: it builds nothing. It serves
-// dist/www and dist/lemmon over HTTP, shoots every post in the installed Google Chrome
-// (headless, rasterizing in software) at 1280 px light, 390 px light and 1280 px dark,
-// and compares each pair of full-page screenshots pixel for pixel, writing both and their
-// difference to dist/look/<slug>/. Any difference fails the run: there is no allowance.
+// dist/www and dist/lemmon over HTTP, shoots the page of every document parity compares in
+// the installed Google Chrome (headless, rasterizing in software) at 1280 px light, 390 px
+// light and 1280 px dark, and compares each pair of full-page screenshots pixel for pixel,
+// writing both and their difference to dist/look/<url>/. Any difference fails the run:
+// there is no allowance.
 //
 // So that none is needed, what the pages fetch is pinned and what parity forgives is
 // evened out. Every request to another host (the photos and video posters, on pho. and
 // vod.limulus.net) is answered with one fixed PNG, and `/lib/**` is refused on both sides,
-// since Lemmon's build has no client scripts until ∆d1N in the lemmon repo. Each post is
+// since Lemmon's build has no client scripts until ∆d1N in the lemmon repo. Each page is
 // served neutralized: parsed with parse5, every visible difference a parity class forgives
 // undone by a neutralizer named for that class (bin/parity/neutralizers.ts), and
-// serialized again, both sides alike. A post is shot only where parity's own comparison
+// serialized again, both sides alike. A page is shot only where parity's own comparison
 // of it passes, since every match here stands on what parity explained.
 //
 //   npm run parity:look [-- --serve]
 //
 // --serve serves both dists as built instead, Eleventy's on SERVE_PORTS.theirs and
-// Lemmon's on SERVE_PORTS.ours, and prints each post's two URLs to open side by side,
+// Lemmon's on SERVE_PORTS.ours, and prints each page's two URLs to open side by side,
 // until interrupted. Nothing is neutralized or refused there, so Eleventy's pages run
 // their scripts, which Lemmon's do not have.
 
@@ -31,17 +32,18 @@ import type { BrowserContext, Page } from 'playwright-core'
 import sharp from 'sharp'
 
 import {
-  comparePost,
+  bundlesIn,
+  comparePage,
+  documentsIn,
   failed,
   pageAt,
-  postsIn,
   reportLines,
-  siteInputs,
 } from './parity/check.ts'
 import { EXPECTED } from './parity/expected.ts'
 import { neutralize } from './parity/neutralizers.ts'
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
+const INPUT = 'www'
 const OURS = 'dist/lemmon'
 const THEIRS = 'dist/www'
 const LOOK = 'dist/look'
@@ -49,7 +51,7 @@ const LOOK = 'dist/look'
 /** The ports `--serve` listens on, fixed so the URLs it prints stay open across runs. */
 const SERVE_PORTS = { theirs: 8081, ours: 8082 }
 
-/** Each screenshot taken of a post: its viewport width and color scheme. */
+/** Each screenshot taken of a page: its viewport width and color scheme. */
 const VARIANTS = [
   { name: '1280-light', width: 1280, scheme: 'light' },
   { name: '390-light', width: 390, scheme: 'light' },
@@ -317,8 +319,8 @@ interface Shooter {
 }
 
 /**
- * Shoots both sides of one post in one variant, writes the pair and its difference
- * under dist/look/, and returns the report's lines and whether they matched.
+ * Shoots both sides of one page in one variant, writes the pair and its difference
+ * under dist/look/ at its url, and returns the report's lines and whether they matched.
  */
 async function compareShots(
   { variant, tabs }: Shooter,
@@ -331,7 +333,7 @@ async function compareShots(
   ])
   const [ours, theirs] = await Promise.all([bitmapOf(o.png), bitmapOf(t.png)])
   const diff = pixelDiff(ours, theirs)
-  const dir = join(LOOK, url.split('/').at(-2) ?? '')
+  const dir = join(LOOK, url)
   const file = (side: string): string => join(dir, `${variant.name}-${side}.png`)
   const { data, width, height } = diff.image
   await mkdir(join(ROOT, dir), { recursive: true })
@@ -368,14 +370,10 @@ async function compareShots(
   return { lines, same: diff.pixels === 0 && o.settled && t.settled }
 }
 
-/** The look check over every post: true where every screenshot matched. */
+/** The look check over every page: true where every screenshot matched. */
 async function look(urls: string[]): Promise<boolean> {
   const started = Date.now()
-  const { feed, css } = await siteInputs(join(ROOT, OURS), join(ROOT, THEIRS))
-  if (feed === null) {
-    console.error(`parity:look: no feed index in ${THEIRS}; run \`npm run parity\``)
-    process.exit(1)
-  }
+  const css = await bundlesIn(join(ROOT, OURS), join(ROOT, THEIRS))
   const { chromium } = await import('playwright-core')
   // Software rasterizing: on the GPU, the same page shot twice differed (settle).
   const browser = await chromium
@@ -405,7 +403,7 @@ async function look(urls: string[]): Promise<boolean> {
     })
   }
   await rm(join(ROOT, LOOK), { recursive: true, force: true })
-  console.log(`parity:look: ${urls.length} posts, Chrome ${browser.version()} headless`)
+  console.log(`parity:look: ${urls.length} documents, Chrome ${browser.version()} headless`)
   console.log()
 
   let failures = 0
@@ -413,11 +411,10 @@ async function look(urls: string[]): Promise<boolean> {
     for (const url of urls) {
       const ours = await pageAt(join(ROOT, OURS), url)
       const theirs = await pageAt(join(ROOT, THEIRS), url)
-      const parity = comparePost({
+      const parity = comparePage({
         url,
         ours,
         theirs,
-        feed,
         css,
         expected: EXPECTED[url] ?? {},
       })
@@ -433,13 +430,8 @@ async function look(urls: string[]): Promise<boolean> {
       pages.ours.set(url, neutralized.ours)
       pages.theirs.set(url, neutralized.theirs)
       const counts = [...neutralized.edits].map(([name, n]) => `${name} ${n}`)
-      const cards =
-        neutralized.sharedCards === null
-          ? 'no recommended cards'
-          : `${neutralized.sharedCards} recommended ` +
-            `${neutralized.sharedCards === 1 ? 'card' : 'cards'} both list`
       console.log(
-        `${url}: parity ok; ${cards}; neutralized ` +
+        `${url}: parity ok; neutralized ` +
           `${counts.length > 0 ? counts.join(', ') : 'nothing'}`
       )
       for (const problem of neutralized.problems) console.log(`  FAIL, ${problem}`)
@@ -464,14 +456,14 @@ async function look(urls: string[]): Promise<boolean> {
     console.log(`PASS: ${shots} screenshots identical, pixel for pixel (${seconds} s)`)
   } else {
     console.error(
-      `FAIL: ${failures} of ${urls.length} posts differ, listed above; ` +
+      `FAIL: ${failures} of ${urls.length} documents differ, listed above; ` +
         `the screenshots are in ${LOOK}/ (${seconds} s)`
     )
   }
   return failures === 0
 }
 
-/** Serves both dists as built on SERVE_PORTS, listing each post's pair, until Ctrl-C. */
+/** Serves both dists as built on SERVE_PORTS, listing each page's pair, until Ctrl-C. */
 async function serveBoth(urls: string[]): Promise<void> {
   const listen = (dist: string, port: number): Promise<Server> =>
     serve(join(ROOT, dist), port).catch((error: NodeJS.ErrnoException) => {
@@ -497,9 +489,8 @@ async function serveBoth(urls: string[]): Promise<void> {
     "Both are served as built. Eleventy's pages run their /lib scripts (the video " +
       "player,\nthe share buttons, the blur-hash placeholders); Lemmon's build has none " +
       'until ∆d1N,\nso those parts differ here, as do the differences parity forgives ' +
-      '(footnote markup,\na reading-time minute, the recommended cards, the photo ' +
-      "figures' gaps), which\n`npm run parity:look` neutralizes before it compares. " +
-      'Ctrl-C stops the servers.'
+      "(footnote markup,\na reading-time minute, the photo figures' gaps), which " +
+      '`npm run parity:look`\nneutralizes before it compares. Ctrl-C stops the servers.'
   )
   await new Promise<void>((resolve) => process.once('SIGINT', resolve))
   servers.theirs.close()
@@ -514,16 +505,9 @@ if (esMain(import.meta)) {
     console.error('usage: npm run parity:look [-- --serve]')
     process.exit(2)
   }
-  const urls = [
-    ...new Set([
-      ...(await postsIn(join(ROOT, OURS))),
-      ...(await postsIn(join(ROOT, THEIRS))),
-    ]),
-  ].sort()
+  const urls = await documentsIn(join(ROOT, INPUT))
   if (urls.length === 0) {
-    console.error(
-      `parity:look: no post under feed/ in ${OURS} or ${THEIRS}; run \`npm run parity\``
-    )
+    console.error(`parity:look: no document under ${INPUT}/`)
     process.exit(1)
   }
   if (args.includes('--serve')) await serveBoth(urls)
