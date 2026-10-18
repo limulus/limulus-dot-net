@@ -29,6 +29,15 @@ describe('computeHash', () => {
     expect(computeHash('Title', 'Sub', lem)).toBe(computeHash('Title', 'Sub', webc))
   })
 
+  it('hashes a demo call as the demo block with its fallback include', () => {
+    const lem = 'Prose.\n\n<lem.demoWithFallback("projectile-cannon-demo")>\n\nMore.\n'
+    const liquid =
+      'Prose.\n\n<div>\n  <projectile-cannon-demo>\n' +
+      "    {% include 'dynamic-content-fallback' %}\n" +
+      '  </projectile-cannon-demo>\n</div>\n\nMore.\n'
+    expect(computeHash('Title', 'Sub', lem)).toBe(computeHash('Title', 'Sub', liquid))
+  })
+
   it('is deterministic', () => {
     const hash1 = computeHash('Title', 'Sub', 'Body')
     const hash2 = computeHash('Title', 'Sub', 'Body')

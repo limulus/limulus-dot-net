@@ -73,9 +73,11 @@ This branch ports the site to Lemmon beside Eleventy; both builds read the same 
   writes it from `www/_includes/css/*.css` as `siteStyles()`, one `lem-style` per
   stylesheet, which `base.lem` calls. Edit the CSS, not the `.lem`, and rerun it;
   `npm test` fails if the two have drifted
-- `11ty/lemmon-calls.ts` turns a lem call on its own line in a post back into the WebC it
-  replaced, for Eleventy (the `lemmonCalls` preprocessor) and for the revision hash, so
-  the port records no revision; a lem line it cannot translate fails both
+- `11ty/lemmon-calls.ts` turns a lem call on its own line in a post back into the lines it
+  replaced — an `articlePhoto` into its WebC, a `demoWithFallback` into the penumbra
+  demo's `<div>` around the `dynamic-content-fallback` Liquid include — for Eleventy (the
+  `lemmonCalls` preprocessor) and for the revision hash, so the port records no
+  revision; a lem line it cannot translate fails both
 - `lemmon/` holds the port's own plugins, written against `@limulus/lemmon-shell`'s
   exports, with their specs. `svgSprite()` (`lemmon/svg-sprite.ts`) fills `page.lem`'s
   `mark("sprite")` with the inline sprite of `www/assets/svg/common`, built by svg-sprite
@@ -83,7 +85,10 @@ This branch ports the site to Lemmon beside Eleventy; both builds read the same 
   sprite, and a file svg-sprite cannot read stops the build. It drops the `<style>` WebC
   hoists out of the logo's symbol, whose rules `page.lem` carries under svg-sprite's
   namespaced ids; `npm test` fails if they drift (the plugin's header says what renames
-  them)
+  them). `linkPosts()` (`lemmon/link-posts.ts`) appends to a link post's body what
+  eleventy.config.ts's `linkPostContent` appends — the `[link]` definition, and with a
+  `viaUrl` the `[via]` one and the "Via" paragraph — which its spec checks by running
+  that preprocessor beside it over every document
 - `npm run parity` builds both sides and compares the page of every article — each `.md`
   under `www/{feed,links,penumbra,tils}/`, which `www/site.lem`'s `articles` glob also
   matches — as rendered HTML through the forgiveness classes in `bin/parity/classes.ts`,
@@ -108,6 +113,7 @@ This branch ports the site to Lemmon beside Eleventy; both builds read the same 
   `/lib` scripts (the video player, the share buttons, the blur-hash placeholders), which
   Lemmon's build has none of until ∆d1N
 - Deliberately missing this slice, each with the item in the lemmon repo's `BACKLOG.md`
-  that brings it: the hashed `/lib` scripts (∆d1N), code highlighting (∆Nxd), footnote
-  markup, the link-post appender and the Liquid include (∆ITg), and the photos data hook
-  (∆c4j)
+  that brings it: the hashed `/lib` scripts (∆d1N) and the photos plugin's data (∆pP5,
+  on ∆wOn's data hook). Not built at all: markdown-it-footnote's markup, since Lemmon
+  writes comrak's footnotes, which parity's `footnote-markup` forgives until the
+  cutover (∆oAl)

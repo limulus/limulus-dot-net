@@ -562,15 +562,21 @@ export const anchorSlug = (text: string): string =>
 /**
  * A heading's `id` is comrak's slug of its text in ours and markdown-it-anchor's in
  * theirs, which also adds `tabindex="-1"`. Either attribute is explained only on a
- * heading whose ids are both those slugs (fidelity class, widened from h2 to h1–h6).
+ * heading whose ids are both those slugs (fidelity class, widened from h2 to h1–h6). An
+ * id the author wrote (`{#demo}`) both builds take as written, so on a heading whose
+ * ids are equal only the tabindex is explained.
  */
 const headingId: Forgiveness = {
   name: 'heading-id',
-  attr: (name, ours, theirs, at) =>
-    /^h[1-6]$/.test(at.ours.tag) &&
-    at.ours.attrs.get('id') === comrakSlug(textOf(at.ours)) &&
-    at.theirs.attrs.get('id') === anchorSlug(textOf(at.theirs)) &&
-    (name === 'id' || (name === 'tabindex' && ours === undefined && theirs === '-1')),
+  attr: (name, ours, theirs, at) => {
+    if (!/^h[1-6]$/.test(at.ours.tag)) return false
+    const id = { ours: at.ours.attrs.get('id'), theirs: at.theirs.attrs.get('id') }
+    const tabindex = name === 'tabindex' && ours === undefined && theirs === '-1'
+    const slugs =
+      id.ours === comrakSlug(textOf(at.ours)) && id.theirs === anchorSlug(textOf(at.theirs))
+    const written = id.ours !== undefined && id.ours === id.theirs
+    return (slugs && (name === 'id' || tabindex)) || (written && tabindex)
+  },
 }
 
 /**
@@ -676,7 +682,8 @@ export function footnotesOf(root: RenderedElement, scheme: IdScheme): Footnotes 
  * `data-footnote*` and `aria-label`. Explained only where the footnotes are whole on
  * both sides — every reference and its note name each other — and the pair is the same
  * note's, so a reference that points at another note, or a note out of its place, is
- * not this class. The prose of the notes compares as any text does (∆ITg).
+ * not this class. The prose of the notes compares as any text does. ∆ITg left the
+ * markup comrak's, so this lasts until the cutover (∆oAl).
  */
 const footnoteMarkup: Forgiveness = {
   name: 'footnote-markup',

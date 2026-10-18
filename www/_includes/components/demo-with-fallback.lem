@@ -1,0 +1,21 @@
+<lem-fn demoWithFallback(element: string)>
+  <lem-let fallback =
+    "<p><em>View this dynamic content on the website with JavaScript enabled.</em></p>" />
+  <div>
+    <<lem.element>>
+      <noscript>
+        <lem.raw(fallback)>
+      </noscript>
+      <script>
+        // Ensure that syndicated copies of this content don’t show a "Loading…" message. This is
+        // necessary because some feed readers try to execute JavaScript.
+        const firstPartyHosts = ['limulus.net', 'localhost', '127.0.0.1']
+        if (firstPartyHosts.some((host) => window.location.host.includes(host))) {
+          document.write('<p><em>Loading…</em></p>')
+        } else {
+          document.write('<lem.raw(fallback.replace("'", "\\'"))>')
+        }
+      </script>
+    </<lem.element>>
+  </div>
+</lem-fn>

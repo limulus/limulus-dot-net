@@ -758,6 +758,68 @@ describe('heading-id', () => {
     expect(clean(result)).toBe(false)
   })
 
+  describe('given an id the author wrote, which is no slug of the heading', () => {
+    const heading = (id: string, attrs = '') =>
+      `<h2 id="${id}"${attrs}>The Demo: <code>&lt;sphere-shadow&gt;</code></h2>`
+
+    it('should accept theirs’ tabindex where both sides give the id alike', () => {
+      const result = bodies(heading('demo'), heading('demo', ' tabindex="-1"'), headingId)
+      expect(clean(result)).toBe(true)
+      expect(forgiven(result)).toEqual([['heading-id', 1]])
+    })
+
+    it('should not accept ids that differ, nor the tabindex beside them', () => {
+      const ours = heading('demo')
+      const theirs = heading('demo-1', ' tabindex="-1"')
+      expect(clean(bodies(ours, theirs, headingId))).toBe(false)
+      const anyId: Forgiveness = { name: 'any-id', attr: (name) => name === 'id' }
+      const result = bodies(ours, theirs, headingId, anyId)
+      expect(result.differences.map(({ note }) => note)).toEqual([
+        'attributes differ: tabindex',
+      ])
+    })
+
+    it('should not accept the tabindex beside ids differing only in case', () => {
+      const anyId: Forgiveness = { name: 'any-id', attr: (name) => name === 'id' }
+      const result = bodies(
+        heading('demo'),
+        heading('Demo', ' tabindex="-1"'),
+        headingId,
+        anyId
+      )
+      expect(result.differences.map(({ note }) => note)).toEqual([
+        'attributes differ: tabindex',
+      ])
+    })
+
+    it('should not accept a tabindex other than theirs’ -1', () => {
+      expect(
+        clean(bodies(heading('demo'), heading('demo', ' tabindex="0"'), headingId))
+      ).toBe(false)
+      expect(
+        clean(bodies(heading('demo', ' tabindex="-1"'), heading('demo'), headingId))
+      ).toBe(false)
+    })
+
+    it('should not accept the tabindex on an element that is no heading', () => {
+      const result = bodies(
+        '<p id="demo">x</p>',
+        '<p id="demo" tabindex="-1">x</p>',
+        headingId
+      )
+      expect(clean(result)).toBe(false)
+    })
+
+    it('should not accept the tabindex on a heading neither side gives an id', () => {
+      const result = bodies(
+        '<h2>The Demo</h2>',
+        '<h2 tabindex="-1">The Demo</h2>',
+        headingId
+      )
+      expect(clean(result)).toBe(false)
+    })
+  })
+
   it('should not accept another tabindex, or the ids on an element that is no heading', () => {
     expect(
       clean(

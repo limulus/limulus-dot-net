@@ -2,7 +2,8 @@
 // photo by its id and keeps an alias → id index beside the records, a mix that no single
 // Lemmon type describes. The port's `{string: Photo}` wants the records alone, keyed by
 // the alias a post's front matter names, so each alias is resolved here. A photos
-// plugin's data hook will do this inside the build instead (∆c4j in the lemmon repo).
+// plugin will do this inside the build instead, through a data hook (∆pP5 and the hook
+// it needs, ∆wOn, in the lemmon repo).
 
 import esMain from 'es-main'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'

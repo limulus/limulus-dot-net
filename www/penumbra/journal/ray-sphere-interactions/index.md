@@ -124,11 +124,7 @@ The exercise at the end of the chapter is to render the shadow of a sphere by ca
 from a light source onto a “wall”. I’ve implemented that here, with the addition that you
 can change the position of the light source by dragging from the element.
 
-<div>
-  <sphere-shadow-demo>
-    {% include 'dynamic-content-fallback' %}
-  </sphere-shadow-demo>
-</div>
+<lem.demoWithFallback("sphere-shadow-demo")>
 
 I don’t normally test drive my demo code since it is more exploratory fun than writing code
 I intend to reuse. But I figured I would want to make use of the dragging interaction again,

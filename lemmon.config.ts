@@ -1,6 +1,7 @@
 import { bundler, highlighter, type Config } from '@limulus/lemmon-shell'
 import { fileURLToPath } from 'node:url'
 
+import { linkPosts } from './lemmon/link-posts.ts'
 import { svgSprite } from './lemmon/svg-sprite.ts'
 
 export default {
@@ -16,6 +17,8 @@ export default {
     svgSprite({
       sprite: fileURLToPath(new URL('www/assets/svg/common', import.meta.url)),
     }),
+    // eleventy.config.ts's `linkPostContent`: a link post's `[link]` and `[via]`.
+    linkPosts(),
   ],
   // What eleventy.config.ts's server middleware and the CloudFront response headers
   // policies send, so the pages are cross-origin isolated in `lem dev` as they are live.

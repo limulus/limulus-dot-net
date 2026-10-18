@@ -14,7 +14,7 @@ import markdownItTaskLists from 'markdown-it-task-lists'
 
 import dprintPlugin from './11ty/dprint.ts'
 import esbuild from './11ty/esbuild.ts'
-import { webcForLemmonCalls } from './11ty/lemmon-calls.ts'
+import { eleventyFormsOfLemmonCalls } from './11ty/lemmon-calls.ts'
 
 export default function (eleventyConfig: UserConfig) {
   const input = 'www'
@@ -149,9 +149,9 @@ export default function (eleventyConfig: UserConfig) {
     }
   )
 
-  // The Lemmon port's lem calls in posts, as the WebC they replaced (11ty/lemmon-calls.ts).
+  // The Lemmon port's lem calls in posts, as the lines they replaced (11ty/lemmon-calls.ts).
   config.addPreprocessor('lemmonCalls', 'md', (_data: Record<string, any>, content) =>
-    webcForLemmonCalls(content)
+    eleventyFormsOfLemmonCalls(content)
   )
 
   eleventyConfig.addPlugin(esbuild)
