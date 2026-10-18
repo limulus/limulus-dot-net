@@ -50,8 +50,14 @@ This branch ports the site to Lemmon beside Eleventy; both builds read the same 
   `npm run rust:wasm` run there. Without it `npm ci` here still succeeds, leaving a
   dangling link, and the failure shows only at `npx lem`
 - `npx lem build` writes `dist/lemmon` from `lemmon.config.ts`, `www/site.lem`, and the
-  `.lem` layouts and components beside the WebC ones in `www/_includes/`. Its pages use
-  absolute paths, so view them over HTTP: `python3 -m http.server -d dist/lemmon 8080`
+  `.lem` layouts and components beside the WebC ones in `www/_includes/`. `npx lem check`
+  runs the same and writes nothing, printing each diagnostic with the source it covers
+- `npm run lemmon:dev` is the authoring loop: `lem dev` builds `dist/lemmon`, serves it at
+  http://127.0.0.1:8080/ with the COOP/COEP headers `lemmon.config.ts` lists, and on each
+  change under `www/` rebuilds everything and reloads the open pages, while a `chokidar`
+  watch reruns `npm run lemmon:css` when `www/_includes/css/*.css` changes. A change to
+  `lemmon.config.ts` needs a restart, and like `lem build` it removes nothing from
+  `dist/lemmon`, so a deleted post's page stays served until the next `npm run parity`
 - `npm run build` still writes the Eleventy reference to `dist/www`. Its `clean` removes
   only `dist/www`, `dist/infra`, `coverage`, and `*.tsbuildinfo`, so the two builds run in
   either order; `lem build` itself removes nothing from `dist/lemmon`, so a stale page

@@ -18,6 +18,7 @@
     "photos": "node ./bin/process-photos.js photos/* && npm run lemmon:photos",
     "lemmon:photos": "node bin/lemmon-photos.ts",
     "lemmon:css": "node bin/lemmon-css.ts",
+    "lemmon:dev": "concurrently -k -n css,lem \"chokidar 'www/_includes/css/*.css' -c 'npm run lemmon:css'\" \"lem dev\"",
     "parity": "node --conditions=source bin/parity.ts",
     "parity:look": "node --conditions=source bin/parity-look.ts",
     "test": "vitest run --project unit",
