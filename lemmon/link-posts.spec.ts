@@ -1,52 +1,19 @@
-import type { UserConfig } from '@11ty/eleventy'
 import {
   build,
-  findFrontMatter,
-  readPage,
   type BuildResult,
   type JsonValue,
   type LoadedConfig,
 } from '@limulus/lemmon-shell'
-import matter from 'gray-matter'
 import { strict as assert } from 'node:assert'
 import { existsSync } from 'node:fs'
-import { mkdir, mkdtemp, readdir, readFile, rm, writeFile } from 'node:fs/promises'
+import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { fileURLToPath } from 'node:url'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
 import { linkPosts } from './link-posts.ts'
-import configureEleventy from '../eleventy.config.ts'
-
-const WWW = fileURLToPath(new URL('../www/', import.meta.url))
 
 type FrontMatter = Record<string, JsonValue>
-type Preprocessor = (data: FrontMatter, content: string) => string | undefined
-
-/**
- * The preprocessor eleventy.config.ts adds as `name`, got by running the config against
- * a stand-in for Eleventy's that keeps each preprocessor and ignores every other call.
- */
-function eleventyPreprocessor(name: string): Preprocessor {
-  const added = new Map<string, Preprocessor>()
-  const keep = (each: string, _extension: string, preprocessor: Preprocessor) =>
-    added.set(each, preprocessor)
-  const config = new Proxy(
-    {},
-    { get: (_target, method) => (method === 'addPreprocessor' ? keep : () => undefined) }
-  )
-  configureEleventy(config as UserConfig)
-  const preprocessor = added.get(name)
-  assert(preprocessor !== undefined, `eleventy.config.ts adds no preprocessor ${name}`)
-  return preprocessor
-}
-
-const linkPostContent = eleventyPreprocessor('linkPostContent')
-
-/** What Eleventy's `linkPostContent` makes of `body`, given the front matter `data`. */
-const theirs = (data: FrontMatter, body: string): string =>
-  linkPostContent(data, body) ?? body
 
 /** What the plugin's transform makes of `body`, given the front matter `frontMatter`. */
 function ours(frontMatter: FrontMatter, body: string): string {
@@ -96,55 +63,6 @@ describe('linkPosts', () => {
     expect(() => ours({ linkUrl: LINK, viaUrl: 'example.org' }, '')).toThrow(
       'viaUrl example.org is not a URL, so it has no domain to credit'
     )
-  })
-})
-
-describe("linkPosts against eleventy.config.ts's linkPostContent", () => {
-  const cases: [string, FrontMatter][] = [
-    ['no linkUrl', { title: 'Prose' }],
-    ['a linkUrl', { linkUrl: LINK }],
-    ['a linkUrl and a viaUrl', { linkUrl: LINK, viaUrl: VIA }],
-    ['a viaUrl alone', { viaUrl: VIA }],
-    ['empty urls', { linkUrl: '', viaUrl: '' }],
-    ['an empty viaUrl', { linkUrl: LINK, viaUrl: '' }],
-    ['a capitalized host and a port', { linkUrl: LINK, viaUrl: 'HTTPS://WWW.Ex.org:81/' }],
-    ['a www. twice and mid-host', { linkUrl: LINK, viaUrl: 'https://www.www.awww.org/' }],
-    ['a www. ending a label', { linkUrl: LINK, viaUrl: 'https://awww.example.org/' }],
-    [
-      'a www. past the first label',
-      { linkUrl: LINK, viaUrl: 'https://cdn.www.example.org/' },
-    ],
-    ['a host past ASCII', { linkUrl: LINK, viaUrl: 'https://www.bücher.de/?q="x"' }],
-  ]
-
-  it.each(cases)('should append what Eleventy appends, given %s', (_given, frontMatter) => {
-    const body = 'See [this][link].\n'
-    expect(ours(frontMatter, body)).toBe(theirs(frontMatter, body))
-  })
-
-  it('should throw at a viaUrl that is not a URL, as Eleventy does', () => {
-    const frontMatter = { linkUrl: LINK, viaUrl: 'example.org' }
-    expect(() => theirs(frontMatter, '')).toThrow('Invalid URL')
-    expect(() => ours(frontMatter, '')).toThrow('is not a URL')
-  })
-
-  it('should append what Eleventy appends to every document in www/', async () => {
-    const paths = (await readdir(WWW, { recursive: true, encoding: 'utf8' }))
-      .filter((path) => path.endsWith('.md'))
-      .sort()
-    const appended: string[] = []
-    for (const path of paths) {
-      const text = await readFile(join(WWW, path), 'utf8')
-      const { page } = readPage(path, text, { inputDir: 'www' })
-      assert(page !== undefined, `${path}'s front matter reads`)
-      const body = text.slice(findFrontMatter(text)?.end ?? 0)
-      const made = ours(page.loaded.value, body)
-      expect(made, path).toBe(theirs(matter(text).data as FrontMatter, body))
-      if (made !== body) appended.push(made.slice(body.length))
-    }
-    // Some, not how many: a post merged from main must not fail this.
-    expect(appended.some((tail) => !tail.includes('<p>Via '))).toBe(true)
-    expect(appended.some((tail) => tail.includes('<p>Via '))).toBe(true)
   })
 })
 

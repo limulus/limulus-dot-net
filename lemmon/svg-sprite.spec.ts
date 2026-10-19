@@ -2,11 +2,8 @@ import {
   build,
   type BuildResult,
   type LoadedConfig,
-  type Mark,
   type Plugin,
-  type ProducerContext,
 } from '@limulus/lemmon-shell'
-import eleventySvgSprite from 'eleventy-plugin-svg-sprite'
 import { existsSync } from 'node:fs'
 import { mkdir, mkdtemp, readFile, rm, symlink, utimes, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
@@ -27,38 +24,6 @@ async function prepared(plugin: Plugin): Promise<Plugin> {
   const context = { root: SVG, input: SVG, output: SVG, writes: false, env: {} }
   expect(await plugin.assets?.(context)).toEqual({})
   return plugin
-}
-
-/** What the producer of `plugin` for the mark `name` puts at one such mark. */
-function produced(plugin: Plugin, name: string): string {
-  const handler = plugin.marks?.find((each) => each.name === name)
-  const at = { line: 0, character: 0 }
-  const span = { start: 0, end: 0, range: { start: at, end: at } }
-  const mark: Mark = { name, start: 0, end: 0, path: 'page.lem', span }
-  const context: ProducerContext = {
-    name,
-    marks: [mark],
-    fragments: [],
-    page: new Uint8Array(),
-    body: false,
-    write: () => undefined,
-  }
-  const [content] = handler?.produce?.(context) ?? []
-  return content as string
-}
-
-/** The sprite eleventy-plugin-svg-sprite's shortcode writes for `directory`. */
-async function eleventySprite(directory: string): Promise<string> {
-  const events: Record<string, () => Promise<void>> = {}
-  const shortcodes: Record<string, () => string> = {}
-  const eleventyConfig = {
-    on: (event: string, listener: () => Promise<void>) => (events[event] = listener),
-    addShortcode: (name: string, shortcode: () => string) => (shortcodes[name] = shortcode),
-  }
-  const plugin = eleventySvgSprite as (config: object, options: object[]) => void
-  plugin(eleventyConfig, [{ path: directory, svgSpriteShortcode: 'spec' }])
-  await events.beforeBuild()
-  return shortcodes.spec()
 }
 
 /**
@@ -86,21 +51,6 @@ describe('svgSprite', () => {
   it('should produce one mark for each sprite it is given', () => {
     const { marks } = svgSprite(sprites)
     expect(marks?.map(({ name }) => name)).toEqual(['sprite', 'photoSprite'])
-  })
-
-  it("should write eleventy-plugin-svg-sprite's sprite, less what WebC changes", async () => {
-    const plugin = await prepared(svgSprite(sprites))
-    const theirs = await eleventySprite(join(SVG, 'common'))
-    expect(theirs).toContain('<style>')
-    expect(produced(plugin, 'sprite')).toBe(
-      theirs.replace('hidden;">', 'hidden">').replace(/<style>[^<]*<\/style>/g, '')
-    )
-  })
-
-  it("should write the photos' sprite as Eleventy does from a second entry", async () => {
-    const plugin = await prepared(svgSprite(sprites))
-    const theirs = await eleventySprite(join(SVG, 'photos'))
-    expect(produced(plugin, 'photoSprite')).toBe(theirs.replace('hidden;">', 'hidden">'))
   })
 
   it('should leave page.lem naming every id the style it drops names', async () => {

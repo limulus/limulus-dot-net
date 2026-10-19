@@ -5,9 +5,9 @@
 // plugin will do this inside the build instead, through a data hook (∆pP5 and the hook
 // it needs, ∆wOn, in the lemmon repo).
 //
-// Each record also gains the three numbers photo-meta.webc reads out of its EXIF strings
+// Each record also gains the three numbers photo-meta.webc read out of its EXIF strings
 // with `parseFloat`, computed here by the same expressions, so that the photo pages print
-// what Eleventy prints: Lemmon parses no number out of a string. At the cutover
+// what Eleventy printed: Lemmon parses no number out of a string. At the cutover
 // bin/process-photos.js writes them into photos.json itself (lemmon ∆oAl).
 
 import esMain from 'es-main'
@@ -28,7 +28,7 @@ interface PhotoRecord {
 
 type PhotoDb = Record<string, string | PhotoRecord>
 
-/** The numbers photo-meta.webc parses out of a photo's EXIF strings. */
+/** The numbers photo-meta.webc parsed out of a photo's EXIF strings. */
 export interface ExifNumbers {
   /** `parseFloat(focalLength)`: `"6.764999865652793 mm"` is 6.764999865652793. */
   focalLengthMm?: number
@@ -44,7 +44,7 @@ export interface ExifNumbers {
 /**
  * `value` as one of `photo`'s numbers, named `field`.
  *
- * @throws where `parseFloat` read no number, which photo-meta.webc would print as `NaN`
+ * @throws where `parseFloat` read no number, which photo-meta.webc printed as `NaN`
  *   and JSON cannot carry: `JSON.stringify` would write `null`, which loads as no value.
  */
 function finite(photo: PhotoRecord, field: keyof ExifNumbers, value: number): number {
@@ -55,7 +55,7 @@ function finite(photo: PhotoRecord, field: keyof ExifNumbers, value: number): nu
 }
 
 /**
- * The numbers photo-meta.webc parses out of `photo`'s EXIF strings, by its own
+ * The numbers photo-meta.webc parsed out of `photo`'s EXIF strings, by its own
  * expressions; one whose string the photo lacks is left out, as is the exposure of a
  * composite whose string holds fewer than two times.
  */

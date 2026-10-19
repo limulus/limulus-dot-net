@@ -12,12 +12,12 @@ overview of the tech stack:
 
 ### Site Generation
 
-- [Eleventy]: Static site generator
+- [Lemmon]: Static site generator and typed template language (`lem`)
 - [esbuild]: JavaScript bundler
 - [sharp]: Image processing
 - [AWS CDK]: Infrastructure as code (TypeScript)
 
-[eleventy]: https://www.11ty.dev/
+[lemmon]: https://github.com/limulus/lemmon
 [esbuild]: https://esbuild.github.io/
 [sharp]: https://sharp.pixelplumbing.com/
 [aws cdk]: https://aws.amazon.com/cdk/
@@ -39,10 +39,16 @@ to understand this codebase.
 
 ### Running Locally
 
+The build runs [Lemmon] from a checkout of its repository beside this one, at
+`../lemmon`, with `npm install` and `npm run rust:wasm` run there. Then:
+
 ```sh
 npm install
 npm run dev
 ```
+
+As before, `npm run dev`, `npm run build` and `npm run verify` need a Mapbox public token
+in `MAPBOX_PUBLIC_TOKEN`, from the environment or a `.env` file here.
 
 ### Development
 
@@ -108,11 +114,11 @@ Most content should be written in a Markdown file under the `www` directory.
 
 #### Frontmatter Properties
 
-- `layout`: Standard Eleventy property to determine the page layout. Can be any of the following:
+- `layout`: The page layout. Can be any of the following:
   - `article`: For text based articles.
   - `video`: For video watch pages.
   - `pages`: Bare-bones layout for things like home pages and indices.
-- `tags`: Standard Eleventy property for creating collections. Possible values:
+- `tags`: The collections a page belongs to. Possible values:
   - `article`: For any article and blog post. Anything that can be syndicated is an article,
     including videos!
   - `development`: For articles about software development

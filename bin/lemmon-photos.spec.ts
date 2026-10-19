@@ -66,7 +66,7 @@ describe('lemmonPhotos', () => {
 describe('exifNumbers', () => {
   const alias = 'split'
 
-  it("should read the focal length as photo-meta.webc's parseFloat reads it", () => {
+  it("should read the focal length as photo-meta.webc's parseFloat read it", () => {
     expect(exifNumbers({ alias, focalLength: '6.764999865652793 mm' })).toEqual({
       focalLengthMm: 6.764999865652793,
     })

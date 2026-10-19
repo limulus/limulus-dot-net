@@ -16,7 +16,6 @@ export default defineConfig({
           name: 'unit',
           include: [
             'infra/test/**/*.spec.ts',
-            '11ty/**/*.spec.ts',
             'bin/**/*.spec.ts',
             'lemmon/**/*.spec.ts',
           ],

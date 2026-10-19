@@ -1,17 +1,18 @@
-// Writes the stylesheets the Lemmon port collects as copies. base.webc links normalize,
-// main and hljs-github, which WebC bundles after every component's styles, each trimmed;
-// map-box.webc links mapbox-gl's stylesheet, which WebC bundles before map-box's own
-// styles. A `.lem` file cannot read a CSS file (a Lemmon data source is YAML), so the
-// port carries a copy of each: www/_lemmon/site-styles.lem defines `siteStyles()`, one
-// `lem-style` block per global stylesheet in that order, and www/_lemmon/mapbox-gl.lem
-// defines `mapboxGlStyles()`, which map-box.lem calls, each line indented four spaces so
-// that a `lem-style` body's trim and dedent (lemmon's D26) give back the file trimmed.
+// Writes the stylesheets the site's CSS bundles collect as copies. Eleventy's base.webc
+// linked normalize, main and hljs-github, which WebC bundled after every component's
+// styles, each trimmed; map-box.webc linked mapbox-gl's stylesheet, which WebC bundled
+// before map-box's own styles; the bundles keep that order. A `.lem` file cannot read a
+// CSS file (a Lemmon data source is YAML), so the site carries a copy of each:
+// www/_lemmon/site-styles.lem defines `siteStyles()`, one `lem-style` block per global
+// stylesheet in that order, and www/_lemmon/mapbox-gl.lem defines `mapboxGlStyles()`,
+// which map-box.lem calls, each line indented four spaces so that a `lem-style` body's
+// trim and dedent (lemmon's D26) give back the file trimmed.
 
 import esMain from 'es-main'
 import { readFile, writeFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 
-/** The global stylesheets, by name, in the order base.webc links them. */
+/** The global stylesheets, by name, in the order base.webc linked them. */
 export const STYLESHEETS = ['normalize', 'main', 'hljs-github'].map((name) => ({
   name,
   path: fileURLToPath(new URL(`../www/_includes/css/${name}.css`, import.meta.url)),
@@ -21,7 +22,7 @@ export const TARGET = fileURLToPath(
   new URL('../www/_lemmon/site-styles.lem', import.meta.url)
 )
 
-/** mapbox-gl's stylesheet, where map-box.webc links it from. */
+/** mapbox-gl's stylesheet, where map-box.webc linked it from. */
 export const MAPBOX_GL = {
   name: 'mapbox-gl',
   path: fileURLToPath(

@@ -1,9 +1,0 @@
----
-title: Not Found
-layout: page
-eleventyExcludeFromCollections: true
----
-
-<h1 @text="title"></h1>
-
-<p>Sorry, the resource you were looking for could not be found.</p>

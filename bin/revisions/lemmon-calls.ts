@@ -1,19 +1,13 @@
 // A post writes each in-content photo, and each penumbra demo with its no-script
 // fallback, as a lem call on a line of its own, where it once wrote the block the call
 // replaced — WebC, or a demo element around a Liquid include. The revision hash reads
-// that block for good, so the port was not recorded as an edit; and while Eleventy
-// builds the same posts, it reads the block too.
+// that block, for good, so the port was not recorded as an edit.
 
 const ARTICLE_PHOTO =
   /^([ \t]*)<lem\.articlePhoto\(site\.photos\["([^"]+)"\], \.(left|right|hero)\)>[ \t]*$/gm
 
 const DEMO_WITH_FALLBACK =
   /^([ \t]*)<lem\.demoWithFallback\("([a-z][a-z0-9-]*)"\)>[ \t]*$/gm
-
-// Deliberately line-based rather than markdown-aware: a code fence holding a line that
-// starts with `<lem` is refused here too, which beats parsing fences while two builds
-// read the posts.
-const LEM_LINE = /^[ \t]*<lem[.-].*$/m
 
 /** `lines`, each indented by `indent`, as one block of text. */
 const indented = (indent: string, lines: string[]): string =>
@@ -45,20 +39,4 @@ export function eleventyFormsOfLemmonCalls(markdown: string): string {
         `</div>`,
       ])
     )
-}
-
-/**
- * {@link eleventyFormsOfLemmonCalls}, for Eleventy's `lemmonCalls` preprocessor, which
- * would render a lem line it cannot translate as text. It goes with eleventy.config.ts
- * at the cutover.
- *
- * @throws when a lem line remains that has no Eleventy form.
- */
-export function eleventyFormsOfLemmonCallsOrThrow(markdown: string): string {
-  const translated = eleventyFormsOfLemmonCalls(markdown)
-  const untranslated = LEM_LINE.exec(translated)
-  if (untranslated) {
-    throw new Error(`no Eleventy form for the lem line ${untranslated[0].trim()}`)
-  }
-  return translated
 }

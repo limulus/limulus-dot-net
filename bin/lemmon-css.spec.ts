@@ -80,14 +80,14 @@ describe('mapboxGlStyles', () => {
 })
 
 describe('www/_lemmon/site-styles.lem', () => {
-  it('should be what `npm run lemmon:css` derives from www/_includes/css/', async () => {
+  it('should be what `npm run css` derives from www/_includes/css/', async () => {
     const expected = siteStyles(await readStylesheets())
     expect(await readFile(TARGET, 'utf8')).toBe(expected)
   })
 })
 
 describe('www/_lemmon/mapbox-gl.lem', () => {
-  it('should be what `npm run lemmon:css` derives from mapbox-gl.css', async () => {
+  it('should be what `npm run css` derives from mapbox-gl.css', async () => {
     const expected = mapboxGlStyles(await readMapboxGl())
     expect(await readFile(MAPBOX_GL_TARGET, 'utf8')).toBe(expected)
   })

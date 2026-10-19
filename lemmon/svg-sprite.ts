@@ -1,6 +1,6 @@
-// The port's stand-in for eleventy-plugin-svg-sprite: the inline sprite Eleventy's
-// `svgspriteCommon` shortcode writes at the top of every page, as a mark `lem build`
-// fills, built by the same svg-sprite with the same options.
+// The inline sprite at the top of every page, as a mark `lem build` fills: what
+// Eleventy's `svgspriteCommon` shortcode (eleventy-plugin-svg-sprite) wrote, built by the
+// same svg-sprite with the same options.
 //
 // What must change at the cutover from Eleventy (lemmon ∆oAl). The sprite matches
 // Eleventy's after WebC has hoisted the `<style>` out of ldn.svg's symbol, so it drops
