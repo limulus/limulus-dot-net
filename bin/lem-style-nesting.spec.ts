@@ -1,9 +1,9 @@
 // A component's `lem-style` nests its rules under `.fnName { … }` (lemmon's D20), and the
 // photo page's under the class on its `article`, `.photoPage { … }`. A nested selector
-// without its `&` — `img {` for `& img {` — is a relative selector, which lightningcss
-// accepts and normalizes as if the `&` were there, so css-bundle cannot see it missing;
-// but Chrome before 120 and Safari before 17.2 drop such a rule, and D20's browser floor
-// reaches below both. So every selector under a wrapper names its parent.
+// without its `&` — `img {` for `& img {` — is a relative selector, which newer browsers
+// read as if the `&` were there; but Chrome before 120 and Safari before 17.2 drop such
+// a rule, and D20's browser floor reaches below both. So every selector under a wrapper
+// names its parent.
 
 import { readdir, readFile } from 'node:fs/promises'
 import { join } from 'node:path'

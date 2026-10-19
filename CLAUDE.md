@@ -86,7 +86,7 @@ This branch ports the site to Lemmon beside Eleventy; both builds read the same 
   Eleventy prints it (`https://limulus.net/` for the RSS feed, whose `addFeed` gives no
   slash). `atomFeed` writes the base as the feed's `<id>`, as Eleventy does, and the base
   and a slash as its alternate link, the page's own url, where Eleventy links the base,
-  which names no file (parity's `feed-alternate-slash`). An Atom feed with no entries is
+  which names no file. An Atom feed with no entries is
   `updated` at `build.time`, as Eleventy's is at its build's. An item's
   content is `<lem.build.bodies[post.url.text()]>`: lemmon's body pass (D46) renders each
   post's body alone before any page, highlights it, and makes its links absolute against
@@ -101,8 +101,7 @@ This branch ports the site to Lemmon beside Eleventy; both builds read the same 
   page has no lastmod, where Eleventy gives the template file's creation time — as have
   `/feed/`, `/penumbra/` and `/penumbra/journal/` while their collection is empty, since
   a lastmod is optional. It names its sources by hand, so a new generator or a page
-  template that is no `index.lem` needs adding there: parity reports one missing until
-  the cutover, and nothing does after it
+  template that is no `index.lem` needs adding there, since nothing reports one missing
 - The client scripts are bundled by the shell's `esbuild()`, which `lemmon.config.ts` lists
   with 11ty/esbuild.ts's asset path and its `MAPBOX_PUBLIC_TOKEN`; the config loads the
   `.env` beside it, wherever `lem` starts, and a build without the token fails naming it.
@@ -121,11 +120,11 @@ This branch ports the site to Lemmon beside Eleventy; both builds read the same 
   watch reruns `npm run lemmon:css` when `www/_includes/css/*.css` changes. A change to
   `lemmon.config.ts` needs a restart, as does one to `www/_data/site.json`'s `url`, which
   the config reads once as its `origin`; and like `lem build` it removes nothing from
-  `dist/lemmon`, so a deleted post's page stays served until the next `npm run parity`
+  `dist/lemmon`, so a deleted post's page stays served until it is deleted there by hand
 - `npm run build` still writes the Eleventy reference to `dist/www`. Its `clean` removes
   only `dist/www`, `dist/infra`, `coverage`, and `*.tsbuildinfo`, so the two builds run in
   either order; `lem build` itself removes nothing from `dist/lemmon`, so a stale page
-  stays until `npm run parity` (which empties it before building) or a deletion by hand
+  stays until it is deleted by hand
 - `npm run lemmon:photos` regenerates `www/_lemmon/photos.json` (photos keyed by alias)
   from `www/_data/photos.json`, adding to each photo the numbers `photo-meta.webc` parses
   out of its EXIF strings with `parseFloat` (`focalLengthMm`, `fNumberValue`,
@@ -138,7 +137,7 @@ This branch ports the site to Lemmon beside Eleventy; both builds read the same 
   a component after those it depends on, wherever the page first uses it, so
   `www/tils/index.lem` captures its article list before the topics' chips above it,
   whose `dataChip` would otherwise collect ahead of the cards' `pho-picture` (its icons
-  then number after the cards', which parity's `svg-desc-counter` allows). Under its
+  then number after the cards'). Under its
   `.fnName { … }` wrapper every selector starts with `&` (a spec checks every `.lem`
   under `www/`); the photo page's wrapper is `.photoPage`, the class on its `article`,
   which stands for the hash WebC gave every element that page writes. The globals
@@ -173,75 +172,3 @@ This branch ports the site to Lemmon beside Eleventy; both builds read the same 
   body what eleventy.config.ts's `linkPostContent` appends — the `[link]` definition, and
   with a `viaUrl` the `[via]` one and the "Via" paragraph — which its spec checks by
   running that preprocessor beside it over every document
-- `npm run parity` builds both sides — Eleventy under `TZ=UTC`, as CD's runner builds
-  it, so its RSS `pubDate`s are spelled in `GMT` as production's are (on this machine
-  they were `MST`, the same instants; nothing else moves) — and compares the whole of
-  each dist. Every file either wrote falls in exactly one category
-  (`bin/parity/inventory.ts`), by the predicate that chooses the files its comparison
-  reads: page, xml, bundle, script, passthrough. A file in none, or in several, fails
-  the run, named, and the run prints each side's count per category. Every page — each
-  `index.html` under `dist/www` or `dist/lemmon` — is compared as rendered HTML through
-  the forgiveness classes in `bin/parity/classes.ts`, each held to its count in
-  `bin/parity/expected.ts`. Every page either dist holds is compared, and needs a row in
-  `EXPECTED` (`generator` and `css-bundle` fire on every page, so a page without one
-  fails); a page only one build wrote fails as missing from the other, and a row for a
-  page neither build wrote fails as stale. Every `.xml` file either wrote — the feeds and
-  the sitemap — is compared the same way as XML (`bin/parity/xml.ts`): read strictly with
-  `@xmldom/xmldom` (pinned exactly, with the well-formedness checks it does not make in
-  `bin/parity/xml-read.ts`), elements and attributes by namespace, a feed's entries in
-  order by guid or id, the sitemap's urls as a set by `loc`, dates as instants where each
-  side matches its element's grammar (`date-spelling`), each entry's content as rendered
-  HTML through the page classes once both sides' links on the site's origin are written
-  back as the page writes them (`bin/parity/feed-content.ts`, which first fails a
-  relative url left in ours), and the sitemap's three differences Eric chose
-  (`sitemap-feed-entries`, `sitemap-unlisted-page`, `sitemap-undated-lastmod`) and the
-  Atom feeds' alternate links' slash (`feed-alternate-slash`), each counted under its
-  file's row; md-photo-wrap takes the shape posthtml gave the feeds' photos. Each build's
-  CSS bundles, ours under `/assets/immutable/bundle/` and Eleventy's under
-  `/assets/immutable/11ty/bundle/`, are named differently, so they are compared through
-  the pages that link them (`css-bundle`), and a bundle no page links fails. Then every
-  file both wrote for an `index.ts` or `worker.ts` under `www/`, and under esbuild's
-  asset path (the `.wasm`), byte for byte (`bin/parity/scripts.ts`), setting Eleventy's
-  unhashed stubs aside by their content and counting them — one beside each entry bundle
-  Eleventy wrote, as `11ty/esbuild.ts` writes them, so a stub missing fails, naming its
-  bundle; and every passthrough file — one at the path of a file in `www/`, whichever
-  glob copied it — byte for byte, so a file one build's glob misses fails as missing
-  from it. Whether a side wrote a page or a file is its own listing's to say, by the
-  exact url, never this machine's file system's, which finds a name in another letter
-  case or Unicode form where S3 would not: two builds naming one file differently fail
-  as missing from each. `-- --no-build` compares the dists already there, where a page
-  `lem dev` left from an earlier edit fails as one only Lemmon wrote, and a bundle as
-  one no page links. It runs under `node --conditions=source` so the shell loads from
-  the lemmon checkout's source
-- `npm run parity:look`, run after `npm run parity`, checks that the pages it compares
-  also look the same. It builds nothing, and shoots no page parity's own comparison fails:
-  it serves both dists, shoots each page in the installed Google Chrome (needed;
-  `playwright-core` drives it headless, rasterizing in software, and downloads no browser)
-  at 1280 px light, 390 px light and 1280 px dark, and fails on any pixel that differs,
-  writing each pair and its diff to `dist/look/<url>/`. So that exact equality can be the
-  bar, every request to another host gets one fixed PNG; the scripts run on both sides,
-  held until the page is parsed, and the photos held until every blur-hash placeholder is
-  painted (limulus.net's placeholders otherwise race the parser and the photos,
-  differently each run); what a script draws from a clock or a worker is masked, both
-  sides alike — the pixel clock, the sphere shadows and their render times, the video
-  player — by the list `MASKED` in `bin/parity-look.ts`, which fails a run where one
-  masked nothing, and is checked instead by parity's byte comparison and by page errors,
-  any of which fails a shot; the photo pages' map is kept from loading, its bundle
-  answered with an empty module (`MAP_BUNDLE`), since mapbox-gl's style and tiles come
-  from a host the stand-in answers with a PNG, so its placeholder is compared; and each
-  page is served with every visible difference parity forgives undone, by a neutralizer in
-  `bin/parity/neutralizers.ts` named for its class: footnote-markup (ours takes theirs'
-  list and note classes, `[n]` markers and `↩︎`, but not their section's
-  `section-separator`, since `main.css` draws that rule above any `.footnotes`, so the
-  shot shows it on ours), reading-time (ours' header and card chips
-  take theirs' minutes), md-photo-wrap (theirs drops the empty `p`s the parser leaves in a
-  photo's `figure`). A difference no neutralizer covers fails the run
-- `npm run parity:look -- --serve` serves `dist/www` on port 8081 and `dist/lemmon` on
-  8082 as built, each running its own scripts, listing each page's two URLs, until
-  Ctrl-C. Nothing is neutralized, held or masked there, so the differences parity
-  forgives show
-- Not built at all: markdown-it-footnote's markup, since Lemmon writes comrak's
-  footnotes, which parity's `footnote-markup` forgives until the cutover (∆oAl). Its
-  `section-separator` class drew the centred rule above the notes; `main.css` gives
-  `.footnotes::before` the same rule, which Eleventy's section, holding both classes,
-  draws once

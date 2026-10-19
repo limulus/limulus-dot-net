@@ -7,12 +7,12 @@
 // that `<style>`, and page.lem carries a copy of its rules. Those rules name ids
 // svg-sprite namespaces by the order files are added (`svgFiles`): ldn.svg's letter
 // counts the files sorting after it (`e` for four), so adding or removing such an icon
-// renames the ids the copy names. This file's spec and parity's css-bundle class catch
-// that; `lem build` does not. svg-sprite also keeps its namespace width on its
-// prototype, shared by every spriter in the process: once a sprite of more than 26
-// icons compiles, every later one's ids take two letters, so such a photos sprite would
-// rename the logo's ids partway through a `lem dev` session. Once Eleventy's output need
-// not be matched, the `<style>` can stay in the sprite and page.lem's copy go.
+// renames the ids the copy names. This file's spec catches that; `lem build` does not.
+// svg-sprite also keeps its namespace width on its prototype, shared by every spriter
+// in the process: once a sprite of more than 26 icons compiles, every later one's ids
+// take two letters, so such a photos sprite would rename the logo's ids partway through
+// a `lem dev` session. Once Eleventy's output need not be matched, the `<style>` can
+// stay in the sprite and page.lem's copy go.
 
 import type { Plugin } from '@limulus/lemmon-shell'
 import { strict as assert } from 'node:assert'
