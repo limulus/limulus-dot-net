@@ -204,6 +204,13 @@
           "date": "2026-03-02T04:44:56.597Z",
           "commit": "20f9178",
           "message": "feat: add link post"
+        },
+        {
+          "v": 1,
+          "hash": "2aa5dfa0610f",
+          "date": "2026-10-19T15:05:26.031Z",
+          "commit": "13d4599",
+          "message": "fix: point the surviving-ai link post's essay link at its linkUrl"
         }
       ]
     },
