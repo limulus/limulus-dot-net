@@ -6,7 +6,7 @@ import { compareRendered, renderedPage, type Comparison } from '@limulus/lemmon-
 import { readdir, readFile } from 'node:fs/promises'
 import { join, sep } from 'node:path'
 
-import { forgiveness, SITE_DISPLAY, type Bundles, type PhotoTitles } from './classes.ts'
+import { forgiveness, SITE_DISPLAY, type Bundles } from './classes.ts'
 import { readStylesheets } from '../lemmon-css.ts'
 
 /** What a build wrote as HTML: its pages' urls, and every other `.html` file. */
@@ -41,14 +41,6 @@ export async function pagesIn(dist: string): Promise<Written> {
       .sort(),
     strays: html.filter((file) => !page(file)).sort(),
   }
-}
-
-/** Each photo's title by its alias, from the input directory's `_lemmon/photos.json`. */
-export async function photoTitlesIn(input: string): Promise<PhotoTitles> {
-  const photos = JSON.parse(
-    await readFile(join(input, '_lemmon/photos.json'), 'utf8')
-  ) as Record<string, { alias: string; title: string }>
-  return new Map(Object.values(photos).map(({ alias, title }) => [alias, title]))
 }
 
 /**
@@ -143,24 +135,15 @@ export interface PageInput {
   theirs: string | null
   /** The CSS bundles both builds wrote, and the global stylesheets. */
   css: Bundles
-  /** The site's photos' titles, by alias. */
-  titles: PhotoTitles
   /** How often each class should fire on this page. */
   expected: Record<string, number>
 }
 
 /** Compares the two builds' pages at one url, or reports the side that lacks it. */
-export function comparePage({
-  url,
-  ours,
-  theirs,
-  css,
-  titles,
-  expected,
-}: PageInput): PageReport {
+export function comparePage({ url, ours, theirs, css, expected }: PageInput): PageReport {
   if (ours === null) return { url, missing: 'ours', miscounts: [], refusals: [] }
   if (theirs === null) return { url, missing: 'theirs', miscounts: [], refusals: [] }
-  const { classes, refusals } = forgiveness(css, titles)
+  const { classes, refusals } = forgiveness(css)
   const comparison = compareRendered(
     renderedPage(ours, { display: SITE_DISPLAY }),
     renderedPage(theirs, { display: SITE_DISPLAY }),

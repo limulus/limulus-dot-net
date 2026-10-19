@@ -2,15 +2,15 @@
 // dist/lemmon — and compares every page either build wrote, each `index.html` under
 // either dist, as rendered HTML (lemmon's D28), through the forgiveness classes in
 // bin/parity/, with both builds' CSS bundles read beside the global stylesheets for
-// css-bundle and the photos' titles from www/_lemmon/photos.json for photo-list-heading.
-// Each page reports every difference no class explains, why a class refused one where it
-// says, how often each class fired, and what matched. Then the client scripts both
-// builds bundled — every file esbuild writes for an `index.ts` or `worker.ts` under
-// www/, and its assets — are compared byte for byte, Eleventy's unhashed stubs set aside
-// and counted (bin/parity/scripts.ts). The run exits 1 on any unexplained difference,
-// any class firing other than its count in EXPECTED, a row there for a url no page
-// compared has, an `.html` file in either dist that is no `index.html`, a page one build
-// lacks, or a script file one build lacks or writes differently.
+// css-bundle. Each page reports every difference no class explains, why a class refused
+// one where it says, how often each class fired, and what matched. Then the client
+// scripts both builds bundled — every file esbuild writes for an `index.ts` or
+// `worker.ts` under www/, and its assets — are compared byte for byte, Eleventy's
+// unhashed stubs set aside and counted (bin/parity/scripts.ts). The run exits 1 on any
+// unexplained difference, any class firing other than its count in EXPECTED, a row there
+// for a url no page compared has, an `.html` file in either dist that is no
+// `index.html`, a page one build lacks, or a script file one build lacks or writes
+// differently.
 //
 //   npm run parity [-- --no-build]     --no-build compares the dists already there
 //
@@ -50,7 +50,6 @@ const {
   failed,
   pageAt,
   pagesIn,
-  photoTitlesIn,
   reportLines,
   rosterOf,
   staleRows,
@@ -93,7 +92,6 @@ const theirs = join(ROOT, THEIRS)
 const written = { ours: await pagesIn(ours), theirs: await pagesIn(theirs) }
 const urls = rosterOf(written.ours.pages, written.theirs.pages)
 const css = await bundlesIn(ours, theirs)
-const titles = await photoTitlesIn(join(ROOT, INPUT))
 
 const stale = staleRows(EXPECTED, urls)
 let failures = 0
@@ -104,7 +102,6 @@ for (const url of urls) {
     ours: await pageAt(ours, url),
     theirs: await pageAt(theirs, url),
     css,
-    titles,
     expected: EXPECTED[url] ?? {},
   })
   for (const line of reportLines(report, { ours: OURS, theirs: THEIRS })) console.log(line)

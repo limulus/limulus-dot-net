@@ -538,49 +538,6 @@ const sourcePill: Forgiveness = {
   },
 }
 
-// --- Eleventy's bugs a reader would call one, fixed in the port ---------------------
-
-/** Each photo's title by its alias, as www/_lemmon/photos.json holds them. */
-export type PhotoTitles = ReadonlyMap<string, string>
-
-const PHOTO_LINK = /^\/photos\/([^/]+)\/$/
-
-/** `text` as a page renders it: each run of HTML whitespace one space, the ends trimmed. */
-const collapsed = (text: string): string => text.replace(/[\t\n\f\r ]+/g, ' ').trim()
-
-/**
- * In `/photos/`'s list each photo's visually hidden `h1` is empty in theirs, since
- * `photo-list.webc` writes it with `webc:text`, which WebC does not know, where ours
- * holds the photo's title: an `h1.visually-hidden` alone in the `header` of a photo's
- * link to `/photos/<alias>/` in a `photo-list`, empty in theirs and in ours the title
- * `titles` holds for that alias, as rendered. Fixed rather than reproduced, so it lasts until
- * the cutover (∆oAl), on the list of what readers will see change.
- */
-export function photoListHeading(titles: PhotoTitles): Forgiveness {
-  return {
-    name: 'photo-list-heading',
-    subtree: (at) => {
-      const [link, header] = at.ancestors.slice(-2)
-      const [only, ...rest] = at.ours.children
-      const alias = PHOTO_LINK.exec(link?.ours.attrs.get('href') ?? '')?.[1]
-      const title = alias === undefined ? undefined : titles.get(alias)
-      const heading =
-        at.ours.tag === 'h1' &&
-        hasClass(at.ours, 'visually-hidden') &&
-        header?.ours.tag === 'header' &&
-        elementsIn(header.ours).length === 1 &&
-        link?.ours.tag === 'a' &&
-        at.ancestors.some((pair) => pair.ours.tag === 'photo-list') &&
-        at.theirs.children.length === 0 &&
-        rest.length === 0 &&
-        only?.kind === 'text' &&
-        title !== undefined &&
-        only.text.trim() === collapsed(title)
-      return heading ? 1 : null
-    },
-  }
-}
-
 // --- D38: datetimes print in their written offset ---------------------------------
 
 /**
@@ -913,10 +870,10 @@ export interface Allowlist {
 }
 
 /**
- * Every class `npm run parity` accepts on a page whose builds wrote the bundles `css`, on
- * a site whose photos have the titles `titles`, in the order they are consulted.
+ * Every class `npm run parity` accepts on a page whose builds wrote the bundles `css`, in
+ * the order they are consulted.
  */
-export function forgiveness(css: Bundles, titles: PhotoTitles): Allowlist {
+export function forgiveness(css: Bundles): Allowlist {
   const bundle = cssBundle(css)
   const classes = [
     scopedClass,
@@ -933,7 +890,6 @@ export function forgiveness(css: Bundles, titles: PhotoTitles): Allowlist {
     footnoteMarkup,
     readingTime,
     sourcePill,
-    photoListHeading(titles),
   ]
   return { classes, refusals: bundle.refusals }
 }

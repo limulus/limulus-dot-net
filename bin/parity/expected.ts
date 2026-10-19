@@ -302,7 +302,6 @@ export const EXPECTED: Record<string, Record<string, number>> = {
     generator: 1,
     'attr-escaping': 2,
     'source-pill': 1,
-    'photo-list-heading': 19,
   },
   '/photos/all-in-all-by-beth-lipman/': {
     'scoped-class': 33,

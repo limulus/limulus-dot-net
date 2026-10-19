@@ -16,7 +16,6 @@ import {
   lastDifference,
   normalized,
   forgiveness,
-  photoListHeading,
   renamed,
   SITE_DISPLAY,
   type Bundles,
@@ -1358,92 +1357,9 @@ describe('source-pill', () => {
   })
 })
 
-describe('photo-list-heading', () => {
-  const heading = photoListHeading(
-    new Map([
-      ['split', 'Split'],
-      ['all-laced-up', 'All Laced Up'],
-      ['through-the-cone', 'Through the Cone by Jaroslava  Brychtová'],
-    ])
-  )
-  const item = (heading: string, href = '/photos/split/') =>
-    `<li><article><a href="${href}"><header>${heading}</header><pho-picture></pho-picture></a></article></li>`
-  const list = (...items: string[]) => `<photo-list><ul>${items.join('')}</ul></photo-list>`
-  const h1 = (text: string) => `<h1 class="visually-hidden">${text}</h1>`
-
-  it('should accept ours’ title where theirs’ heading is empty, once a photo', () => {
-    const result = bodies(
-      list(item(h1('Split')), item(h1('All Laced Up'), '/photos/all-laced-up/')),
-      list(item(h1('')), item(h1(''), '/photos/all-laced-up/')),
-      heading
-    )
-    expect(clean(result)).toBe(true)
-    expect(forgiven(result)).toEqual([['photo-list-heading', 2]])
-  })
-
-  it('should not accept a heading theirs filled, or ours left empty or marked up', () => {
-    expect(clean(bodies(list(item(h1('Split'))), list(item(h1('Spilt'))), heading))).toBe(
-      false
-    )
-    expect(clean(bodies(list(item(h1(''))), list(item(h1('Split'))), heading))).toBe(false)
-    for (const marked of ['<em>Split</em>', 'Split<em>!</em>']) {
-      expect(clean(bodies(list(item(h1(marked))), list(item(h1(''))), heading))).toBe(false)
-    }
-  })
-
-  it('should accept a title whose whitespace the page collapses', () => {
-    const href = '/photos/through-the-cone/'
-    const result = bodies(
-      list(item(h1('Through the Cone by Jaroslava  Brychtová'), href)),
-      list(item(h1(''), href)),
-      heading
-    )
-    expect(clean(result)).toBe(true)
-  })
-
-  it('should not accept a title other than the linked photo’s', () => {
-    for (const [text, href] of [
-      ['All Laced Up', '/photos/split/'],
-      ['A person using a large telescope inside an observatory dome', '/photos/split/'],
-      ['undefined', '/photos/split/'],
-      ['Split', '/photos/unknown/'],
-    ]) {
-      const result = bodies(list(item(h1(text), href)), list(item(h1(''), href)), heading)
-      expect(clean(result)).toBe(false)
-    }
-  })
-
-  it('should not accept an empty heading anywhere else', () => {
-    for (const [ours, theirs] of [
-      [item(h1('Split')), item(h1(''))],
-      [list(item('<h1>Split</h1>')), list(item('<h1></h1>'))],
-      [list(item(h1('Split'), '/feed/split/')), list(item(h1(''), '/feed/split/'))],
-      [list(item(`${h1('Split')}<p>x</p>`)), list(item(`${h1('')}<p>x</p>`))],
-      [
-        list(`<li><header>${h1('Split')}</header></li>`),
-        list(`<li><header>${h1('')}</header></li>`),
-      ],
-      [
-        list(item('<h2 class="visually-hidden">Split</h2>')),
-        list(item('<h2 class="visually-hidden"></h2>')),
-      ],
-      [
-        list(`<li><a href="/photos/split/"><div>${h1('Split')}</div></a></li>`),
-        list(`<li><a href="/photos/split/"><div>${h1('')}</div></a></li>`),
-      ],
-      [
-        list(`<li><span href="/photos/split/"><header>${h1('Split')}</header></span></li>`),
-        list(`<li><span href="/photos/split/"><header>${h1('')}</header></span></li>`),
-      ],
-    ]) {
-      expect(clean(bodies(ours, theirs, heading))).toBe(false)
-    }
-  })
-})
-
 describe('forgiveness()', () => {
   it('should consult every class, in order', () => {
-    const { classes } = forgiveness(NO_CSS, new Map())
+    const { classes } = forgiveness(NO_CSS)
     expect(classes.map((cls) => cls.name)).toEqual([
       'scoped-class',
       'page-scoped-sprite',
@@ -1459,7 +1375,6 @@ describe('forgiveness()', () => {
       'footnote-markup',
       'reading-time',
       'source-pill',
-      'photo-list-heading',
     ])
   })
 })

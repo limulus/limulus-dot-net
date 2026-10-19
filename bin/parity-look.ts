@@ -50,7 +50,6 @@ import {
   failed,
   pageAt,
   pagesIn,
-  photoTitlesIn,
   reportLines,
   rosterOf,
 } from './parity/check.ts'
@@ -581,7 +580,6 @@ async function compareShots(
 async function look(urls: string[]): Promise<boolean> {
   const started = Date.now()
   const css = await bundlesIn(join(ROOT, OURS), join(ROOT, THEIRS))
-  const titles = await photoTitlesIn(join(ROOT, INPUT))
   const { chromium } = await import('playwright-core')
   // Software rasterizing: on the GPU, the same page shot twice differed (settle).
   const browser = await chromium
@@ -632,7 +630,6 @@ async function look(urls: string[]): Promise<boolean> {
         ours,
         theirs,
         css,
-        titles,
         expected: EXPECTED[url] ?? {},
       })
       if (ours === null || theirs === null || failed(parity)) {

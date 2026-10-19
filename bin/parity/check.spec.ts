@@ -1,7 +1,6 @@
 import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { fileURLToPath } from 'node:url'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
 import {
@@ -12,7 +11,6 @@ import {
   miscounts,
   pageAt,
   pagesIn,
-  photoTitlesIn,
   reportLines,
   rosterOf,
   staleRows,
@@ -22,7 +20,6 @@ import { bundleName } from './classes.ts'
 
 const SIDES = { ours: 'dist/lemmon', theirs: 'dist/www' }
 const NO_CSS = { ours: new Map(), theirs: new Map(), globals: '' }
-const NO_TITLES = new Map<string, string>()
 const page = (body: string) =>
   `<!doctype html><html><head></head><body>${body}</body></html>`
 
@@ -93,30 +90,6 @@ describe('pagesIn()', () => {
   })
 })
 
-describe('photoTitlesIn()', () => {
-  it('should read each photo’s title by its alias from the port’s photos', async () => {
-    const titles = await photoTitlesIn(fileURLToPath(new URL('../../www', import.meta.url)))
-    expect(titles.get('split')).toBe('Split')
-    expect(titles.get('lynx-after-duerer-by-marta-klonowska')).toBe(
-      'Lynx After Dürer by Marta Klonowska'
-    )
-  })
-
-  it('should key a photo by the alias it carries', async () => {
-    const input = await mkdtemp(join(tmpdir(), 'parity-'))
-    try {
-      await mkdir(join(input, '_lemmon'))
-      await writeFile(
-        join(input, '_lemmon/photos.json'),
-        JSON.stringify({ key: { alias: 'carried', title: 'A Title' } })
-      )
-      expect([...(await photoTitlesIn(input))]).toEqual([['carried', 'A Title']])
-    } finally {
-      await rm(input, { recursive: true, force: true })
-    }
-  })
-})
-
 describe('rosterOf()', () => {
   it('should compare every page either build wrote, once each, sorted', () => {
     expect(rosterOf(['/b/', '/', '/c/'], ['/c/', '/a/', '/'])).toEqual([
@@ -147,7 +120,6 @@ describe('rosterOf()', () => {
         ours: await pageAt(sides.ours, '/only/'),
         theirs: await pageAt(sides.theirs, '/only/'),
         css: NO_CSS,
-        titles: NO_TITLES,
         expected: {},
       })
       expect(report.missing).toBe('ours')
@@ -226,7 +198,7 @@ describe('miscounts()', () => {
 })
 
 describe('comparePage()', () => {
-  const post = { url: '/feed/x/', css: NO_CSS, titles: NO_TITLES, expected: {} }
+  const post = { url: '/feed/x/', css: NO_CSS, expected: {} }
 
   it('should report the side that has no page', () => {
     expect(comparePage({ ...post, ours: null, theirs: page('x') })).toEqual({
@@ -339,7 +311,6 @@ describe('reportLines()', () => {
       ours: page('<p>a</p>'),
       theirs: page('<p>a</p>'),
       css: NO_CSS,
-      titles: NO_TITLES,
       expected: {},
     })
     expect(reportLines(report, SIDES)).toEqual(['/feed/x/: ok, 5 matched, 0 unexplained'])
@@ -351,7 +322,6 @@ describe('reportLines()', () => {
       ours: page('<data-chip class="dataChip">a</data-chip><p class="x">b</p><p>c</p>'),
       theirs: page('<data-chip class="wvormuvo0">a</data-chip><p class="y">b</p>'),
       css: NO_CSS,
-      titles: NO_TITLES,
       expected: {},
     })
     expect(reportLines(report, SIDES)).toEqual([
