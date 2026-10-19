@@ -87,5 +87,11 @@
     "gray-matter": "^4.0.3",
     "husky": "^9.1.5",
     "vitest": "^3.2.4"
+  },
+  "allowScripts": {
+    "exifreader": false,
+    "sharp": false,
+    "esbuild": false,
+    "fsevents": false
   }
 }
