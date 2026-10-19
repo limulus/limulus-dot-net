@@ -132,7 +132,7 @@
   photo: Photo
   title: string = self.photo.title
   image: Photo? = self.photo
-  url: url = url("/photos/" + self.photo.alias + "/")
+  url: url = photoUrl(self.photo)
   prev: PhotoPage?
   next: PhotoPage?
 </lem-type>
@@ -141,8 +141,26 @@
   topic: string
   title: string = "TILs: " + self.topic
   teaser: string? = "Things I've learned about " + self.topic + "."
-  url: url = url("/tils/" + self.topic + "/")
+  url: url = tilTopicUrl(self.topic)
 </lem-type>
+
+<lem-type XmlFile extends Page>
+  encoding: string = "utf-8"
+  stylesheet: url?
+  layout: (XmlFile, html): html = xmlFile
+</lem-type>
+
+<lem-type Feed extends XmlFile>
+  title: string
+  subtitle: string
+  base: url
+  author: Author by site.authors
+  email: string?
+</lem-type>
+
+<lem-fn photoUrl(photo: Photo): url = url("/photos/" + photo.alias + "/") />
+
+<lem-fn tilTopicUrl(topic: string): url = url("/tils/" + topic + "/") />
 
 <lem-fn hostOf(u: string?): string? =
   unprefixed(u?.split("/")?.drop(2)?.first()?.split("?")?.first()?.split("#")?.first()

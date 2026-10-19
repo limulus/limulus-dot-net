@@ -1,0 +1,10 @@
+---
+type: Feed
+url: /tils/feed.xml
+title: Eric's TILs
+subtitle: Short notes on things I learn day to day.
+base: https://limulus.net/tils
+author: eric
+email: eric@limulus.net
+---
+<lem.atomFeed(page, site.tilPosts)>

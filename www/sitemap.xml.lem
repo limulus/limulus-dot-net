@@ -1,0 +1,55 @@
+---
+type: XmlFile
+url: /sitemap.xml
+encoding: UTF-8
+---
+<lem-fn newestDating(p: SitePage): Post? =
+  p.url.text() == "/feed/"
+    ? site.newest.first()
+    : ["/penumbra/", "/penumbra/journal/"].contains(p.url.text())
+      ? site.penumbraPosts.first()
+      : null />
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:video="http://www.google.com/schemas/sitemap-video/1.1"
+>
+  <lem-for p in site.pages>
+    <url>
+      <loc><lem.site.info.url><lem.p.url></loc>
+      <lem-let newest = newestDating(p) />
+      <lem-if newest>
+        <lastmod><lem.newest.date></lastmod>
+      </lem-if>
+    </url>
+  </lem-for>
+  <lem-for post in site.newest>
+    <url>
+      <loc><lem.site.info.url><lem.post.url></loc>
+      <lastmod><lem.(revisionsOf(post).drop(1).last()?.date ?? post.date)></lastmod>
+      <lem-if post is VideoPost>
+        <video:video>
+          <video:thumbnail_loc>https://vod.limulus.net/<lem.post.vod.id>/poster.jpeg</video:thumbnail_loc>
+          <video:title><lem.post.title></video:title>
+          <video:description><lem.(post.subhead ?? post.teaser ?? "")></video:description>
+          <video:content_loc>https://vod.limulus.net/<lem.post.vod.id>/index.m3u8</video:content_loc>
+          <video:publication_date><lem.post.date></video:publication_date>
+          <lem-if post.vod.duration>
+            <video:duration><lem.post.vod.duration.seconds()></video:duration>
+          </lem-if>
+          <video:requires_subscription>no</video:requires_subscription>
+          <video:live>no</video:live>
+        </video:video>
+      </lem-if>
+    </url>
+  </lem-for>
+  <lem-for photo in site.gallery>
+    <url>
+      <loc><lem.site.info.url><lem.photoUrl(photo)></loc>
+    </url>
+  </lem-for>
+  <lem-for topic in site.tilTopics>
+    <url>
+      <loc><lem.site.info.url><lem.tilTopicUrl(topic)></loc>
+    </url>
+  </lem-for>
+</urlset>

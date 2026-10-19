@@ -1,0 +1,28 @@
+---
+type: Feed
+url: /feed.xml
+stylesheet: /feed.xsl
+title: limulus.net
+subtitle: Every article on limulus.net.
+base: https://limulus.net/
+author: eric
+---
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xml:base="<lem.page.base>" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title><lem.page.title></title>
+    <link><lem.page.base></link>
+    <atom:link href="<lem.site.info.url><lem.page.url>" rel="self" type="application/rss+xml" />
+    <description><lem.page.subtitle></description>
+    <language>en</language>
+    <lem-for post in site.newest>
+      <item>
+        <title><lem.post.title></title>
+        <link><lem.site.info.url><lem.post.url></link>
+        <description><lem.build.bodies[post.url.text()]></description>
+        <pubDate><lem.post.date.rfc822()></pubDate>
+        <dc:creator><lem.page.author.name></dc:creator>
+        <guid><lem.site.info.url><lem.post.url></guid>
+      </item>
+    </lem-for>
+  </channel>
+</rss>

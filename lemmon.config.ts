@@ -1,5 +1,6 @@
 import { bundler, esbuild, highlighter, type Config } from '@limulus/lemmon-shell'
 import { config as loadEnv } from 'dotenv'
+import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 
 import { linkPosts } from './lemmon/link-posts.ts'
@@ -9,9 +10,17 @@ import { svgSprite } from './lemmon/svg-sprite.ts'
 // working directory's.
 loadEnv({ path: fileURLToPath(new URL('.env', import.meta.url)) })
 
+// The site's url, which site.lem's `info` reads for the feeds' links and guids and the
+// sitemap's locs, and Eleventy for its own: read here too, so that the links the body
+// pass makes absolute in each feed entry name the same origin as the entry around them.
+const site = JSON.parse(
+  readFileSync(new URL('www/_data/site.json', import.meta.url), 'utf8')
+) as { url: string }
+
 export default {
   input: 'www',
   output: 'dist/lemmon',
+  origin: site.url,
   passthrough: ['assets/**/*', '**/*.{png,svg,jpg,jpeg,xsd,xsl,txt,pdf}'],
   plugins: [
     bundler(),

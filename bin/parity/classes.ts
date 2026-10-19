@@ -676,6 +676,37 @@ const mdPhotoWrap: Forgiveness = {
   theirsOnly: (theirs, at) => photoHusk(at.theirs, theirs),
 }
 
+/**
+ * Whether `p`, among the children of `at`, is a husk as a feed carries it. posthtml
+ * reprinted Eleventy's body before the feed escaped it, and parsed again the photo's
+ * stray `<p>` comes out as two empty `p`s: one in the `figure` after its caption, and
+ * one ending the `pho-picture` inside the photo's link, a `figure`'s `a`. A `p` with
+ * anything in it is neither.
+ */
+export function feedPhotoHusk(p: RenderedElement, at: Scope): boolean {
+  if (p.tag !== 'p' || p.children.length > 0) return false
+  const parent = at.theirs
+  if (parent.tag === 'figure') {
+    return [...descendants(parent)].some((d) => d.tag === 'pho-picture')
+  }
+  const [figure, link] = at.ancestors.slice(-2).map((pair) => pair.theirs)
+  return (
+    parent.tag === 'pho-picture' &&
+    elementsIn(parent).at(-1) === p &&
+    link?.tag === 'a' &&
+    figure?.tag === 'figure'
+  )
+}
+
+/**
+ * md-photo-wrap in a feed entry's content, where the husks take the shape posthtml gave
+ * them (feedPhotoHusk) rather than the page's.
+ */
+const mdPhotoWrapFeed: Forgiveness = {
+  name: 'md-photo-wrap',
+  theirsOnly: (theirs, at) => feedPhotoHusk(theirs, at),
+}
+
 /** A footnote, its reference in the prose, and the link back to that reference. */
 export interface Note {
   item: RenderedElement
@@ -894,6 +925,18 @@ export function forgiveness(css: Bundles): Allowlist {
   return { classes, refusals: bundle.refusals }
 }
 
+/**
+ * The classes parity's XML leg accepts in a feed entry's content: a page's, with
+ * md-photo-wrap in the shape the feed gives it in place of the page's.
+ */
+export function feedForgiveness(css: Bundles): Allowlist {
+  const { classes, refusals } = forgiveness(css)
+  return {
+    classes: classes.map((c) => (c === mdPhotoWrap ? mdPhotoWrapFeed : c)),
+    refusals,
+  }
+}
+
 export const CLASSES = {
   scopedClass,
   pageScopedSprite,
@@ -904,6 +947,7 @@ export const CLASSES = {
   generator,
   headingId,
   mdPhotoWrap,
+  mdPhotoWrapFeed,
   attrEscaping,
   footnoteMarkup,
   readingTime,

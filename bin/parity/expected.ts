@@ -8,7 +8,8 @@
 // the content moves a count, the new number goes here once the difference it forgives has
 // been read and judged. Where a page still differs unexplained, the comparison stops at
 // that difference in its parent, so the row counts only what came before it, and the change
-// that clears the difference moves it.
+// that clears the difference moves it. An XML file's row counts the XML leg's classes and
+// the page classes that fire in its entries' content (bin/parity/xml.ts).
 
 export const EXPECTED: Record<string, Record<string, number>> = {
   '/': {
@@ -33,6 +34,21 @@ export const EXPECTED: Record<string, Record<string, number>> = {
     'datetime-text': 4,
     generator: 1,
     'source-pill': 1,
+  },
+  // Each item's pubDate, Eleventy's zone name where ours writes its offset (D38); and in the
+  // items' content the page classes their posts' pages count over the same bodies: six
+  // posts' footnotes, seven posts' heading ids, the three photos in each of
+  // better-software-with-ai and the-rebound (3 scoped-class, 3 webc-attr-leak and 2
+  // md-photo-wrap, in the shape posthtml gave the feed, apiece), and the former's mangled
+  // alt.
+  '/feed.xml': {
+    'date-spelling': 25,
+    'footnote-markup': 57,
+    'heading-id': 35,
+    'scoped-class': 18,
+    'webc-attr-leak': 18,
+    'md-photo-wrap': 12,
+    'attr-escaping': 1,
   },
   '/feed/': {
     'scoped-class': 135,
@@ -214,6 +230,13 @@ export const EXPECTED: Record<string, Record<string, number>> = {
     'datetime-text': 7,
     generator: 1,
     'source-pill': 1,
+  },
+  // The feed's and each entry's updated, UTC in Eleventy's; in the content, three posts'
+  // footnotes and four posts' heading ids, as their pages count them.
+  '/penumbra/feed.xml': {
+    'date-spelling': 8,
+    'footnote-markup': 21,
+    'heading-id': 19,
   },
   '/penumbra/journal/': {
     'scoped-class': 43,
@@ -457,6 +480,16 @@ export const EXPECTED: Record<string, Record<string, number>> = {
     generator: 1,
     'source-pill': 1,
   },
+  // Eric's three decisions of 2026-10-18 — no feeds listed, `/tils/nodejs/` listed, no
+  // lastmod on an undated page — and every lastmod or video date Eleventy prints in UTC
+  // where ours keeps the written offset: twelve posts' dates, the three pages dated by a
+  // collection's newest post, the two videos, and one revision's `.770Z` written `.77Z`.
+  '/sitemap.xml': {
+    'sitemap-feed-entries': 3,
+    'sitemap-unlisted-page': 1,
+    'sitemap-undated-lastmod': 25,
+    'date-spelling': 18,
+  },
   '/tils/': {
     'scoped-class': 23,
     'css-bundle': 1,
@@ -465,6 +498,10 @@ export const EXPECTED: Record<string, Record<string, number>> = {
     'datetime-text': 2,
     generator: 1,
     'source-pill': 1,
+  },
+  // The feed's and each entry's updated, UTC in Eleventy's.
+  '/tils/feed.xml': {
+    'date-spelling': 3,
   },
   '/tils/git/': {
     'scoped-class': 14,

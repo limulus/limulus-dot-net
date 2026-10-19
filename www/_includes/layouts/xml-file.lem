@@ -1,0 +1,5 @@
+<lem-fn xmlFile(file: XmlFile, body: html)>
+  <?xml version="1.0" encoding="<lem.file.encoding>"?>
+  <lem-if file.stylesheet><?xml-stylesheet href="<lem.file.stylesheet>" type="text/xsl"?>
+  </lem-if><lem.body>
+</lem-fn>

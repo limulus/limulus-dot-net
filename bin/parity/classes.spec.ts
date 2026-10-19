@@ -12,6 +12,7 @@ import {
   CLASSES,
   comrakSlug,
   cssBundle,
+  feedForgiveness,
   firstDifference,
   lastDifference,
   normalized,
@@ -997,6 +998,50 @@ describe('md-photo-wrap', () => {
   })
 })
 
+describe('md-photo-wrap in a feed', () => {
+  const { mdPhotoWrapFeed } = CLASSES
+  /** A photo as an entry's content carries it, `inLink` ending its picture. */
+  const photo = (inLink: string, tail: string) =>
+    '<figure><a href="/photos/x/"><pho-picture><blur-hash>b</blur-hash>' +
+    `${inLink}</pho-picture></a><figcaption>c</figcaption>${tail}</figure>`
+
+  it('should accept the empty paragraphs posthtml leaves in a photo’s link and figure', () => {
+    const result = bodies(photo('', ''), photo('<p></p>', '<p></p>'), mdPhotoWrapFeed)
+    expect(clean(result)).toBe(true)
+    expect(forgiven(result)).toEqual([['md-photo-wrap', 2]])
+  })
+
+  it('should not accept a paragraph with content in either place', () => {
+    expect(clean(bodies(photo('', ''), photo('<p>x</p>', ''), mdPhotoWrapFeed))).toBe(false)
+    expect(clean(bodies(photo('', ''), photo('', '<p>x</p>'), mdPhotoWrapFeed))).toBe(false)
+  })
+
+  it('should not accept the page’s husk holding a link, which a feed does not have', () => {
+    const result = bodies(photo('', ''), photo('', '<p><a></a></p>'), mdPhotoWrapFeed)
+    expect(clean(result)).toBe(false)
+  })
+
+  it('should not accept an empty paragraph anywhere else in a picture', () => {
+    const notLast = photo('', '').replace('<blur-hash>', '<p></p><blur-hash>')
+    expect(clean(bodies(photo('', ''), notLast, mdPhotoWrapFeed))).toBe(false)
+    const unlinked = (p: string) =>
+      `<figure><pho-picture><blur-hash>b</blur-hash>${p}</pho-picture></figure>`
+    expect(clean(bodies(unlinked(''), unlinked('<p></p>'), mdPhotoWrapFeed))).toBe(false)
+    const outside = (p: string) =>
+      `<div><a href="/x/"><pho-picture><blur-hash>b</blur-hash>${p}</pho-picture></a></div>`
+    expect(clean(bodies(outside(''), outside('<p></p>'), mdPhotoWrapFeed))).toBe(false)
+  })
+
+  it('should not accept an empty paragraph in a figure with no photo', () => {
+    const result = bodies(
+      '<figure>f</figure>',
+      '<figure>f<p></p></figure>',
+      mdPhotoWrapFeed
+    )
+    expect(clean(result)).toBe(false)
+  })
+})
+
 describe('attr-escaping', () => {
   const { attrEscaping } = CLASSES
   const ours = '<img alt="A glass &quot;All in All,&quot; floor-to-ceiling work">'
@@ -1376,5 +1421,15 @@ describe('forgiveness()', () => {
       'reading-time',
       'source-pill',
     ])
+  })
+})
+
+describe('feedForgiveness()', () => {
+  it('should consult a page’s classes, md-photo-wrap in a feed’s shape', () => {
+    const page = forgiveness(NO_CSS).classes
+    const feed = feedForgiveness(NO_CSS).classes
+    expect(feed.map((cls) => cls.name)).toEqual(page.map((cls) => cls.name))
+    expect(feed).toContain(CLASSES.mdPhotoWrapFeed)
+    expect(feed).not.toContain(CLASSES.mdPhotoWrap)
   })
 })

@@ -40,6 +40,7 @@ function produced(plugin: Plugin, name: string): string {
     marks: [mark],
     fragments: [],
     page: new Uint8Array(),
+    body: false,
     write: () => undefined,
   }
   const [content] = handler?.produce?.(context) ?? []

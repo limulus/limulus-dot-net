@@ -3,14 +3,16 @@
 // either dist, as rendered HTML (lemmon's D28), through the forgiveness classes in
 // bin/parity/, with both builds' CSS bundles read beside the global stylesheets for
 // css-bundle. Each page reports every difference no class explains, why a class refused
-// one where it says, how often each class fired, and what matched. Then the client
-// scripts both builds bundled — every file esbuild writes for an `index.ts` or
+// one where it says, how often each class fired, and what matched. Every `.xml` file
+// either build wrote — the feeds and the sitemap — is reported the same way, compared as
+// XML, each feed entry's content through the page classes (bin/parity/xml.ts). Then the
+// client scripts both builds bundled — every file esbuild writes for an `index.ts` or
 // `worker.ts` under www/, and its assets — are compared byte for byte, Eleventy's
 // unhashed stubs set aside and counted (bin/parity/scripts.ts). The run exits 1 on any
 // unexplained difference, any class firing other than its count in EXPECTED, a row there
-// for a url no page compared has, an `.html` file in either dist that is no
-// `index.html`, a page one build lacks, or a script file one build lacks or writes
-// differently.
+// for a url no page or XML file compared has, an `.html` file in either dist that is no
+// `index.html`, a page or an XML file one build lacks, or a script file one build lacks
+// or writes differently.
 //
 //   npm run parity [-- --no-build]     --no-build compares the dists already there
 //
@@ -20,7 +22,7 @@
 
 import { spawnSync } from 'node:child_process'
 import { existsSync } from 'node:fs'
-import { rm } from 'node:fs/promises'
+import { readFile, rm } from 'node:fs/promises'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -56,6 +58,9 @@ const {
 } = await import('./parity/check.ts')
 const { compareScripts, entriesIn, scriptLines, scriptsFailed, scriptsIn } = await import(
   './parity/scripts.ts'
+)
+const { compareXml, feedsOf, isDated, xmlAt, xmlIn, xmlReportLines } = await import(
+  './parity/xml.ts'
 )
 
 const args = process.argv.slice(2)
@@ -93,19 +98,48 @@ const written = { ours: await pagesIn(ours), theirs: await pagesIn(theirs) }
 const urls = rosterOf(written.ours.pages, written.theirs.pages)
 const css = await bundlesIn(ours, theirs)
 
-const stale = staleRows(EXPECTED, urls)
+const xmlUrls = rosterOf(await xmlIn(ours), await xmlIn(theirs))
+const stale = staleRows(EXPECTED, [...urls, ...xmlUrls])
 let failures = 0
+// The pages Eleventy dated, which the sitemap's classes read.
+const dated = new Set<string>()
 console.log()
 for (const url of urls) {
-  const report = comparePage({
-    url,
-    ours: await pageAt(ours, url),
-    theirs: await pageAt(theirs, url),
-    css,
-    expected: EXPECTED[url] ?? {},
-  })
+  const page = { ours: await pageAt(ours, url), theirs: await pageAt(theirs, url) }
+  if (page.theirs !== null && isDated(page.theirs)) dated.add(url)
+  const report = comparePage({ url, ...page, css, expected: EXPECTED[url] ?? {} })
   for (const line of reportLines(report, { ours: OURS, theirs: THEIRS })) console.log(line)
   if (failed(report)) failures += 1
+}
+
+const site = JSON.parse(await readFile(join(ROOT, INPUT, '_data/site.json'), 'utf8')) as {
+  url: string
+}
+const theirsXml = new Map<string, Uint8Array>()
+for (const url of xmlUrls) {
+  const bytes = await xmlAt(theirs, url)
+  if (bytes !== null) theirsXml.set(url, bytes)
+}
+const context = {
+  origin: new URL(site.url).origin,
+  css,
+  pages: new Set(written.theirs.pages),
+  dated,
+  feeds: feedsOf(theirsXml),
+}
+let xmlFailures = 0
+console.log()
+for (const url of xmlUrls) {
+  const report = compareXml({
+    url,
+    ours: await xmlAt(ours, url),
+    theirs: theirsXml.get(url) ?? null,
+    context,
+    expected: EXPECTED[url] ?? {},
+  })
+  for (const line of xmlReportLines(report, { ours: OURS, theirs: THEIRS }))
+    console.log(line)
+  if (failed(report)) xmlFailures += 1
 }
 
 const entries = await entriesIn(join(ROOT, INPUT))
@@ -136,6 +170,12 @@ if (urls.length === 0) {
 if (failures > 0) {
   console.error(`FAIL: ${failures} of ${urls.length} pages differ, listed above`)
 }
+if (xmlUrls.length === 0) {
+  console.error(`FAIL: no .xml file in ${OURS} or ${THEIRS}`)
+}
+if (xmlFailures > 0) {
+  console.error(`FAIL: ${xmlFailures} of ${xmlUrls.length} XML files differ, listed above`)
+}
 if (scriptsFailed(scripts)) {
   console.error('FAIL: the client scripts differ, listed above')
 }
@@ -144,12 +184,14 @@ if (
   written.ours.strays.length + written.theirs.strays.length > 0 ||
   urls.length === 0 ||
   failures > 0 ||
+  xmlUrls.length === 0 ||
+  xmlFailures > 0 ||
   scriptsFailed(scripts)
 ) {
   process.exitCode = 1
 } else {
   console.log(
-    `PASS: ${urls.length} pages, every difference in a named class at its count, ` +
-      `and ${scripts.identical} script files byte for byte`
+    `PASS: ${urls.length} pages and ${xmlUrls.length} XML files, every difference in a ` +
+      `named class at its count, and ${scripts.identical} script files byte for byte`
   )
 }

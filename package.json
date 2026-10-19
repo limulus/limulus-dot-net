@@ -96,6 +96,7 @@
     "@types/css-tree": "^2.3.11",
     "@types/raf": "^3.4.3",
     "@types/svg-sprite": "^0.0.39",
+    "@xmldom/xmldom": "0.9.5",
     "aws-cdk": "^2.1023.0",
     "aws-cdk-lib": "^2.208.0",
     "cdk-nag": "^2.36.50",

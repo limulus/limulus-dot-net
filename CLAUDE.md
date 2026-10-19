@@ -57,9 +57,36 @@ This branch ports the site to Lemmon beside Eleventy; both builds read the same 
   (lemmon's D43): `www/photos/photo.lem` makes one `PhotoPage` per photo of
   `site.gallery`, at `/photos/<its stored alias>/`, its `prev` and `next` the newer and
   older photo, and `www/tils/topics.lem` one `TilTopicPage` per topic of `site.tilTopics`,
-  at `/tils/<topic>/`; each type's defaults give the url and title. No glob may match a
-  generator, which `**/index.lem` does not. `npx lem check` runs the same and writes
-  nothing, printing each diagnostic with the source it covers
+  at `/tils/<topic>/`; each type's defaults give the url and title, through `photoUrl` and
+  `tilTopicUrl` in `site.lem`, which the sitemap calls too. No glob may match a generator,
+  which `**/index.lem` does not. `npx lem check` runs the same and writes nothing,
+  printing each diagnostic with the source it covers
+- The feeds and the sitemap are page templates typed `XmlFile` (`site.lem`), whose layout
+  `xmlFile` (`www/_includes/layouts/xml-file.lem`) writes the XML declaration with the
+  file's `encoding` — `utf-8`, the sitemap's `UTF-8`, as Eleventy writes each — and the
+  `/feed.xsl` stylesheet instruction where front matter names a `stylesheet`, so `<?xml`
+  is always the first byte. `www/feed.xml.lem` is the RSS feed of `site.newest`;
+  `www/penumbra/feed.xml.lem` and `www/tils/feed.xml.lem` call `atomFeed` with
+  `site.penumbraPosts` and `site.tilPosts`; each is a `Feed`, its title, subtitle, base and
+  author in front matter, as eleventy.config.ts's `addFeed` calls give them, the base as
+  Eleventy prints it (`https://limulus.net/` for the RSS feed, whose `addFeed` gives no
+  slash). An Atom feed with no entries is `updated` at `build.time`, as Eleventy's is at its
+  build's. An item's
+  content is `<lem.build.bodies[post.url.text()]>`: lemmon's body pass (D46) renders each
+  post's body alone before any page, highlights it, and makes its links absolute against
+  the config's `origin`, which `lemmon.config.ts` reads from `www/_data/site.json`, the
+  same url `site.info` gives the items' links. Dates print in their written offset, so
+  every `pubDate` and `updated` differs in spelling from Eleventy's, since no post's date
+  is written in UTC. `www/sitemap.xml.lem`
+  lists `site.pages`, every article (its lastmod the last revision's date where it has more
+  than one, else its own, and a `video:video` for a `VideoPost`), every photo page and every
+  TIL topic page, with Eric's three changes from `www/sitemap.njk` (2026-10-18): it lists
+  `/tils/nodejs/`, which Eleventy's pagination left out; it lists no feed; and an undated
+  page has no lastmod, where Eleventy gives the template file's creation time — as have
+  `/feed/`, `/penumbra/` and `/penumbra/journal/` while their collection is empty, since
+  a lastmod is optional. It names its sources by hand, so a new generator or a page
+  template that is no `index.lem` needs adding there: parity reports one missing until
+  the cutover, and nothing does after it
 - The client scripts are bundled by the shell's `esbuild()`, which `lemmon.config.ts` lists
   with 11ty/esbuild.ts's asset path and its `MAPBOX_PUBLIC_TOKEN`; the config loads the
   `.env` beside it, wherever `lem` starts, and a build without the token fails naming it.
@@ -76,7 +103,8 @@ This branch ports the site to Lemmon beside Eleventy; both builds read the same 
   http://127.0.0.1:8080/ with the COOP/COEP headers `lemmon.config.ts` lists, and on each
   change under `www/` rebuilds everything and reloads the open pages, while a `chokidar`
   watch reruns `npm run lemmon:css` when `www/_includes/css/*.css` changes. A change to
-  `lemmon.config.ts` needs a restart, and like `lem build` it removes nothing from
+  `lemmon.config.ts` needs a restart, as does one to `www/_data/site.json`'s `url`, which
+  the config reads once as its `origin`; and like `lem build` it removes nothing from
   `dist/lemmon`, so a deleted post's page stays served until the next `npm run parity`
 - `npm run build` still writes the Eleventy reference to `dist/www`. Its `clean` removes
   only `dist/www`, `dist/infra`, `coverage`, and `*.tsbuildinfo`, so the two builds run in
@@ -130,18 +158,28 @@ This branch ports the site to Lemmon beside Eleventy; both builds read the same 
   with a `viaUrl` the `[via]` one and the "Via" paragraph — which its spec checks by
   running that preprocessor beside it over every document
 - `npm run parity` builds both sides and compares every page either wrote — each
-  `index.html` under `dist/www` or `dist/lemmon`, so not the feeds or the sitemap; any
-  other `.html` file in either fails the run — as rendered HTML through the forgiveness
-  classes in `bin/parity/classes.ts`, each held to its count in `bin/parity/expected.ts`.
-  Every page either dist holds is compared, and needs a row in `EXPECTED` (`generator` and
-  `css-bundle` fire on every page, so a page without one fails); a page only one build
-  wrote fails as missing from the other, and a row for a page neither build wrote fails as
-  stale. Then every file both wrote for an `index.ts` or `worker.ts` under `www/`, and
-  under esbuild's asset path, byte for byte (`bin/parity/scripts.ts`), setting Eleventy's
-  unhashed stubs aside by their content and counting them. `-- --no-build` compares the
-  dists already there, where a page or a bundle `lem dev` left from an earlier edit fails
-  as one only Lemmon wrote. It runs under `node --conditions=source` so the shell loads
-  from the lemmon checkout's source
+  `index.html` under `dist/www` or `dist/lemmon`; any other `.html` file in either fails
+  the run — as rendered HTML through the forgiveness classes in `bin/parity/classes.ts`,
+  each held to its count in `bin/parity/expected.ts`. Every page either dist holds is
+  compared, and needs a row in `EXPECTED` (`generator` and `css-bundle` fire on every
+  page, so a page without one fails); a page only one build wrote fails as missing from
+  the other, and a row for a page neither build wrote fails as stale. Every `.xml` file
+  either wrote — the feeds and the sitemap — is compared the same way as XML
+  (`bin/parity/xml.ts`): read strictly with `@xmldom/xmldom` (pinned exactly, with the
+  well-formedness checks it does not make in `bin/parity/xml-read.ts`), elements and
+  attributes by namespace, a feed's entries in order by guid or id, the sitemap's urls as
+  a set by `loc`, dates as instants where each side matches its element's grammar
+  (`date-spelling`), each entry's content as rendered HTML through the page classes once
+  both sides' links on the site's origin are written back as the page writes them
+  (`bin/parity/feed-content.ts`, which first fails a relative url left in ours), and the
+  sitemap's three differences Eric chose (`sitemap-feed-entries`, `sitemap-unlisted-page`,
+  `sitemap-undated-lastmod`) counted under its row; md-photo-wrap takes the shape posthtml
+  gave the feeds' photos. Then every file both wrote for an `index.ts` or `worker.ts` under
+  `www/`, and under esbuild's asset path, byte for byte (`bin/parity/scripts.ts`), setting
+  Eleventy's unhashed stubs aside by their content and counting them. `-- --no-build`
+  compares the dists already there, where a page or a bundle `lem dev` left from an
+  earlier edit fails as one only Lemmon wrote. It runs under `node --conditions=source`
+  so the shell loads from the lemmon checkout's source
 - `npm run parity:look`, run after `npm run parity`, checks that the pages it compares
   also look the same. It builds nothing, and shoots no page parity's own comparison fails:
   it serves both dists, shoots each page in the installed Google Chrome (needed;
@@ -167,8 +205,5 @@ This branch ports the site to Lemmon beside Eleventy; both builds read the same 
   8082 as built, each running its own scripts, listing each page's two URLs, until
   Ctrl-C. Nothing is neutralized, held or masked there, so the differences parity
   forgives show
-- Deliberately missing this slice, with the item in the lemmon repo's `BACKLOG.md` that
-  brings it: the three feeds and the sitemap (∆zu0, slice 6), which parity, comparing
-  only `index.html` pages, does not look at. Not built at all: markdown-it-footnote's
-  markup, since Lemmon writes comrak's footnotes, which parity's `footnote-markup`
-  forgives until the cutover (∆oAl)
+- Not built at all: markdown-it-footnote's markup, since Lemmon writes comrak's
+  footnotes, which parity's `footnote-markup` forgives until the cutover (∆oAl)
