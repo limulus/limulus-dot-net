@@ -13,7 +13,7 @@ teaser: >-
   first-hand testimony, not opinions.”
 ---
 
-A [wonderful essay](link) by Ed Lyons:
+A [wonderful essay][link] by Ed Lyons:
 
 > Up front, here are the lessons:
 >
