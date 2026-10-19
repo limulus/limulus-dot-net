@@ -182,7 +182,7 @@ export const EXPECTED: Record<string, Record<string, number>> = {
     'css-bundle': 1,
     'webc-attr-leak': 3,
     'svg-desc-counter': 4,
-    'datetime-text': 7,
+    'datetime-text': 8,
     generator: 1,
     'attr-escaping': 1,
   },
@@ -482,13 +482,13 @@ export const EXPECTED: Record<string, Record<string, number>> = {
   },
   // Eric's three decisions of 2026-10-18 — no feeds listed, `/tils/nodejs/` listed, no
   // lastmod on an undated page — and every lastmod or video date Eleventy prints in UTC
-  // where ours keeps the written offset: twelve posts' dates, the three pages dated by a
+  // where ours keeps the written offset: eleven posts' dates, the three pages dated by a
   // collection's newest post, the two videos, and one revision's `.770Z` written `.77Z`.
   '/sitemap.xml': {
     'sitemap-feed-entries': 3,
     'sitemap-unlisted-page': 1,
     'sitemap-undated-lastmod': 25,
-    'date-spelling': 18,
+    'date-spelling': 17,
   },
   '/tils/': {
     'scoped-class': 23,
