@@ -2,7 +2,9 @@ import {
   build,
   type BuildResult,
   type LoadedConfig,
+  type Mark,
   type Plugin,
+  type ProducerContext,
 } from '@limulus/lemmon-shell'
 import { existsSync } from 'node:fs'
 import { mkdir, mkdtemp, readFile, rm, symlink, utimes, writeFile } from 'node:fs/promises'
@@ -15,15 +17,30 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { svgSprite, type Spriter } from './svg-sprite.ts'
 
 const SVG = fileURLToPath(new URL('../www/assets/svg/', import.meta.url))
-const PAGE_LEM = fileURLToPath(
-  new URL('../www/_includes/layouts/page.lem', import.meta.url)
-)
 
 /** Runs the asset hook of `plugin`, as a build does before its pages render. */
 async function prepared(plugin: Plugin): Promise<Plugin> {
   const context = { root: SVG, input: SVG, output: SVG, writes: false, env: {} }
   expect(await plugin.assets?.(context)).toEqual({})
   return plugin
+}
+
+/** What the producer of `plugin` for the mark `name` puts at one such mark. */
+function produced(plugin: Plugin, name: string): string {
+  const handler = plugin.marks?.find((each) => each.name === name)
+  const at = { line: 0, character: 0 }
+  const span = { start: 0, end: 0, range: { start: at, end: at } }
+  const mark: Mark = { name, start: 0, end: 0, path: 'page.lem', span }
+  const context: ProducerContext = {
+    name,
+    marks: [mark],
+    fragments: [],
+    page: new Uint8Array(),
+    body: false,
+    write: () => undefined,
+  }
+  const [content] = handler?.produce?.(context) ?? []
+  return content as string
 }
 
 /**
@@ -53,20 +70,21 @@ describe('svgSprite', () => {
     expect(marks?.map(({ name }) => name)).toEqual(['sprite', 'photoSprite'])
   })
 
-  it('should leave page.lem naming every id the style it drops names', async () => {
-    let raw = ''
-    await prepared(
-      svgSprite(
-        { sprite: join(SVG, 'common') },
-        keeping((it) => (raw = it))
-      )
-    )
-    const ids = [...raw.matchAll(/<style>([^<]*)<\/style>/g)].flatMap(([, css]) =>
-      [...css.matchAll(/#[\w-]+/g)].map(([id]) => id)
-    )
-    expect(ids).toContain('#elogo-p3')
-    const pageLem = await readFile(PAGE_LEM, 'utf8')
-    expect(ids.filter((id) => !pageLem.includes(id))).toEqual([])
+  it("should keep the logo's style, naming the groups its symbol holds", async () => {
+    const plugin = await prepared(svgSprite({ sprite: join(SVG, 'common') }))
+    const logo = /<symbol [^>]*id="svg-ldn"[\s\S]*?<\/symbol>/.exec(
+      produced(plugin, 'sprite')
+    )?.[0]
+    const styles = [...(logo ?? '').matchAll(/<style>([^<]*)<\/style>/g)]
+    expect(styles).toHaveLength(1)
+    const named = new Set([...styles[0][1].matchAll(/#([\w-]+)/g)].map(([, id]) => id))
+    const groups = [...(logo ?? '').matchAll(/<g [^>]*id="([^"]+)"/g)].map(([, id]) => id)
+    // svg-sprite writes each rule again under the ids it gives the groups, in the same
+    // compile, keeping the original, which names nothing in the sprite.
+    expect(groups.filter((id) => named.has(id))).toEqual([
+      expect.stringMatching(/^[a-z]+logo-srgb$/),
+      expect.stringMatching(/^[a-z]+logo-p3$/),
+    ])
   })
 })
 
@@ -154,7 +172,7 @@ describe('a build listing svgSprite', () => {
     expect(html.match(/<symbol /g)).toHaveLength(1)
   })
 
-  it('should drop the style of every icon that holds one, as WebC hoists each', async () => {
+  it('should keep the style of every icon that holds one', async () => {
     for (const [name, fill] of [
       ['red', '#f00'],
       ['blue', '#00f'],
@@ -167,7 +185,9 @@ describe('a build listing svgSprite', () => {
     }
     const html = await index(configWith(svgSprite({ sprite: icons })))
     expect(html.match(/<symbol /g)).toHaveLength(2)
-    expect(html).not.toContain('<style')
+    expect(html.match(/<style>/g)).toHaveLength(2)
+    expect(html).toMatch(/<symbol [^>]*id="svg-red"[^>]*><style>/)
+    expect(html).toMatch(/<symbol [^>]*id="svg-blue"[^>]*><style>/)
   })
 
   it('should add a new icon to the sprite on the next build', async () => {

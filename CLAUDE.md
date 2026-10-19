@@ -159,9 +159,10 @@ Lemmon's `lem` builds the site from `www/`. Eleventy built it until the cutover 
   `mark("sprite")` with the inline sprite of `www/assets/svg/common`, built by svg-sprite
   as eleventy-plugin-svg-sprite built it, so a new icon there is in the next build's
   sprite, and a file svg-sprite cannot read stops the build; a second entry fills the
-  photo page's `mark("photoSprite")`, atop its `main`, from `www/assets/svg/photos`. It
-  drops the `<style>` WebC hoisted out of the logo's symbol, whose rules `page.lem` carries
-  under svg-sprite's namespaced ids; `npm test` fails if they drift (the plugin's header
+  photo page's `mark("photoSprite")`, atop its `main`, from `www/assets/svg/photos`. The
+  logo's symbol keeps its `<style>`, which WebC hoisted into the CSS bundle and
+  `page.lem` once carried a copy of: svg-sprite writes its rules under the ids it gives
+  the logo's groups in the same compile, so the two cannot drift (the plugin's header
   says what renames them). `linkPosts()` (`lemmon/link-posts.ts`) appends to a link post's
   body what Eleventy's `linkPostContent` preprocessor appended — the `[link]` definition,
   and with a `viaUrl` the `[via]` one and the "Via" paragraph

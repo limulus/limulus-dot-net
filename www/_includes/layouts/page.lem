@@ -39,43 +39,6 @@
     </script>
   </lem-let>
   <lem-style>
-    @supports not (color: oklch(0% 0 0)) {
-      g#elogo-p3 {
-        display: none;
-      }
-    }
-
-    @supports (color: oklch(0% 0 0)) {
-      @media (color-gamut: p3) {
-        g#elogo-srgb {
-          display: none;
-        }
-
-        g#elogo-p3 {
-          display: block;
-        }
-      }
-    }
-
-    @supports not (color: oklch(0% 0 0)) {
-      g#logo-p3 {
-        display: none;
-      }
-    }
-
-    @supports (color: oklch(0% 0 0)) {
-      @media (color-gamut: p3) {
-        g#logo-srgb {
-          display: none;
-        }
-
-        g#logo-p3 {
-          display: block;
-        }
-      }
-    }
-  </lem-style>
-  <lem-style>
     a[href='#main'] {
       position: absolute;
       top: 8px;

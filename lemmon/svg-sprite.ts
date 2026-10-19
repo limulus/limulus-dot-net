@@ -1,18 +1,16 @@
 // The inline sprite at the top of every page, as a mark `lem build` fills: what
 // Eleventy's `svgspriteCommon` shortcode (eleventy-plugin-svg-sprite) wrote, built by the
-// same svg-sprite with the same options.
+// same svg-sprite with the same options, but for the `<style>` in ldn.svg's symbol, which
+// WebC hoisted into each page's CSS bundle and the sprite keeps (lemmon ∆oAl).
 //
-// What must change at the cutover from Eleventy (lemmon ∆oAl). The sprite matches
-// Eleventy's after WebC has hoisted the `<style>` out of ldn.svg's symbol, so it drops
-// that `<style>`, and page.lem carries a copy of its rules. Those rules name ids
-// svg-sprite namespaces by the order files are added (`svgFiles`): ldn.svg's letter
-// counts the files sorting after it (`e` for four), so adding or removing such an icon
-// renames the ids the copy names. This file's spec catches that; `lem build` does not.
-// svg-sprite also keeps its namespace width on its prototype, shared by every spriter
-// in the process: once a sprite of more than 26 icons compiles, every later one's ids
-// take two letters, so such a photos sprite would rename the logo's ids partway through
-// a `lem dev` session. Once Eleventy's output need not be matched, the `<style>` can
-// stay in the sprite and page.lem's copy go.
+// svg-sprite namespaces the ids inside each file by the order files are added
+// (`svgFiles`): ldn.svg's letter counts the files sorting after it (`e` for four). In the
+// same compile it writes each rule of the file's `<style>` again under those ids,
+// keeping the original, which names nothing in the sprite; so whatever renames the
+// logo's ids renames its rules with them — adding or removing an icon, or the namespace
+// width svg-sprite keeps on its prototype, shared by every spriter in the process (once
+// a sprite of more than 26 icons compiles, every later one's ids take two letters). The
+// order stays Eleventy's all the same: changing it would rename ids for nothing.
 
 import type { Plugin } from '@limulus/lemmon-shell'
 import { strict as assert } from 'node:assert'
@@ -100,7 +98,7 @@ interface SvgFile {
  * before its subdirectories', which this order does not reproduce; both sprite
  * directories are flat. The order is not cosmetic: svg-sprite sorts the symbols by id,
  * but namespaces the ids inside each by the file's place in this order (the header
- * says what that costs).
+ * says why it stays).
  */
 async function svgFiles(root: string): Promise<SvgFile[]> {
   const paths = (await readdir(root, { recursive: true, encoding: 'utf8' }))
@@ -145,13 +143,6 @@ interface Compiled {
 const WRAPPER = '<div style="width: 0; height: 0; position: absolute; overflow: hidden">'
 
 /**
- * WebC hoists every `<style>` on a page into the page's CSS bundle — the one in ldn.svg
- * among them — so the sprite in Eleventy's pages holds none. page.lem carries ldn.svg's
- * rules; an icon given a `<style>` of its own needs a layout to carry its rules too.
- */
-const STYLE = /<style\b[^>]*>[\s\S]*?<\/style>/g
-
-/**
  * The sprite of the `.svg` files at `paths` under `root`, made by `spriter`, as the
  * mark's content.
  *
@@ -176,5 +167,5 @@ async function spriteOf(
     )
   }
   const svg = result.symbol.sprite.contents.toString('utf8')
-  return `${WRAPPER}${svg.replace(STYLE, '')}</div>`
+  return `${WRAPPER}${svg}</div>`
 }
