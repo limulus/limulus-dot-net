@@ -2,8 +2,12 @@
 
 ## Build & Development Commands
 
+- Serve the site while editing: `npm run dev` (http://127.0.0.1:8080/)
+- Build the site into `dist/www`: `npm run build`
+- Check the site without writing it: `npm run wwwc` (`lem check`)
+- Regenerate the stylesheet copies after editing `www/_includes/css/*.css`: `npm run css`
 - Fix linting issues: `npm run lint -- --fix`
-- Compile/Lint/Test: `npm run verify`
+- Compile/Lint/Check/Test: `npm run verify` (what the pre-push hook runs)
 
 ## Testing Commands
 
@@ -32,8 +36,10 @@
 
 ## Project Structure
 
-- `/www`: Site content and Lemmon templates, `site.lem` declaring their types and data
+- `/www`: Site content and Lemmon templates; `www/site.lem` declares their types and data
 - `/www/_includes`: Lemmon layouts and components, and the global stylesheets (`css/`)
+- `/www/_data`: The data files `site.lem` binds: site info, authors, revisions, photos
+- `/www/_lemmon`: Generated `.lem` copies of the stylesheets (`npm run css`)
 - `/www/lib`: TypeScript source for client-side features
 - `/lemmon`: The site's own plugins for `lem`
 - `/bin`: Scripts: revisions, photos, the stylesheet copies
@@ -42,130 +48,154 @@
 - `/infra/functions`: CloudFront Functions (JS)
 - `/infra/test`: Infrastructure tests
 
+## Setup
+
+- Lemmon (`lem`, the `@limulus/lemmon-shell` devDependency) is a `file:` link to the lemmon
+  repo checked out at `../lemmon`, with `npm install` and `npm run rust:wasm` run there; how
+  CD and a fresh checkout get it instead is lemmon ∆FnH's to decide. Without it `npm ci`
+  here still succeeds, leaving a dangling link, and the failure shows only at `lem`. The
+  lemmon repo's `agents/skills/lemmon/SKILL.md` is the reference for writing `.lem`
+- `npm run build`, `npm run dev`, `npm run wwwc` and so `npm run verify` need
+  `MAPBOX_PUBLIC_TOKEN`, which the client scripts' bundles embed: `lemmon.config.ts` reads
+  it from the environment, after loading the `.env` beside it wherever `lem` starts.
+  Without it they fail naming it. CD passes the repository secret to its build
+- npm 12 runs no dependency's install script that `allowScripts` in `package.json` does not
+  approve, and every one is denied there: esbuild, sharp, exifreader and fsevents work
+  from the binaries and files their packages ship. A new dependency with an install script
+  shows in `npm install`'s `install-scripts` warning; deny it once it is shown to work
+  without (`npm install-scripts deny <name>`), or approve it with the reason. CD's npm 11
+  ignores the field
+- Build from a real `node_modules`: a symlinked one changes the source maps' module paths
+  and with them the client scripts' hashed names
+
 ## Building the site
 
-Lemmon's `lem` builds the site from `www/`. Eleventy built it until the cutover (lemmon
-∆oAl); where the output below is shaped like Eleventy's, that is why.
+`lem` builds `dist/www` from `www/` as `lemmon.config.ts` says: the input and output, the
+`origin`, the `served` paths, the passthrough globs (`assets/**/*`, and images and the like
+anywhere), the plugins, and the dev server's headers.
 
-- Prerequisite: the lemmon repo checked out at `../lemmon`, with `npm install` and
-  `npm run rust:wasm` run there. Without it `npm ci` here still succeeds, leaving a
-  dangling link, and the failure shows only at `npx lem`
-- `npm run build` empties `dist/www` (its `clean` removes only `dist/www`, `dist/infra`,
-  `coverage`, and `*.tsbuildinfo`) and runs `lem build`, which writes it from
-  `lemmon.config.ts`, `www/site.lem`, and the `.lem` layouts and components in
-  `www/_includes/`; `lem build` alone removes nothing, so a deleted post's page stays until
-  a `clean`. The index pages and 404 are page templates (`www/index.lem`, `www/404.lem`,
-  each section's `index.lem`), typed `SitePage`; `site.pages` holds every `index.lem`, which
-  is how `/` reads the sections' teasers. The photo and TIL topic pages are generators
+- `npm run build` empties `dist/www` (`clean` removes only `dist/www`, `dist/infra`,
+  `coverage`, and `*.tsbuildinfo`) and runs `lem build`, which compiles every template,
+  loads the data and the documents, renders every page into memory, resolves its marks
+  through the plugins, and only then writes the pages, the bundles, and the passthrough
+  files; `lem build` alone removes nothing, so a deleted post's page stays until a
+  `clean`. `lem check` runs the same and writes nothing, printing each diagnostic with the
+  source it covers. CD (`.github/workflows/cd.yaml`) runs `npm run update-revisions`, then
+  `npm run build`, and uploads `dist/www`
+- `npm run dev` is the authoring loop: after `clean`, `lem dev` builds `dist/www`, serves
+  it at http://127.0.0.1:8080/ with the COOP/COEP headers `lemmon.config.ts` lists, and on
+  each change under `www/` rebuilds everything and reloads the open pages; a build with an
+  error keeps the last one served. A `chokidar` watch reruns `npm run css` when
+  `www/_includes/css/*.css` changes. A change to `lemmon.config.ts` needs a restart, as
+  does one to `www/_data/site.json`'s `url`, which the config reads once as its `origin`.
+  Like `lem build`, it removes nothing from `dist/www`, so a page deleted meanwhile stays
+  served until the next restart
+- `www/site.lem` declares the records — `Post` and `VideoPost`, `SitePage` with
+  `PhotoPage` and `TilTopicPage`, `XmlFile` and `Feed`, `Photo`, `Author`, `Revisions` —
+  and the data every template reads as `site`: `info` (`_data/site.json`), `photos`,
+  `authors`, `revisions`, `penumbra`, the `articles` glob, `pages` (every `index.lem`), and
+  the lists computed from them (`newest`, `linkPosts`, `penumbraPosts`, `tilPosts`,
+  `tilTopics`, `gallery`). A record has exactly its declared fields, so a front matter key
+  or data field site.lem does not declare is a load error at the file
+- Every `.md` under `www/feed`, `www/links`, `www/penumbra` and `www/tils` is an article, a
+  `Post` (`type: VideoPost` makes it a video watch page). Its defaults give a link post its
+  title (`Link: ` and its `linkTitle`), a TIL its topic (its directory under `tils/`), and
+  every post its reading time, counted from the prose a reader sees. Markdown is comrak's; a
+  lem call on a line of its own places a component —
+  `articlePhoto(site.photos["alias"], .right)` (or `.left`, `.hero`),
+  `demoWithFallback("element-name")` for a penumbra demo — and a WebC or Liquid tag in a
+  post prints as text
+- The index pages and 404 are page templates (`www/index.lem`, `www/404.lem`, each
+  section's `index.lem`), typed `SitePage`; `site.pages` holds every `index.lem`, which is
+  how `/` reads the sections' teasers. The photo and TIL topic pages are generators
   (lemmon's D43): `www/photos/photo.lem` makes one `PhotoPage` per photo of `site.gallery`,
-  at `/photos/<its stored alias>/`, its `prev` and `next` the newer and older photo, and
+  at `/photos/<its alias>/`, its `prev` and `next` the newer and older photo, and
   `www/tils/topics.lem` one `TilTopicPage` per topic of `site.tilTopics`, at
   `/tils/<topic>/`; each type's defaults give the url and title, through `photoUrl` and
   `tilTopicUrl` in `site.lem`, which the sitemap calls too. No glob may match a generator,
-  which `**/index.lem` does not. `lem check` (`npm run wwwc`, a leg of `npm run verify`)
-  runs the same and writes nothing, printing each diagnostic with the source it covers
-- Before anything is written, both check every link the build writes (lemmon's D47): each
+  which `**/index.lem` does not
+- Before anything is written, every link the build writes is checked (lemmon's D47): each
   `href`, `src` and the like in the pages, each `url()` in the stylesheets, and the links,
   guids and `loc`s in the feeds and the sitemap, against the files the build writes, by
   exact name, a fragment into a page against that page's ids. A broken one is an error, so
-  `lem build` writes nothing and `lem dev` keeps serving its last build. What CloudFront
-  answers with no file is not modelled: `served` in `lemmon.config.ts` lists `/@eric`,
-  which `infra/functions/cloudfront-request.js` redirects to Mastodon, and a link that
-  only its dot-less rewrite serves, `/tils` for `/tils/`, is an error, so link a page by
-  its url, slash and all. Two links Eleventy wrote were fixed for it: the Atom feeds'
-  alternate links name `https://limulus.net/penumbra/` and `…/tils/` (below), and
-  make-ai-boring-again links its footnote `#fn-out-of-scope`, the id comrak gives
-  `[^out-of-scope]`, where it linked markdown-it's `#fn2`; the post's next
-  `update-revisions` records a revision of it
-- The feeds and the sitemap are page templates typed `XmlFile` (`site.lem`), whose layout
-  `xmlFile` (`www/_includes/layouts/xml-file.lem`) writes the XML declaration with the
-  file's `encoding` — `utf-8`, the sitemap's `UTF-8`, as Eleventy wrote each — and the
-  `/feed.xsl` stylesheet instruction where front matter names a `stylesheet`, so `<?xml` is
-  always the first byte. `www/feed.xml.lem` is the RSS feed of `site.newest`;
+  `lem build` writes nothing. What CloudFront answers with no file is not modelled:
+  `served` in `lemmon.config.ts` lists `/@eric`, which
+  `infra/functions/cloudfront-request.js` redirects to Mastodon, and a link that only its
+  dot-less rewrite serves, `/tils` for `/tils/`, is an error, so link a page by its url,
+  slash and all. A footnote's id is comrak's, `#fn-<label>`
+- The feeds and the sitemap are page templates typed `XmlFile`, whose layout `xmlFile`
+  (`www/_includes/layouts/xml-file.lem`) writes the XML declaration with the file's
+  `encoding` and, where front matter names a `stylesheet`, the `/feed.xsl` instruction, so
+  `<?xml` is always the first byte. `www/feed.xml.lem` is the RSS feed of `site.newest`;
   `www/penumbra/feed.xml.lem` and `www/tils/feed.xml.lem` call `atomFeed` with
-  `site.penumbraPosts` and `site.tilPosts`; each is a `Feed`, its title, subtitle, base and
-  author in front matter, as Eleventy's `addFeed` calls gave them, the base as Eleventy
-  printed it (`https://limulus.net/` for the RSS feed, whose `addFeed` gave no slash).
-  `atomFeed` writes the base as the feed's `<id>`, as Eleventy did, and the base and a slash
-  as its alternate link, the page's own url, where Eleventy linked the base, which names no
-  file. An Atom feed with no entries is `updated` at `build.time`, as Eleventy's was at its
-  build's. An item's content is `<lem.build.bodies[post.url.text()]>`: lemmon's body pass
-  (D46) renders each post's body alone before any page, highlights it, and makes its links
-  absolute against the config's `origin`, which `lemmon.config.ts` reads from
-  `www/_data/site.json`, the same url `site.info` gives the items' links. Dates print in
-  their written offset, where Eleventy spelled every `pubDate` and `updated` in UTC or the
-  build machine's zone. `www/sitemap.xml.lem` lists `site.pages`, every article (its lastmod
-  the last revision's date where it has more than one, else its own, and a `video:video` for
-  a `VideoPost`), every photo page and every TIL topic page, with Eric's three changes from
-  Eleventy's `sitemap.njk` (2026-10-18): it lists `/tils/nodejs/`, which Eleventy's
-  pagination left out; it lists no feed; and an undated page has no lastmod, where Eleventy
-  gave the template file's creation time — as have `/feed/`, `/penumbra/` and
-  `/penumbra/journal/` while their collection is empty, since a lastmod is optional. It
-  names its sources by hand, so a new generator or a page template that is no `index.lem`
-  needs adding there, since nothing reports one missing
-- The client scripts are bundled by the shell's `esbuild()`, which `lemmon.config.ts` lists
-  with the asset path Eleventy's esbuild plugin used and its `MAPBOX_PUBLIC_TOKEN`; the
-  config loads the `.env` beside it, wherever `lem` starts, and a build or check without the
-  token fails naming it, as Eleventy's did. Its bundles are byte for byte what Eleventy's
-  plugin wrote, from the esbuild (0.24.0) and esbuild-plugin-wasm (1.1.0) the shell pins,
-  but no unhashed `index.js` stub beside a bundle. The layouts load each script where the
-  WebC did — `/lib/common` in `base.lem`'s `head`, `/lib/video-on-demand` in
-  `article-vod.lem`, the RUM loader and a page's `scripts` at the end of `page.lem`'s `body`
-  — by `asset("/lib/x/index.js")`, the unhashed URL, which compiles to the hashed one. A
-  post's `scripts:` is an `asset`, so the penumbra posts name theirs from `/`
-  (`/penumbra/journal/<slug>/lib/index.js`), which Eleventy resolved to the same hashed URL
-- `npm run dev` is the authoring loop: after `clean`, `lem dev` builds `dist/www`, serves
-  it at http://127.0.0.1:8080/ with the COOP/COEP headers `lemmon.config.ts` lists, and on
-  each change under `www/` rebuilds everything and reloads the open pages, while a
-  `chokidar` watch reruns `npm run css` when `www/_includes/css/*.css` changes. A change to
-  `lemmon.config.ts` needs a restart, as does one to `www/_data/site.json`'s `url`, which
-  the config reads once as its `origin`; and like `lem build` it removes nothing from
-  `dist/www`, so a page deleted meanwhile stays served until the next restart
+  `site.penumbraPosts` and `site.tilPosts`. Each is a `Feed`, its title, subtitle, base and
+  author in front matter. An Atom feed's base is its `<id>`, without a final slash
+  (`https://limulus.net/penumbra`), and its alternate link is the base and a slash, the
+  page's own url; feed readers key on the ids and guids, so leave the bases as they are. An
+  Atom feed with no entries is `updated` at `build.time`. An item's content is
+  `<lem.build.bodies[post.url.text()]>`: lemmon's body pass (D46) renders each post's body
+  alone before any page, highlights it, and makes its links absolute against the config's
+  `origin`, which `lemmon.config.ts` reads from `www/_data/site.json`, the same url
+  `site.info` gives the items' links. Dates print in the offset they were written in.
+  `www/sitemap.xml.lem` lists `site.pages`, every article (its lastmod the last revision's
+  date where it has more than one, else its own, and a `video:video` for a `VideoPost`),
+  every photo page and every TIL topic page, and no feed; `/feed/`, `/penumbra/` and
+  `/penumbra/journal/` take their newest article's date as lastmod, and another page with no
+  date of its own has none. It names its sources by hand, so a new generator or a page
+  template that is no `index.lem` needs adding there, since nothing reports one missing
+- The client scripts are bundled by the shell's `esbuild()`: every `index.ts` and
+  `worker.ts` under `www/` becomes `index.<hash>.js` or `worker.<hash>.js` beside its
+  source's path, with a source map, and the `.wasm` a bundle imports goes under
+  `/assets/immutable/11ty/esbuild/`, the path the bundles have always used (renaming it
+  would rename the `.wasm` and every bundle and map that names it). The bundles depend on
+  the esbuild (0.24.0) and esbuild-plugin-wasm (1.1.0) the shell pins. A template names a
+  script by its unhashed URL, `asset("/lib/x/index.js")`, which compiles to the hashed
+  one; a script names another with eight `X`s for the hash
+  (`/lib/blur-hash/worker.XXXXXXXX.js`); a post's `scripts:` is an `asset`, its root path
+  (`/penumbra/journal/<slug>/lib/index.js`). The layouts load `/lib/common` in
+  `base.lem`'s `head`, `/lib/video-on-demand` in `article-vod.lem`, and the RUM loader and
+  a page's `scripts` at the end of `page.lem`'s `body`
+- Each page's CSS bundle, under `/assets/immutable/bundle/`, holds the `lem-style` blocks
+  of the components and layouts it ran, in the order they ran, then the global
+  stylesheets. A block keeps that order by where it stands: a component's at the end of
+  its body, after every call it makes, and a layout's between its `lem-let` capture and
+  its call to the next layout; `www/tils/index.lem` captures its article list before the
+  topics' chips above it, so the cards' styles come first. Under its `.fnName { … }`
+  wrapper every selector starts with `&` (a spec checks every `.lem` under `www/`); the
+  photo page's wrapper is `.photoPage`, the class on its `article`. The globals come from
+  `www/_lemmon/site-styles.lem`, which is generated: `npm run css` writes it from
+  `www/_includes/css/*.css` as `siteStyles()`, one `lem-style` per stylesheet, which
+  `base.lem` calls, and `www/_lemmon/mapbox-gl.lem` from mapbox-gl's stylesheet as
+  `mapboxGlStyles()`, which `map-box.lem` calls before its own block. Edit the CSS, not
+  the `.lem`, and rerun it; `npm test` fails if either has drifted
 - `www/_data/photos.json`, which `site.lem` binds as `photos`, keys each photo's record by
-  its alias and carries, after its own fields, the numbers `photo-meta.webc` parsed out of
-  its EXIF strings with `parseFloat` (`focalLengthMm`, `fNumberValue`,
-  `compositeExposureSeconds`), since Lemmon parses no number out of a string.
-  `npm run photos` (`bin/process-photos.js`) writes each photo it processes into it with
-  `withPhoto` (`bin/photos/photo-db.ts`), the numbers by those expressions
-  (`bin/photos/exif-numbers.ts`); `npm test` fails if a record is not what writing it
-  again would write
-- Each page's CSS bundle holds the `lem-style` blocks of the components and layouts it
-  ran, in Eleventy's order, then the global stylesheets. A block keeps that order by
-  where it stands: a component's at the end of its body, after every call it makes, and
-  a layout's between its `lem-let` capture and its call to the next layout. WebC bundled
-  a component after those it depends on, wherever the page first used it, so
-  `www/tils/index.lem` captures its article list before the topics' chips above it,
-  whose `dataChip` would otherwise collect ahead of the cards' `pho-picture` (its icons
-  then number after the cards'). Under its
-  `.fnName { … }` wrapper every selector starts with `&` (a spec checks every `.lem`
-  under `www/`); the photo page's wrapper is `.photoPage`, the class on its `article`,
-  which stands for the hash WebC gave every element that page writes. The globals
-  come from `www/_lemmon/site-styles.lem`, which is generated: `npm run css`
-  writes it from `www/_includes/css/*.css` as `siteStyles()`, one `lem-style` per
-  stylesheet, which `base.lem` calls, and `www/_lemmon/mapbox-gl.lem` from mapbox-gl's
-  stylesheet as `mapboxGlStyles()`, which `map-box.lem` calls before its own block, where
-  WebC bundled the stylesheet `map-box.webc` linked. Edit the CSS, not the `.lem`, and
-  rerun it; `npm test` fails if either has drifted
+  its alias, the name a post's `hero:`, `image:` or `site.photos["…"]` gives it. After its
+  own fields each record carries the numbers the photo page prints from its EXIF strings
+  (`focalLengthMm`, `fNumberValue`, `compositeExposureSeconds`), since Lemmon parses no
+  number out of a string. `npm run photos` (`bin/process-photos.js`, which uploads to
+  `pho.limulus.net` by FTP) writes each photo it processes into it with `withPhoto`
+  (`bin/photos/photo-db.ts`), the numbers by `bin/photos/exif-numbers.ts`'s
+  `parseFloat` expressions; `npm test` fails if a record is not what writing it again
+  would write
 - `npm run update-revisions` (`bin/update-revisions.ts`, which CD runs before the build)
   needs neither a build nor a secret, and writes `www/_data/revisions.json` only when it
-  records a revision. `bin/revisions/articles.ts` lists the articles by site.lem's
+  records a revision: an article whose title, subhead or content no longer hashes as its
+  last revision did. `bin/revisions/articles.ts` lists the articles by site.lem's
   `articles` glob and titles each by its `Post.title` default, both written a second
   time; `npm test` fails if either copy moves without the other, or if a recorded hash
-  no longer reproduces from the article as its commit holds it
-- `bin/revisions/lemmon-calls.ts` turns a lem call on its own line in a post back into the
-  lines it replaced — an `articlePhoto` into its WebC, a `demoWithFallback` into the
-  penumbra demo's `<div>` around the `dynamic-content-fallback` Liquid include — for the
-  revision hash, for good, so the port recorded no revision; the hash reads a lem line it
-  cannot translate as written
+  no longer reproduces from the article as its commit holds it.
+  `bin/revisions/lemmon-calls.ts` turns a lem call on its own line back into the lines it
+  replaced for the hash — an `articlePhoto` into its WebC, a `demoWithFallback` into the
+  penumbra demo's `<div>` around the `dynamic-content-fallback` Liquid include — so the
+  posts that made that change record no revision for it; the hash reads any other lem line
+  as written
 - `lemmon/` holds the site's own plugins, written against `@limulus/lemmon-shell`'s
   exports, with their specs. `svgSprite()` (`lemmon/svg-sprite.ts`) fills `page.lem`'s
-  `mark("sprite")` with the inline sprite of `www/assets/svg/common`, built by svg-sprite
-  as eleventy-plugin-svg-sprite built it, so a new icon there is in the next build's
-  sprite, and a file svg-sprite cannot read stops the build; a second entry fills the
-  photo page's `mark("photoSprite")`, atop its `main`, from `www/assets/svg/photos`. The
-  logo's symbol keeps its `<style>`, which WebC hoisted into the CSS bundle and
-  `page.lem` once carried a copy of: svg-sprite writes its rules under the ids it gives
-  the logo's groups in the same compile, so the two cannot drift (the plugin's header
+  `mark("sprite")` with the inline sprite of `www/assets/svg/common`, so a new icon there
+  is in the next build's sprite, and a file svg-sprite cannot read stops the build; a
+  second entry fills the photo page's `mark("photoSprite")`, atop its `main`, from
+  `www/assets/svg/photos`. The logo's symbol keeps its `<style>`, whose rules svg-sprite
+  writes under the ids it gives the logo's groups in the same compile (the plugin's header
   says what renames them). `linkPosts()` (`lemmon/link-posts.ts`) appends to a link post's
-  body what Eleventy's `linkPostContent` preprocessor appended — the `[link]` definition,
-  and with a `viaUrl` the `[via]` one and the "Via" paragraph
+  body the `[link]` definition of its `linkUrl`, and with a `viaUrl` the `[via]` one and
+  the "Via" paragraph

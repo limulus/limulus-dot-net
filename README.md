@@ -47,8 +47,10 @@ npm install
 npm run dev
 ```
 
-As before, `npm run dev`, `npm run build` and `npm run verify` need a Mapbox public token
-in `MAPBOX_PUBLIC_TOKEN`, from the environment or a `.env` file here.
+`npm run dev` serves the site at http://127.0.0.1:8080/, rebuilding it and reloading the
+open pages on every change; `npm run build` writes it to `dist/www`. Both, and
+`npm run verify`, need a Mapbox public token in `MAPBOX_PUBLIC_TOKEN`, from the
+environment or a `.env` file here.
 
 ### Development
 
@@ -110,36 +112,52 @@ npm run test:integration
 
 ### Writing Content
 
-Most content should be written in a Markdown file under the `www` directory.
+Posts are Markdown files under `www/feed`, `www/links`, `www/penumbra` and `www/tils`, and
+every one is an article: it gets its own page, a card on `/feed/`, and an entry in
+`/feed.xml`. A TIL's topic is its directory under `www/tils/`. The `/post`, `/link` and
+`/til` commands in `.claude/commands/` create each kind.
 
-#### Frontmatter Properties
+[Lemmon] renders a post's Markdown with comrak. A Lemmon call on a line of its own places
+a component:
 
-- `layout`: The page layout. Can be any of the following:
-  - `article`: For text based articles.
-  - `video`: For video watch pages.
-  - `pages`: Bare-bones layout for things like home pages and indices.
-- `tags`: The collections a page belongs to. Possible values:
-  - `article`: For any article and blog post. Anything that can be syndicated is an article,
-    including videos!
-  - `development`: For articles about software development
-  - `penumbra`: For Penumbra Development Journal entries
-  - `video`: For video watch pages.
-- `author`: The author identifier, from the [authors database]
-- `title`: The title of the article or page
-- `subhead`: A subhead or alternate title that appears below the title of an article. It is
-  used as the page meta description if present.
-- `date`: The date and time of first publication, in ISO 8601 format
-- `image`: The alias of a photo in the [photos database], used only for the preview images
-  on article cards and Open Graph tags
-- `teaser`: A short description of the article or page used in previews and page metadata.
-  Note that if `subhead` is present this will be used for the page meta description instead.
+- `<lem.articlePhoto(site.photos["alias"], .right)>`: a photo from the [photos database],
+  floated `.left` or `.right`, or full width with `.hero`
+- `<lem.demoWithFallback("element-name")>`: a Penumbra demo's custom element, with a
+  message for readers without JavaScript
+
+Any other `<lem.` or `<lem-` text belongs in a code span or fence, and a Liquid or WebC tag
+prints as written.
+
+#### Front Matter
+
+A post's front matter is its record, typed `Post` by `www/site.lem`: a key `Post` does not
+declare stops the build, as does a missing `date` or `author`.
+
+- `title`: The title of the article. A link post's defaults to `Link: ` and its
+  `linkTitle`.
+- `subhead`: A subhead that appears below the title, used as the page meta description
+  when present
+- `teaser`: A short description used on article cards and as the page meta description
+  when there is no `subhead`
+- `date`: The date and time of first publication with its offset, such as
+  `2026-04-04 10:30:00 -07:00`; the site prints it in that offset
+- `author`: The author's key in the [authors database]
 - `hero`: The alias of the photo in the [photos database] to use as the hero image
-- `vod`: Data for a video:
+- `image`: The alias of a photo used only for the preview images on article cards and Open
+  Graph tags (`imageAlt` is accepted and read by nothing)
+- `tags`: A list. `link` lists a post on `/links/`, and `penumbra` on the Penumbra pages and
+  their feed; the other tags in use (`article`, `video`) are labels nothing reads.
+- `layout`: The layout function that renders the post: `article`, a post's default, or
+  `video`, a video post's
+- `type`: `VideoPost` for a video watch page, which also needs `vod`:
   - `id`: The identifier of the video on `vod.limulus.net`
   - `alt`: Alternate text for the poster image
   - `duration`: The duration in seconds of the video
+- `scripts`: A script bundle the page loads, by its root path without a hash (see
+  [Scripts](#scripts))
 - `linkUrl`: The URL of the linked content for link posts. When present, a `[link]` markdown
   reference link is automatically available in the post body.
+- `linkTitle`: The title of the linked content, which a link post's title is made from
 - `viaUrl`: The URL of the source where the link was discovered. When present, a `[via]`
   markdown reference link is automatically available and a "Via" attribution is appended to
   the post.
@@ -199,12 +217,14 @@ prepare a video for upload.
 
 #### Scripts
 
-Any `index.js` or `worker.js` file will be turned into ES module bundle by `esbuild`. The
-file names will contain a hash in the form of `index.<hash>.js` and `worker.<hash>.js`.
+Every `index.ts` and `worker.ts` under `www` is bundled by `esbuild` into an ES module
+beside its source's path, named with a hash: `index.<hash>.js` and `worker.<hash>.js`.
 
-To import these files, either from another script or via a `<script>` tag, reference the
-file with 8 `X`s in place of the hash. For example: `index.XXXXXXXX.js`.
+A template names a bundle by its path without the hash, through `asset()`:
+`<lem.asset("/lib/common/index.js")>` compiles to the hashed URL. A script that imports or
+starts another names it with 8 `X`s in place of the hash, as in
+`import '/lib/pixel-clock/index.XXXXXXXX.js'` or
+`new Worker('/lib/blur-hash/worker.XXXXXXXX.js')`.
 
-To ease script inclusion in articles, use the `scripts` frontmatter property. It can be
-either a single string or an array of strings. Note that it is not necessary to put hash
-placeholders in these paths — they will be added automatically.
+A post loads a script of its own with the `scripts` front matter property: one root path,
+without the hash, such as `/penumbra/journal/rust/lib/index.js`.
