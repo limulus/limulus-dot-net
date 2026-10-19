@@ -77,7 +77,8 @@ figcaption {
   font-family: 'Hubot Sans', sans-serif;
 }
 
-.section-separator::before {
+.section-separator::before,
+.footnotes::before {
   content: '';
   display: block;
   border-top: var(--card-border);

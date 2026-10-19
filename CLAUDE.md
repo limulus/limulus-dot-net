@@ -231,7 +231,9 @@ This branch ports the site to Lemmon beside Eleventy; both builds read the same 
   from a host the stand-in answers with a PNG, so its placeholder is compared; and each
   page is served with every visible difference parity forgives undone, by a neutralizer in
   `bin/parity/neutralizers.ts` named for its class: footnote-markup (ours takes theirs'
-  footnote classes, `[n]` markers and `↩︎`), reading-time (ours' header and card chips
+  list and note classes, `[n]` markers and `↩︎`, but not their section's
+  `section-separator`, since `main.css` draws that rule above any `.footnotes`, so the
+  shot shows it on ours), reading-time (ours' header and card chips
   take theirs' minutes), md-photo-wrap (theirs drops the empty `p`s the parser leaves in a
   photo's `figure`). A difference no neutralizer covers fails the run
 - `npm run parity:look -- --serve` serves `dist/www` on port 8081 and `dist/lemmon` on
@@ -239,4 +241,7 @@ This branch ports the site to Lemmon beside Eleventy; both builds read the same 
   Ctrl-C. Nothing is neutralized, held or masked there, so the differences parity
   forgives show
 - Not built at all: markdown-it-footnote's markup, since Lemmon writes comrak's
-  footnotes, which parity's `footnote-markup` forgives until the cutover (∆oAl)
+  footnotes, which parity's `footnote-markup` forgives until the cutover (∆oAl). Its
+  `section-separator` class drew the centred rule above the notes; `main.css` gives
+  `.footnotes::before` the same rule, which Eleventy's section, holding both classes,
+  draws once

@@ -17,9 +17,7 @@ import {
   minutesRead,
   minuteUnder,
   photoHusk,
-  sameNames,
   textOf,
-  tokens,
 } from './classes.ts'
 
 type Tree = DefaultTreeAdapterMap
@@ -103,10 +101,12 @@ interface Outcome {
 
 /**
  * footnote-markup: ours' footnotes take what is visible of theirs' — the
- * `section-separator` the section adds, the `footnotes-list` and `footnote-item` classes,
- * `[n]` for the marker `n`, and `↩︎` for `↩` — where both sides' footnotes are whole and
- * alike in number, and each part differs from theirs exactly so. The ids, the attributes
- * no style reads, and the notes' prose stay each side's own.
+ * `footnotes-list` and `footnote-item` classes, `[n]` for the marker `n`, and `↩︎` for
+ * `↩` — where both sides' footnotes are whole and alike in number, and each part differs
+ * from theirs exactly so. The section keeps its own classes: the rule theirs' draws as a
+ * `section-separator`, main.css draws above any `.footnotes`, so the shot shows whether
+ * ours' has it. The ids, the attributes no style reads, and the notes' prose stay each
+ * side's own.
  */
 function footnoteMarkup(ours: View, theirs: View): Outcome {
   const o = footnotesOf(ours.root, COMRAK_IDS)
@@ -115,12 +115,6 @@ function footnoteMarkup(ours: View, theirs: View): Outcome {
     return { edits: 0, problems: [] }
   }
   let edits = 0
-  const sectionClass = t.section.attrs.get('class') ?? ''
-  const separated = [...tokens(o.section.attrs.get('class')), 'section-separator']
-  if (sameNames(separated, tokens(sectionClass))) {
-    setAttr(ours.element(o.section), 'class', sectionClass)
-    edits += 1
-  }
   const classes: [RenderedElement, RenderedElement, string][] = [
     [o.list, t.list, 'footnotes-list'],
     ...o.notes.map((note, n): [RenderedElement, RenderedElement, string] => [

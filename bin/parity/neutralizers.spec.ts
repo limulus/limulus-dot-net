@@ -15,11 +15,11 @@ const bodyOf = (html: string): string => /<body>([\s\S]*)<\/body>/.exec(html)?.[
 describe('neutralize()', () => {
   describe('footnote-markup', () => {
     /** comrak's footnotes, with `refs` as each reference's text. */
-    const comrak = (refs = ['1', '2'], section = 'footnotes'): string =>
+    const comrak = (refs = ['1', '2']): string =>
       '<p>One<sup class="footnote-ref"><a href="#fn-a" id="fnref-a" data-footnote-ref>' +
       `${refs[0]}</a></sup> two<sup class="footnote-ref">` +
       `<a href="#fn-b" id="fnref-b" data-footnote-ref>${refs[1]}</a></sup></p>` +
-      `<section class="${section}" data-footnotes><ol>` +
+      '<section class="footnotes" data-footnotes><ol>' +
       ['a', 'b']
         .map(
           (label, n) =>
@@ -52,9 +52,6 @@ describe('neutralize()', () => {
     it("should give ours' footnotes theirs' classes, markers and backrefs", () => {
       const result = neutralize(page(comrak()), page(markdownIt()))
       const ours = bodyOf(result.ours)
-      expect(ours).toContain(
-        '<section class="footnotes section-separator" data-footnotes="">'
-      )
       expect(ours).toContain('<ol class="footnotes-list">')
       expect(ours.match(/<li id="fn-[ab]" class="footnote-item">/g)).toHaveLength(2)
       expect(ours).toContain('data-footnote-ref="">[1]</a>')
@@ -65,7 +62,7 @@ describe('neutralize()', () => {
       expect(ours).toContain('<p>Ours on b <a')
       expect(ours).not.toContain('Theirs')
       expect(result.theirs).toBe(untouched(markdownIt()))
-      expect([...result.edits]).toEqual([['footnote-markup', 8]])
+      expect([...result.edits]).toEqual([['footnote-markup', 7]])
     })
 
     it('should leave a marker that is not its number, and take the rest', () => {
@@ -73,16 +70,15 @@ describe('neutralize()', () => {
       const ours = bodyOf(result.ours)
       expect(ours).toContain('data-footnote-ref="">[1]</a>')
       expect(ours).toContain('data-footnote-ref="">*</a>')
-      expect([...result.edits]).toEqual([['footnote-markup', 7]])
+      expect([...result.edits]).toEqual([['footnote-markup', 6]])
     })
 
-    it('should leave a section whose classes differ otherwise', () => {
-      const result = neutralize(
-        page(comrak(['1', '2'], 'footnotes wide')),
-        page(markdownIt())
-      )
-      expect(bodyOf(result.ours)).toContain('<section class="footnotes wide"')
-      expect([...result.edits]).toEqual([['footnote-markup', 7]])
+    // main.css draws theirs' section-separator rule above any .footnotes, so the shot
+    // must see whether ours' section has it, not borrow theirs' class.
+    it("should leave the section its own classes, without theirs' separator", () => {
+      const result = neutralize(page(comrak()), page(markdownIt()))
+      expect(bodyOf(result.ours)).toContain('<section class="footnotes" data-footnotes="">')
+      expect(result.ours).not.toContain('section-separator')
     })
 
     it("should leave a list or note whose class is not theirs' known one", () => {
@@ -97,7 +93,7 @@ describe('neutralize()', () => {
       const ours = bodyOf(result.ours)
       expect(ours).toContain('data-footnotes=""><ol><li id="fn-a" class="x">')
       expect(ours).toContain('<li id="fn-b" class="footnote-item">')
-      expect([...result.edits]).toEqual([['footnote-markup', 6]])
+      expect([...result.edits]).toEqual([['footnote-markup', 5]])
     })
 
     it('should leave footnotes alone where the two sides number differently', () => {
