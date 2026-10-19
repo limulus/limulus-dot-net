@@ -3,7 +3,7 @@
     <article>
       <a :href="`/photos/${photo.alias}/`">
         <header>
-          <h1 class="visually-hidden" webc:text="photo.title"></h1>
+          <h1 class="visually-hidden" @text="photo.title"></h1>
         </header>
         <pho-picture :@id="photo.id" @renditions="sm"></pho-picture>
       </a>
