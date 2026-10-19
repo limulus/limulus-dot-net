@@ -121,11 +121,14 @@ Lemmon's `lem` builds the site from `www/`. Eleventy built it until the cutover 
   `lemmon.config.ts` needs a restart, as does one to `www/_data/site.json`'s `url`, which
   the config reads once as its `origin`; and like `lem build` it removes nothing from
   `dist/www`, so a page deleted meanwhile stays served until the next restart
-- `npm run lemmon:photos` regenerates `www/_lemmon/photos.json` (photos keyed by alias)
-  from `www/_data/photos.json`, adding to each photo the numbers `photo-meta.webc` parsed
-  out of its EXIF strings with `parseFloat` (`focalLengthMm`, `fNumberValue`,
-  `compositeExposureSeconds`), by the same expressions; `npm test` fails if the two have
-  drifted
+- `www/_data/photos.json`, which `site.lem` binds as `photos`, keys each photo's record by
+  its alias and carries, after its own fields, the numbers `photo-meta.webc` parsed out of
+  its EXIF strings with `parseFloat` (`focalLengthMm`, `fNumberValue`,
+  `compositeExposureSeconds`), since Lemmon parses no number out of a string.
+  `npm run photos` (`bin/process-photos.js`) writes each photo it processes into it with
+  `withPhoto` (`bin/photos/photo-db.ts`), the numbers by those expressions
+  (`bin/photos/exif-numbers.ts`); `npm test` fails if a record is not what writing it
+  again would write
 - Each page's CSS bundle holds the `lem-style` blocks of the components and layouts it
   ran, in Eleventy's order, then the global stylesheets. A block keeps that order by
   where it stands: a component's at the end of its body, after every call it makes, and

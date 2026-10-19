@@ -1,1096 +1,5 @@
 {
-  "eric-on-his-honeymoon-maui-hawaii": "2TUDan0y",
-  "base-of-the-genesee-arch-bridge-letchworth-state-park": "lnvAq0F9",
-  "lnvAq0F9": {
-    "id": "lnvAq0F9",
-    "alias": "base-of-the-genesee-arch-bridge-letchworth-state-park",
-    "baseUrl": "https://pho.limulus.net/lnvAq0F9",
-    "original": "IMG_6491.png",
-    "width": 3024,
-    "height": 4032,
-    "title": "Base of the Genesee Arch Bridge, Letchworth State Park",
-    "description": "A telephoto shot of the eastern base of the Genesee Arch Bridge (also known as the Portage Viaduct). The red steel arch extends beyond the frame. The base is embedded into an area likely excavated out of the gorge’s wall. Various stairs and catwalks line the sides of the base.",
-    "date": "2024-10-17T13:30:17-04:00",
-    "tags": [
-      "license:cc-by",
-      "limulus.net",
-      "limulus.net/photos"
-    ],
-    "make": "Apple",
-    "camera": "iPhone 16 Pro",
-    "lens": "iPhone 16 Pro back triple camera 15.66mm f/2.8",
-    "focalLength": "15.659999847383 mm",
-    "exposureTime": "1/99",
-    "fNumber": "f/2.8",
-    "iso": 64,
-    "flash": "Flash did not fire, compulsory flash mode",
-    "exposureMode": "Auto exposure",
-    "whiteBalance": "Auto white balance",
-    "location": {
-      "latitude": 42.57803333333334,
-      "longitude": -78.05007222222221,
-      "altitude": 380.78695073235684
-    },
-    "renditions": [
-      {
-        "name": "xl",
-        "format": "avif",
-        "url": "https://pho.limulus.net/lnvAq0F9/xl.1PSq3Ewd.avif",
-        "file": "xl.1PSq3Ewd.avif",
-        "width": 3024,
-        "height": 4032,
-        "size": 1272219
-      },
-      {
-        "name": "xl",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/lnvAq0F9/xl.cuZyDXz5.jpeg",
-        "file": "xl.cuZyDXz5.jpeg",
-        "width": 3024,
-        "height": 4032,
-        "size": 2841209
-      },
-      {
-        "name": "lg",
-        "format": "avif",
-        "url": "https://pho.limulus.net/lnvAq0F9/lg.IxoJIjJL.avif",
-        "file": "lg.IxoJIjJL.avif",
-        "width": 3000,
-        "height": 4000,
-        "size": 1210839
-      },
-      {
-        "name": "lg",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/lnvAq0F9/lg.Wqu2RASy.jpeg",
-        "file": "lg.Wqu2RASy.jpeg",
-        "width": 3000,
-        "height": 4000,
-        "size": 2795307
-      },
-      {
-        "name": "md",
-        "format": "avif",
-        "url": "https://pho.limulus.net/lnvAq0F9/md.1P0d1_Mv.avif",
-        "file": "md.1P0d1_Mv.avif",
-        "width": 1500,
-        "height": 2000,
-        "size": 517946
-      },
-      {
-        "name": "md",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/lnvAq0F9/md.MDvFdUnz.jpeg",
-        "file": "md.MDvFdUnz.jpeg",
-        "width": 1500,
-        "height": 2000,
-        "size": 912279
-      },
-      {
-        "name": "sm",
-        "format": "avif",
-        "url": "https://pho.limulus.net/lnvAq0F9/sm.CUOpVTBZ.avif",
-        "file": "sm.CUOpVTBZ.avif",
-        "width": 750,
-        "height": 1000,
-        "size": 176014
-      },
-      {
-        "name": "sm",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/lnvAq0F9/sm.UzU2Fsp9.jpeg",
-        "file": "sm.UzU2Fsp9.jpeg",
-        "width": 750,
-        "height": 1000,
-        "size": 263754
-      }
-    ],
-    "blurhash": "LFG8o]yV?tnO}n%fS0xGx]oynPWA"
-  },
-  "mist-middle-falls-letchworth-state-park": "PlumNgPF",
-  "PlumNgPF": {
-    "id": "PlumNgPF",
-    "alias": "mist-middle-falls-letchworth-state-park",
-    "baseUrl": "https://pho.limulus.net/PlumNgPF",
-    "original": "IMG_6518.png",
-    "width": 4032,
-    "height": 3024,
-    "title": "Mist, Middle Falls, Letchworth State Park",
-    "description": "Sun-lit mist scatters in the foreground. A blurry person in a hat with a backpack uses their phone to take a photograph of a waterfall.",
-    "date": "2024-10-17T14:15:18-04:00",
-    "tags": [
-      "license:cc-by",
-      "limulus.net",
-      "limulus.net/photos"
-    ],
-    "make": "Apple",
-    "camera": "iPhone 16 Pro",
-    "lens": "iPhone 16 Pro back triple camera 6.765mm f/1.78",
-    "focalLength": "6.764999865652793 mm",
-    "exposureTime": "1/2667",
-    "fNumber": "f/1.7799999713880652",
-    "iso": 64,
-    "flash": "Flash did not fire, compulsory flash mode",
-    "exposureMode": "Auto exposure",
-    "whiteBalance": "Auto white balance",
-    "location": {
-      "latitude": 42.58379444444445,
-      "longitude": -78.04259444444445,
-      "altitude": 309.9357495881384
-    },
-    "renditions": [
-      {
-        "name": "xl",
-        "format": "avif",
-        "url": "https://pho.limulus.net/PlumNgPF/xl.KFTAfbK8.avif",
-        "file": "xl.KFTAfbK8.avif",
-        "width": 4032,
-        "height": 3024,
-        "size": 228570
-      },
-      {
-        "name": "xl",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/PlumNgPF/xl.TrLi-Vjj.jpeg",
-        "file": "xl.TrLi-Vjj.jpeg",
-        "width": 4032,
-        "height": 3024,
-        "size": 1119543
-      },
-      {
-        "name": "lg",
-        "format": "avif",
-        "url": "https://pho.limulus.net/PlumNgPF/lg.AxTZYQKH.avif",
-        "file": "lg.AxTZYQKH.avif",
-        "width": 3000,
-        "height": 2250,
-        "size": 162909
-      },
-      {
-        "name": "lg",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/PlumNgPF/lg.BrTe_Czt.jpeg",
-        "file": "lg.BrTe_Czt.jpeg",
-        "width": 3000,
-        "height": 2250,
-        "size": 696866
-      },
-      {
-        "name": "md",
-        "format": "avif",
-        "url": "https://pho.limulus.net/PlumNgPF/md.tvGtgmZu.avif",
-        "file": "md.tvGtgmZu.avif",
-        "width": 1500,
-        "height": 1125,
-        "size": 76968
-      },
-      {
-        "name": "md",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/PlumNgPF/md.2Xg2WBYZ.jpeg",
-        "file": "md.2Xg2WBYZ.jpeg",
-        "width": 1500,
-        "height": 1125,
-        "size": 231777
-      },
-      {
-        "name": "sm",
-        "format": "avif",
-        "url": "https://pho.limulus.net/PlumNgPF/sm.0sNTXYjN.avif",
-        "file": "sm.0sNTXYjN.avif",
-        "width": 750,
-        "height": 563,
-        "size": 35419
-      },
-      {
-        "name": "sm",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/PlumNgPF/sm.NCoSnmaB.jpeg",
-        "file": "sm.NCoSnmaB.jpeg",
-        "width": 750,
-        "height": 563,
-        "size": 78899
-      }
-    ],
-    "blurhash": "LGDl~9_NE14n-:RPofxusiIUM|tR"
-  },
-  "middle-falls-letchworth-state-park": "9S_9E3mC",
-  "9S_9E3mC": {
-    "id": "9S_9E3mC",
-    "alias": "middle-falls-letchworth-state-park",
-    "baseUrl": "https://pho.limulus.net/9S_9E3mC",
-    "original": "IMG_6635.png",
-    "width": 4032,
-    "height": 3024,
-    "title": "Middle Falls, Letchworth State Park",
-    "description": "The Genesee River flows over the Middle Falls in Letchworth State Park. Trees on the bank of the river are turning to fall covers as the low sun illuminates them. In the foreground, several people stand on an overlook photographing the falls. One of them is somewhat precariously standing on a wet rock wall with a tripod.",
-    "date": "2024-10-17T17:39:12-04:00",
-    "tags": [
-      "license:cc-by",
-      "limulus.net",
-      "limulus.net/photos"
-    ],
-    "make": "Apple",
-    "camera": "iPhone 16 Pro",
-    "lens": "iPhone 16 Pro back triple camera 6.765mm f/1.78",
-    "focalLength": "6.764999865652793 mm",
-    "exposureTime": "1/549",
-    "fNumber": "f/1.7799999713880652",
-    "iso": 80,
-    "flash": "Flash did not fire, compulsory flash mode",
-    "exposureMode": "Auto exposure",
-    "whiteBalance": "Auto white balance",
-    "location": {
-      "latitude": 42.583911111111114,
-      "longitude": -78.04248055555556,
-      "altitude": 291.89978494623654
-    },
-    "renditions": [
-      {
-        "name": "xl",
-        "format": "avif",
-        "url": "https://pho.limulus.net/9S_9E3mC/xl.eTDvvAKL.avif",
-        "file": "xl.eTDvvAKL.avif",
-        "width": 4032,
-        "height": 3024,
-        "size": 826839
-      },
-      {
-        "name": "xl",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/9S_9E3mC/xl.nWIFvbjX.jpeg",
-        "file": "xl.nWIFvbjX.jpeg",
-        "width": 4032,
-        "height": 3024,
-        "size": 2185943
-      },
-      {
-        "name": "lg",
-        "format": "avif",
-        "url": "https://pho.limulus.net/9S_9E3mC/lg.k1DmqvnF.avif",
-        "file": "lg.k1DmqvnF.avif",
-        "width": 3000,
-        "height": 2250,
-        "size": 599934
-      },
-      {
-        "name": "lg",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/9S_9E3mC/lg.agZzvjVn.jpeg",
-        "file": "lg.agZzvjVn.jpeg",
-        "width": 3000,
-        "height": 2250,
-        "size": 1389861
-      },
-      {
-        "name": "md",
-        "format": "avif",
-        "url": "https://pho.limulus.net/9S_9E3mC/md.kcfUWaQS.avif",
-        "file": "md.kcfUWaQS.avif",
-        "width": 1500,
-        "height": 1125,
-        "size": 241101
-      },
-      {
-        "name": "md",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/9S_9E3mC/md.QvAT4NB7.jpeg",
-        "file": "md.QvAT4NB7.jpeg",
-        "width": 1500,
-        "height": 1125,
-        "size": 428313
-      },
-      {
-        "name": "sm",
-        "format": "avif",
-        "url": "https://pho.limulus.net/9S_9E3mC/sm.nNtdttTV.avif",
-        "file": "sm.nNtdttTV.avif",
-        "width": 750,
-        "height": 563,
-        "size": 70807
-      },
-      {
-        "name": "sm",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/9S_9E3mC/sm.y0baDoGI.jpeg",
-        "file": "sm.y0baDoGI.jpeg",
-        "width": 750,
-        "height": 563,
-        "size": 115163
-      }
-    ],
-    "blurhash": "LLF$eQ%2M{oe}OMIWWt7^hs;t7V?"
-  },
-  "upper-falls-letchworth-state-park": "ogMP7Pbu",
-  "ogMP7Pbu": {
-    "id": "ogMP7Pbu",
-    "alias": "upper-falls-letchworth-state-park",
-    "baseUrl": "https://pho.limulus.net/ogMP7Pbu",
-    "original": "Upper Falls, Letchworth State Park.png",
-    "width": 6000,
-    "height": 4000,
-    "title": "Upper Falls, Letchworth State Park",
-    "description": "A waterfall in a gorge, surrounded by trees beginning to take on fall colors. The midday sun brightly lights the falls and the mist filling the gorge. A long train bridge spans the gorge over the falls.",
-    "date": "2024-10-17T12:55:37-04:00",
-    "tags": [
-      "Pixelmator",
-      "license:cc-by",
-      "limulus.net/photos",
-      "limulus.net"
-    ],
-    "make": "NIKON CORPORATION",
-    "camera": "NIKON D5600",
-    "lens": "AF-S DX Nikkor 35mm f/1.8G",
-    "focalLength": "35 mm",
-    "exposureTime": "1/400",
-    "fNumber": "f/9",
-    "iso": 200,
-    "flash": "Flash did not fire, compulsory flash mode",
-    "exposureMode": "Auto exposure",
-    "whiteBalance": "Auto white balance",
-    "location": {
-      "latitude": 42.58007222222223,
-      "longitude": -78.04695555555556,
-      "altitude": 320
-    },
-    "renditions": [
-      {
-        "name": "xl",
-        "format": "avif",
-        "url": "https://pho.limulus.net/ogMP7Pbu/xl.YY1huNJl.avif",
-        "file": "xl.YY1huNJl.avif",
-        "width": 6000,
-        "height": 4000,
-        "size": 906009
-      },
-      {
-        "name": "xl",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/ogMP7Pbu/xl.BmE_cfYd.jpeg",
-        "file": "xl.BmE_cfYd.jpeg",
-        "width": 6000,
-        "height": 4000,
-        "size": 2803368
-      },
-      {
-        "name": "lg",
-        "format": "avif",
-        "url": "https://pho.limulus.net/ogMP7Pbu/lg.70YUaaCm.avif",
-        "file": "lg.70YUaaCm.avif",
-        "width": 3000,
-        "height": 2000,
-        "size": 392778
-      },
-      {
-        "name": "lg",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/ogMP7Pbu/lg.L8p7ZjtV.jpeg",
-        "file": "lg.L8p7ZjtV.jpeg",
-        "width": 3000,
-        "height": 2000,
-        "size": 909586
-      },
-      {
-        "name": "md",
-        "format": "avif",
-        "url": "https://pho.limulus.net/ogMP7Pbu/md.XU2dR5Dl.avif",
-        "file": "md.XU2dR5Dl.avif",
-        "width": 1500,
-        "height": 1000,
-        "size": 128908
-      },
-      {
-        "name": "md",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/ogMP7Pbu/md.0D8v28Qk.jpeg",
-        "file": "md.0D8v28Qk.jpeg",
-        "width": 1500,
-        "height": 1000,
-        "size": 263942
-      },
-      {
-        "name": "sm",
-        "format": "avif",
-        "url": "https://pho.limulus.net/ogMP7Pbu/sm.8Xs87JJ9.avif",
-        "file": "sm.8Xs87JJ9.avif",
-        "width": 750,
-        "height": 500,
-        "size": 40855
-      },
-      {
-        "name": "sm",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/ogMP7Pbu/sm.L3zr6aWY.jpeg",
-        "file": "sm.L3zr6aWY.jpeg",
-        "width": 750,
-        "height": 500,
-        "size": 76930
-      }
-    ],
-    "blurhash": "LWEo}iNg00t6.A%NVrIUkZogxtf+"
-  },
-  "pixel-clock": "Srq_na9c",
-  "Srq_na9c": {
-    "id": "Srq_na9c",
-    "alias": "pixel-clock",
-    "baseUrl": "https://pho.limulus.net/Srq_na9c",
-    "original": "pixel-clock.png",
-    "width": 1050,
-    "height": 734,
-    "title": "<pixel-clock>",
-    "description": "A screenshot of the <pixel-clock> demo. A square with a colorful background has 12 white pixelated dots in a circle, with 3 other dots inside. If it were a moving image, it would be obvious that the three inside dots correspond to an hour, minute, and second hands of a clock.",
-    "date": "2024-11-06T22:10:04-07:00",
-    "tags": [
-      "screenshot",
-      "limulus.net",
-      "license:cc-by"
-    ],
-    "location": null,
-    "renditions": [
-      {
-        "name": "xl",
-        "format": "avif",
-        "url": "https://pho.limulus.net/Srq_na9c/xl.p-wWq-1C.avif",
-        "file": "xl.p-wWq-1C.avif",
-        "width": 1050,
-        "height": 734,
-        "size": 6389
-      },
-      {
-        "name": "xl",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/Srq_na9c/xl.LTCTLE7R.jpeg",
-        "file": "xl.LTCTLE7R.jpeg",
-        "width": 1050,
-        "height": 734,
-        "size": 24125
-      },
-      {
-        "name": "lg",
-        "format": "avif",
-        "url": "https://pho.limulus.net/Srq_na9c/lg.p-wWq-1C.avif",
-        "file": "lg.p-wWq-1C.avif",
-        "width": 1050,
-        "height": 734,
-        "size": 6389
-      },
-      {
-        "name": "lg",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/Srq_na9c/lg.LTCTLE7R.jpeg",
-        "file": "lg.LTCTLE7R.jpeg",
-        "width": 1050,
-        "height": 734,
-        "size": 24125
-      },
-      {
-        "name": "md",
-        "format": "avif",
-        "url": "https://pho.limulus.net/Srq_na9c/md.p-wWq-1C.avif",
-        "file": "md.p-wWq-1C.avif",
-        "width": 1050,
-        "height": 734,
-        "size": 6389
-      },
-      {
-        "name": "md",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/Srq_na9c/md.LTCTLE7R.jpeg",
-        "file": "md.LTCTLE7R.jpeg",
-        "width": 1050,
-        "height": 734,
-        "size": 24125
-      },
-      {
-        "name": "sm",
-        "format": "avif",
-        "url": "https://pho.limulus.net/Srq_na9c/sm.85nPgJ9r.avif",
-        "file": "sm.85nPgJ9r.avif",
-        "width": 750,
-        "height": 524,
-        "size": 5967
-      },
-      {
-        "name": "sm",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/Srq_na9c/sm.ovHEGEI9.jpeg",
-        "file": "sm.ovHEGEI9.jpeg",
-        "width": 750,
-        "height": 524,
-        "size": 17220
-      }
-    ],
-    "blurhash": "LD9jve]o4T1vYrbHi7jGI*OCs@wd"
-  },
-  "projectile-cannon": "D-STK6Qy",
-  "D-STK6Qy": {
-    "id": "D-STK6Qy",
-    "alias": "projectile-cannon",
-    "baseUrl": "https://pho.limulus.net/D-STK6Qy",
-    "original": "projectile-cannon.png",
-    "width": 1462,
-    "height": 1042,
-    "title": "<projectile-cannon>",
-    "description": "A screenshot of the projectile-cannon demo component. A black box contains 4 white squares of various sizes along the bottom edge. At the top of the box is 4 log lines corresponding to the coordinates of each square. Below the box are UI controls: X, Y, and Z sliders; and Fire and Clear buttons.",
-    "date": "2024-11-08T20:54:12-07:00",
-    "tags": [
-      "screenshot",
-      "limulus.net",
-      "license:cc-by"
-    ],
-    "location": null,
-    "renditions": [
-      {
-        "name": "xl",
-        "format": "avif",
-        "url": "https://pho.limulus.net/D-STK6Qy/xl.1o8iUTe7.avif",
-        "file": "xl.1o8iUTe7.avif",
-        "width": 1462,
-        "height": 1042,
-        "size": 16197
-      },
-      {
-        "name": "xl",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/D-STK6Qy/xl.ZPr-Iu9l.jpeg",
-        "file": "xl.ZPr-Iu9l.jpeg",
-        "width": 1462,
-        "height": 1042,
-        "size": 51827
-      },
-      {
-        "name": "lg",
-        "format": "avif",
-        "url": "https://pho.limulus.net/D-STK6Qy/lg.1o8iUTe7.avif",
-        "file": "lg.1o8iUTe7.avif",
-        "width": 1462,
-        "height": 1042,
-        "size": 16197
-      },
-      {
-        "name": "lg",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/D-STK6Qy/lg.ZPr-Iu9l.jpeg",
-        "file": "lg.ZPr-Iu9l.jpeg",
-        "width": 1462,
-        "height": 1042,
-        "size": 51827
-      },
-      {
-        "name": "md",
-        "format": "avif",
-        "url": "https://pho.limulus.net/D-STK6Qy/md.1o8iUTe7.avif",
-        "file": "md.1o8iUTe7.avif",
-        "width": 1462,
-        "height": 1042,
-        "size": 16197
-      },
-      {
-        "name": "md",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/D-STK6Qy/md.ZPr-Iu9l.jpeg",
-        "file": "md.ZPr-Iu9l.jpeg",
-        "width": 1462,
-        "height": 1042,
-        "size": 51827
-      },
-      {
-        "name": "sm",
-        "format": "avif",
-        "url": "https://pho.limulus.net/D-STK6Qy/sm.RIa10VZT.avif",
-        "file": "sm.RIa10VZT.avif",
-        "width": 750,
-        "height": 535,
-        "size": 9807
-      },
-      {
-        "name": "sm",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/D-STK6Qy/sm.u7MJbGj2.jpeg",
-        "file": "sm.u7MJbGj2.jpeg",
-        "width": 750,
-        "height": 535,
-        "size": 22918
-      }
-    ],
-    "blurhash": "L25hfHIo?b-;9G?bIU9F-;~qofM{"
-  },
-  "sphere-shadow-and-sphere-shadow-wasm": "S7e9ZsqX",
-  "S7e9ZsqX": {
-    "id": "S7e9ZsqX",
-    "alias": "sphere-shadow-and-sphere-shadow-wasm",
-    "baseUrl": "https://pho.limulus.net/S7e9ZsqX",
-    "original": "sphere-shadow-wasm.png",
-    "width": 2560,
-    "height": 1440,
-    "title": "<sphere-shadow> and <sphere-shadow-wasm>",
-    "description": "A screenshot of the sphere-shadow and sphere-shadow-wasm demo components. Two colorful boxes are side-by-side, both containing a pixelated oval. Under the sphere-shadow box is the text “Render time: 6.44 ms”. Under the sphere-shadow-wasm box is the text “Render time: 0.90 ms”. Underneath both is a “Resolution” selection menu, currently set at “50x50”.",
-    "date": "2024-11-08T20:48:06-07:00",
-    "tags": [
-      "screenshot",
-      "limulus.net",
-      "license:cc-by"
-    ],
-    "location": null,
-    "renditions": [
-      {
-        "name": "xl",
-        "format": "avif",
-        "url": "https://pho.limulus.net/S7e9ZsqX/xl.pGPtrYiX.avif",
-        "file": "xl.pGPtrYiX.avif",
-        "width": 2560,
-        "height": 1440,
-        "size": 16772
-      },
-      {
-        "name": "xl",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/S7e9ZsqX/xl.6zPbHanR.jpeg",
-        "file": "xl.6zPbHanR.jpeg",
-        "width": 2560,
-        "height": 1440,
-        "size": 79435
-      },
-      {
-        "name": "lg",
-        "format": "avif",
-        "url": "https://pho.limulus.net/S7e9ZsqX/lg.pGPtrYiX.avif",
-        "file": "lg.pGPtrYiX.avif",
-        "width": 2560,
-        "height": 1440,
-        "size": 16772
-      },
-      {
-        "name": "lg",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/S7e9ZsqX/lg.6zPbHanR.jpeg",
-        "file": "lg.6zPbHanR.jpeg",
-        "width": 2560,
-        "height": 1440,
-        "size": 79435
-      },
-      {
-        "name": "md",
-        "format": "avif",
-        "url": "https://pho.limulus.net/S7e9ZsqX/md.9j2_RSZ3.avif",
-        "file": "md.9j2_RSZ3.avif",
-        "width": 1500,
-        "height": 844,
-        "size": 12984
-      },
-      {
-        "name": "md",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/S7e9ZsqX/md.j4VXvFgQ.jpeg",
-        "file": "md.j4VXvFgQ.jpeg",
-        "width": 1500,
-        "height": 844,
-        "size": 52393
-      },
-      {
-        "name": "sm",
-        "format": "avif",
-        "url": "https://pho.limulus.net/S7e9ZsqX/sm.ryTXercB.avif",
-        "file": "sm.ryTXercB.avif",
-        "width": 750,
-        "height": 422,
-        "size": 8953
-      },
-      {
-        "name": "sm",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/S7e9ZsqX/sm.ZnZXvppS.jpeg",
-        "file": "sm.ZnZXvppS.jpeg",
-        "width": 750,
-        "height": 422,
-        "size": 24698
-      }
-    ],
-    "blurhash": "L67ws.wd00}ZUNN^MJs9CUJRQ=Or"
-  },
-  "sphere-shadow": "wrbbesgD",
-  "wrbbesgD": {
-    "id": "wrbbesgD",
-    "alias": "sphere-shadow",
-    "baseUrl": "https://pho.limulus.net/wrbbesgD",
-    "original": "sphere-shadow.png",
-    "width": 1224,
-    "height": 806,
-    "title": "<sphere-shadow>",
-    "description": "A screenshot of the sphere-shadow demo component. A box with a colorful background contains a pixelated black circle, which is the rendering of a sphere’s shadow. Below it is the text “Render time: 17.26 ms”.",
-    "date": "2024-11-08T20:40:50-07:00",
-    "tags": [
-      "screenshot",
-      "limulus.net",
-      "license:cc-by"
-    ],
-    "location": null,
-    "renditions": [
-      {
-        "name": "xl",
-        "format": "avif",
-        "url": "https://pho.limulus.net/wrbbesgD/xl.WhLgVpjm.avif",
-        "file": "xl.WhLgVpjm.avif",
-        "width": 1224,
-        "height": 806,
-        "size": 8614
-      },
-      {
-        "name": "xl",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/wrbbesgD/xl.pmk4GCDZ.jpeg",
-        "file": "xl.pmk4GCDZ.jpeg",
-        "width": 1224,
-        "height": 806,
-        "size": 30711
-      },
-      {
-        "name": "lg",
-        "format": "avif",
-        "url": "https://pho.limulus.net/wrbbesgD/lg.WhLgVpjm.avif",
-        "file": "lg.WhLgVpjm.avif",
-        "width": 1224,
-        "height": 806,
-        "size": 8614
-      },
-      {
-        "name": "lg",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/wrbbesgD/lg.pmk4GCDZ.jpeg",
-        "file": "lg.pmk4GCDZ.jpeg",
-        "width": 1224,
-        "height": 806,
-        "size": 30711
-      },
-      {
-        "name": "md",
-        "format": "avif",
-        "url": "https://pho.limulus.net/wrbbesgD/md.WhLgVpjm.avif",
-        "file": "md.WhLgVpjm.avif",
-        "width": 1224,
-        "height": 806,
-        "size": 8614
-      },
-      {
-        "name": "md",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/wrbbesgD/md.pmk4GCDZ.jpeg",
-        "file": "md.pmk4GCDZ.jpeg",
-        "width": 1224,
-        "height": 806,
-        "size": 30711
-      },
-      {
-        "name": "sm",
-        "format": "avif",
-        "url": "https://pho.limulus.net/wrbbesgD/sm.M5SWqYW6.avif",
-        "file": "sm.M5SWqYW6.avif",
-        "width": 750,
-        "height": 494,
-        "size": 6919
-      },
-      {
-        "name": "sm",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/wrbbesgD/sm.lNGQAv7i.jpeg",
-        "file": "sm.lNGQAv7i.jpeg",
-        "width": 750,
-        "height": 494,
-        "size": 17700
-      }
-    ],
-    "blurhash": "LA7nU$=K4m1uueoKU|S3TnSgVawJ"
-  },
-  "spiny-side-eye": "_Eh10XTl",
-  "_Eh10XTl": {
-    "id": "_Eh10XTl",
-    "alias": "spiny-side-eye",
-    "baseUrl": "https://pho.limulus.net/_Eh10XTl",
-    "original": "DSC_0003.png",
-    "width": 5672,
-    "height": 3190,
-    "title": "Spiny Side Eye",
-    "description": "A low perspective telephoto side profile of a Desert Spiny Lizard as it sits on top of a small rock under a bush. Its eye looks to the far right.",
-    "date": "2023-05-17T17:38:09-07:00",
-    "tags": [
-      "license:cc-by",
-      "limulus.net",
-      "limulus.net/photos"
-    ],
-    "make": "NIKON CORPORATION",
-    "camera": "NIKON D5600",
-    "lens": "AF-S VR Zoom-Nikkor 70-300mm f/4.5-5.6G IF-ED",
-    "focalLength": "300 mm",
-    "exposureTime": "1/160",
-    "fNumber": "f/5.6",
-    "iso": 800,
-    "flash": "Flash did not fire, compulsory flash mode",
-    "exposureMode": "Auto exposure",
-    "whiteBalance": "Auto white balance",
-    "location": null,
-    "renditions": [
-      {
-        "name": "xl",
-        "format": "avif",
-        "url": "https://pho.limulus.net/_Eh10XTl/xl._8CzBYF5.avif",
-        "file": "xl._8CzBYF5.avif",
-        "width": 5672,
-        "height": 3190,
-        "size": 303332
-      },
-      {
-        "name": "xl",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/_Eh10XTl/xl.PqPQJ1aD.jpeg",
-        "file": "xl.PqPQJ1aD.jpeg",
-        "width": 5672,
-        "height": 3190,
-        "size": 1723161
-      },
-      {
-        "name": "lg",
-        "format": "avif",
-        "url": "https://pho.limulus.net/_Eh10XTl/lg.P1FG6tX6.avif",
-        "file": "lg.P1FG6tX6.avif",
-        "width": 3000,
-        "height": 1687,
-        "size": 164882
-      },
-      {
-        "name": "lg",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/_Eh10XTl/lg.Bz53RB0y.jpeg",
-        "file": "lg.Bz53RB0y.jpeg",
-        "width": 3000,
-        "height": 1687,
-        "size": 600487
-      },
-      {
-        "name": "md",
-        "format": "avif",
-        "url": "https://pho.limulus.net/_Eh10XTl/md.5sGZnZo0.avif",
-        "file": "md.5sGZnZo0.avif",
-        "width": 1500,
-        "height": 844,
-        "size": 87323
-      },
-      {
-        "name": "md",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/_Eh10XTl/md.KRJBjHqw.jpeg",
-        "file": "md.KRJBjHqw.jpeg",
-        "width": 1500,
-        "height": 844,
-        "size": 212532
-      },
-      {
-        "name": "sm",
-        "format": "avif",
-        "url": "https://pho.limulus.net/_Eh10XTl/sm.o0lAI929.avif",
-        "file": "sm.o0lAI929.avif",
-        "width": 750,
-        "height": 422,
-        "size": 43449
-      },
-      {
-        "name": "sm",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/_Eh10XTl/sm.DVtpCU5V.jpeg",
-        "file": "sm.DVtpCU5V.jpeg",
-        "width": 750,
-        "height": 422,
-        "size": 77798
-      }
-    ],
-    "blurhash": "LEC?r#~p%wbE5NNY%e%2IVNGRQV["
-  },
-  "photos-page-2024-11-29": "1i3Fb4Wt",
-  "1i3Fb4Wt": {
-    "id": "1i3Fb4Wt",
-    "alias": "photos-page-2024-11-29",
-    "baseUrl": "https://pho.limulus.net/1i3Fb4Wt",
-    "original": "photos-page-2024-11-29.png",
-    "width": 1418,
-    "height": 1418,
-    "title": "photos-page-2024-11-29",
-    "description": "Four cropped-square photos on a black background. They are various photos taken at Letchworth State Park, New York.",
-    "date": "2024-11-29T08:52:57-07:00",
-    "tags": [
-      "screenshot",
-      "limulus.net",
-      "license:cc-by"
-    ],
-    "location": null,
-    "renditions": [
-      {
-        "name": "xl",
-        "format": "avif",
-        "url": "https://pho.limulus.net/1i3Fb4Wt/xl._3YBaoWv.avif",
-        "file": "xl._3YBaoWv.avif",
-        "width": 1418,
-        "height": 1418,
-        "size": 191637
-      },
-      {
-        "name": "xl",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/1i3Fb4Wt/xl.CAsg1jec.jpeg",
-        "file": "xl.CAsg1jec.jpeg",
-        "width": 1418,
-        "height": 1418,
-        "size": 390539
-      },
-      {
-        "name": "lg",
-        "format": "avif",
-        "url": "https://pho.limulus.net/1i3Fb4Wt/lg._3YBaoWv.avif",
-        "file": "lg._3YBaoWv.avif",
-        "width": 1418,
-        "height": 1418,
-        "size": 191637
-      },
-      {
-        "name": "lg",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/1i3Fb4Wt/lg.CAsg1jec.jpeg",
-        "file": "lg.CAsg1jec.jpeg",
-        "width": 1418,
-        "height": 1418,
-        "size": 390539
-      },
-      {
-        "name": "md",
-        "format": "avif",
-        "url": "https://pho.limulus.net/1i3Fb4Wt/md._3YBaoWv.avif",
-        "file": "md._3YBaoWv.avif",
-        "width": 1418,
-        "height": 1418,
-        "size": 191637
-      },
-      {
-        "name": "md",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/1i3Fb4Wt/md.CAsg1jec.jpeg",
-        "file": "md.CAsg1jec.jpeg",
-        "width": 1418,
-        "height": 1418,
-        "size": 390539
-      },
-      {
-        "name": "sm",
-        "format": "avif",
-        "url": "https://pho.limulus.net/1i3Fb4Wt/sm.32qPeAS6.avif",
-        "file": "sm.32qPeAS6.avif",
-        "width": 750,
-        "height": 750,
-        "size": 67694
-      },
-      {
-        "name": "sm",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/1i3Fb4Wt/sm.nxygSr1S.jpeg",
-        "file": "sm.nxygSr1S.jpeg",
-        "width": 750,
-        "height": 750,
-        "size": 126739
-      }
-    ],
-    "blurhash": "LBEo=D$xMw?^xt-;IAVrQ*RkxFDh"
-  },
-  "limulus-dot-net-2024-11-29": "9yvwHsT8",
-  "9yvwHsT8": {
-    "id": "9yvwHsT8",
-    "alias": "limulus-dot-net-2024-11-29",
-    "baseUrl": "https://pho.limulus.net/9yvwHsT8",
-    "original": "limulus-dot-net-2024-11-29.png",
-    "width": 1430,
-    "height": 1006,
-    "title": "limulus-dot-net-2024-11-29",
-    "description": "A screenshot of the limulus.net logo and “limulus.net /” header. The logo is an abstract lines that form a box missing a top with a diagonal line. A circle sits in the center. It is shaded magenta, purple, and blue.",
-    "date": "2024-11-29T13:41:39-07:00",
-    "tags": [
-      "screenshot",
-      "limulus.net",
-      "license:cc-by"
-    ],
-    "location": null,
-    "renditions": [
-      {
-        "name": "xl",
-        "format": "avif",
-        "url": "https://pho.limulus.net/9yvwHsT8/xl.j1uFXddF.avif",
-        "file": "xl.j1uFXddF.avif",
-        "width": 1430,
-        "height": 1006,
-        "size": 8024
-      },
-      {
-        "name": "xl",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/9yvwHsT8/xl.-X4N_vEI.jpeg",
-        "file": "xl.-X4N_vEI.jpeg",
-        "width": 1430,
-        "height": 1006,
-        "size": 35677
-      },
-      {
-        "name": "lg",
-        "format": "avif",
-        "url": "https://pho.limulus.net/9yvwHsT8/lg.j1uFXddF.avif",
-        "file": "lg.j1uFXddF.avif",
-        "width": 1430,
-        "height": 1006,
-        "size": 8024
-      },
-      {
-        "name": "lg",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/9yvwHsT8/lg.-X4N_vEI.jpeg",
-        "file": "lg.-X4N_vEI.jpeg",
-        "width": 1430,
-        "height": 1006,
-        "size": 35677
-      },
-      {
-        "name": "md",
-        "format": "avif",
-        "url": "https://pho.limulus.net/9yvwHsT8/md.j1uFXddF.avif",
-        "file": "md.j1uFXddF.avif",
-        "width": 1430,
-        "height": 1006,
-        "size": 8024
-      },
-      {
-        "name": "md",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/9yvwHsT8/md.-X4N_vEI.jpeg",
-        "file": "md.-X4N_vEI.jpeg",
-        "width": 1430,
-        "height": 1006,
-        "size": 35677
-      },
-      {
-        "name": "sm",
-        "format": "avif",
-        "url": "https://pho.limulus.net/9yvwHsT8/sm.yqideZgK.avif",
-        "file": "sm.yqideZgK.avif",
-        "width": 750,
-        "height": 528,
-        "size": 6421
-      },
-      {
-        "name": "sm",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/9yvwHsT8/sm.OTnVLs2J.jpeg",
-        "file": "sm.OTnVLs2J.jpeg",
-        "width": 750,
-        "height": 528,
-        "size": 18641
-      }
-    ],
-    "blurhash": "L77d3Bwc0vAtIDspo@OABuSO;Y#*"
-  },
-  "2TUDan0y": {
+  "eric-on-his-honeymoon-maui-hawaii": {
     "id": "2TUDan0y",
     "alias": "eric-on-his-honeymoon-maui-hawaii",
     "baseUrl": "https://pho.limulus.net/2TUDan0y",
@@ -1212,10 +121,1100 @@
         "size": 19717
       }
     ],
-    "blurhash": "LcEfy%oHJ.tRyZo#aebIIUV?s.V@"
+    "blurhash": "LcEfy%oHJ.tRyZo#aebIIUV?s.V@",
+    "focalLengthMm": 35,
+    "fNumberValue": 9
   },
-  "rainbow-selfie-letchworth-state-park": "2LL07kay",
-  "2LL07kay": {
+  "base-of-the-genesee-arch-bridge-letchworth-state-park": {
+    "id": "lnvAq0F9",
+    "alias": "base-of-the-genesee-arch-bridge-letchworth-state-park",
+    "baseUrl": "https://pho.limulus.net/lnvAq0F9",
+    "original": "IMG_6491.png",
+    "width": 3024,
+    "height": 4032,
+    "title": "Base of the Genesee Arch Bridge, Letchworth State Park",
+    "description": "A telephoto shot of the eastern base of the Genesee Arch Bridge (also known as the Portage Viaduct). The red steel arch extends beyond the frame. The base is embedded into an area likely excavated out of the gorge’s wall. Various stairs and catwalks line the sides of the base.",
+    "date": "2024-10-17T13:30:17-04:00",
+    "tags": [
+      "license:cc-by",
+      "limulus.net",
+      "limulus.net/photos"
+    ],
+    "make": "Apple",
+    "camera": "iPhone 16 Pro",
+    "lens": "iPhone 16 Pro back triple camera 15.66mm f/2.8",
+    "focalLength": "15.659999847383 mm",
+    "exposureTime": "1/99",
+    "fNumber": "f/2.8",
+    "iso": 64,
+    "flash": "Flash did not fire, compulsory flash mode",
+    "exposureMode": "Auto exposure",
+    "whiteBalance": "Auto white balance",
+    "location": {
+      "latitude": 42.57803333333334,
+      "longitude": -78.05007222222221,
+      "altitude": 380.78695073235684
+    },
+    "renditions": [
+      {
+        "name": "xl",
+        "format": "avif",
+        "url": "https://pho.limulus.net/lnvAq0F9/xl.1PSq3Ewd.avif",
+        "file": "xl.1PSq3Ewd.avif",
+        "width": 3024,
+        "height": 4032,
+        "size": 1272219
+      },
+      {
+        "name": "xl",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/lnvAq0F9/xl.cuZyDXz5.jpeg",
+        "file": "xl.cuZyDXz5.jpeg",
+        "width": 3024,
+        "height": 4032,
+        "size": 2841209
+      },
+      {
+        "name": "lg",
+        "format": "avif",
+        "url": "https://pho.limulus.net/lnvAq0F9/lg.IxoJIjJL.avif",
+        "file": "lg.IxoJIjJL.avif",
+        "width": 3000,
+        "height": 4000,
+        "size": 1210839
+      },
+      {
+        "name": "lg",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/lnvAq0F9/lg.Wqu2RASy.jpeg",
+        "file": "lg.Wqu2RASy.jpeg",
+        "width": 3000,
+        "height": 4000,
+        "size": 2795307
+      },
+      {
+        "name": "md",
+        "format": "avif",
+        "url": "https://pho.limulus.net/lnvAq0F9/md.1P0d1_Mv.avif",
+        "file": "md.1P0d1_Mv.avif",
+        "width": 1500,
+        "height": 2000,
+        "size": 517946
+      },
+      {
+        "name": "md",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/lnvAq0F9/md.MDvFdUnz.jpeg",
+        "file": "md.MDvFdUnz.jpeg",
+        "width": 1500,
+        "height": 2000,
+        "size": 912279
+      },
+      {
+        "name": "sm",
+        "format": "avif",
+        "url": "https://pho.limulus.net/lnvAq0F9/sm.CUOpVTBZ.avif",
+        "file": "sm.CUOpVTBZ.avif",
+        "width": 750,
+        "height": 1000,
+        "size": 176014
+      },
+      {
+        "name": "sm",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/lnvAq0F9/sm.UzU2Fsp9.jpeg",
+        "file": "sm.UzU2Fsp9.jpeg",
+        "width": 750,
+        "height": 1000,
+        "size": 263754
+      }
+    ],
+    "blurhash": "LFG8o]yV?tnO}n%fS0xGx]oynPWA",
+    "focalLengthMm": 15.659999847383,
+    "fNumberValue": 2.8
+  },
+  "mist-middle-falls-letchworth-state-park": {
+    "id": "PlumNgPF",
+    "alias": "mist-middle-falls-letchworth-state-park",
+    "baseUrl": "https://pho.limulus.net/PlumNgPF",
+    "original": "IMG_6518.png",
+    "width": 4032,
+    "height": 3024,
+    "title": "Mist, Middle Falls, Letchworth State Park",
+    "description": "Sun-lit mist scatters in the foreground. A blurry person in a hat with a backpack uses their phone to take a photograph of a waterfall.",
+    "date": "2024-10-17T14:15:18-04:00",
+    "tags": [
+      "license:cc-by",
+      "limulus.net",
+      "limulus.net/photos"
+    ],
+    "make": "Apple",
+    "camera": "iPhone 16 Pro",
+    "lens": "iPhone 16 Pro back triple camera 6.765mm f/1.78",
+    "focalLength": "6.764999865652793 mm",
+    "exposureTime": "1/2667",
+    "fNumber": "f/1.7799999713880652",
+    "iso": 64,
+    "flash": "Flash did not fire, compulsory flash mode",
+    "exposureMode": "Auto exposure",
+    "whiteBalance": "Auto white balance",
+    "location": {
+      "latitude": 42.58379444444445,
+      "longitude": -78.04259444444445,
+      "altitude": 309.9357495881384
+    },
+    "renditions": [
+      {
+        "name": "xl",
+        "format": "avif",
+        "url": "https://pho.limulus.net/PlumNgPF/xl.KFTAfbK8.avif",
+        "file": "xl.KFTAfbK8.avif",
+        "width": 4032,
+        "height": 3024,
+        "size": 228570
+      },
+      {
+        "name": "xl",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/PlumNgPF/xl.TrLi-Vjj.jpeg",
+        "file": "xl.TrLi-Vjj.jpeg",
+        "width": 4032,
+        "height": 3024,
+        "size": 1119543
+      },
+      {
+        "name": "lg",
+        "format": "avif",
+        "url": "https://pho.limulus.net/PlumNgPF/lg.AxTZYQKH.avif",
+        "file": "lg.AxTZYQKH.avif",
+        "width": 3000,
+        "height": 2250,
+        "size": 162909
+      },
+      {
+        "name": "lg",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/PlumNgPF/lg.BrTe_Czt.jpeg",
+        "file": "lg.BrTe_Czt.jpeg",
+        "width": 3000,
+        "height": 2250,
+        "size": 696866
+      },
+      {
+        "name": "md",
+        "format": "avif",
+        "url": "https://pho.limulus.net/PlumNgPF/md.tvGtgmZu.avif",
+        "file": "md.tvGtgmZu.avif",
+        "width": 1500,
+        "height": 1125,
+        "size": 76968
+      },
+      {
+        "name": "md",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/PlumNgPF/md.2Xg2WBYZ.jpeg",
+        "file": "md.2Xg2WBYZ.jpeg",
+        "width": 1500,
+        "height": 1125,
+        "size": 231777
+      },
+      {
+        "name": "sm",
+        "format": "avif",
+        "url": "https://pho.limulus.net/PlumNgPF/sm.0sNTXYjN.avif",
+        "file": "sm.0sNTXYjN.avif",
+        "width": 750,
+        "height": 563,
+        "size": 35419
+      },
+      {
+        "name": "sm",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/PlumNgPF/sm.NCoSnmaB.jpeg",
+        "file": "sm.NCoSnmaB.jpeg",
+        "width": 750,
+        "height": 563,
+        "size": 78899
+      }
+    ],
+    "blurhash": "LGDl~9_NE14n-:RPofxusiIUM|tR",
+    "focalLengthMm": 6.764999865652793,
+    "fNumberValue": 1.7799999713880652
+  },
+  "middle-falls-letchworth-state-park": {
+    "id": "9S_9E3mC",
+    "alias": "middle-falls-letchworth-state-park",
+    "baseUrl": "https://pho.limulus.net/9S_9E3mC",
+    "original": "IMG_6635.png",
+    "width": 4032,
+    "height": 3024,
+    "title": "Middle Falls, Letchworth State Park",
+    "description": "The Genesee River flows over the Middle Falls in Letchworth State Park. Trees on the bank of the river are turning to fall covers as the low sun illuminates them. In the foreground, several people stand on an overlook photographing the falls. One of them is somewhat precariously standing on a wet rock wall with a tripod.",
+    "date": "2024-10-17T17:39:12-04:00",
+    "tags": [
+      "license:cc-by",
+      "limulus.net",
+      "limulus.net/photos"
+    ],
+    "make": "Apple",
+    "camera": "iPhone 16 Pro",
+    "lens": "iPhone 16 Pro back triple camera 6.765mm f/1.78",
+    "focalLength": "6.764999865652793 mm",
+    "exposureTime": "1/549",
+    "fNumber": "f/1.7799999713880652",
+    "iso": 80,
+    "flash": "Flash did not fire, compulsory flash mode",
+    "exposureMode": "Auto exposure",
+    "whiteBalance": "Auto white balance",
+    "location": {
+      "latitude": 42.583911111111114,
+      "longitude": -78.04248055555556,
+      "altitude": 291.89978494623654
+    },
+    "renditions": [
+      {
+        "name": "xl",
+        "format": "avif",
+        "url": "https://pho.limulus.net/9S_9E3mC/xl.eTDvvAKL.avif",
+        "file": "xl.eTDvvAKL.avif",
+        "width": 4032,
+        "height": 3024,
+        "size": 826839
+      },
+      {
+        "name": "xl",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/9S_9E3mC/xl.nWIFvbjX.jpeg",
+        "file": "xl.nWIFvbjX.jpeg",
+        "width": 4032,
+        "height": 3024,
+        "size": 2185943
+      },
+      {
+        "name": "lg",
+        "format": "avif",
+        "url": "https://pho.limulus.net/9S_9E3mC/lg.k1DmqvnF.avif",
+        "file": "lg.k1DmqvnF.avif",
+        "width": 3000,
+        "height": 2250,
+        "size": 599934
+      },
+      {
+        "name": "lg",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/9S_9E3mC/lg.agZzvjVn.jpeg",
+        "file": "lg.agZzvjVn.jpeg",
+        "width": 3000,
+        "height": 2250,
+        "size": 1389861
+      },
+      {
+        "name": "md",
+        "format": "avif",
+        "url": "https://pho.limulus.net/9S_9E3mC/md.kcfUWaQS.avif",
+        "file": "md.kcfUWaQS.avif",
+        "width": 1500,
+        "height": 1125,
+        "size": 241101
+      },
+      {
+        "name": "md",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/9S_9E3mC/md.QvAT4NB7.jpeg",
+        "file": "md.QvAT4NB7.jpeg",
+        "width": 1500,
+        "height": 1125,
+        "size": 428313
+      },
+      {
+        "name": "sm",
+        "format": "avif",
+        "url": "https://pho.limulus.net/9S_9E3mC/sm.nNtdttTV.avif",
+        "file": "sm.nNtdttTV.avif",
+        "width": 750,
+        "height": 563,
+        "size": 70807
+      },
+      {
+        "name": "sm",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/9S_9E3mC/sm.y0baDoGI.jpeg",
+        "file": "sm.y0baDoGI.jpeg",
+        "width": 750,
+        "height": 563,
+        "size": 115163
+      }
+    ],
+    "blurhash": "LLF$eQ%2M{oe}OMIWWt7^hs;t7V?",
+    "focalLengthMm": 6.764999865652793,
+    "fNumberValue": 1.7799999713880652
+  },
+  "upper-falls-letchworth-state-park": {
+    "id": "ogMP7Pbu",
+    "alias": "upper-falls-letchworth-state-park",
+    "baseUrl": "https://pho.limulus.net/ogMP7Pbu",
+    "original": "Upper Falls, Letchworth State Park.png",
+    "width": 6000,
+    "height": 4000,
+    "title": "Upper Falls, Letchworth State Park",
+    "description": "A waterfall in a gorge, surrounded by trees beginning to take on fall colors. The midday sun brightly lights the falls and the mist filling the gorge. A long train bridge spans the gorge over the falls.",
+    "date": "2024-10-17T12:55:37-04:00",
+    "tags": [
+      "Pixelmator",
+      "license:cc-by",
+      "limulus.net/photos",
+      "limulus.net"
+    ],
+    "make": "NIKON CORPORATION",
+    "camera": "NIKON D5600",
+    "lens": "AF-S DX Nikkor 35mm f/1.8G",
+    "focalLength": "35 mm",
+    "exposureTime": "1/400",
+    "fNumber": "f/9",
+    "iso": 200,
+    "flash": "Flash did not fire, compulsory flash mode",
+    "exposureMode": "Auto exposure",
+    "whiteBalance": "Auto white balance",
+    "location": {
+      "latitude": 42.58007222222223,
+      "longitude": -78.04695555555556,
+      "altitude": 320
+    },
+    "renditions": [
+      {
+        "name": "xl",
+        "format": "avif",
+        "url": "https://pho.limulus.net/ogMP7Pbu/xl.YY1huNJl.avif",
+        "file": "xl.YY1huNJl.avif",
+        "width": 6000,
+        "height": 4000,
+        "size": 906009
+      },
+      {
+        "name": "xl",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/ogMP7Pbu/xl.BmE_cfYd.jpeg",
+        "file": "xl.BmE_cfYd.jpeg",
+        "width": 6000,
+        "height": 4000,
+        "size": 2803368
+      },
+      {
+        "name": "lg",
+        "format": "avif",
+        "url": "https://pho.limulus.net/ogMP7Pbu/lg.70YUaaCm.avif",
+        "file": "lg.70YUaaCm.avif",
+        "width": 3000,
+        "height": 2000,
+        "size": 392778
+      },
+      {
+        "name": "lg",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/ogMP7Pbu/lg.L8p7ZjtV.jpeg",
+        "file": "lg.L8p7ZjtV.jpeg",
+        "width": 3000,
+        "height": 2000,
+        "size": 909586
+      },
+      {
+        "name": "md",
+        "format": "avif",
+        "url": "https://pho.limulus.net/ogMP7Pbu/md.XU2dR5Dl.avif",
+        "file": "md.XU2dR5Dl.avif",
+        "width": 1500,
+        "height": 1000,
+        "size": 128908
+      },
+      {
+        "name": "md",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/ogMP7Pbu/md.0D8v28Qk.jpeg",
+        "file": "md.0D8v28Qk.jpeg",
+        "width": 1500,
+        "height": 1000,
+        "size": 263942
+      },
+      {
+        "name": "sm",
+        "format": "avif",
+        "url": "https://pho.limulus.net/ogMP7Pbu/sm.8Xs87JJ9.avif",
+        "file": "sm.8Xs87JJ9.avif",
+        "width": 750,
+        "height": 500,
+        "size": 40855
+      },
+      {
+        "name": "sm",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/ogMP7Pbu/sm.L3zr6aWY.jpeg",
+        "file": "sm.L3zr6aWY.jpeg",
+        "width": 750,
+        "height": 500,
+        "size": 76930
+      }
+    ],
+    "blurhash": "LWEo}iNg00t6.A%NVrIUkZogxtf+",
+    "focalLengthMm": 35,
+    "fNumberValue": 9
+  },
+  "pixel-clock": {
+    "id": "Srq_na9c",
+    "alias": "pixel-clock",
+    "baseUrl": "https://pho.limulus.net/Srq_na9c",
+    "original": "pixel-clock.png",
+    "width": 1050,
+    "height": 734,
+    "title": "<pixel-clock>",
+    "description": "A screenshot of the <pixel-clock> demo. A square with a colorful background has 12 white pixelated dots in a circle, with 3 other dots inside. If it were a moving image, it would be obvious that the three inside dots correspond to an hour, minute, and second hands of a clock.",
+    "date": "2024-11-06T22:10:04-07:00",
+    "tags": [
+      "screenshot",
+      "limulus.net",
+      "license:cc-by"
+    ],
+    "location": null,
+    "renditions": [
+      {
+        "name": "xl",
+        "format": "avif",
+        "url": "https://pho.limulus.net/Srq_na9c/xl.p-wWq-1C.avif",
+        "file": "xl.p-wWq-1C.avif",
+        "width": 1050,
+        "height": 734,
+        "size": 6389
+      },
+      {
+        "name": "xl",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/Srq_na9c/xl.LTCTLE7R.jpeg",
+        "file": "xl.LTCTLE7R.jpeg",
+        "width": 1050,
+        "height": 734,
+        "size": 24125
+      },
+      {
+        "name": "lg",
+        "format": "avif",
+        "url": "https://pho.limulus.net/Srq_na9c/lg.p-wWq-1C.avif",
+        "file": "lg.p-wWq-1C.avif",
+        "width": 1050,
+        "height": 734,
+        "size": 6389
+      },
+      {
+        "name": "lg",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/Srq_na9c/lg.LTCTLE7R.jpeg",
+        "file": "lg.LTCTLE7R.jpeg",
+        "width": 1050,
+        "height": 734,
+        "size": 24125
+      },
+      {
+        "name": "md",
+        "format": "avif",
+        "url": "https://pho.limulus.net/Srq_na9c/md.p-wWq-1C.avif",
+        "file": "md.p-wWq-1C.avif",
+        "width": 1050,
+        "height": 734,
+        "size": 6389
+      },
+      {
+        "name": "md",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/Srq_na9c/md.LTCTLE7R.jpeg",
+        "file": "md.LTCTLE7R.jpeg",
+        "width": 1050,
+        "height": 734,
+        "size": 24125
+      },
+      {
+        "name": "sm",
+        "format": "avif",
+        "url": "https://pho.limulus.net/Srq_na9c/sm.85nPgJ9r.avif",
+        "file": "sm.85nPgJ9r.avif",
+        "width": 750,
+        "height": 524,
+        "size": 5967
+      },
+      {
+        "name": "sm",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/Srq_na9c/sm.ovHEGEI9.jpeg",
+        "file": "sm.ovHEGEI9.jpeg",
+        "width": 750,
+        "height": 524,
+        "size": 17220
+      }
+    ],
+    "blurhash": "LD9jve]o4T1vYrbHi7jGI*OCs@wd"
+  },
+  "projectile-cannon": {
+    "id": "D-STK6Qy",
+    "alias": "projectile-cannon",
+    "baseUrl": "https://pho.limulus.net/D-STK6Qy",
+    "original": "projectile-cannon.png",
+    "width": 1462,
+    "height": 1042,
+    "title": "<projectile-cannon>",
+    "description": "A screenshot of the projectile-cannon demo component. A black box contains 4 white squares of various sizes along the bottom edge. At the top of the box is 4 log lines corresponding to the coordinates of each square. Below the box are UI controls: X, Y, and Z sliders; and Fire and Clear buttons.",
+    "date": "2024-11-08T20:54:12-07:00",
+    "tags": [
+      "screenshot",
+      "limulus.net",
+      "license:cc-by"
+    ],
+    "location": null,
+    "renditions": [
+      {
+        "name": "xl",
+        "format": "avif",
+        "url": "https://pho.limulus.net/D-STK6Qy/xl.1o8iUTe7.avif",
+        "file": "xl.1o8iUTe7.avif",
+        "width": 1462,
+        "height": 1042,
+        "size": 16197
+      },
+      {
+        "name": "xl",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/D-STK6Qy/xl.ZPr-Iu9l.jpeg",
+        "file": "xl.ZPr-Iu9l.jpeg",
+        "width": 1462,
+        "height": 1042,
+        "size": 51827
+      },
+      {
+        "name": "lg",
+        "format": "avif",
+        "url": "https://pho.limulus.net/D-STK6Qy/lg.1o8iUTe7.avif",
+        "file": "lg.1o8iUTe7.avif",
+        "width": 1462,
+        "height": 1042,
+        "size": 16197
+      },
+      {
+        "name": "lg",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/D-STK6Qy/lg.ZPr-Iu9l.jpeg",
+        "file": "lg.ZPr-Iu9l.jpeg",
+        "width": 1462,
+        "height": 1042,
+        "size": 51827
+      },
+      {
+        "name": "md",
+        "format": "avif",
+        "url": "https://pho.limulus.net/D-STK6Qy/md.1o8iUTe7.avif",
+        "file": "md.1o8iUTe7.avif",
+        "width": 1462,
+        "height": 1042,
+        "size": 16197
+      },
+      {
+        "name": "md",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/D-STK6Qy/md.ZPr-Iu9l.jpeg",
+        "file": "md.ZPr-Iu9l.jpeg",
+        "width": 1462,
+        "height": 1042,
+        "size": 51827
+      },
+      {
+        "name": "sm",
+        "format": "avif",
+        "url": "https://pho.limulus.net/D-STK6Qy/sm.RIa10VZT.avif",
+        "file": "sm.RIa10VZT.avif",
+        "width": 750,
+        "height": 535,
+        "size": 9807
+      },
+      {
+        "name": "sm",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/D-STK6Qy/sm.u7MJbGj2.jpeg",
+        "file": "sm.u7MJbGj2.jpeg",
+        "width": 750,
+        "height": 535,
+        "size": 22918
+      }
+    ],
+    "blurhash": "L25hfHIo?b-;9G?bIU9F-;~qofM{"
+  },
+  "sphere-shadow-and-sphere-shadow-wasm": {
+    "id": "S7e9ZsqX",
+    "alias": "sphere-shadow-and-sphere-shadow-wasm",
+    "baseUrl": "https://pho.limulus.net/S7e9ZsqX",
+    "original": "sphere-shadow-wasm.png",
+    "width": 2560,
+    "height": 1440,
+    "title": "<sphere-shadow> and <sphere-shadow-wasm>",
+    "description": "A screenshot of the sphere-shadow and sphere-shadow-wasm demo components. Two colorful boxes are side-by-side, both containing a pixelated oval. Under the sphere-shadow box is the text “Render time: 6.44 ms”. Under the sphere-shadow-wasm box is the text “Render time: 0.90 ms”. Underneath both is a “Resolution” selection menu, currently set at “50x50”.",
+    "date": "2024-11-08T20:48:06-07:00",
+    "tags": [
+      "screenshot",
+      "limulus.net",
+      "license:cc-by"
+    ],
+    "location": null,
+    "renditions": [
+      {
+        "name": "xl",
+        "format": "avif",
+        "url": "https://pho.limulus.net/S7e9ZsqX/xl.pGPtrYiX.avif",
+        "file": "xl.pGPtrYiX.avif",
+        "width": 2560,
+        "height": 1440,
+        "size": 16772
+      },
+      {
+        "name": "xl",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/S7e9ZsqX/xl.6zPbHanR.jpeg",
+        "file": "xl.6zPbHanR.jpeg",
+        "width": 2560,
+        "height": 1440,
+        "size": 79435
+      },
+      {
+        "name": "lg",
+        "format": "avif",
+        "url": "https://pho.limulus.net/S7e9ZsqX/lg.pGPtrYiX.avif",
+        "file": "lg.pGPtrYiX.avif",
+        "width": 2560,
+        "height": 1440,
+        "size": 16772
+      },
+      {
+        "name": "lg",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/S7e9ZsqX/lg.6zPbHanR.jpeg",
+        "file": "lg.6zPbHanR.jpeg",
+        "width": 2560,
+        "height": 1440,
+        "size": 79435
+      },
+      {
+        "name": "md",
+        "format": "avif",
+        "url": "https://pho.limulus.net/S7e9ZsqX/md.9j2_RSZ3.avif",
+        "file": "md.9j2_RSZ3.avif",
+        "width": 1500,
+        "height": 844,
+        "size": 12984
+      },
+      {
+        "name": "md",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/S7e9ZsqX/md.j4VXvFgQ.jpeg",
+        "file": "md.j4VXvFgQ.jpeg",
+        "width": 1500,
+        "height": 844,
+        "size": 52393
+      },
+      {
+        "name": "sm",
+        "format": "avif",
+        "url": "https://pho.limulus.net/S7e9ZsqX/sm.ryTXercB.avif",
+        "file": "sm.ryTXercB.avif",
+        "width": 750,
+        "height": 422,
+        "size": 8953
+      },
+      {
+        "name": "sm",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/S7e9ZsqX/sm.ZnZXvppS.jpeg",
+        "file": "sm.ZnZXvppS.jpeg",
+        "width": 750,
+        "height": 422,
+        "size": 24698
+      }
+    ],
+    "blurhash": "L67ws.wd00}ZUNN^MJs9CUJRQ=Or"
+  },
+  "sphere-shadow": {
+    "id": "wrbbesgD",
+    "alias": "sphere-shadow",
+    "baseUrl": "https://pho.limulus.net/wrbbesgD",
+    "original": "sphere-shadow.png",
+    "width": 1224,
+    "height": 806,
+    "title": "<sphere-shadow>",
+    "description": "A screenshot of the sphere-shadow demo component. A box with a colorful background contains a pixelated black circle, which is the rendering of a sphere’s shadow. Below it is the text “Render time: 17.26 ms”.",
+    "date": "2024-11-08T20:40:50-07:00",
+    "tags": [
+      "screenshot",
+      "limulus.net",
+      "license:cc-by"
+    ],
+    "location": null,
+    "renditions": [
+      {
+        "name": "xl",
+        "format": "avif",
+        "url": "https://pho.limulus.net/wrbbesgD/xl.WhLgVpjm.avif",
+        "file": "xl.WhLgVpjm.avif",
+        "width": 1224,
+        "height": 806,
+        "size": 8614
+      },
+      {
+        "name": "xl",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/wrbbesgD/xl.pmk4GCDZ.jpeg",
+        "file": "xl.pmk4GCDZ.jpeg",
+        "width": 1224,
+        "height": 806,
+        "size": 30711
+      },
+      {
+        "name": "lg",
+        "format": "avif",
+        "url": "https://pho.limulus.net/wrbbesgD/lg.WhLgVpjm.avif",
+        "file": "lg.WhLgVpjm.avif",
+        "width": 1224,
+        "height": 806,
+        "size": 8614
+      },
+      {
+        "name": "lg",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/wrbbesgD/lg.pmk4GCDZ.jpeg",
+        "file": "lg.pmk4GCDZ.jpeg",
+        "width": 1224,
+        "height": 806,
+        "size": 30711
+      },
+      {
+        "name": "md",
+        "format": "avif",
+        "url": "https://pho.limulus.net/wrbbesgD/md.WhLgVpjm.avif",
+        "file": "md.WhLgVpjm.avif",
+        "width": 1224,
+        "height": 806,
+        "size": 8614
+      },
+      {
+        "name": "md",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/wrbbesgD/md.pmk4GCDZ.jpeg",
+        "file": "md.pmk4GCDZ.jpeg",
+        "width": 1224,
+        "height": 806,
+        "size": 30711
+      },
+      {
+        "name": "sm",
+        "format": "avif",
+        "url": "https://pho.limulus.net/wrbbesgD/sm.M5SWqYW6.avif",
+        "file": "sm.M5SWqYW6.avif",
+        "width": 750,
+        "height": 494,
+        "size": 6919
+      },
+      {
+        "name": "sm",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/wrbbesgD/sm.lNGQAv7i.jpeg",
+        "file": "sm.lNGQAv7i.jpeg",
+        "width": 750,
+        "height": 494,
+        "size": 17700
+      }
+    ],
+    "blurhash": "LA7nU$=K4m1uueoKU|S3TnSgVawJ"
+  },
+  "spiny-side-eye": {
+    "id": "_Eh10XTl",
+    "alias": "spiny-side-eye",
+    "baseUrl": "https://pho.limulus.net/_Eh10XTl",
+    "original": "DSC_0003.png",
+    "width": 5672,
+    "height": 3190,
+    "title": "Spiny Side Eye",
+    "description": "A low perspective telephoto side profile of a Desert Spiny Lizard as it sits on top of a small rock under a bush. Its eye looks to the far right.",
+    "date": "2023-05-17T17:38:09-07:00",
+    "tags": [
+      "license:cc-by",
+      "limulus.net",
+      "limulus.net/photos"
+    ],
+    "make": "NIKON CORPORATION",
+    "camera": "NIKON D5600",
+    "lens": "AF-S VR Zoom-Nikkor 70-300mm f/4.5-5.6G IF-ED",
+    "focalLength": "300 mm",
+    "exposureTime": "1/160",
+    "fNumber": "f/5.6",
+    "iso": 800,
+    "flash": "Flash did not fire, compulsory flash mode",
+    "exposureMode": "Auto exposure",
+    "whiteBalance": "Auto white balance",
+    "location": null,
+    "renditions": [
+      {
+        "name": "xl",
+        "format": "avif",
+        "url": "https://pho.limulus.net/_Eh10XTl/xl._8CzBYF5.avif",
+        "file": "xl._8CzBYF5.avif",
+        "width": 5672,
+        "height": 3190,
+        "size": 303332
+      },
+      {
+        "name": "xl",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/_Eh10XTl/xl.PqPQJ1aD.jpeg",
+        "file": "xl.PqPQJ1aD.jpeg",
+        "width": 5672,
+        "height": 3190,
+        "size": 1723161
+      },
+      {
+        "name": "lg",
+        "format": "avif",
+        "url": "https://pho.limulus.net/_Eh10XTl/lg.P1FG6tX6.avif",
+        "file": "lg.P1FG6tX6.avif",
+        "width": 3000,
+        "height": 1687,
+        "size": 164882
+      },
+      {
+        "name": "lg",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/_Eh10XTl/lg.Bz53RB0y.jpeg",
+        "file": "lg.Bz53RB0y.jpeg",
+        "width": 3000,
+        "height": 1687,
+        "size": 600487
+      },
+      {
+        "name": "md",
+        "format": "avif",
+        "url": "https://pho.limulus.net/_Eh10XTl/md.5sGZnZo0.avif",
+        "file": "md.5sGZnZo0.avif",
+        "width": 1500,
+        "height": 844,
+        "size": 87323
+      },
+      {
+        "name": "md",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/_Eh10XTl/md.KRJBjHqw.jpeg",
+        "file": "md.KRJBjHqw.jpeg",
+        "width": 1500,
+        "height": 844,
+        "size": 212532
+      },
+      {
+        "name": "sm",
+        "format": "avif",
+        "url": "https://pho.limulus.net/_Eh10XTl/sm.o0lAI929.avif",
+        "file": "sm.o0lAI929.avif",
+        "width": 750,
+        "height": 422,
+        "size": 43449
+      },
+      {
+        "name": "sm",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/_Eh10XTl/sm.DVtpCU5V.jpeg",
+        "file": "sm.DVtpCU5V.jpeg",
+        "width": 750,
+        "height": 422,
+        "size": 77798
+      }
+    ],
+    "blurhash": "LEC?r#~p%wbE5NNY%e%2IVNGRQV[",
+    "focalLengthMm": 300,
+    "fNumberValue": 5.6
+  },
+  "photos-page-2024-11-29": {
+    "id": "1i3Fb4Wt",
+    "alias": "photos-page-2024-11-29",
+    "baseUrl": "https://pho.limulus.net/1i3Fb4Wt",
+    "original": "photos-page-2024-11-29.png",
+    "width": 1418,
+    "height": 1418,
+    "title": "photos-page-2024-11-29",
+    "description": "Four cropped-square photos on a black background. They are various photos taken at Letchworth State Park, New York.",
+    "date": "2024-11-29T08:52:57-07:00",
+    "tags": [
+      "screenshot",
+      "limulus.net",
+      "license:cc-by"
+    ],
+    "location": null,
+    "renditions": [
+      {
+        "name": "xl",
+        "format": "avif",
+        "url": "https://pho.limulus.net/1i3Fb4Wt/xl._3YBaoWv.avif",
+        "file": "xl._3YBaoWv.avif",
+        "width": 1418,
+        "height": 1418,
+        "size": 191637
+      },
+      {
+        "name": "xl",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/1i3Fb4Wt/xl.CAsg1jec.jpeg",
+        "file": "xl.CAsg1jec.jpeg",
+        "width": 1418,
+        "height": 1418,
+        "size": 390539
+      },
+      {
+        "name": "lg",
+        "format": "avif",
+        "url": "https://pho.limulus.net/1i3Fb4Wt/lg._3YBaoWv.avif",
+        "file": "lg._3YBaoWv.avif",
+        "width": 1418,
+        "height": 1418,
+        "size": 191637
+      },
+      {
+        "name": "lg",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/1i3Fb4Wt/lg.CAsg1jec.jpeg",
+        "file": "lg.CAsg1jec.jpeg",
+        "width": 1418,
+        "height": 1418,
+        "size": 390539
+      },
+      {
+        "name": "md",
+        "format": "avif",
+        "url": "https://pho.limulus.net/1i3Fb4Wt/md._3YBaoWv.avif",
+        "file": "md._3YBaoWv.avif",
+        "width": 1418,
+        "height": 1418,
+        "size": 191637
+      },
+      {
+        "name": "md",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/1i3Fb4Wt/md.CAsg1jec.jpeg",
+        "file": "md.CAsg1jec.jpeg",
+        "width": 1418,
+        "height": 1418,
+        "size": 390539
+      },
+      {
+        "name": "sm",
+        "format": "avif",
+        "url": "https://pho.limulus.net/1i3Fb4Wt/sm.32qPeAS6.avif",
+        "file": "sm.32qPeAS6.avif",
+        "width": 750,
+        "height": 750,
+        "size": 67694
+      },
+      {
+        "name": "sm",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/1i3Fb4Wt/sm.nxygSr1S.jpeg",
+        "file": "sm.nxygSr1S.jpeg",
+        "width": 750,
+        "height": 750,
+        "size": 126739
+      }
+    ],
+    "blurhash": "LBEo=D$xMw?^xt-;IAVrQ*RkxFDh"
+  },
+  "limulus-dot-net-2024-11-29": {
+    "id": "9yvwHsT8",
+    "alias": "limulus-dot-net-2024-11-29",
+    "baseUrl": "https://pho.limulus.net/9yvwHsT8",
+    "original": "limulus-dot-net-2024-11-29.png",
+    "width": 1430,
+    "height": 1006,
+    "title": "limulus-dot-net-2024-11-29",
+    "description": "A screenshot of the limulus.net logo and “limulus.net /” header. The logo is an abstract lines that form a box missing a top with a diagonal line. A circle sits in the center. It is shaded magenta, purple, and blue.",
+    "date": "2024-11-29T13:41:39-07:00",
+    "tags": [
+      "screenshot",
+      "limulus.net",
+      "license:cc-by"
+    ],
+    "location": null,
+    "renditions": [
+      {
+        "name": "xl",
+        "format": "avif",
+        "url": "https://pho.limulus.net/9yvwHsT8/xl.j1uFXddF.avif",
+        "file": "xl.j1uFXddF.avif",
+        "width": 1430,
+        "height": 1006,
+        "size": 8024
+      },
+      {
+        "name": "xl",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/9yvwHsT8/xl.-X4N_vEI.jpeg",
+        "file": "xl.-X4N_vEI.jpeg",
+        "width": 1430,
+        "height": 1006,
+        "size": 35677
+      },
+      {
+        "name": "lg",
+        "format": "avif",
+        "url": "https://pho.limulus.net/9yvwHsT8/lg.j1uFXddF.avif",
+        "file": "lg.j1uFXddF.avif",
+        "width": 1430,
+        "height": 1006,
+        "size": 8024
+      },
+      {
+        "name": "lg",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/9yvwHsT8/lg.-X4N_vEI.jpeg",
+        "file": "lg.-X4N_vEI.jpeg",
+        "width": 1430,
+        "height": 1006,
+        "size": 35677
+      },
+      {
+        "name": "md",
+        "format": "avif",
+        "url": "https://pho.limulus.net/9yvwHsT8/md.j1uFXddF.avif",
+        "file": "md.j1uFXddF.avif",
+        "width": 1430,
+        "height": 1006,
+        "size": 8024
+      },
+      {
+        "name": "md",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/9yvwHsT8/md.-X4N_vEI.jpeg",
+        "file": "md.-X4N_vEI.jpeg",
+        "width": 1430,
+        "height": 1006,
+        "size": 35677
+      },
+      {
+        "name": "sm",
+        "format": "avif",
+        "url": "https://pho.limulus.net/9yvwHsT8/sm.yqideZgK.avif",
+        "file": "sm.yqideZgK.avif",
+        "width": 750,
+        "height": 528,
+        "size": 6421
+      },
+      {
+        "name": "sm",
+        "format": "jpeg",
+        "url": "https://pho.limulus.net/9yvwHsT8/sm.OTnVLs2J.jpeg",
+        "file": "sm.OTnVLs2J.jpeg",
+        "width": 750,
+        "height": 528,
+        "size": 18641
+      }
+    ],
+    "blurhash": "L77d3Bwc0vAtIDspo@OABuSO;Y#*"
+  },
+  "rainbow-selfie-letchworth-state-park": {
     "id": "2LL07kay",
     "alias": "rainbow-selfie-letchworth-state-park",
     "baseUrl": "https://pho.limulus.net/2LL07kay",
@@ -1336,133 +1335,11 @@
         "size": 24548
       }
     ],
-    "blurhash": "LHJ7%EVG4r~C~1^%VtD-tm9u--9u"
+    "blurhash": "LHJ7%EVG4r~C~1^%VtD-tm9u--9u",
+    "focalLengthMm": 2.690000057250488,
+    "fNumberValue": 1.9
   },
-  "one-long-cut": "tmj9u7Ht",
-  "1_e2YuOe": {
-    "id": "1_e2YuOe",
-    "alias": "one-long-cut",
-    "baseUrl": "https://pho.limulus.net/1_e2YuOe",
-    "original": "DSC_0063.png",
-    "width": 6000,
-    "height": 4000,
-    "title": "One Long Cut",
-    "description": "A blurry stream of water flows through a windy crevice it has carved into layered rock. It exits with some excitement into a small basin. Green moss grows on the sides of the rock and reddish-brown leaves litter the floor of the gorge.",
-    "date": "2024-10-12T13:08:56-04:00",
-    "tags": [
-      "license:cc-by",
-      "limulus.net",
-      "limulus.net:listed"
-    ],
-    "make": "NIKON CORPORATION",
-    "camera": "NIKON D5600",
-    "lens": "AF-S DX Nikkor 35mm f/1.8G",
-    "focalLength": "35 mm",
-    "exposureTime": "1/4",
-    "fNumber": "f/8",
-    "iso": 160,
-    "flash": "Flash did not fire, compulsory flash mode",
-    "exposureMode": "Auto exposure",
-    "whiteBalance": "Auto white balance",
-    "location": {
-      "latitude": 42.373447222222225,
-      "longitude": -76.88163333333333,
-      "altitude": 240
-    },
-    "renditions": [
-      {
-        "name": "xl",
-        "format": "avif",
-        "url": "https://pho.limulus.net/1_e2YuOe/xl.tKTEzcxC.avif",
-        "file": "xl.tKTEzcxC.avif",
-        "width": 6000,
-        "height": 4000,
-        "size": 2232998
-      },
-      {
-        "name": "xl",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/1_e2YuOe/xl.CuRB6PBq.jpeg",
-        "file": "xl.CuRB6PBq.jpeg",
-        "width": 6000,
-        "height": 4000,
-        "size": 5012745
-      },
-      {
-        "name": "lg",
-        "format": "avif",
-        "url": "https://pho.limulus.net/1_e2YuOe/lg.7pdiptUa.avif",
-        "file": "lg.7pdiptUa.avif",
-        "width": 3000,
-        "height": 2000,
-        "size": 995006
-      },
-      {
-        "name": "lg",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/1_e2YuOe/lg.hOYD9UzW.jpeg",
-        "file": "lg.hOYD9UzW.jpeg",
-        "width": 3000,
-        "height": 2000,
-        "size": 1640240
-      },
-      {
-        "name": "md",
-        "format": "avif",
-        "url": "https://pho.limulus.net/1_e2YuOe/md.YSTht8BK.avif",
-        "file": "md.YSTht8BK.avif",
-        "width": 1500,
-        "height": 1000,
-        "size": 327946
-      },
-      {
-        "name": "md",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/1_e2YuOe/md.rekF5Dck.jpeg",
-        "file": "md.rekF5Dck.jpeg",
-        "width": 1500,
-        "height": 1000,
-        "size": 473145
-      },
-      {
-        "name": "sm",
-        "format": "avif",
-        "url": "https://pho.limulus.net/1_e2YuOe/sm._urPGein.avif",
-        "file": "sm._urPGein.avif",
-        "width": 750,
-        "height": 500,
-        "size": 99239
-      },
-      {
-        "name": "sm",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/1_e2YuOe/sm._O9rtzi6.jpeg",
-        "file": "sm._O9rtzi6.jpeg",
-        "width": 750,
-        "height": 500,
-        "size": 132160
-      },
-      {
-        "name": "xs",
-        "format": "avif",
-        "url": "https://pho.limulus.net/1_e2YuOe/xs.baLf_UrZ.avif",
-        "file": "xs.baLf_UrZ.avif",
-        "width": 325,
-        "height": 217,
-        "size": 25447
-      },
-      {
-        "name": "xs",
-        "format": "jpeg",
-        "url": "https://pho.limulus.net/1_e2YuOe/xs.O64uq_KJ.jpeg",
-        "file": "xs.O64uq_KJ.jpeg",
-        "width": 325,
-        "height": 217,
-        "size": 32049
-      }
-    ]
-  },
-  "tmj9u7Ht": {
+  "one-long-cut": {
     "id": "tmj9u7Ht",
     "alias": "one-long-cut",
     "baseUrl": "https://pho.limulus.net/tmj9u7Ht",
@@ -1584,10 +1461,11 @@
         "size": 32049
       }
     ],
-    "blurhash": "L3EMLC|m00n;8^0200tR00tp9Yxn"
+    "blurhash": "L3EMLC|m00n;8^0200tR00tp9Yxn",
+    "focalLengthMm": 35,
+    "fNumberValue": 8
   },
-  "punk-and-trash": "qhCg333k",
-  "qhCg333k": {
+  "punk-and-trash": {
     "id": "qhCg333k",
     "alias": "punk-and-trash",
     "baseUrl": "https://pho.limulus.net/qhCg333k",
@@ -1708,10 +1586,11 @@
         "size": 37874
       }
     ],
-    "blurhash": "LBC?_-^+0Mt,pfb_599brVxV$yIB"
+    "blurhash": "LBC?_-^+0Mt,pfb_599brVxV$yIB",
+    "focalLengthMm": 4.15,
+    "fNumberValue": 2.2
   },
-  "capitol-restoration": "UGHjtSJr",
-  "UGHjtSJr": {
+  "capitol-restoration": {
     "id": "UGHjtSJr",
     "alias": "capitol-restoration",
     "baseUrl": "https://pho.limulus.net/UGHjtSJr",
@@ -1832,10 +1711,11 @@
         "size": 20517
       }
     ],
-    "blurhash": "LsJkl#t7RjM{~qj[ayRjt7RjM{of"
+    "blurhash": "LsJkl#t7RjM{~qj[ayRjt7RjM{of",
+    "focalLengthMm": 5,
+    "fNumberValue": 8.4
   },
-  "workout-exporter-development": "GIfv_p2A",
-  "GIfv_p2A": {
+  "workout-exporter-development": {
     "id": "GIfv_p2A",
     "alias": "workout-exporter-development",
     "baseUrl": "https://pho.limulus.net/GIfv_p2A",
@@ -1944,8 +1824,7 @@
     ],
     "blurhash": "LS6H~XngoOniW,WFadjXg9ngawa#"
   },
-  "comte-de-rochambeau": "6yftaf4Z",
-  "6yftaf4Z": {
+  "comte-de-rochambeau": {
     "id": "6yftaf4Z",
     "alias": "comte-de-rochambeau",
     "baseUrl": "https://pho.limulus.net/6yftaf4Z",
@@ -2065,10 +1944,11 @@
         "height": 195,
         "size": 15731
       }
-    ]
+    ],
+    "focalLengthMm": 5,
+    "fNumberValue": 8.4
   },
-  "saguaro-bouquet": "_felbJPu",
-  "_felbJPu": {
+  "saguaro-bouquet": {
     "id": "_felbJPu",
     "alias": "saguaro-bouquet",
     "baseUrl": "https://pho.limulus.net/_felbJPu",
@@ -2190,10 +2070,11 @@
         "height": 260,
         "size": 27052
       }
-    ]
+    ],
+    "focalLengthMm": 6.764999865652793,
+    "fNumberValue": 1.7799999713880652
   },
-  "saguaro-flower": "BqdE9IcU",
-  "BqdE9IcU": {
+  "saguaro-flower": {
     "id": "BqdE9IcU",
     "alias": "saguaro-flower",
     "baseUrl": "https://pho.limulus.net/BqdE9IcU",
@@ -2315,10 +2196,11 @@
         "height": 325,
         "size": 27231
       }
-    ]
+    ],
+    "focalLengthMm": 6.764999865652793,
+    "fNumberValue": 1.7799999713880652
   },
-  "all-laced-up": "qhlJFGxk",
-  "qhlJFGxk": {
+  "all-laced-up": {
     "id": "qhlJFGxk",
     "alias": "all-laced-up",
     "baseUrl": "https://pho.limulus.net/qhlJFGxk",
@@ -2440,10 +2322,11 @@
         "height": 406,
         "size": 29846
       }
-    ]
+    ],
+    "focalLengthMm": 6.764999865652793,
+    "fNumberValue": 1.7799999713880652
   },
-  "split": "6WFfZpjz",
-  "6WFfZpjz": {
+  "split": {
     "id": "6WFfZpjz",
     "alias": "split",
     "baseUrl": "https://pho.limulus.net/6WFfZpjz",
@@ -2566,10 +2449,12 @@
         "height": 433,
         "size": 29576
       }
-    ]
+    ],
+    "focalLengthMm": 6.764999865652793,
+    "fNumberValue": 1.7799999713880652,
+    "compositeExposureSeconds": 3.466736074960958
   },
-  "stereotypical-cloud": "8JrRozip",
-  "8JrRozip": {
+  "stereotypical-cloud": {
     "id": "8JrRozip",
     "alias": "stereotypical-cloud",
     "baseUrl": "https://pho.limulus.net/8JrRozip",
@@ -2691,10 +2576,11 @@
         "height": 232,
         "size": 21849
       }
-    ]
+    ],
+    "focalLengthMm": 6.764999865652793,
+    "fNumberValue": 1.7799999713880652
   },
-  "all-in-all-by-beth-lipman": "9qxkPdx9",
-  "9qxkPdx9": {
+  "all-in-all-by-beth-lipman": {
     "id": "9qxkPdx9",
     "alias": "all-in-all-by-beth-lipman",
     "baseUrl": "https://pho.limulus.net/9qxkPdx9",
@@ -2816,10 +2702,11 @@
         "height": 232,
         "size": 20330
       }
-    ]
+    ],
+    "focalLengthMm": 6.764999865652793,
+    "fNumberValue": 1.7799999713880652
   },
-  "forest-glass-by-katherine-gray": "AdTgzjH3",
-  "AdTgzjH3": {
+  "forest-glass-by-katherine-gray": {
     "id": "AdTgzjH3",
     "alias": "forest-glass-by-katherine-gray",
     "baseUrl": "https://pho.limulus.net/AdTgzjH3",
@@ -2941,10 +2828,11 @@
         "height": 217,
         "size": 20583
       }
-    ]
+    ],
+    "focalLengthMm": 6.764999865652793,
+    "fNumberValue": 1.7799999713880652
   },
-  "through-the-cone-by-jaroslava-brychtova-and-stanislav-libensky": "TcgEL9hO",
-  "TcgEL9hO": {
+  "through-the-cone-by-jaroslava-brychtova-and-stanislav-libensky": {
     "id": "TcgEL9hO",
     "alias": "through-the-cone-by-jaroslava-brychtova-and-stanislav-libensky",
     "baseUrl": "https://pho.limulus.net/TcgEL9hO",
@@ -3066,10 +2954,11 @@
         "height": 217,
         "size": 12696
       }
-    ]
+    ],
+    "focalLengthMm": 6.764999865652793,
+    "fNumberValue": 1.7799999713880652
   },
-  "lynx-after-duerer-by-marta-klonowska": "hUvgc7Bh",
-  "hUvgc7Bh": {
+  "lynx-after-duerer-by-marta-klonowska": {
     "id": "hUvgc7Bh",
     "alias": "lynx-after-duerer-by-marta-klonowska",
     "baseUrl": "https://pho.limulus.net/hUvgc7Bh",
@@ -3191,6 +3080,8 @@
         "height": 541,
         "size": 32542
       }
-    ]
+    ],
+    "focalLengthMm": 6.764999865652793,
+    "fNumberValue": 1.7799999713880652
   }
 }

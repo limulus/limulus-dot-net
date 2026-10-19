@@ -129,11 +129,11 @@ Most content should be written in a Markdown file under the `www` directory.
 - `subhead`: A subhead or alternate title that appears below the title of an article. It is
   used as the page meta description if present.
 - `date`: The date and time of first publication, in ISO 8601 format
-- `image`: Photo identifier used only for the preview images on article cards and Open Graph
-  tags
+- `image`: The alias of a photo in the [photos database], used only for the preview images
+  on article cards and Open Graph tags
 - `teaser`: A short description of the article or page used in previews and page metadata.
   Note that if `subhead` is present this will be used for the page meta description instead.
-- `hero`: The identifier of the photo in the [photos database] to use as the hero image
+- `hero`: The alias of the photo in the [photos database] to use as the hero image
 - `vod`: Data for a video:
   - `id`: The identifier of the video on `vod.limulus.net`
   - `alt`: Alternate text for the poster image
@@ -180,7 +180,10 @@ publishing an article with a photo, prepare the photo by following these steps:
    - Create a JSON file with the metadata for each photo and uploads it as `index.json`.
    - Update the repository’s [photos database] with the new entries.
 
-5. Retrieve the ids for the photos from the photos database file.
+5. Name each photo by its alias, the key of its record in the photos database (the
+   script prints each photo's id and alias). On a line of its own in a post's body,
+   `<lem.articlePhoto(site.photos["alias"], .right)>` places it (`.left`, `.right` or
+   `.hero`); `hero:` and `image:` in front matter take the alias.
 
 [photos database]: www/_data/photos.json
 

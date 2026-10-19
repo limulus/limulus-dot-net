@@ -176,7 +176,7 @@
     : null />
 
 <lem-let info: SiteInfo from "_data/site.json" />
-<lem-let photos: {string: Photo} from "_lemmon/photos.json" />
+<lem-let photos: {string: Photo} from "_data/photos.json" />
 <lem-let authors: {string: Author} from "_data/authors.json" />
 <lem-let revisions: Revisions from "_data/revisions.json" />
 <lem-let penumbra: FeedSection from "penumbra/penumbra.json" />
