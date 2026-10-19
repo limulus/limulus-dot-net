@@ -154,7 +154,8 @@ const UTF_8 = new TextDecoder('utf-8', { fatal: true })
  * makes, a warning too, taken as fatal, and only XML 1.0's line ends normalized —
  * xmldom's default is XML 1.1's, which reads U+0085 as a newline. Then read for what
  * parity compares, which refuses a processing instruction after the root or inside it,
- * and a DOCTYPE. xmldom also refuses a raw U+FFFD, which XML allows, as a decoding error.
+ * and a DOCTYPE. A raw U+FFFD, which XML allows, is refused too, since xmldom warns at it
+ * as the sign of a decoding error.
  * What xmldom accepts and nothing here checks, since neither build can write it from a
  * template's text without writing it there by hand: `]]>` in text, a prefix bound to
  * `xmlns`, and two attributes with one expanded name (it keeps one).

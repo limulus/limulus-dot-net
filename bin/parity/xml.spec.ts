@@ -24,7 +24,14 @@ const SIDES = { ours: 'dist/lemmon', theirs: 'dist/www' }
 const CONTEXT: XmlContext = {
   origin: ORIGIN,
   css: NO_CSS,
-  pages: new Set(['/', '/feed/', '/feed/a-post/', '/photos/x/', '/tils/nodejs/']),
+  pages: new Set([
+    '/',
+    '/feed/',
+    '/feed/a-post/',
+    '/penumbra/',
+    '/photos/x/',
+    '/tils/nodejs/',
+  ]),
   dated: new Set(['/feed/a-post/']),
   feeds: new Set(['/feed.xml']),
 }
@@ -100,11 +107,16 @@ function entry({
   )
 }
 
-/** An Atom feed holding `entries`. */
-function atom({ entries = [entry()], updated = '2024-06-04T20:20:00Z' } = {}): string {
+/** An Atom feed holding `entries`, its head `head` after its title. */
+function atom({
+  entries = [entry()],
+  updated = '2024-06-04T20:20:00Z',
+  head = '',
+} = {}): string {
   return (
     `${DECLARATION}\n<feed xmlns="${NS.atom}" xml:lang="en"><title>Penumbra</title>` +
-    `<updated>${updated}</updated><id>${ORIGIN}/penumbra</id>${entries.join('')}</feed>`
+    `${head}<updated>${updated}</updated><id>${ORIGIN}/penumbra</id>` +
+    `${entries.join('')}</feed>`
   )
 }
 
@@ -572,6 +584,86 @@ describe('feeds', () => {
     expect(clean(compare(html('a  b'), html('a b')))).toBe(true)
     const mixed = compare(atom({ entries: [entry({ type: 'text' })] }), atom())
     expect(notes(mixed)).toEqual(['attributes differ: type'])
+  })
+
+  describe('feed-alternate-slash', () => {
+    const link = (href: string, more = '') => `<link href="${ORIGIN}${href}"${more} />`
+    const head = (href: string, more = '') =>
+      `<link href="${ORIGIN}/penumbra/feed.xml" rel="self" />${link(href, more)}`
+
+    it('should forgive the feed’s alternate link naming its page with a slash', () => {
+      for (const rel of ['', ' rel="alternate"']) {
+        const report = compare(
+          atom({ head: head('/penumbra/', rel) }),
+          atom({ head: head('/penumbra', rel) })
+        )
+        expect(clean(report), rel).toBe(true)
+        expect(forgiven(report)).toEqual([['feed-alternate-slash', 1]])
+      }
+    })
+
+    it('should still report its id, which keeps Eleventy’s', () => {
+      const ours = atom({ head: head('/penumbra/') }).replace(
+        `<id>${ORIGIN}/penumbra</id>`,
+        `<id>${ORIGIN}/penumbra/</id>`
+      )
+      const report = compare(ours, atom({ head: head('/penumbra') }))
+      expect(notes(report)).toEqual(['the text differs'])
+      expect(forgiven(report)).toEqual([['feed-alternate-slash', 1]])
+    })
+
+    it('should still report any other link that differs so', () => {
+      const cases = {
+        self: [link('/penumbra/', ' rel="self"'), link('/penumbra', ' rel="self"')],
+        another: [
+          link('/penumbra/', ' rel="related"'),
+          link('/penumbra', ' rel="related"'),
+        ],
+        'not a link': [
+          `<category href="${ORIGIN}/penumbra/" />`,
+          `<category href="${ORIGIN}/penumbra" />`,
+        ],
+        'another attribute too': [
+          link('/penumbra/', ' type="text/html"'),
+          link('/penumbra'),
+        ],
+        'another attribute differing': [
+          link('/penumbra/', ' type="text/html"'),
+          link('/penumbra', ' type="application/xhtml+xml"'),
+        ],
+        'a rel on one side': [link('/penumbra/', ' rel="alternate"'), link('/penumbra')],
+        'no page there': [link('/penumbra/journal/'), link('/penumbra/journal')],
+        'more than a slash': [link('/penumbra/index.html'), link('/penumbra')],
+        'a slash lost': [link('/penumbra'), link('/penumbra/')],
+      }
+      for (const [name, [ours, theirs]] of Object.entries(cases)) {
+        const report = compare(atom({ head: ours }), atom({ head: theirs }))
+        expect(notes(report), name).toEqual([expect.stringMatching(/^attributes differ: /)])
+        expect(forgiven(report), name).toEqual([])
+      }
+      const offOrigin = (href: string) => `<link href="https://example.com${href}" />`
+      const elsewhere = compare(
+        atom({ head: offOrigin('/penumbra/') }),
+        atom({ head: offOrigin('/penumbra') })
+      )
+      expect(notes(elsewhere)).toEqual(['attributes differ: href'])
+    })
+
+    it('should still report an entry’s link, or an RSS feed’s, gaining a slash', () => {
+      const inEntry = (href: string) =>
+        atom({ entries: [entry().replace(/<link href="[^"]*" \/>/, link(href))] })
+      expect(notes(compare(inEntry('/penumbra/'), inEntry('/penumbra')))).toEqual([
+        'attributes differ: href',
+      ])
+      const atomLink = (href: string) =>
+        `<atom:link xmlns:atom="${NS.atom}" href="${ORIGIN}${href}" />`
+      const report = compare(
+        rss({ head: atomLink('/feed/') }),
+        rss({ head: atomLink('/feed') })
+      )
+      expect(notes(report)).toEqual(['attributes differ: href'])
+      expect(forgiven(report)).toEqual([])
+    })
   })
 })
 

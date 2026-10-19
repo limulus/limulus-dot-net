@@ -197,7 +197,11 @@ class XmlComparator {
   /** Two elements with one expanded name at `path`, inside the entry keyed `item`. */
   element(o: XmlElement, t: XmlElement, path: string, item?: string): void {
     this.matched += 1
-    this.attributes(o, t, path)
+    if (item === undefined && this.isAlternateSlash(o, t)) {
+      this.forgive('feed-alternate-slash')
+    } else {
+      this.attributes(o, t, path)
+    }
     const grammar = DATES[this.#kind][keyOf(t)]
     const entries = ENTRIES[this.#kind]
     const leaves = isLeaf(o) && isLeaf(t)
@@ -424,6 +428,33 @@ class XmlComparator {
   pathOf(url: string): string | undefined {
     const { origin } = this.#context
     return url.startsWith(`${origin}/`) ? url.slice(origin.length) : undefined
+  }
+
+  /**
+   * feed-alternate-slash: Eleventy's Atom feeds link the page they are the feed of as
+   * their `metadata.base`, `https://limulus.net/tils` with no slash, which names no file
+   * and is served only by the CloudFront function's dot-less rewrite; ours links the
+   * page's own url, `https://limulus.net/tils/`, which the link check of lemmon's D47
+   * requires, the port's fix of 2026-10-19, each feed's `<id>` kept as Eleventy writes
+   * it. So: an Atom feed's own `link`, not an entry's, alternate by its `rel` or by having
+   * none, every other attribute alike, theirs' `href` on the origin and ours' that and a
+   * slash, naming a page Eleventy wrote. It lasts until the cutover.
+   */
+  isAlternateSlash(o: XmlElement, t: XmlElement): boolean {
+    const href = expanded(null, 'href')
+    const others = (e: XmlElement) => [...e.attrs].filter(([key]) => key !== href)
+    const [os, ts] = [others(o), others(t)]
+    const path = this.pathOf(t.attrs.get(href)?.value ?? '')
+    return (
+      this.#kind === 'atom' &&
+      keyOf(t) === expanded(NS.atom, 'link') &&
+      (t.attrs.get(expanded(null, 'rel'))?.value ?? 'alternate') === 'alternate' &&
+      os.length === ts.length &&
+      ts.every(([key, { value }]) => o.attrs.get(key)?.value === value) &&
+      path !== undefined &&
+      o.attrs.get(href)?.value === `${this.#context.origin}${path}/` &&
+      this.#context.pages.has(`${path}/`)
+    )
   }
 
   /**

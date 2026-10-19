@@ -3,7 +3,7 @@
     <title><lem.feed.title></title>
     <subtitle><lem.feed.subtitle></subtitle>
     <link href="<lem.site.info.url><lem.feed.url>" rel="self" />
-    <link href="<lem.feed.base>" />
+    <link href="<lem.feed.base>/" />
     <updated><lem.(posts.first()?.date ?? build.time)></updated>
     <id><lem.feed.base></id>
     <author>

@@ -16,7 +16,7 @@ I [previously suggested] that I might write about my thoughts on the ethics of g
 AI. Now I don’t need to, because [Charity Majors][link] covered just about everything I
 wanted to. Of course she did it way better than I could have.
 
-[previously suggested]: /feed/better-software-with-ai/#fn2
+[previously suggested]: /feed/better-software-with-ai/#fn-out-of-scope
 
 I endorse the whole piece, but especially this:
 

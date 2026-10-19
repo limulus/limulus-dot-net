@@ -165,6 +165,7 @@ describe('a build listing linkPosts', () => {
     file: join(dir, 'lemmon.config.ts'),
     input: join(dir, 'site'),
     output: join(dir, 'out'),
+    served: [],
     passthrough: [],
     plugins: [linkPosts()],
     dev: { headers: {} },

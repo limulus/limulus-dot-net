@@ -61,6 +61,20 @@ This branch ports the site to Lemmon beside Eleventy; both builds read the same 
   `tilTopicUrl` in `site.lem`, which the sitemap calls too. No glob may match a generator,
   which `**/index.lem` does not. `npx lem check` runs the same and writes nothing,
   printing each diagnostic with the source it covers
+- Before anything is written, both check every link the build writes (lemmon's D47): each
+  `href`, `src` and the like in the pages, each `url()` in the stylesheets, and the links,
+  guids and `loc`s in the feeds and the sitemap, against the files the build writes, by
+  exact name, a fragment into a page against that page's ids. A broken one is an error, so
+  `lem build` writes nothing and `lem dev` keeps serving its last build. What CloudFront
+  answers with no file is not modelled: `served` in `lemmon.config.ts` lists `/@eric`,
+  which `infra/functions/cloudfront-request.js` redirects to Mastodon, and a link that
+  only its dot-less rewrite serves, `/tils` for `/tils/`, is an error, so link a page by
+  its url, slash and all. Two links Eleventy writes are fixed here for it: the Atom feeds'
+  alternate links name `https://limulus.net/penumbra/` and `…/tils/` (below), and
+  make-ai-boring-again links its footnote `#fn-out-of-scope`, the id comrak gives
+  `[^out-of-scope]`. Both builds write that fragment, so Eleventy's page names one its
+  markdown-it footnotes (`#fn2`) lack until the cutover, and the post's next
+  `update-revisions` records a revision of it
 - The feeds and the sitemap are page templates typed `XmlFile` (`site.lem`), whose layout
   `xmlFile` (`www/_includes/layouts/xml-file.lem`) writes the XML declaration with the
   file's `encoding` — `utf-8`, the sitemap's `UTF-8`, as Eleventy writes each — and the
@@ -70,8 +84,10 @@ This branch ports the site to Lemmon beside Eleventy; both builds read the same 
   `site.penumbraPosts` and `site.tilPosts`; each is a `Feed`, its title, subtitle, base and
   author in front matter, as eleventy.config.ts's `addFeed` calls give them, the base as
   Eleventy prints it (`https://limulus.net/` for the RSS feed, whose `addFeed` gives no
-  slash). An Atom feed with no entries is `updated` at `build.time`, as Eleventy's is at its
-  build's. An item's
+  slash). `atomFeed` writes the base as the feed's `<id>`, as Eleventy does, and the base
+  and a slash as its alternate link, the page's own url, where Eleventy links the base,
+  which names no file (parity's `feed-alternate-slash`). An Atom feed with no entries is
+  `updated` at `build.time`, as Eleventy's is at its build's. An item's
   content is `<lem.build.bodies[post.url.text()]>`: lemmon's body pass (D46) renders each
   post's body alone before any page, highlights it, and makes its links absolute against
   the config's `origin`, which `lemmon.config.ts` reads from `www/_data/site.json`, the
@@ -173,10 +189,12 @@ This branch ports the site to Lemmon beside Eleventy; both builds read the same 
   both sides' links on the site's origin are written back as the page writes them
   (`bin/parity/feed-content.ts`, which first fails a relative url left in ours), and the
   sitemap's three differences Eric chose (`sitemap-feed-entries`, `sitemap-unlisted-page`,
-  `sitemap-undated-lastmod`) counted under its row; md-photo-wrap takes the shape posthtml
-  gave the feeds' photos. Then every file both wrote for an `index.ts` or `worker.ts` under
-  `www/`, and under esbuild's asset path, byte for byte (`bin/parity/scripts.ts`), setting
-  Eleventy's unhashed stubs aside by their content and counting them. `-- --no-build`
+  `sitemap-undated-lastmod`) and the Atom feeds' alternate links' slash
+  (`feed-alternate-slash`), each counted under its file's row; md-photo-wrap takes the
+  shape posthtml gave the feeds' photos. Then every file both wrote for an `index.ts` or
+  `worker.ts` under `www/`, and under esbuild's asset path, byte for byte
+  (`bin/parity/scripts.ts`), setting Eleventy's unhashed stubs aside by their content and
+  counting them. `-- --no-build`
   compares the dists already there, where a page or a bundle `lem dev` left from an
   earlier edit fails as one only Lemmon wrote. It runs under `node --conditions=source`
   so the shell loads from the lemmon checkout's source

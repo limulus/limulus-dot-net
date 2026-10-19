@@ -21,6 +21,8 @@ export default {
   input: 'www',
   output: 'dist/lemmon',
   origin: site.url,
+  // The CloudFront function's redirect to Mastodon (infra/functions/cloudfront-request.js).
+  served: ['/@eric'],
   passthrough: ['assets/**/*', '**/*.{png,svg,jpg,jpeg,xsd,xsl,txt,pdf}'],
   plugins: [
     bundler(),

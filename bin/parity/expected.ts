@@ -231,10 +231,12 @@ export const EXPECTED: Record<string, Record<string, number>> = {
     generator: 1,
     'source-pill': 1,
   },
-  // The feed's and each entry's updated, UTC in Eleventy's; in the content, three posts'
-  // footnotes and four posts' heading ids, as their pages count them.
+  // The feed's and each entry's updated, UTC in Eleventy's; its alternate link naming
+  // `/penumbra/`, the port's fix of 2026-10-19; in the content, three posts' footnotes and four
+  // posts' heading ids, as their pages count them.
   '/penumbra/feed.xml': {
     'date-spelling': 8,
+    'feed-alternate-slash': 1,
     'footnote-markup': 21,
     'heading-id': 19,
   },
@@ -499,9 +501,11 @@ export const EXPECTED: Record<string, Record<string, number>> = {
     generator: 1,
     'source-pill': 1,
   },
-  // The feed's and each entry's updated, UTC in Eleventy's.
+  // The feed's and each entry's updated, UTC in Eleventy's; its alternate link naming
+  // `/tils/`, the port's fix of 2026-10-19.
   '/tils/feed.xml': {
     'date-spelling': 3,
+    'feed-alternate-slash': 1,
   },
   '/tils/git/': {
     'scoped-class': 14,

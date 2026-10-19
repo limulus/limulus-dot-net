@@ -146,6 +146,7 @@ describe('a build listing svgSprite', () => {
     file: join(dir, 'lemmon.config.ts'),
     input: join(dir, 'site'),
     output: join(dir, 'out'),
+    served: [],
     passthrough: [],
     plugins: [plugin],
     dev: { headers: {} },

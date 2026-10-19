@@ -139,8 +139,8 @@ describe('parseStrict()', () => {
     expect(refusal(within(0xed, 0xa0, 0x80))).toBe('it is not UTF-8')
   })
 
-  it('should refuse a raw U+FFFD, which xmldom takes for a decoding error', () => {
-    expect(refusal('<a>\uFFFD</a>')).toMatch(/^fatalError: Unicode replacement character/)
+  it('should refuse a raw U+FFFD, at which xmldom warns of a decoding error', () => {
+    expect(refusal('<a>\uFFFD</a>')).toMatch(/^warning: Unicode replacement character/)
     expect(textOf(read('<a>&#xFFFD;</a>').root)).toBe('\uFFFD')
   })
 
