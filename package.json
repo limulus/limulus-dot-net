@@ -51,6 +51,7 @@
     "@limulus/penumbra": "^1.9.1",
     "@matthewbonig/cdk-logical-id-mapper": "^0.0.2",
     "@prettier/plugin-xml": "^3.4.1",
+    "@sindresorhus/slugify": "^2.2.1",
     "@types/node": "^20.0.0",
     "aws-rum-web": "^1.19.0",
     "basic-ftp": "^5.0.5",
