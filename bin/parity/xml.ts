@@ -11,13 +11,14 @@
 // the file's url, beside the page classes that fire in its entries' content.
 
 import { renderedPage, type Difference } from '@limulus/lemmon-shell'
-import { readdir, readFile } from 'node:fs/promises'
-import { join, sep } from 'node:path'
+import { readFile } from 'node:fs/promises'
+import { join } from 'node:path'
 
 import { miscounts, reportLines, type PageReport } from './check.ts'
 import { descendants, type Bundles } from './classes.ts'
 import { GRAMMARS, rfc3339, type Grammar } from './dates.ts'
 import { compareContent } from './feed-content.ts'
+import { everyFile } from './files.ts'
 import {
   elementsOf,
   expanded,
@@ -561,26 +562,24 @@ export function xmlReportLines(
 
 // --- Reading the dists ----------------------------------------------------------------
 
+/** Whether the file at `url` is XML parity compares: a `.xml` file at any depth. */
+export const isXml = (url: string): boolean => url.endsWith('.xml')
+
 /** The url of every `.xml` file under `dist`, sorted: none where it wrote no directory. */
 export async function xmlIn(dist: string): Promise<string[]> {
-  const files = await readdir(dist, { recursive: true }).catch(
-    (error: NodeJS.ErrnoException) => {
-      if (error.code === 'ENOENT') return []
-      throw error
-    }
-  )
-  return files
-    .map((file) => `/${file.split(sep).join('/')}`)
-    .filter((url) => url.endsWith('.xml'))
-    .sort()
+  return (await everyFile(dist)).filter(isXml)
 }
 
-/** The bytes a build wrote at `url`, or null if it wrote none. */
-export async function xmlAt(dist: string, url: string): Promise<Uint8Array | null> {
-  return readFile(join(dist, url)).catch((error: NodeJS.ErrnoException) => {
-    if (error.code === 'ENOENT') return null
-    throw error
-  })
+/**
+ * The bytes the build in `dist` wrote at `url`, or null where `files`, its xmlIn(), does
+ * not hold the url exactly — the listing decides, as pageAt()'s does.
+ */
+export async function xmlAt(
+  dist: string,
+  url: string,
+  files: readonly string[]
+): Promise<Uint8Array | null> {
+  return files.includes(url) ? readFile(join(dist, url)) : null
 }
 
 /** The url of each file whose root is a feed's, RSS or Atom; a file not read is none. */

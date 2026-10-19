@@ -192,39 +192,46 @@ describe('isStub()', () => {
 })
 
 describe('compareScripts()', () => {
+  const WORKER = '/lib/blur-hash/worker.7AI64NJF.js'
+  const WORKER_STUB = "export * from '/lib/blur-hash/worker.7AI64NJF.js'"
+  const compare = (ours: Record<string, string>, theirs: Record<string, string>) =>
+    compareScripts(files(ours), files(theirs), ENTRIES)
+
   it('should count the files both wrote alike, and set the stubs aside', () => {
-    const report = compareScripts(
-      files({ [BUNDLE]: 'bundle', [`${BUNDLE}.map`]: 'map' }),
-      files({ [BUNDLE]: 'bundle', [`${BUNDLE}.map`]: 'map', '/lib/common/index.js': STUB })
+    const report = compare(
+      { [BUNDLE]: 'bundle', [`${BUNDLE}.map`]: 'map' },
+      { [BUNDLE]: 'bundle', [`${BUNDLE}.map`]: 'map', '/lib/common/index.js': STUB }
     )
-    expect(report).toEqual({ identical: 2, stubs: 1, differences: [] })
+    expect(report).toEqual({
+      identical: 2,
+      setAside: ['/lib/common/index.js'],
+      differences: [],
+      unstubbed: [],
+    })
     expect(scriptsFailed(report)).toBe(false)
   })
 
   it('should report a file only Eleventy wrote that is no stub', () => {
-    const report = compareScripts(
-      files({}),
-      files({ [BUNDLE]: 'bundle', '/lib/common/index.js': `${STUB}\n` })
-    )
+    const report = compare({}, { [BUNDLE]: 'bundle', '/lib/common/index.js': `${STUB}\n` })
     expect(report.differences).toEqual([
       { url: '/lib/common/index.YDUDOD6U.js', in: 'theirs' },
       { url: '/lib/common/index.js', in: 'theirs' },
     ])
-    expect(report.stubs).toBe(0)
+    expect(report.setAside).toEqual([])
     expect(scriptsFailed(report)).toBe(true)
   })
 
   it('should report a file only ours wrote', () => {
-    const report = compareScripts(files({ [BUNDLE]: 'bundle' }), files({}))
+    const report = compare({ [BUNDLE]: 'bundle' }, {})
     expect(report.differences).toEqual([{ url: BUNDLE, in: 'ours' }])
   })
 
-  it('should compare a stub ours wrote too, as any other file', () => {
-    const report = compareScripts(
-      files({ [BUNDLE]: 'bundle', '/lib/common/index.js': 'other' }),
-      files({ [BUNDLE]: 'bundle', '/lib/common/index.js': STUB })
+  it('should compare a stub ours wrote too, as any other file, leaving it unset', () => {
+    const report = compare(
+      { [BUNDLE]: 'bundle', '/lib/common/index.js': 'other' },
+      { [BUNDLE]: 'bundle', '/lib/common/index.js': STUB }
     )
-    expect(report.stubs).toBe(0)
+    expect(report.setAside).toEqual([])
     expect(report.differences).toEqual([
       {
         url: '/lib/common/index.js',
@@ -232,12 +239,39 @@ describe('compareScripts()', () => {
         detail: 'from byte 0; ours 5 bytes, theirs 45',
       },
     ])
+    expect(report.unstubbed).toEqual([BUNDLE])
+  })
+
+  it('should fail each entry bundle of Eleventy’s with no stub set aside beside it', () => {
+    const bundles = { [BUNDLE]: 'bundle', [WORKER]: 'worker' }
+    const report = compare(bundles, { ...bundles, '/lib/common/index.js': STUB })
+    expect(report.differences).toEqual([])
+    expect(report.setAside).toEqual(['/lib/common/index.js'])
+    expect(report.unstubbed).toEqual([WORKER])
+    expect(scriptsFailed(report)).toBe(true)
+    const both = compare(bundles, {
+      ...bundles,
+      '/lib/common/index.js': STUB,
+      '/lib/blur-hash/worker.js': WORKER_STUB,
+    })
+    expect(both.unstubbed).toEqual([])
+    expect(scriptsFailed(both)).toBe(false)
+  })
+
+  it('should ask no stub beside a file that is no entry’s bundle', () => {
+    const written = {
+      [`${BUNDLE}.map`]: 'map',
+      '/lib/common/index.ABCD2345.css': 'css',
+      '/lib/other/index.YDUDOD6U.js': 'not an entry',
+      [`${ESBUILD_ASSETS}penumbra-simd_bg.5PRLBB64.wasm`]: 'wasm',
+    }
+    expect(compare(written, written).unstubbed).toEqual([])
   })
 
   it('should say where two files part, one byte apart or one a prefix', () => {
-    const report = compareScripts(
-      files({ '/lib/a.js': 'abcdef', '/lib/b.js': 'abc' }),
-      files({ '/lib/a.js': 'abcxef', '/lib/b.js': 'abcd' })
+    const report = compare(
+      { '/lib/a.js': 'abcdef', '/lib/b.js': 'abc' },
+      { '/lib/a.js': 'abcxef', '/lib/b.js': 'abcd' }
     )
     expect(report.differences).toEqual([
       { url: '/lib/a.js', in: 'both', detail: 'from byte 3; ours 6 bytes, theirs 6' },
@@ -246,26 +280,37 @@ describe('compareScripts()', () => {
   })
 
   it('should fail where neither build wrote a script to compare', () => {
-    const report = compareScripts(files({}), files({}))
-    expect(scriptsFailed(report)).toBe(true)
+    expect(scriptsFailed(compare({}, {}))).toBe(true)
   })
 })
 
 describe('scriptLines()', () => {
+  const compare = (ours: Record<string, string>, theirs: Record<string, string>) =>
+    compareScripts(files(ours), files(theirs), ENTRIES)
+
   it('should summarize a pass in one line', () => {
-    expect(scriptLines({ identical: 37, stubs: 18, differences: [] }, SIDES)).toEqual([
-      "scripts: ok, 37 files alike byte for byte, 0 differ; 18 of Eleventy's unhashed " +
+    const report = compare(
+      { [BUNDLE]: 'bundle' },
+      { [BUNDLE]: 'bundle', '/lib/common/index.js': STUB }
+    )
+    expect(scriptLines(report, SIDES)).toEqual([
+      "scripts: ok, 1 files alike byte for byte, 0 differ; 1 of Eleventy's unhashed " +
         'stubs set aside',
     ])
   })
 
   it('should list each difference under a failing summary', () => {
-    const report = compareScripts(
-      files({ [BUNDLE]: 'bundle', '/lib/a.js': 'a', '/lib/b.js': 'x' }),
-      files({ [BUNDLE]: 'bundle', '/lib/c.js': 'c', '/lib/b.js': 'y' })
+    const report = compare(
+      { [BUNDLE]: 'bundle', '/lib/a.js': 'a', '/lib/b.js': 'x' },
+      {
+        [BUNDLE]: 'bundle',
+        '/lib/common/index.js': STUB,
+        '/lib/c.js': 'c',
+        '/lib/b.js': 'y',
+      }
     )
     expect(scriptLines(report, SIDES)).toEqual([
-      "scripts: FAIL, 1 files alike byte for byte, 3 differ; 0 of Eleventy's unhashed " +
+      "scripts: FAIL, 1 files alike byte for byte, 3 differ; 1 of Eleventy's unhashed " +
         'stubs set aside',
       '  /lib/a.js: only in dist/lemmon',
       '  /lib/b.js: differs from byte 0; ours 1 bytes, theirs 1',
@@ -273,10 +318,18 @@ describe('scriptLines()', () => {
     ])
   })
 
+  it('should fail naming each entry bundle with no stub set aside', () => {
+    const report = compare({ [BUNDLE]: 'bundle' }, { [BUNDLE]: 'bundle' })
+    expect(scriptLines(report, SIDES)).toEqual([
+      "scripts: FAIL, 1 files alike byte for byte, 0 differ; 0 of Eleventy's unhashed " +
+        'stubs set aside',
+      `  ${BUNDLE}: Eleventy's entry bundle, with no stub set aside beside it`,
+    ])
+  })
+
   it('should say so where neither build wrote a script', () => {
-    expect(scriptLines(compareScripts(files({}), files({})), SIDES)).toEqual([
-      "scripts: FAIL, neither build wrote a script file; 0 of Eleventy's unhashed stubs " +
-        'set aside',
+    expect(scriptLines(compare({}, {}), SIDES)).toEqual([
+      "scripts: FAIL, neither build wrote any; 0 of Eleventy's unhashed stubs set aside",
     ])
   })
 })

@@ -26,6 +26,11 @@ export interface Bundles {
   theirs: Map<string, Buffer>
   /** The global stylesheets, each trimmed, joined by newlines: how each must end. */
   globals: string
+  /**
+   * Every bundle, either build's, that css-bundle was offered a page's link to: filled
+   * as the pages compare, so that a bundle no page links is still reported.
+   */
+  linked: Set<string>
 }
 
 /**
@@ -184,6 +189,14 @@ const OURS_BUNDLE = /^\/assets\/immutable\/bundle\/[\w-]{10}\.css$/
 const THEIRS_BUNDLE = /^\/assets\/immutable\/11ty\/bundle\/[\w-]{10}\.css$/
 
 /**
+ * Whether the file at `url` is one of the CSS bundles `side` writes: the shell's
+ * `bundler()`'s under `/assets/immutable/bundle/` for ours, Eleventy's under
+ * `/assets/immutable/11ty/bundle/` for theirs, each named by ten base64url characters.
+ */
+export const isBundle = (url: string, side: 'ours' | 'theirs'): boolean =>
+  (side === 'ours' ? OURS_BUNDLE : THEIRS_BUNDLE).test(url)
+
+/**
  * A bundle's name, the shell's `bundler()`'s and Eleventy's alike: the first ten
  * base64url characters of the SHA-256 of its bytes.
  */
@@ -310,7 +323,8 @@ export interface CssBundle extends Forgiveness {
  * each ends with the global stylesheets, trimmed and joined by newlines, byte for byte;
  * and the two are the same CSS once normalized, with theirs' hashes renamed to the
  * function names ours' components scope by — so a fragment collected out of order, a
- * value changed, or a block under the wrong name is refused. Each refusal records why.
+ * value changed, or a block under the wrong name is refused. Each refusal records why,
+ * and both bundles of every link it is offered are recorded in `css.linked`.
  */
 export function cssBundle(css: Bundles): CssBundle {
   const refusals: string[] = []
@@ -325,11 +339,12 @@ export function cssBundle(css: Bundles): CssBundle {
         link.attrs.size !== 2 ||
         link.attrs.get('rel') !== 'stylesheet' ||
         parentOf(at)?.ours.tag !== 'head' ||
-        !OURS_BUNDLE.test(ours ?? '') ||
-        !THEIRS_BUNDLE.test(theirs ?? '')
+        !isBundle(ours ?? '', 'ours') ||
+        !isBundle(theirs ?? '', 'theirs')
       ) {
         return false
       }
+      css.linked.add(ours ?? '').add(theirs ?? '')
       const refusal = bundleRefusal(css, ours ?? '', theirs ?? '')
       if (refusal !== undefined) refusals.push(`css-bundle: ${refusal}`)
       return refusal === undefined

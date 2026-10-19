@@ -17,6 +17,7 @@ import {
   lastDifference,
   normalized,
   forgiveness,
+  isBundle,
   renamed,
   SITE_DISPLAY,
   type Bundles,
@@ -49,7 +50,12 @@ const forgiven = (comparison: Comparison): [string, number][] => [...comparison.
 const clean = (comparison: Comparison): boolean => comparison.differences.length === 0
 
 /** No CSS bundles, for the classes that do not read them. */
-const NO_CSS: Bundles = { ours: new Map(), theirs: new Map(), globals: '' }
+const NO_CSS: Bundles = {
+  ours: new Map(),
+  theirs: new Map(),
+  globals: '',
+  linked: new Set(),
+}
 
 describe('scoped-class', () => {
   const { scopedClass } = CLASSES
@@ -242,6 +248,29 @@ describe('page-scoped-sprite', () => {
   })
 })
 
+describe('isBundle()', () => {
+  it('should take each side’s bundles in its own directory alone', () => {
+    expect(isBundle('/assets/immutable/bundle/8HhNww8jAp.css', 'ours')).toBe(true)
+    expect(isBundle('/assets/immutable/11ty/bundle/FmIqE84l-_.css', 'theirs')).toBe(true)
+    expect(isBundle('/assets/immutable/11ty/bundle/FmIqE84ljF.css', 'ours')).toBe(false)
+    expect(isBundle('/assets/immutable/bundle/8HhNww8jAp.css', 'theirs')).toBe(false)
+  })
+
+  it('should not take another name, extension or depth there', () => {
+    for (const url of [
+      '/assets/immutable/bundle/8HhNww8jA.css',
+      '/assets/immutable/bundle/8HhNww8jApp.css',
+      '/assets/immutable/bundle/8HhNww8j.p.css',
+      '/assets/immutable/bundle/8HhNww8jAp.css.map',
+      '/assets/immutable/bundle/8HhNww8jAp.js',
+      '/assets/immutable/bundle/x/8HhNww8jAp.css',
+      '/x/assets/immutable/bundle/8HhNww8jAp.css',
+    ]) {
+      expect(isBundle(url, 'ours'), url).toBe(false)
+    }
+  })
+})
+
 describe('css-bundle', () => {
   const GLOBALS = 'html { line-height: 1.15; }\nbody { margin: 0; }'
 
@@ -262,14 +291,19 @@ describe('css-bundle', () => {
 
   const link = (href: string, more = '') => `<link rel="stylesheet" href="${href}"${more}>`
 
-  /** A css-bundle that reads the bundles given, ours' and theirs' above by default. */
+  /**
+   * A css-bundle that reads the bundles given, ours' and theirs' above by default, and
+   * records the links it is offered in `linked`.
+   */
   const bundles = (
-    files: { ours?: [string, Buffer][]; theirs?: [string, Buffer][] } = {}
+    files: { ours?: [string, Buffer][]; theirs?: [string, Buffer][] } = {},
+    linked = new Set<string>()
   ) =>
     cssBundle({
       ours: new Map(files.ours ?? [OURS]),
       theirs: new Map(files.theirs ?? [THEIRS]),
       globals: GLOBALS,
+      linked,
     })
 
   /** Two links in head compared through `cls`, and what it refused. */
@@ -449,6 +483,26 @@ describe('css-bundle', () => {
     const src = (url: string) => `<link rel="stylesheet" src="${url}">`
     expect(clean(heads(src(OURS[0]), src(THEIRS[0]), cls))).toBe(false)
     expect(cls.refusals).toEqual([])
+  })
+
+  it('should record both bundles of each link it is offered, refused or not', () => {
+    const accepted = new Set<string>()
+    expect(linked(OURS[0], THEIRS[0], bundles({}, accepted)).clean).toBe(true)
+    expect([...accepted]).toEqual([OURS[0], THEIRS[0]])
+    const refused = new Set<string>()
+    expect(linked(OURS[0], THEIRS[0], bundles({ ours: [] }, refused)).clean).toBe(false)
+    expect([...refused]).toEqual([OURS[0], THEIRS[0]])
+  })
+
+  it('should record no bundle of a link it does not take', () => {
+    const seen = new Set<string>()
+    const cls = bundles({}, seen)
+    bodies(`<div>${link(OURS[0])}</div>`, `<div>${link(THEIRS[0])}</div>`, cls)
+    const media = ' media="print"'
+    heads(link(OURS[0], media), link(THEIRS[0], media), cls)
+    const misplaced = theirs(GLOBALS)
+    linked(misplaced[0], THEIRS[0], bundles({ ours: [misplaced] }, seen))
+    expect([...seen]).toEqual([])
   })
 
   it('should not take an href outside its side’s bundle directory', () => {

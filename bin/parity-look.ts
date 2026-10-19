@@ -577,7 +577,10 @@ async function compareShots(
 }
 
 /** The look check over every page: true where every screenshot matched. */
-async function look(urls: string[]): Promise<boolean> {
+async function look(
+  urls: string[],
+  listed: { ours: string[]; theirs: string[] }
+): Promise<boolean> {
   const started = Date.now()
   const css = await bundlesIn(join(ROOT, OURS), join(ROOT, THEIRS))
   const { chromium } = await import('playwright-core')
@@ -623,8 +626,8 @@ async function look(urls: string[]): Promise<boolean> {
   const maskedOnPages: Map<string, number>[] = []
   try {
     for (const url of urls) {
-      const ours = await pageAt(join(ROOT, OURS), url)
-      const theirs = await pageAt(join(ROOT, THEIRS), url)
+      const ours = await pageAt(join(ROOT, OURS), url, listed.ours)
+      const theirs = await pageAt(join(ROOT, THEIRS), url, listed.theirs)
       const parity = comparePage({
         url,
         ours,
@@ -733,14 +736,15 @@ if (esMain(import.meta)) {
   }
   // The pages parity compares; what is wrong with the dists' other HTML is parity's to
   // say.
-  const urls = rosterOf(
-    (await pagesIn(join(ROOT, OURS))).pages,
-    (await pagesIn(join(ROOT, THEIRS))).pages
-  )
+  const pages = {
+    ours: await pagesIn(join(ROOT, OURS)),
+    theirs: await pagesIn(join(ROOT, THEIRS)),
+  }
+  const urls = rosterOf(pages.ours, pages.theirs)
   if (urls.length === 0) {
     console.error(`parity:look: no page in ${OURS} or ${THEIRS}`)
     process.exit(1)
   }
   if (args.includes('--serve')) await serveBoth(urls)
-  else if (!(await look(urls))) process.exitCode = 1
+  else if (!(await look(urls, pages))) process.exitCode = 1
 }

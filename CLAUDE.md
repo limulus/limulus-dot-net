@@ -173,31 +173,46 @@ This branch ports the site to Lemmon beside Eleventy; both builds read the same 
   body what eleventy.config.ts's `linkPostContent` appends — the `[link]` definition, and
   with a `viaUrl` the `[via]` one and the "Via" paragraph — which its spec checks by
   running that preprocessor beside it over every document
-- `npm run parity` builds both sides and compares every page either wrote — each
-  `index.html` under `dist/www` or `dist/lemmon`; any other `.html` file in either fails
-  the run — as rendered HTML through the forgiveness classes in `bin/parity/classes.ts`,
-  each held to its count in `bin/parity/expected.ts`. Every page either dist holds is
-  compared, and needs a row in `EXPECTED` (`generator` and `css-bundle` fire on every
-  page, so a page without one fails); a page only one build wrote fails as missing from
-  the other, and a row for a page neither build wrote fails as stale. Every `.xml` file
-  either wrote — the feeds and the sitemap — is compared the same way as XML
-  (`bin/parity/xml.ts`): read strictly with `@xmldom/xmldom` (pinned exactly, with the
-  well-formedness checks it does not make in `bin/parity/xml-read.ts`), elements and
-  attributes by namespace, a feed's entries in order by guid or id, the sitemap's urls as
-  a set by `loc`, dates as instants where each side matches its element's grammar
-  (`date-spelling`), each entry's content as rendered HTML through the page classes once
-  both sides' links on the site's origin are written back as the page writes them
-  (`bin/parity/feed-content.ts`, which first fails a relative url left in ours), and the
-  sitemap's three differences Eric chose (`sitemap-feed-entries`, `sitemap-unlisted-page`,
-  `sitemap-undated-lastmod`) and the Atom feeds' alternate links' slash
-  (`feed-alternate-slash`), each counted under its file's row; md-photo-wrap takes the
-  shape posthtml gave the feeds' photos. Then every file both wrote for an `index.ts` or
-  `worker.ts` under `www/`, and under esbuild's asset path, byte for byte
-  (`bin/parity/scripts.ts`), setting Eleventy's unhashed stubs aside by their content and
-  counting them. `-- --no-build`
-  compares the dists already there, where a page or a bundle `lem dev` left from an
-  earlier edit fails as one only Lemmon wrote. It runs under `node --conditions=source`
-  so the shell loads from the lemmon checkout's source
+- `npm run parity` builds both sides — Eleventy under `TZ=UTC`, as CD's runner builds
+  it, so its RSS `pubDate`s are spelled in `GMT` as production's are (on this machine
+  they were `MST`, the same instants; nothing else moves) — and compares the whole of
+  each dist. Every file either wrote falls in exactly one category
+  (`bin/parity/inventory.ts`), by the predicate that chooses the files its comparison
+  reads: page, xml, bundle, script, passthrough. A file in none, or in several, fails
+  the run, named, and the run prints each side's count per category. Every page — each
+  `index.html` under `dist/www` or `dist/lemmon` — is compared as rendered HTML through
+  the forgiveness classes in `bin/parity/classes.ts`, each held to its count in
+  `bin/parity/expected.ts`. Every page either dist holds is compared, and needs a row in
+  `EXPECTED` (`generator` and `css-bundle` fire on every page, so a page without one
+  fails); a page only one build wrote fails as missing from the other, and a row for a
+  page neither build wrote fails as stale. Every `.xml` file either wrote — the feeds and
+  the sitemap — is compared the same way as XML (`bin/parity/xml.ts`): read strictly with
+  `@xmldom/xmldom` (pinned exactly, with the well-formedness checks it does not make in
+  `bin/parity/xml-read.ts`), elements and attributes by namespace, a feed's entries in
+  order by guid or id, the sitemap's urls as a set by `loc`, dates as instants where each
+  side matches its element's grammar (`date-spelling`), each entry's content as rendered
+  HTML through the page classes once both sides' links on the site's origin are written
+  back as the page writes them (`bin/parity/feed-content.ts`, which first fails a
+  relative url left in ours), and the sitemap's three differences Eric chose
+  (`sitemap-feed-entries`, `sitemap-unlisted-page`, `sitemap-undated-lastmod`) and the
+  Atom feeds' alternate links' slash (`feed-alternate-slash`), each counted under its
+  file's row; md-photo-wrap takes the shape posthtml gave the feeds' photos. Each build's
+  CSS bundles, ours under `/assets/immutable/bundle/` and Eleventy's under
+  `/assets/immutable/11ty/bundle/`, are named differently, so they are compared through
+  the pages that link them (`css-bundle`), and a bundle no page links fails. Then every
+  file both wrote for an `index.ts` or `worker.ts` under `www/`, and under esbuild's
+  asset path (the `.wasm`), byte for byte (`bin/parity/scripts.ts`), setting Eleventy's
+  unhashed stubs aside by their content and counting them — one beside each entry bundle
+  Eleventy wrote, as `11ty/esbuild.ts` writes them, so a stub missing fails, naming its
+  bundle; and every passthrough file — one at the path of a file in `www/`, whichever
+  glob copied it — byte for byte, so a file one build's glob misses fails as missing
+  from it. Whether a side wrote a page or a file is its own listing's to say, by the
+  exact url, never this machine's file system's, which finds a name in another letter
+  case or Unicode form where S3 would not: two builds naming one file differently fail
+  as missing from each. `-- --no-build` compares the dists already there, where a page
+  `lem dev` left from an earlier edit fails as one only Lemmon wrote, and a bundle as
+  one no page links. It runs under `node --conditions=source` so the shell loads from
+  the lemmon checkout's source
 - `npm run parity:look`, run after `npm run parity`, checks that the pages it compares
   also look the same. It builds nothing, and shoots no page parity's own comparison fails:
   it serves both dists, shoots each page in the installed Google Chrome (needed;

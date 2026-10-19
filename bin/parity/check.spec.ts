@@ -4,22 +4,28 @@ import { join } from 'node:path'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
 import {
+  bundleLines,
   bundlesIn,
   comparePage,
   failed,
-  filesIn,
   miscounts,
   pageAt,
   pagesIn,
   reportLines,
   rosterOf,
   staleRows,
+  unlinked,
   type PageReport,
 } from './check.ts'
-import { bundleName } from './classes.ts'
+import { bundleName, type Bundles } from './classes.ts'
 
 const SIDES = { ours: 'dist/lemmon', theirs: 'dist/www' }
-const NO_CSS = { ours: new Map(), theirs: new Map(), globals: '' }
+const NO_CSS = {
+  ours: new Map(),
+  theirs: new Map(),
+  globals: '',
+  linked: new Set<string>(),
+}
 const page = (body: string) =>
   `<!doctype html><html><head></head><body>${body}</body></html>`
 
@@ -50,19 +56,16 @@ describe('pagesIn()', () => {
       '404/index.html',
       'links/2026/02/07/good-taste/index.html'
     )
-    expect(await pagesIn(dist)).toEqual({
-      pages: [
-        '/',
-        '/404/',
-        '/feed/',
-        '/feed/the-rebound/',
-        '/links/2026/02/07/good-taste/',
-      ],
-      strays: [],
-    })
+    expect(await pagesIn(dist)).toEqual([
+      '/',
+      '/404/',
+      '/feed/',
+      '/feed/the-rebound/',
+      '/links/2026/02/07/good-taste/',
+    ])
   })
 
-  it('should name every other .html file a stray, and leave out what is not HTML', async () => {
+  it('should leave out every other .html file, and what is not HTML', async () => {
     await files(
       'feed.xml',
       'sitemap.xml',
@@ -74,14 +77,11 @@ describe('pagesIn()', () => {
       'assets/immutable/bundle/a.css',
       'lib/common/index.ABCDEFGH.js'
     )
-    expect(await pagesIn(dist)).toEqual({
-      pages: ['/feed/a-post/'],
-      strays: ['404.html', 'feed/a-post/photo.index.html'],
-    })
+    expect(await pagesIn(dist)).toEqual(['/feed/a-post/'])
   })
 
   it('should list nothing where the build wrote no dist', async () => {
-    expect(await pagesIn(join(dist, 'missing'))).toEqual({ pages: [], strays: [] })
+    expect(await pagesIn(join(dist, 'missing'))).toEqual([])
   })
 
   it('should fail on anything but a missing dist', async () => {
@@ -100,33 +100,59 @@ describe('rosterOf()', () => {
     ])
   })
 
-  it('should fail a page only one build wrote, as missing from the other', async () => {
+  /**
+   * The report on every page of two dists holding a page at each path given, read as
+   * parity.ts reads them: each side by its own listing.
+   */
+  const reports = async (paths: { ours: string[]; theirs: string[] }) => {
     const dist = await mkdtemp(join(tmpdir(), 'parity-roster-'))
     try {
-      for (const side of ['ours', 'theirs']) {
-        await mkdir(join(dist, side, 'both'), { recursive: true })
-        await writeFile(join(dist, side, 'both', 'index.html'), page('x'))
-      }
-      await mkdir(join(dist, 'theirs', 'only'), { recursive: true })
-      await writeFile(join(dist, 'theirs', 'only', 'index.html'), page('x'))
       const sides = { ours: join(dist, 'ours'), theirs: join(dist, 'theirs') }
-      const urls = rosterOf(
-        (await pagesIn(sides.ours)).pages,
-        (await pagesIn(sides.theirs)).pages
-      )
-      expect(urls).toEqual(['/both/', '/only/'])
-      const report = comparePage({
-        url: '/only/',
-        ours: await pageAt(sides.ours, '/only/'),
-        theirs: await pageAt(sides.theirs, '/only/'),
-        css: NO_CSS,
-        expected: {},
-      })
-      expect(report.missing).toBe('ours')
-      expect(failed(report)).toBe(true)
+      for (const side of ['ours', 'theirs'] as const) {
+        for (const path of paths[side]) {
+          await mkdir(join(sides[side], path), { recursive: true })
+          await writeFile(join(sides[side], path, 'index.html'), page('x'))
+        }
+      }
+      const pages = { ours: await pagesIn(sides.ours), theirs: await pagesIn(sides.theirs) }
+      const found: Record<string, 'ours' | 'theirs' | 'ok'> = {}
+      for (const url of rosterOf(pages.ours, pages.theirs)) {
+        const report = comparePage({
+          url,
+          ours: await pageAt(sides.ours, url, pages.ours),
+          theirs: await pageAt(sides.theirs, url, pages.theirs),
+          css: NO_CSS,
+          expected: {},
+        })
+        expect(failed(report), url).toBe(report.missing !== undefined)
+        found[url] = report.missing ?? 'ok'
+      }
+      return found
     } finally {
       await rm(dist, { recursive: true, force: true })
     }
+  }
+
+  it('should fail a page only one build wrote, as missing from the other', async () => {
+    expect(await reports({ ours: ['both'], theirs: ['both', 'only'] })).toEqual({
+      '/both/': 'ok',
+      '/only/': 'ours',
+    })
+  })
+
+  it('should fail a page the builds name in another letter case, missing from each', async () => {
+    expect(await reports({ ours: ['Extra'], theirs: ['extra'] })).toEqual({
+      '/Extra/': 'theirs',
+      '/extra/': 'ours',
+    })
+  })
+
+  it('should fail a page the builds name in another Unicode form, missing from each', async () => {
+    const [nfc, nfd] = ['caf\u00e9', 'cafe\u0301']
+    expect(await reports({ ours: [nfc], theirs: [nfd] })).toEqual({
+      [`/${nfc}/`]: 'theirs',
+      [`/${nfd}/`]: 'ours',
+    })
   })
 })
 
@@ -141,44 +167,19 @@ describe('pageAt()', () => {
     await rm(dist, { recursive: true, force: true })
   })
 
-  it('should read a page by url, or say there is none', async () => {
+  it('should read a page only where the listing holds its url exactly', async () => {
     await mkdir(join(dist, 'feed/a-post'), { recursive: true })
     await writeFile(join(dist, 'feed/a-post/index.html'), page('a'))
-    expect(await pageAt(dist, '/feed/a-post/')).toBe(page('a'))
-    expect(await pageAt(dist, '/feed/b-post/')).toBeNull()
+    const pages = await pagesIn(dist)
+    expect(await pageAt(dist, '/feed/a-post/', pages)).toBe(page('a'))
+    expect(await pageAt(dist, '/feed/b-post/', pages)).toBeNull()
+    expect(await pageAt(dist, '/feed/A-Post/', pages)).toBeNull()
+    expect(await pageAt(dist, '/feed/a-post/', [])).toBeNull()
+  })
+
+  it('should pass on an error reading a page the listing holds', async () => {
     await mkdir(join(dist, 'feed/odd/index.html'), { recursive: true })
-    await expect(pageAt(dist, '/feed/odd/')).rejects.toThrow(/EISDIR/)
-  })
-})
-
-describe('filesIn()', () => {
-  let dist: string
-
-  beforeEach(async () => {
-    dist = await mkdtemp(join(tmpdir(), 'parity-'))
-  })
-
-  afterEach(async () => {
-    await rm(dist, { recursive: true, force: true })
-  })
-
-  it('should read each file in a directory as bytes, by its url', async () => {
-    await mkdir(join(dist, 'assets/bundle'), { recursive: true })
-    await writeFile(join(dist, 'assets/bundle/b.css'), 'b{}')
-    await writeFile(join(dist, 'assets/bundle/a.css'), 'a{}')
-    const files = await filesIn(dist, '/assets/bundle/')
-    expect([...files.keys()]).toEqual(['/assets/bundle/a.css', '/assets/bundle/b.css'])
-    expect(files.get('/assets/bundle/a.css')).toEqual(Buffer.from('a{}'))
-  })
-
-  it('should read nothing where the build wrote no such directory', async () => {
-    expect(await filesIn(dist, '/assets/bundle/')).toEqual(new Map())
-  })
-
-  it('should fail on anything but a missing directory', async () => {
-    await mkdir(join(dist, 'assets'), { recursive: true })
-    await writeFile(join(dist, 'assets/bundle'), 'not a directory')
-    await expect(filesIn(dist, '/assets/bundle/')).rejects.toThrow(/ENOTDIR/)
+    await expect(pageAt(dist, '/feed/odd/', ['/feed/odd/'])).rejects.toThrow(/EISDIR/)
   })
 })
 
@@ -241,16 +242,18 @@ describe('comparePage()', () => {
     const head = (href: string) =>
       `<!doctype html><html><head><link rel="stylesheet" href="${href}"></head>` +
       '<body></body></html>'
-    const compared = (globals: string) =>
+    const bundles = (globals: string): Bundles => ({
+      ours: new Map([[OURS, bytes]]),
+      theirs: new Map([[THEIRS, bytes]]),
+      globals,
+      linked: new Set(),
+    })
+    const compared = (globals: string, css = bundles(globals)) =>
       comparePage({
         ...post,
         ours: head(OURS),
         theirs: head(THEIRS),
-        css: {
-          ours: new Map([[OURS, bytes]]),
-          theirs: new Map([[THEIRS, bytes]]),
-          globals,
-        },
+        css,
         expected: { 'css-bundle': 1 },
       })
 
@@ -259,6 +262,16 @@ describe('comparePage()', () => {
       expect(report.comparison?.differences).toEqual([])
       expect(report.refusals).toEqual([])
       expect(failed(report)).toBe(false)
+    })
+
+    it('should leave each bundle the page links linked, and no other', () => {
+      const css = bundles(GLOBALS)
+      const spare = Buffer.from('b{}')
+      const SPARE = `/assets/immutable/bundle/${bundleName(spare)}.css`
+      css.ours.set(SPARE, spare)
+      expect(unlinked(css)).toEqual([OURS, SPARE, THEIRS])
+      expect(failed(compared(GLOBALS, css))).toBe(false)
+      expect(unlinked(css)).toEqual([SPARE])
     })
 
     it('should report why css-bundle refused, under the difference it left', () => {
@@ -349,19 +362,74 @@ describe('bundlesIn()', () => {
     await rm(dists, { recursive: true, force: true })
   })
 
-  it("should read both builds' bundles and the stylesheets", async () => {
+  /** Writes each file named, relative to `dist`, holding `text`. */
+  const write = async (dist: string, text: string, ...paths: string[]) => {
+    for (const path of paths) {
+      await mkdir(join(dist, path, '..'), { recursive: true })
+      await writeFile(join(dist, path), text)
+    }
+  }
+
+  it("should read both builds' bundles and the stylesheets, none linked", async () => {
     const [ours, theirs] = [join(dists, 'ours'), join(dists, 'theirs')]
-    await mkdir(join(ours, 'assets/immutable/bundle'), { recursive: true })
-    await writeFile(join(ours, 'assets/immutable/bundle/a.css'), 'a{}')
-    await mkdir(join(theirs, 'assets/immutable/11ty/bundle'), { recursive: true })
-    await writeFile(join(theirs, 'assets/immutable/11ty/bundle/b.css'), 'b{}')
+    await write(ours, 'a{}', 'assets/immutable/bundle/AAAAAAAAAA.css')
+    await write(theirs, 'b{}', 'assets/immutable/11ty/bundle/BBBBBBBBBB.css')
     const css = await bundlesIn(ours, theirs)
-    expect([...css.ours.keys()]).toEqual(['/assets/immutable/bundle/a.css'])
-    expect([...css.theirs.keys()]).toEqual(['/assets/immutable/11ty/bundle/b.css'])
+    expect([...css.ours.keys()]).toEqual(['/assets/immutable/bundle/AAAAAAAAAA.css'])
+    expect([...css.theirs.keys()]).toEqual(['/assets/immutable/11ty/bundle/BBBBBBBBBB.css'])
+    expect(css.ours.get('/assets/immutable/bundle/AAAAAAAAAA.css')).toEqual(
+      Buffer.from('a{}')
+    )
+    expect(css.linked).toEqual(new Set())
     const sheet = (name: string) =>
       readFile(new URL(`../../www/_includes/css/${name}.css`, import.meta.url), 'utf8')
     const sheets = await Promise.all(['normalize', 'main', 'hljs-github'].map(sheet))
     expect(css.globals).toBe(sheets.map((text) => text.trim()).join('\n'))
+  })
+
+  it('should read only what isBundle() takes for each side', async () => {
+    const [ours, theirs] = [join(dists, 'ours'), join(dists, 'theirs')]
+    const others = [
+      'assets/immutable/bundle/short.css',
+      'assets/immutable/bundle/AAAAAAAAAA.css.map',
+      'assets/immutable/bundle/x/AAAAAAAAAA.css',
+    ]
+    await write(ours, 'x', 'assets/immutable/11ty/bundle/AAAAAAAAAA.css', ...others)
+    await write(theirs, 'x', 'assets/immutable/bundle/AAAAAAAAAA.css', ...others)
+    const css = await bundlesIn(ours, theirs)
+    expect(css.ours).toEqual(new Map())
+    expect(css.theirs).toEqual(new Map())
+  })
+
+  it('should read nothing where a build wrote no dist', async () => {
+    const css = await bundlesIn(join(dists, 'ours'), join(dists, 'theirs'))
+    expect(css.ours).toEqual(new Map())
+    expect(css.theirs).toEqual(new Map())
+  })
+})
+
+describe('bundleLines()', () => {
+  const OURS = '/assets/immutable/bundle/AAAAAAAAAA.css'
+  const THEIRS = '/assets/immutable/11ty/bundle/BBBBBBBBBB.css'
+  const css = (linked: string[]): Bundles => ({
+    ours: new Map([[OURS, Buffer.from('a{}')]]),
+    theirs: new Map([[THEIRS, Buffer.from('a{}')]]),
+    globals: '',
+    linked: new Set(linked),
+  })
+
+  it('should pass where a page linked every bundle', () => {
+    expect(bundleLines(css([OURS, THEIRS]), SIDES)).toEqual([
+      'bundles: ok, 1 in dist/lemmon and 1 in dist/www, 0 linked by no page',
+    ])
+  })
+
+  it('should fail naming each bundle no page linked, on either side', () => {
+    expect(bundleLines(css([]), SIDES)).toEqual([
+      'bundles: FAIL, 1 in dist/lemmon and 1 in dist/www, 2 linked by no page',
+      `  dist/lemmon${OURS}`,
+      `  dist/www${THEIRS}`,
+    ])
   })
 })
 

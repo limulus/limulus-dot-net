@@ -3,44 +3,26 @@
 // lemmon's fidelity harness does for its own page.
 
 import { compareRendered, renderedPage, type Comparison } from '@limulus/lemmon-shell'
-import { readdir, readFile } from 'node:fs/promises'
-import { join, sep } from 'node:path'
+import { readFile } from 'node:fs/promises'
+import { join } from 'node:path'
 
-import { forgiveness, SITE_DISPLAY, type Bundles } from './classes.ts'
+import { forgiveness, isBundle, SITE_DISPLAY, type Bundles } from './classes.ts'
+import { everyFile, filesWhere } from './files.ts'
 import { readStylesheets } from '../lemmon-css.ts'
 
-/** What a build wrote as HTML: its pages' urls, and every other `.html` file. */
-export interface Written {
-  /** The url of each `index.html` at any depth: its directory's, `/` for the root's. */
-  pages: string[]
-  /** The path of every other `.html` file, which no page is written as. */
-  strays: string[]
-}
+/** Whether the file at `url` is a page: an `index.html` at any depth. */
+export const isPage = (url: string): boolean => url.endsWith('/index.html')
 
 /**
- * What the build in `dist` wrote as HTML, sorted: nothing where it wrote no such
- * directory. A page is an `index.html`; any other `.html` is a stray, which fails the
- * run, since parity would compare no page there. Feeds and the sitemap are `.xml`.
+ * The url of every page the build in `dist` wrote, sorted — its directory's, `/` for the
+ * root's — and none where it wrote no such directory. Any other `.html` file is in no
+ * category, which fails the run (inventory.ts).
  */
-export async function pagesIn(dist: string): Promise<Written> {
-  const files = await readdir(dist, { recursive: true }).catch(
-    (error: NodeJS.ErrnoException) => {
-      if (error.code === 'ENOENT') return []
-      throw error
-    }
-  )
-  const html = files
-    .map((file) => file.split(sep).join('/'))
-    .filter((file) => file.endsWith('.html'))
-  const page = (file: string): boolean =>
-    file === 'index.html' || file.endsWith('/index.html')
-  return {
-    pages: html
-      .filter(page)
-      .map((file) => `/${file.slice(0, -'index.html'.length)}`)
-      .sort(),
-    strays: html.filter((file) => !page(file)).sort(),
-  }
+export async function pagesIn(dist: string): Promise<string[]> {
+  return (await everyFile(dist))
+    .filter(isPage)
+    .map((url) => url.slice(0, -'index.html'.length))
+    .sort()
 }
 
 /**
@@ -51,43 +33,55 @@ export async function pagesIn(dist: string): Promise<Written> {
 export const rosterOf = (ours: string[], theirs: string[]): string[] =>
   [...new Set([...ours, ...theirs])].sort()
 
-/** The page a build wrote for `url`, or null if it wrote none. */
-export async function pageAt(dist: string, url: string): Promise<string | null> {
-  return readFile(join(dist, url, 'index.html'), 'utf8').catch(
-    (error: NodeJS.ErrnoException) => {
-      if (error.code === 'ENOENT') return null
-      throw error
-    }
-  )
-}
-
 /**
- * Every file a build wrote in the directory at the url path `dir`, keyed by its url,
- * read as bytes; none where it wrote no such directory.
+ * The page the build in `dist` wrote for `url`, or null where `pages`, its pagesIn(),
+ * does not hold the url exactly. The listing decides, not opening the file: this
+ * machine's file system finds a name in another letter case or Unicode form, and S3,
+ * which serves the site, does not.
  */
-export async function filesIn(dist: string, dir: string): Promise<Map<string, Buffer>> {
-  const names = await readdir(join(dist, dir)).catch((error: NodeJS.ErrnoException) => {
-    if (error.code === 'ENOENT') return []
-    throw error
-  })
-  const files = new Map<string, Buffer>()
-  for (const name of names.sort()) {
-    files.set(`${dir}${name}`, await readFile(join(dist, dir, name)))
-  }
-  return files
+export async function pageAt(
+  dist: string,
+  url: string,
+  pages: readonly string[]
+): Promise<string | null> {
+  return pages.includes(url) ? readFile(join(dist, url, 'index.html'), 'utf8') : null
 }
 
 /**
  * What comparing a page needs beside the page itself, from the dists `ours` and
  * `theirs`: both builds' CSS bundles with the global stylesheets, read up front since
- * the comparison's hooks are synchronous.
+ * the comparison's hooks are synchronous, and nothing yet linked.
  */
 export async function bundlesIn(ours: string, theirs: string): Promise<Bundles> {
   return {
-    ours: await filesIn(ours, '/assets/immutable/bundle/'),
-    theirs: await filesIn(theirs, '/assets/immutable/11ty/bundle/'),
+    ours: await filesWhere(ours, (url) => isBundle(url, 'ours')),
+    theirs: await filesWhere(theirs, (url) => isBundle(url, 'theirs')),
     globals: (await readStylesheets()).map(({ text }) => text.trim()).join('\n'),
+    linked: new Set(),
   }
+}
+
+/**
+ * Every bundle, either build's, that no page compared linked once the pages have
+ * compared: one parity never looked inside, which fails the run.
+ */
+export const unlinked = (css: Bundles): string[] =>
+  [...css.ours.keys(), ...css.theirs.keys()].filter((url) => !css.linked.has(url))
+
+/** The bundles as printed once the pages have compared: a summary, each unlinked. */
+export function bundleLines(
+  css: Bundles,
+  sides: { ours: string; theirs: string }
+): string[] {
+  const missed = unlinked(css)
+  const lines = [
+    `bundles: ${missed.length === 0 ? 'ok' : 'FAIL'}, ${css.ours.size} in ${sides.ours} ` +
+      `and ${css.theirs.size} in ${sides.theirs}, ${missed.length} linked by no page`,
+  ]
+  for (const url of missed) {
+    lines.push(`  ${css.ours.has(url) ? sides.ours : sides.theirs}${url}`)
+  }
+  return lines
 }
 
 /** The rows of the expected table for a url no page compared has. */

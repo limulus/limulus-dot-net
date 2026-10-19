@@ -18,7 +18,12 @@ import {
 
 const ORIGIN = 'https://limulus.net'
 const DC = 'http://purl.org/dc/elements/1.1/'
-const NO_CSS = { ours: new Map(), theirs: new Map(), globals: '' }
+const NO_CSS = {
+  ours: new Map(),
+  theirs: new Map(),
+  globals: '',
+  linked: new Set<string>(),
+}
 const SIDES = { ours: 'dist/lemmon', theirs: 'dist/www' }
 
 const CONTEXT: XmlContext = {
@@ -913,17 +918,51 @@ describe('reading the dists', () => {
     expect(await xmlIn(join(dist, 'nowhere'))).toEqual([])
   })
 
-  it('should read the bytes a build wrote at a url, or none', async () => {
+  it('should read the bytes a build wrote at a url its listing holds exactly', async () => {
     await write('tils/feed.xml', 'feed')
+    const files = await xmlIn(dist)
     expect(
-      new TextDecoder().decode((await xmlAt(dist, '/tils/feed.xml')) ?? undefined)
+      new TextDecoder().decode((await xmlAt(dist, '/tils/feed.xml', files)) ?? undefined)
     ).toBe('feed')
-    expect(await xmlAt(dist, '/nowhere.xml')).toBeNull()
+    expect(await xmlAt(dist, '/nowhere.xml', files)).toBeNull()
+    expect(await xmlAt(dist, '/Tils/Feed.xml', files)).toBeNull()
+    expect(await xmlAt(dist, '/tils/feed.xml', [])).toBeNull()
+  })
+
+  it('should fail a file the builds name in another case or Unicode form, on each side', async () => {
+    const [nfc, nfd] = ['/caf\u00e9.xml', '/cafe\u0301.xml']
+    const sides = { ours: join(dist, 'ours'), theirs: join(dist, 'theirs') }
+    for (const [side, url] of [
+      ['ours', '/Extra.xml'],
+      ['theirs', '/extra.xml'],
+      ['ours', nfc],
+      ['theirs', nfd],
+    ] as const) {
+      await write(`${side}${url}`, rss())
+    }
+    const files = { ours: await xmlIn(sides.ours), theirs: await xmlIn(sides.theirs) }
+    const missing: Record<string, string | undefined> = {}
+    for (const url of [...files.ours, ...files.theirs]) {
+      const report = compareXml({
+        url,
+        ours: await xmlAt(sides.ours, url, files.ours),
+        theirs: await xmlAt(sides.theirs, url, files.theirs),
+        context: CONTEXT,
+        expected: {},
+      })
+      missing[url] = report.missing
+    }
+    expect(missing).toEqual({
+      '/Extra.xml': 'theirs',
+      '/extra.xml': 'ours',
+      [nfc]: 'theirs',
+      [nfd]: 'ours',
+    })
   })
 
   it('should pass on an error reading the dist other than its absence', async () => {
     await write('feed.xml/x', 'x')
-    await expect(xmlAt(dist, '/feed.xml')).rejects.toThrow()
+    await expect(xmlAt(dist, '/feed.xml', ['/feed.xml'])).rejects.toThrow()
     await write('file', 'x')
     await expect(xmlIn(join(dist, 'file'))).rejects.toThrow()
   })

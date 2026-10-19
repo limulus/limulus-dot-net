@@ -13,7 +13,12 @@ import {
 
 const ORIGIN = 'https://limulus.net'
 const ITEM = '/feed/a-post/'
-const NO_CSS = { ours: new Map(), theirs: new Map(), globals: '' }
+const NO_CSS = {
+  ours: new Map(),
+  theirs: new Map(),
+  globals: '',
+  linked: new Set<string>(),
+}
 
 /** The urls `spans` pick out of `value`. */
 const picked = (value: string, spans: [number, number][]) =>
