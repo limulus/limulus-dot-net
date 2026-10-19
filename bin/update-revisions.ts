@@ -1,26 +1,23 @@
-import { getArticles } from './get-articles.ts'
+import { listArticles } from './revisions/articles.ts'
 import {
   computeHash,
   getCommitMessage,
   getCurrentCommit,
   loadRevisions,
   saveRevisions,
-} from './revisions.ts'
+} from './revisions/revisions.ts'
 
 async function main() {
   const revisions = await loadRevisions()
   const commit = getCurrentCommit()
 
-  const articles = await getArticles()
+  const articles = await listArticles()
   let revisionCount = 0
 
-  for (const { filePath, data, content } of articles) {
-    const title = data.title as string
-    const subhead = data.subhead as string | undefined
-
+  for (const { path, title, subhead, content } of articles) {
     const hash = computeHash(title, subhead, content)
 
-    const entry = revisions.entries[filePath] ?? { revisions: [] }
+    const entry = revisions.entries[path] ?? { revisions: [] }
     const latestRevision = entry.revisions[entry.revisions.length - 1]
 
     if (!latestRevision || latestRevision.hash !== hash) {
@@ -32,12 +29,14 @@ async function main() {
         commit,
         ...(message && { message }),
       })
-      revisions.entries[filePath] = entry
+      revisions.entries[path] = entry
       revisionCount++
+      console.log(`${path}: ${hash}`)
     }
   }
 
-  await saveRevisions(revisions)
+  // Nothing new leaves the file as it was, untouched for the watchers of `www/`.
+  if (revisionCount > 0) await saveRevisions(revisions)
   console.log(`Done. ${revisionCount} revision(s) recorded.`)
 }
 

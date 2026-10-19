@@ -35,8 +35,8 @@ export interface RevisionsFile {
 
 /**
  * The revision hash of a post: its title, subhead, and content, the content as Eleventy
- * reads it — a lem call the Lemmon port wrote hashes as the Eleventy form it stands
- * for (11ty/lemmon-calls.ts).
+ * read it — a lem call the Lemmon port wrote hashes as the Eleventy form it stands for,
+ * and a lem line with none as written (./lemmon-calls.ts).
  */
 export function computeHash(
   title: string,

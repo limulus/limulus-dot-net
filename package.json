@@ -11,7 +11,7 @@
     "clean": "del-cli *.tsbuildinfo coverage dist/www dist/infra",
     "predev": "npm run prebuild",
     "dev": "eleventy --serve --incremental",
-    "update-revisions": "node 11ty/update-revisions.ts",
+    "update-revisions": "node bin/update-revisions.ts",
     "lint": "eslint *.js *.ts 11ty bin lemmon www infra types",
     "postinstall": "patch-package",
     "prepare": "husky && mkdirp photos",

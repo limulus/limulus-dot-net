@@ -104,11 +104,19 @@ This branch ports the site to Lemmon beside Eleventy; both builds read the same 
   stylesheet as `mapboxGlStyles()`, which `map-box.lem` calls before its own block, where
   WebC bundled the stylesheet `map-box.webc` links. Edit the CSS, not the `.lem`, and
   rerun it; `npm test` fails if either has drifted
-- `11ty/lemmon-calls.ts` turns a lem call on its own line in a post back into the lines it
-  replaced — an `articlePhoto` into its WebC, a `demoWithFallback` into the penumbra
-  demo's `<div>` around the `dynamic-content-fallback` Liquid include — for Eleventy (the
-  `lemmonCalls` preprocessor) and for the revision hash, so the port records no
-  revision; a lem line it cannot translate fails both
+- `npm run update-revisions` (`bin/update-revisions.ts`, which CD runs before the build)
+  needs neither Eleventy nor a secret, and writes `www/_data/revisions.json` only when it
+  records a revision. `bin/revisions/articles.ts` lists the articles by site.lem's
+  `articles` glob and titles each by its `Post.title` default, both written a second
+  time; `npm test` fails if either copy moves without the other, or if a recorded hash
+  no longer reproduces from the article as its commit holds it
+- `bin/revisions/lemmon-calls.ts` turns a lem call on its own line in a post back into the
+  lines it replaced — an `articlePhoto` into its WebC, a `demoWithFallback` into the
+  penumbra demo's `<div>` around the `dynamic-content-fallback` Liquid include — for the
+  revision hash, for good, so the port records no revision, and for Eleventy (the
+  `lemmonCalls` preprocessor) until the cutover. A lem line it cannot translate fails
+  only Eleventy's build (`eleventyFormsOfLemmonCallsOrThrow`); the hash reads it as
+  written
 - `lemmon/` holds the port's own plugins, written against `@limulus/lemmon-shell`'s
   exports, with their specs. `svgSprite()` (`lemmon/svg-sprite.ts`) fills `page.lem`'s
   `mark("sprite")` with the inline sprite of `www/assets/svg/common`, built by svg-sprite

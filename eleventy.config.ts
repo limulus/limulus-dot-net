@@ -14,7 +14,7 @@ import markdownItTaskLists from 'markdown-it-task-lists'
 
 import dprintPlugin from './11ty/dprint.ts'
 import esbuild from './11ty/esbuild.ts'
-import { eleventyFormsOfLemmonCalls } from './11ty/lemmon-calls.ts'
+import { eleventyFormsOfLemmonCallsOrThrow } from './bin/revisions/lemmon-calls.ts'
 
 export default function (eleventyConfig: UserConfig) {
   const input = 'www'
@@ -149,9 +149,12 @@ export default function (eleventyConfig: UserConfig) {
     }
   )
 
-  // The Lemmon port's lem calls in posts, as the lines they replaced (11ty/lemmon-calls.ts).
+  // The Lemmon port's lem calls in posts, as the lines they replaced, refusing one with no
+  // such lines (bin/revisions/lemmon-calls.ts).
+  // Eleventy must keep the throwing variant, which goes at the cutover: the other renders
+  // a lem line with no Eleventy form as text.
   config.addPreprocessor('lemmonCalls', 'md', (_data: Record<string, any>, content) =>
-    eleventyFormsOfLemmonCalls(content)
+    eleventyFormsOfLemmonCallsOrThrow(content)
   )
 
   eleventyConfig.addPlugin(esbuild)
