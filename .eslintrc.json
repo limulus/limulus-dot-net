@@ -1,4 +1,5 @@
 {
+  "root": true,
   "extends": ["@limulus"],
   "ignorePatterns": ["dist/**/*"],
   "overrides": [
