@@ -52,6 +52,15 @@ describe('linkPosts', () => {
     )
   })
 
+  it("should escape the paragraph's url and domain, not [via]'s definition", () => {
+    const via = `https://a&b'"c.example/?q="x"><script>&y='z'`
+    expect(ours({ linkUrl: LINK, viaUrl: via }, '')).toBe(
+      `\n\n[link]: ${LINK}\n[via]: ${via}\n\n<p>Via <a href="https://a&amp;b&#39;` +
+        '&quot;c.example/?q=&quot;x&quot;&gt;&lt;script&gt;&amp;y=&#39;z&#39;">' +
+        'a&amp;b&#39;&quot;c.example</a>.</p>'
+    )
+  })
+
   it('should leave a linkUrl or viaUrl that is not a string to the schema', () => {
     expect(ours({ linkUrl: 3 }, 'Prose.\n')).toBe('Prose.\n')
     expect(ours({ linkUrl: LINK, viaUrl: true }, 'Prose.\n')).toBe(

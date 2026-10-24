@@ -9,9 +9,11 @@ import type { DocumentSource, JsonValue, Plugin } from '@limulus/lemmon-shell'
  * A plugin whose `transformDocument` appends to each link post — a document whose front
  * matter gives a `linkUrl` — the definition of `[link]` after a blank line, and where
  * it also gives a `viaUrl`, the definition of `[via]` and a paragraph crediting that
- * site by its domain: its host, without a leading `www.`. The text it appends is what
- * Eleventy appended, to the byte, the urls in the paragraph unescaped as Eleventy wrote
- * them; appending keeps every position in the file the author wrote.
+ * site by its domain: its host, without a leading `www.`. The paragraph is HTML, so the
+ * `viaUrl` and domain it writes are escaped there, where Eleventy wrote them raw and a
+ * quote or `<` in one broke the markup; for a `viaUrl` with none of `&<>"'` the text it
+ * appends is what Eleventy appended, to the byte. Appending keeps every position in the
+ * file the author wrote.
  *
  * A `linkUrl` or `viaUrl` that is not a string is left to the schema, which refuses it
  * when the front matter loads. A `viaUrl` that is not a URL has no domain to credit, so
@@ -32,10 +34,21 @@ function appended({ frontMatter, body }: DocumentSource): string {
   let text = `${body}\n\n[link]: ${linkUrl}`
   if (given(viaUrl)) {
     text += `\n[via]: ${viaUrl}`
-    text += `\n\n<p>Via <a href="${viaUrl}">${domainOf(viaUrl)}</a>.</p>`
+    text += `\n\n<p>Via <a href="${escaped(viaUrl)}">${escaped(domainOf(viaUrl))}</a>.</p>`
   }
   return text
 }
+
+const ENTITIES: Record<string, string> = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39;',
+}
+
+/** `text` safe in HTML as text or as a quoted attribute value. */
+const escaped = (text: string): string => text.replace(/[&<>"']/g, (c) => ENTITIES[c])
 
 /** The host of `url`, as WHATWG's URL parser gives it, without a leading `www.`. */
 function domainOf(url: string): string {
