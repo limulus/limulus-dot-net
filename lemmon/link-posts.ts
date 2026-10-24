@@ -16,9 +16,10 @@ import type { DocumentSource, JsonValue, Plugin } from '@limulus/lemmon-shell'
  * file the author wrote.
  *
  * A `linkUrl` or `viaUrl` that is not a string is left to the schema, which refuses it
- * when the front matter loads. A `viaUrl` that is not a URL has no domain to credit, so
- * the transform throws, an error at the document's front matter, as Eleventy's build
- * failed on it.
+ * when the front matter loads. The transform throws, an error at the document's front
+ * matter, on one holding whitespace, which would split the definition it is written into
+ * and a `viaUrl`'s paragraph — a newline passes WHATWG's URL parser — and on a `viaUrl`
+ * that is not a URL, which has no domain to credit, as Eleventy's build failed on it.
  */
 export function linkPosts(): Plugin {
   return { name: 'link-posts', transformDocument: appended }
@@ -31,12 +32,20 @@ const given = (value: JsonValue | undefined): value is string =>
 function appended({ frontMatter, body }: DocumentSource): string {
   const { linkUrl, viaUrl } = frontMatter
   if (!given(linkUrl)) return body
-  let text = `${body}\n\n[link]: ${linkUrl}`
+  let text = `${body}\n\n[link]: ${unbroken('linkUrl', linkUrl)}`
   if (given(viaUrl)) {
-    text += `\n[via]: ${viaUrl}`
+    text += `\n[via]: ${unbroken('viaUrl', viaUrl)}`
     text += `\n\n<p>Via <a href="${escaped(viaUrl)}">${escaped(domainOf(viaUrl))}</a>.</p>`
   }
   return text
+}
+
+/** `url`, the value of `field`, refused if it holds whitespace. */
+function unbroken(field: string, url: string): string {
+  if (/\s/.test(url)) {
+    throw new Error(`${field} may hold no whitespace, and ${JSON.stringify(url)} does`)
+  }
+  return url
 }
 
 const ENTITIES: Record<string, string> = {

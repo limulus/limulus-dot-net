@@ -68,6 +68,26 @@ describe('linkPosts', () => {
     )
   })
 
+  it('should refuse a linkUrl holding whitespace', () => {
+    expect(() => ours({ linkUrl: `${LINK}\nb` }, '')).toThrow(
+      `linkUrl may hold no whitespace, and "${LINK}\\nb" does`
+    )
+  })
+
+  it('should refuse a viaUrl holding whitespace, though it parses as a URL', () => {
+    expect(URL.canParse(`${VIA}\nc`)).toBe(true)
+    expect(() => ours({ linkUrl: LINK, viaUrl: `${VIA}\nc` }, '')).toThrow(
+      `viaUrl may hold no whitespace, and "${VIA}\\nc" does`
+    )
+  })
+
+  it('should take a url whose whitespace is percent-encoded as it is', () => {
+    const [link, via] = [`${LINK}%20b`, `${VIA}%0Ac`]
+    expect(ours({ linkUrl: link, viaUrl: via }, '')).toBe(
+      `\n\n[link]: ${link}\n[via]: ${via}\n\n<p>Via <a href="${via}">example.org</a>.</p>`
+    )
+  })
+
   it('should refuse a viaUrl that is not a URL', () => {
     expect(() => ours({ linkUrl: LINK, viaUrl: 'example.org' }, '')).toThrow(
       'viaUrl example.org is not a URL, so it has no domain to credit'
@@ -131,5 +151,20 @@ describe('a build listing linkPosts', () => {
       ],
     ])
     expect(existsSync(join(dir, 'out'))).toBe(false)
+  })
+
+  it('should stop the build at a linkUrl wrapped onto a second line', async () => {
+    await post(`linkUrl: ${LINK}\n  /b`, 'See [this][link].\n')
+    const { diagnostics } = await built()
+    expect(
+      diagnostics.map(({ path, severity, message }) => [path, severity, message])
+    ).toEqual([
+      [
+        'post.md',
+        'error',
+        "the `link-posts` plugin's `transformDocument` failed on this document: it " +
+          `threw Error: linkUrl may hold no whitespace, and "${LINK} /b" does`,
+      ],
+    ])
   })
 })
