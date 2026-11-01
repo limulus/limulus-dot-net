@@ -225,7 +225,7 @@ A template names a bundle by its path without the hash, through `asset()`:
 `<lem.asset("/lib/common/index.js")>` compiles to the hashed URL. A script that imports or
 starts another names it with 8 `X`s in place of the hash, as in
 `import '/lib/pixel-clock/index.XXXXXXXX.js'` or
-`new Worker('/lib/blur-hash/worker.XXXXXXXX.js')`.
+`new Worker(new URL('./worker.XXXXXXXX.js', import.meta.url))`.
 
 A post loads a script of its own with the `scripts` front matter property: one root path,
 without the hash, such as `/penumbra/journal/rust/lib/index.js`.
