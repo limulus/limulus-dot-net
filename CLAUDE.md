@@ -136,7 +136,8 @@ anywhere), the plugins, and the dev server's headers.
   `<lem.build.bodies[post.url.text()]>`: lemmon's body pass (D46) renders each post's body
   alone before any page, highlights it, and makes its links absolute against the config's
   `origin`, which `lemmon.config.ts` reads from `www/_data/site.json`, the same url
-  `site.info` gives the items' links. Dates print in the offset they were written in.
+  `site.info` gives the items' links. The feeds and the sitemap print every date in UTC,
+  through `.utc()`, where a page prints it in the offset it was written in.
   `www/sitemap.xml.lem` lists `site.pages`, every article (its lastmod the last revision's
   date where it has more than one, else its own, and a `video:video` for a `VideoPost`),
   every photo page and every TIL topic page, and no feed; `/feed/`, `/penumbra/` and

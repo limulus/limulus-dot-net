@@ -18,21 +18,21 @@ encoding: UTF-8
       <loc><lem.site.info.url><lem.p.url></loc>
       <lem-let newest = newestDating(p) />
       <lem-if newest>
-        <lastmod><lem.newest.date></lastmod>
+        <lastmod><lem.newest.date.utc()></lastmod>
       </lem-if>
     </url>
   </lem-for>
   <lem-for post in site.newest>
     <url>
       <loc><lem.site.info.url><lem.post.url></loc>
-      <lastmod><lem.(revisionsOf(post).drop(1).last()?.date ?? post.date)></lastmod>
+      <lastmod><lem.(revisionsOf(post).drop(1).last()?.date ?? post.date).utc()></lastmod>
       <lem-if post is VideoPost>
         <video:video>
           <video:thumbnail_loc>https://vod.limulus.net/<lem.post.vod.id>/poster.jpeg</video:thumbnail_loc>
           <video:title><lem.post.title></video:title>
           <video:description><lem.(post.subhead ?? post.teaser ?? "")></video:description>
           <video:content_loc>https://vod.limulus.net/<lem.post.vod.id>/index.m3u8</video:content_loc>
-          <video:publication_date><lem.post.date></video:publication_date>
+          <video:publication_date><lem.post.date.utc()></video:publication_date>
           <lem-if post.vod.duration>
             <video:duration><lem.post.vod.duration.seconds()></video:duration>
           </lem-if>

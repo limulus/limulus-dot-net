@@ -140,7 +140,8 @@ declare stops the build, as does a missing `date` or `author`.
 - `teaser`: A short description used on article cards and as the page meta description
   when there is no `subhead`
 - `date`: The date and time of first publication with its offset, such as
-  `2026-04-04 10:30:00 -07:00`; the site prints it in that offset
+  `2026-04-04 10:30:00 -07:00`; a page prints it in that offset, and the feeds and the
+  sitemap in UTC
 - `author`: The author's key in the [authors database]
 - `hero`: The alias of the photo in the [photos database] to use as the hero image
 - `image`: The alias of a photo used only for the preview images on article cards and Open

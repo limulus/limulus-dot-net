@@ -4,7 +4,7 @@
     <subtitle><lem.feed.subtitle></subtitle>
     <link href="<lem.site.info.url><lem.feed.url>" rel="self" />
     <link href="<lem.feed.base>/" />
-    <updated><lem.(posts.first()?.date ?? build.time)></updated>
+    <updated><lem.(posts.first()?.date ?? build.time).utc()></updated>
     <id><lem.feed.base></id>
     <author>
       <name><lem.feed.author.name></name>
@@ -16,7 +16,7 @@
       <entry>
         <title><lem.post.title></title>
         <link href="<lem.site.info.url><lem.post.url>" />
-        <updated><lem.post.date></updated>
+        <updated><lem.post.date.utc()></updated>
         <id><lem.site.info.url><lem.post.url></id>
         <content type="html"><lem.build.bodies[post.url.text()]></content>
       </entry>

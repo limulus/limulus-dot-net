@@ -19,7 +19,7 @@ author: eric
         <title><lem.post.title></title>
         <link><lem.site.info.url><lem.post.url></link>
         <description><lem.build.bodies[post.url.text()]></description>
-        <pubDate><lem.post.date.rfc822()></pubDate>
+        <pubDate><lem.post.date.utc().rfc822()></pubDate>
         <dc:creator><lem.page.author.name></dc:creator>
         <guid><lem.site.info.url><lem.post.url></guid>
       </item>
