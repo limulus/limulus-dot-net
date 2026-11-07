@@ -15,6 +15,25 @@ import { linkPosts } from './link-posts.ts'
 
 type FrontMatter = Record<string, JsonValue>
 
+/**
+ * The bindings of a build's site, whose pages lemmon must type (its D48): the post is a
+ * `Bare`, with a link post's two urls as `www/site.lem`'s `Post` has them, and a layout
+ * that passes its body through. The layout reads its record so that lemmon does not warn
+ * it is unused, which it does for now (lemmon `∆gsV`).
+ */
+const SITE_LEM = `<lem-type Bare extends Page>
+  linkUrl: url?
+  viaUrl: url?
+  layout: (Bare, html): html = bare
+</lem-type>
+
+<lem-fn bare(record: Bare, body: html)>
+  <lem-if record.draft>(a draft) </lem-if><lem.body>
+</lem-fn>
+
+<lem-let pages: [Bare] from "*.md" />
+`
+
 /** What the plugin's transform makes of `body`, given the front matter `frontMatter`. */
 function ours(frontMatter: FrontMatter, body: string): string {
   const made = linkPosts().transformDocument?.({ path: 'post.md', frontMatter, body })
@@ -101,7 +120,7 @@ describe('a build listing linkPosts', () => {
   beforeEach(async () => {
     dir = await mkdtemp(join(tmpdir(), 'link-posts-'))
     await mkdir(join(dir, 'site'))
-    await writeFile(join(dir, 'site/site.lem'), '')
+    await writeFile(join(dir, 'site/site.lem'), SITE_LEM)
   })
 
   afterEach(async () => {

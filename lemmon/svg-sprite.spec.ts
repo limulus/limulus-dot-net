@@ -18,6 +18,23 @@ import { svgSprite, type Spriter } from './svg-sprite.ts'
 
 const SVG = fileURLToPath(new URL('../www/assets/svg/', import.meta.url))
 
+/**
+ * The bindings of a build's site, whose pages lemmon must type (its D48): each is a
+ * `Bare`, whose layout passes its body through. The layout reads its record so that
+ * lemmon does not warn it is unused, which it does for now (lemmon `∆gsV`).
+ */
+const SITE_LEM = `<lem-type Bare extends Page>
+  title: string
+  layout: (Bare, html): html = bare
+</lem-type>
+
+<lem-fn bare(record: Bare, body: html)>
+  <lem-if record.draft>(a draft) </lem-if><lem.body>
+</lem-fn>
+
+<lem-let pages: [Bare] from "*.lem" />
+`
+
 /** Runs the asset hook of `plugin`, as a build does before its pages render. */
 async function prepared(plugin: Plugin): Promise<Plugin> {
   const context = { root: SVG, input: SVG, output: SVG, writes: false, env: {} }
@@ -97,7 +114,7 @@ describe('a build listing svgSprite', () => {
     icons = join(dir, 'icons')
     await mkdir(join(dir, 'site'))
     await mkdir(icons)
-    await writeFile(join(dir, 'site/site.lem'), '')
+    await writeFile(join(dir, 'site/site.lem'), SITE_LEM)
     for (const page of ['index', 'about']) {
       await writeFile(
         join(dir, `site/${page}.lem`),
