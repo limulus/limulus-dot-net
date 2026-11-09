@@ -27,6 +27,14 @@
           "date": "2026-06-28T18:40:44.770Z",
           "commit": "de19a8d",
           "message": "feat: add link article, make ai boring again"
+        },
+        {
+          "v": 1,
+          "hash": "2eadb1e66fe8",
+          "date": "2026-11-09T04:15:57.433Z",
+          "commit": "c84f74c",
+          "message": "feat: limulus.net builds with Lemmon",
+          "quiet": true
         }
       ]
     },
@@ -88,6 +96,14 @@
           "date": "2024-11-28T13:32:12-07:00",
           "commit": "a0cf31b",
           "message": "feat: aliases for photos"
+        },
+        {
+          "v": 1,
+          "hash": "dddcc162d66c",
+          "date": "2026-11-09T04:15:57.434Z",
+          "commit": "c84f74c",
+          "message": "feat: limulus.net builds with Lemmon",
+          "quiet": true
         }
       ]
     },
@@ -251,6 +267,14 @@
           "date": "2026-07-10T20:40:16.146Z",
           "commit": "e2c3ee6",
           "message": "fix: link to charity.wtf"
+        },
+        {
+          "v": 1,
+          "hash": "241224e6e5e8",
+          "date": "2026-11-09T04:15:57.434Z",
+          "commit": "c84f74c",
+          "message": "feat: limulus.net builds with Lemmon",
+          "quiet": true
         }
       ]
     },
@@ -294,6 +318,14 @@
           "date": "2025-10-30T21:14:20-07:00",
           "commit": "e229a30",
           "message": "feat: update penumbra article links to use canonical paths"
+        },
+        {
+          "v": 1,
+          "hash": "b8e06fffa377",
+          "date": "2026-11-09T04:15:57.434Z",
+          "commit": "c84f74c",
+          "message": "feat: limulus.net builds with Lemmon",
+          "quiet": true
         }
       ]
     },
@@ -387,6 +419,14 @@
           "date": "2025-10-30T21:14:20-07:00",
           "commit": "e229a30",
           "message": "feat: update penumbra article links to use canonical paths"
+        },
+        {
+          "v": 1,
+          "hash": "7dbe658523a8",
+          "date": "2026-11-09T04:15:57.434Z",
+          "commit": "c84f74c",
+          "message": "feat: limulus.net builds with Lemmon",
+          "quiet": true
         }
       ]
     },
@@ -426,6 +466,14 @@
           "date": "2025-10-30T21:14:20-07:00",
           "commit": "e229a30",
           "message": "feat: update penumbra article links to use canonical paths"
+        },
+        {
+          "v": 1,
+          "hash": "46aececeb1a1",
+          "date": "2026-11-09T04:15:57.435Z",
+          "commit": "c84f74c",
+          "message": "feat: limulus.net builds with Lemmon",
+          "quiet": true
         }
       ]
     },
@@ -451,6 +499,14 @@
           "date": "2024-10-27T18:25:07Z",
           "commit": "f160688",
           "message": "feat: feed compatible fallbacks for penumbra demos"
+        },
+        {
+          "v": 1,
+          "hash": "c38160f8d300",
+          "date": "2026-11-09T04:15:57.435Z",
+          "commit": "c84f74c",
+          "message": "feat: limulus.net builds with Lemmon",
+          "quiet": true
         }
       ]
     },
