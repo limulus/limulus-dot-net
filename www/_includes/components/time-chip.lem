@@ -1,0 +1,19 @@
+<lem-fn roundedMinutes(d: duration): int =
+  d.seconds() % 60 gte 15 || d.minutes() == 0 ? d.minutes() + 1 : d.minutes() />
+
+<lem-fn timeChip(post: Post)>
+  <lem-match post>
+    <lem-case VideoPost as videoPost>
+      <lem-let label>
+        <lem.roundedMinutes(videoPost.vod.duration ?? post.readingTime)> min watch
+      </lem-let>
+      <lem.dataChip("film-solid", null, label)>
+    </lem-case>
+    <lem-default>
+      <lem-let label>
+        <lem.roundedMinutes(post.readingTime)> min read
+      </lem-let>
+      <lem.dataChip("scroll-solid", null, label)>
+    </lem-default>
+  </lem-match>
+</lem-fn>

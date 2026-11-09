@@ -1,0 +1,52 @@
+<lem-fn video(post: Post, body: html)>
+  <lem-match post>
+    <lem-case VideoPost as videoPost>
+      <lem-let main>
+        <article class="video">
+          <lem.articleVod(videoPost.vod)>
+
+          <header>
+            <lem.articleHeader(videoPost)>
+          </header>
+
+          <lem.body>
+
+          <footer>
+            <article-footer></article-footer>
+          </footer>
+        </article>
+      </lem-let>
+      <lem-style>
+        .video {
+          & article-vod {
+            display: block;
+            margin: 1rem 0;
+          }
+
+          & video-on-demand {
+            display: block;
+            margin-left: calc(var(--body-padding) * -1);
+            max-width: 100vw;
+            width: calc(100% + var(--body-padding) * 2);
+            height: auto;
+          }
+
+          & video-on-demand img {
+            display: block;
+            width: 100%;
+            height: auto;
+          }
+
+          & footer {
+            border-top: var(--card-border);
+            margin: 4rem 0;
+          }
+        }
+      </lem-style>
+      <lem.pageLayout(post, post.title, post.subhead ?? post.teaser, true, main)>
+    </lem-case>
+    <lem-default>
+      <lem.article(post, body)>
+    </lem-default>
+  </lem-match>
+</lem-fn>

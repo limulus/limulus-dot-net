@@ -1,0 +1,25 @@
+<lem-fn atomFeed(feed: Feed, posts: [Post])>
+  <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title><lem.feed.title></title>
+    <subtitle><lem.feed.subtitle></subtitle>
+    <link href="<lem.site.info.url><lem.feed.url>" rel="self" />
+    <link href="<lem.feed.base>/" />
+    <updated><lem.(posts.first()?.date ?? build.time).utc()></updated>
+    <id><lem.feed.base></id>
+    <author>
+      <name><lem.feed.author.name></name>
+      <lem-if feed.email>
+        <email><lem.feed.email></email>
+      </lem-if>
+    </author>
+    <lem-for post in posts>
+      <entry>
+        <title><lem.post.title></title>
+        <link href="<lem.site.info.url><lem.post.url>" />
+        <updated><lem.post.date.utc()></updated>
+        <id><lem.site.info.url><lem.post.url></id>
+        <content type="html"><lem.build.bodies[post.url.text()]></content>
+      </entry>
+    </lem-for>
+  </feed>
+</lem-fn>

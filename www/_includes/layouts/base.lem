@@ -1,0 +1,98 @@
+<lem-fn docTitle(u: url): string =
+  u.text() == "/"
+    ? site.info.name
+    : site.info.name + " / " + u.text().split("/").filter(|dir| dir != "").join(" / ") />
+
+<lem-fn feedUrlOf(p: Page): url =
+  p.inputPath.startsWith("www/penumbra/") ? site.penumbra.feedUrl : site.info.feedUrl />
+
+<lem-fn base(p: Page, title: string, description: string?, body: html)>
+  <!doctype html>
+  <html lang="en">
+    <head prefix="og: https://ogp.me/ns# article: https://ogp.me/ns/article#">
+      <meta charset="utf-8">
+
+      <link rel="preload" href="/assets/fonts/mona-sans-2.eb9c59a4.woff2"
+        as="font" type="font/woff2" crossorigin>
+      <link rel="preload" href="/assets/fonts/hubot-sans.39a8d8df.woff2"
+        as="font" type="font/woff2" crossorigin>
+
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+      <link rel="icon" href="/assets/images/ldn-inverted-128.75ea619b.png" type="image/png">
+      <link rel="icon" href="/assets/svg/ldn.dcaedd8b.svg" type="image/svg+xml">
+
+      <lem.mark("styles")>
+      <lem.siteStyles()>
+
+      <title><lem.docTitle(p.url)></title>
+
+      <link rel="alternate" type="application/rss+xml" href="<lem.feedUrlOf(p)>">
+
+      <meta property="og:title" content="<lem.title>">
+      <meta property="og:type" content="<lem.(p is Post ? "article" : "website")>">
+      <meta property="og:url" content="<lem.site.info.url><lem.p.url>">
+      <lem-if description>
+        <meta property="og:description" content="<lem.description>">
+      </lem-if>
+      <meta property="og:site_name" content="<lem.site.info.name>">
+      <meta property="og:locale" content="en_US">
+
+      <lem-if p is Post>
+        <lem-let modified = listedRevisionsOf(p).last() />
+        <meta property="article:published_time" content="<lem.p.date>">
+        <lem-if modified>
+          <meta property="article:modified_time" content="<lem.modified.date>">
+        </lem-if>
+
+        <lem.ogImage(p)>
+      </lem-if>
+      <lem-if p is SitePage>
+        <lem-let preview = p.image ?? p.hero />
+        <lem-if preview>
+          <lem.ogPhoto(preview)>
+        </lem-if>
+      </lem-if>
+
+      <lem-if description>
+        <meta name="description" content="<lem.description>">
+      </lem-if>
+      <lem-if p is Post>
+        <lem-if p.author.fediverse>
+          <meta name="fediverse:creator" content="<lem.p.author.fediverse>">
+        </lem-if>
+      </lem-if>
+
+      <meta name="generator" content="<lem.build.generator>">
+
+      <script type="module" src="<lem.asset("/lib/common/index.js")>" async></script>
+      <lem.mark("head")>
+    </head>
+    <body>
+      <lem.body>
+    </body>
+  </html>
+</lem-fn>
+
+<lem-fn ogImage(post: Post)>
+  <lem-let photo = post.image ?? post.hero />
+  <lem-if photo>
+    <lem.ogPhoto(photo)>
+  <lem-else-if post is VideoPost />
+    <meta property="og:image"
+      content="https://vod.limulus.net/<lem.post.vod.id>/poster.jpeg">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="3840">
+    <meta property="og:image:height" content="2160">
+    <meta property="og:image:alt" content="<lem.post.vod.alt>">
+  </lem-if>
+</lem-fn>
+
+<lem-fn ogPhoto(photo: Photo)>
+  <lem-let md = photo.renditions.filter(|r| r.name == "md" && r.format == "jpeg")[0] />
+  <meta property="og:image" content="<lem.md.url>">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="<lem.md.width>">
+  <meta property="og:image:height" content="<lem.md.height>">
+  <meta property="og:image:alt" content="<lem.photo.description>">
+</lem-fn>

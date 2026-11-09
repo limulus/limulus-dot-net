@@ -1,0 +1,57 @@
+<lem-fn listedRevisionsOf(p: Page): [Revision] =
+  site.revisions.entries.has(p.inputPath)
+    ? site.revisions.entries[p.inputPath].revisions.drop(1).filter(|r| !r.quiet)
+    : [] />
+
+<lem-fn revisionHistory(post: Post)>
+  <lem-let revisions = listedRevisionsOf(post).reverse() />
+  <lem-let label = revisions.length() == 1 ? "Revision" : "Revisions" />
+  <revision-history class="revisionHistory">
+    <lem-if revisions.length() gt 0>
+      <details class="section-separator">
+        <summary><lem.revisions.length()> <lem.label></summary>
+        <ul>
+          <lem-for r in revisions>
+            <li>
+              <a href="https://github.com/limulus/limulus-dot-net/commit/<lem.r.commit>"
+                ><time datetime="<lem.r.date>" title="<lem.r.date.rfc822()>"
+                  ><lem.r.date.format("%Y-%m-%d %H:%M:%S")></time></a>
+              <lem-let message>
+                <lem-if r.message><span><lem.r.message></span></lem-if>
+              </lem-let>
+              <pre><code><lem.message></code></pre>
+            </li>
+          </lem-for>
+        </ul>
+      </details>
+    </lem-if>
+  </revision-history>
+  <lem-style>
+    .revisionHistory {
+      & details {
+        margin: 2rem 0;
+        font-size: var(--fine-print-font-size);
+        font-variant-numeric: tabular-nums;
+      }
+
+      & summary {
+        cursor: pointer;
+      }
+
+      & ul {
+        margin: 2em 0.5em;
+        margin-bottom: 4em;
+        list-style: none;
+      }
+
+      & ul li {
+        margin-bottom: 2em;
+      }
+
+      & ul a {
+        --var-font-wght: 500;
+        font-family: 'Hubot Sans', sans-serif;
+      }
+    }
+  </lem-style>
+</lem-fn>

@@ -1,0 +1,3 @@
+<lem-fn sitePage(p: SitePage, body: html)>
+  <lem.pageLayout(p, p.title, p.teaser, p.nav, body)>
+</lem-fn>

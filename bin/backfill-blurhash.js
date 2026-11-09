@@ -26,7 +26,7 @@ async function main() {
   console.log(`Loading ${photosJsonPath}...`)
   const photosJson = JSON.parse(await fs.readFile(photosJsonPath, 'utf8'))
 
-  // Get all photo objects (filter out string values which are alias mappings)
+  // Get all photo objects, each keyed by its alias
   const photoObjects = Object.values(photosJson).filter(
     (photo) => typeof photo === 'object' && photo !== null
   )
@@ -63,7 +63,7 @@ async function main() {
       const blurhash = await generateBlurHash(imageBuffer)
 
       // Update photos.json
-      photosJson[photo.id].blurhash = blurhash
+      photosJson[photo.alias].blurhash = blurhash
       console.log(`Added/updated blurhash for ${photo.id}: ${blurhash}`)
     } catch (error) {
       console.error(`Error processing photo ${photo.id} (${photo.title}):`, error)

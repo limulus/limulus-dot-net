@@ -1,0 +1,12 @@
+<lem-fn authorChip(author: Author, nolink: bool)>
+  <lem-let content>
+    <lem.phoPicture(author.photo, ["xs"], "", null)>
+    <lem.author.name>
+  </lem-let>
+  <lem-let chip = dataChip(null, null, content) />
+  <lem-if nolink>
+    <lem.chip>
+  <lem-else />
+    <a href="<lem.author.url>"><lem.chip></a>
+  </lem-if>
+</lem-fn>

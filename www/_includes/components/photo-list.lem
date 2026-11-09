@@ -1,0 +1,49 @@
+<lem-fn photoList(photos: [Photo])>
+  <photo-list class="photoList">
+    <ul>
+      <lem-for photo in photos>
+        <li>
+          <article>
+            <a href="/photos/<lem.photo.alias>/">
+              <header>
+                <h1 class="visually-hidden"><lem.photo.title></h1>
+              </header>
+              <lem.phoPicture(photo, ["sm"], photo.description, null)>
+            </a>
+          </article>
+        </li>
+      </lem-for>
+    </ul>
+  </photo-list>
+  <lem-style>
+    .photoList {
+      & ul {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        grid-template-rows: masonry;
+        grid-auto-flow: dense;
+        gap: 1rem;
+        box-sizing: border-box;
+        padding: 1rem;
+        margin: 0;
+        margin-left: calc(var(--body-padding) * -1);
+        width: calc(100% + var(--body-padding) * 2);
+        list-style: none;
+      }
+
+      & img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: var(--card-border-radius);
+      }
+
+      @supports not (grid-template-rows: masonry) {
+        & img {
+          object-fit: cover;
+          aspect-ratio: 1 / 1;
+        }
+      }
+    }
+  </lem-style>
+</lem-fn>

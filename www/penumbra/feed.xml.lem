@@ -1,0 +1,10 @@
+---
+type: Feed
+url: /penumbra/feed.xml
+title: Penumbra Development Journal
+subtitle: Tracking the development of Penumbra, a web-centric ray tracer.
+base: https://limulus.net/penumbra
+author: eric
+email: eric@limulus.net
+---
+<lem.atomFeed(page, site.penumbraPosts)>

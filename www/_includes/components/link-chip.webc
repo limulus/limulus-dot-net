@@ -1,9 +1,0 @@
-<script webc:type="js">
-  const chip = /* HTML */ `
-    <data-chip @icon="link-solid-full">
-      ${linkDomain}
-    </data-chip>
-  `
-
-  nolink ? chip : `<a href="${linkUrl}">${chip}</a>`
-</script>

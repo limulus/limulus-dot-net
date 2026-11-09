@@ -1,0 +1,9 @@
+---
+title: Photos
+image: photos-page-2024-11-29
+teaser: >-
+  A collection of Eric McCarthy’s photos.
+---
+<h1><lem.page.title></h1>
+
+<lem.photoList(site.gallery)>

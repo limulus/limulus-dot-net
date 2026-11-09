@@ -1,0 +1,27 @@
+<lem-fn srcset(renditions: [Rendition])>
+  <lem-for r, i in renditions><lem-if i gt 0>, </lem-if><lem.r.url> <lem.r.width>w</lem-for>
+</lem-fn>
+
+<lem-fn phoPicture(photo: Photo, names: [string], alt: string, class: string?)>
+  <lem-let wanted = photo.renditions
+    .filter(|r| r.name in names)
+    .sortBy(|r| 0 - r.width) />
+  <lem-let avif = wanted.filter(|r| r.format == "avif") />
+  <lem-let jpeg = wanted.filter(|r| r.format == "jpeg") />
+  <lem-let largest = jpeg[0] />
+  <pho-picture<lem-if class> class="<lem.class>"</lem-if>>
+    <blur-hash<lem-if photo.blurhash> blurhash="<lem.photo.blurhash>"</lem-if>
+      width="<lem.largest.width>" height="<lem.largest.height>">
+      <picture>
+        <source srcset="<lem.srcset(avif)>" type="image/avif"
+          width="<lem.largest.width>" height="<lem.largest.height>">
+        <source srcset="<lem.srcset(jpeg)>" type="image/jpeg"
+          width="<lem.largest.width>" height="<lem.largest.height>">
+        <img async crossorigin="anonymous" loading="lazy" decoding="async"
+          src="<lem.largest.url>" srcset="<lem.srcset(jpeg)>" alt="<lem.alt>"
+          width="<lem.largest.width>" height="<lem.largest.height>"<lem-if class>
+          class="<lem.class>"</lem-if>>
+      </picture>
+    </blur-hash>
+  </pho-picture>
+</lem-fn>

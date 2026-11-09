@@ -1,4 +1,5 @@
 ---
+type: VideoPost
 tags:
   - article
   - video

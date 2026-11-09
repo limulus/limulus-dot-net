@@ -11,6 +11,8 @@ import { PassThrough } from 'node:stream'
 import prettyBytes from 'pretty-bytes'
 import sharp from 'sharp'
 
+import { photoDbText, withPhoto } from './photos/photo-db.ts'
+
 const baseUrl = `https://pho.limulus.net`
 
 const presets = [
@@ -233,10 +235,8 @@ async function processFile(file) {
     {
       title: 'Update Photo Database',
       task: async () => {
-        const index = JSON.parse(await readFile(photosDb, 'utf8'))
-        index[alias] = id
-        index[id] = json
-        await writeFile(photosDb, JSON.stringify(index, null, 2) + '\n')
+        const db = JSON.parse(await readFile(photosDb, 'utf8'))
+        await writeFile(photosDb, photoDbText(withPhoto(db, json)))
         report.push({ id, alias })
       },
     },

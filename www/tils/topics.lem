@@ -1,0 +1,12 @@
+---
+type: TilTopicPage
+for:
+  topic: site.tilTopics
+---
+<h1><lem.page.title></h1>
+
+<lem-if page.teaser>
+  <p><lem.page.teaser></p>
+</lem-if>
+
+<lem.articleList(site.tilPosts.filter(|post| post.tilTopic == page.topic))>

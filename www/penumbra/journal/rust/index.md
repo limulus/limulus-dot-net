@@ -14,7 +14,7 @@ imageAlt: >-
 teaser: >-
   Switching from JavaScript to Rust/WebAssembly has (unsurprisingly) significantly increased
   performance!
-scripts: ./lib/index.js
+scripts: /penumbra/journal/rust/lib/index.js
 ---
 
 I’ve [previously] [mentioned] my intention to eventually switch from targeting JavaScript to
@@ -28,11 +28,7 @@ have done so far to target WebAssembly using [SIMD] instructions. Here’s the p
 [simd]: https://en.wikipedia.org/wiki/Single_instruction,_multiple_data
 [sphere’s shadow demo]: ../ray-sphere-interactions/#demo
 
-<div>
-  <sphere-shadow-js-vs-wasm>
-    {% include 'dynamic-content-fallback' %}
-  </sphere-shadow-js-vs-wasm>
-</div>
+<lem.demoWithFallback("sphere-shadow-js-vs-wasm")>
 
 Click and drag (or touch and drag) to change the position of the light source, and thus
 change the shape of the sphere’s shadow. Change the resolution via the dropdown to observe

@@ -1,0 +1,9 @@
+<lem-fn linkChip(linkUrl: url, linkDomain: string, nolink: bool)>
+  <lem-let domain><lem.linkDomain></lem-let>
+  <lem-let chip = dataChip("link-solid-full", null, domain) />
+  <lem-if nolink>
+    <lem.chip>
+  <lem-else />
+    <a href="<lem.linkUrl>"><lem.chip></a>
+  </lem-if>
+</lem-fn>

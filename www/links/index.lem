@@ -1,0 +1,16 @@
+---
+title: Links
+teaser: >-
+  Things worth reading or watching, with a bit of my commentary.
+---
+<h1><lem.page.title></h1>
+
+<lem-if page.teaser>
+  <p><lem.page.teaser></p>
+</lem-if>
+
+<lem-if site.linkPosts.length() gt 0>
+  <lem.articleList(site.linkPosts)>
+<lem-else />
+  <p>No links yet.</p>
+</lem-if>

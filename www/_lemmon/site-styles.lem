@@ -1,0 +1,822 @@
+<lem-fn siteStyles()>
+  <lem-style>
+    /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
+
+    /* Document
+       ========================================================================== */
+
+    /**
+     * 1. Correct the line height in all browsers.
+     * 2. Prevent adjustments of font size after orientation changes in iOS.
+     */
+
+    html {
+      line-height: 1.15; /* 1 */
+      -webkit-text-size-adjust: 100%; /* 2 */
+    }
+
+    /* Sections
+       ========================================================================== */
+
+    /**
+     * Remove the margin in all browsers.
+     */
+
+    body {
+      margin: 0;
+    }
+
+    /**
+     * Render the `main` element consistently in IE.
+     */
+
+    main {
+      display: block;
+    }
+
+    /**
+     * Correct the font size and margin on `h1` elements within `section` and
+     * `article` contexts in Chrome, Firefox, and Safari.
+     */
+
+    h1 {
+      font-size: 2em;
+      margin: 0.67em 0;
+    }
+
+    /* Grouping content
+       ========================================================================== */
+
+    /**
+     * 1. Add the correct box sizing in Firefox.
+     * 2. Show the overflow in Edge and IE.
+     */
+
+    hr {
+      box-sizing: content-box; /* 1 */
+      height: 0; /* 1 */
+      overflow: visible; /* 2 */
+    }
+
+    /**
+     * 1. Correct the inheritance and scaling of font size in all browsers.
+     * 2. Correct the odd `em` font sizing in all browsers.
+     */
+
+    pre {
+      font-family: monospace, monospace; /* 1 */
+      font-size: 1em; /* 2 */
+    }
+
+    /* Text-level semantics
+       ========================================================================== */
+
+    /**
+     * Remove the gray background on active links in IE 10.
+     */
+
+    a {
+      background-color: transparent;
+    }
+
+    /**
+     * 1. Remove the bottom border in Chrome 57-
+     * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
+     */
+
+    abbr[title] {
+      border-bottom: none; /* 1 */
+      text-decoration: underline; /* 2 */
+      text-decoration: underline dotted; /* 2 */
+    }
+
+    /**
+     * Add the correct font weight in Chrome, Edge, and Safari.
+     */
+
+    b,
+    strong {
+      font-weight: bolder;
+    }
+
+    /**
+     * 1. Correct the inheritance and scaling of font size in all browsers.
+     * 2. Correct the odd `em` font sizing in all browsers.
+     */
+
+    code,
+    kbd,
+    samp {
+      font-family: monospace, monospace; /* 1 */
+      font-size: 1em; /* 2 */
+    }
+
+    /**
+     * Add the correct font size in all browsers.
+     */
+
+    small {
+      font-size: 80%;
+    }
+
+    /**
+     * Prevent `sub` and `sup` elements from affecting the line height in
+     * all browsers.
+     */
+
+    sub,
+    sup {
+      font-size: 75%;
+      line-height: 0;
+      position: relative;
+      vertical-align: baseline;
+    }
+
+    sub {
+      bottom: -0.25em;
+    }
+
+    sup {
+      top: -0.5em;
+    }
+
+    /* Embedded content
+       ========================================================================== */
+
+    /**
+     * Remove the border on images inside links in IE 10.
+     */
+
+    img {
+      border-style: none;
+    }
+
+    /* Forms
+       ========================================================================== */
+
+    /**
+     * 1. Change the font styles in all browsers.
+     * 2. Remove the margin in Firefox and Safari.
+     */
+
+    button,
+    input,
+    optgroup,
+    select,
+    textarea {
+      font-family: inherit; /* 1 */
+      font-size: 100%; /* 1 */
+      line-height: 1.15; /* 1 */
+      margin: 0; /* 2 */
+    }
+
+    /**
+     * Show the overflow in IE.
+     * 1. Show the overflow in Edge.
+     */
+
+    button,
+    input {
+      /* 1 */
+      overflow: visible;
+    }
+
+    /**
+     * Remove the inheritance of text transform in Edge, Firefox, and IE.
+     * 1. Remove the inheritance of text transform in Firefox.
+     */
+
+    button,
+    select {
+      /* 1 */
+      text-transform: none;
+    }
+
+    /**
+     * Correct the inability to style clickable types in iOS and Safari.
+     */
+
+    button,
+    [type='button'],
+    [type='reset'],
+    [type='submit'] {
+      -webkit-appearance: button;
+    }
+
+    /**
+     * Remove the inner border and padding in Firefox.
+     */
+
+    button::-moz-focus-inner,
+    [type='button']::-moz-focus-inner,
+    [type='reset']::-moz-focus-inner,
+    [type='submit']::-moz-focus-inner {
+      border-style: none;
+      padding: 0;
+    }
+
+    /**
+     * Restore the focus styles unset by the previous rule.
+     */
+
+    button:-moz-focusring,
+    [type='button']:-moz-focusring,
+    [type='reset']:-moz-focusring,
+    [type='submit']:-moz-focusring {
+      outline: 1px dotted ButtonText;
+    }
+
+    /**
+     * Correct the padding in Firefox.
+     */
+
+    fieldset {
+      padding: 0.35em 0.75em 0.625em;
+    }
+
+    /**
+     * 1. Correct the text wrapping in Edge and IE.
+     * 2. Correct the color inheritance from `fieldset` elements in IE.
+     * 3. Remove the padding so developers are not caught out when they zero out
+     *    `fieldset` elements in all browsers.
+     */
+
+    legend {
+      box-sizing: border-box; /* 1 */
+      color: inherit; /* 2 */
+      display: table; /* 1 */
+      max-width: 100%; /* 1 */
+      padding: 0; /* 3 */
+      white-space: normal; /* 1 */
+    }
+
+    /**
+     * Add the correct vertical alignment in Chrome, Firefox, and Opera.
+     */
+
+    progress {
+      vertical-align: baseline;
+    }
+
+    /**
+     * Remove the default vertical scrollbar in IE 10+.
+     */
+
+    textarea {
+      overflow: auto;
+    }
+
+    /**
+     * 1. Add the correct box sizing in IE 10.
+     * 2. Remove the padding in IE 10.
+     */
+
+    [type='checkbox'],
+    [type='radio'] {
+      box-sizing: border-box; /* 1 */
+      padding: 0; /* 2 */
+    }
+
+    /**
+     * Correct the cursor style of increment and decrement buttons in Chrome.
+     */
+
+    [type='number']::-webkit-inner-spin-button,
+    [type='number']::-webkit-outer-spin-button {
+      height: auto;
+    }
+
+    /**
+     * 1. Correct the odd appearance in Chrome and Safari.
+     * 2. Correct the outline style in Safari.
+     */
+
+    [type='search'] {
+      -webkit-appearance: textfield; /* 1 */
+      outline-offset: -2px; /* 2 */
+    }
+
+    /**
+     * Remove the inner padding in Chrome and Safari on macOS.
+     */
+
+    [type='search']::-webkit-search-decoration {
+      -webkit-appearance: none;
+    }
+
+    /**
+     * 1. Correct the inability to style clickable types in iOS and Safari.
+     * 2. Change font properties to `inherit` in Safari.
+     */
+
+    ::-webkit-file-upload-button {
+      -webkit-appearance: button; /* 1 */
+      font: inherit; /* 2 */
+    }
+
+    /* Interactive
+       ========================================================================== */
+
+    /*
+     * Add the correct display in Edge, IE 10+, and Firefox.
+     */
+
+    details {
+      display: block;
+    }
+
+    /*
+     * Add the correct display in all browsers.
+     */
+
+    summary {
+      display: list-item;
+    }
+
+    /* Misc
+       ========================================================================== */
+
+    /**
+     * Add the correct display in IE 10+.
+     */
+
+    template {
+      display: none;
+    }
+
+    /**
+     * Add the correct display in IE 10.
+     */
+
+    [hidden] {
+      display: none;
+    }
+  </lem-style>
+  <lem-style>
+    @font-face {
+      font-family: 'Mona Sans';
+      src:
+        url('/assets/fonts/mona-sans-2.eb9c59a4.woff2') format('woff2 supports variations'),
+        url('/assets/fonts/mona-sans-2.eb9c59a4.woff2') format('woff2-variations');
+      font-weight: 200 900;
+      font-stretch: 75% 125%;
+      font-optical-sizing: auto;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'Hubot Sans';
+      src:
+        url('/assets/fonts/hubot-sans.39a8d8df.woff2') format('woff2 supports variations'),
+        url('/assets/fonts/hubot-sans.39a8d8df.woff2') format('woff2-variations');
+      font-weight: 200 900;
+      font-stretch: 75% 125%;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'Monaspace Neon';
+      src:
+        url('/assets/fonts/monaspace-neon-1301.e19aeeb2.woff2')
+          format('woff2 supports variations'),
+        url('/assets/fonts/monaspace-neon-1301.e19aeeb2.woff2') format('woff2-variations');
+      font-weight: 200 800;
+      font-display: swap;
+    }
+
+    /**
+     * Fix variable font inheritance:
+     * https://pixelambacht.nl/2019/fixing-variable-font-inheritance/
+     */
+    :root {
+      --var-font-wght: 400;
+      --var-font-slnt: 0;
+    }
+    * {
+      font-variation-settings:
+        'wght' var(--var-font-wght),
+        'slnt' var(--var-font-slnt);
+    }
+    body {
+      font-family: 'Mona Sans', sans-serif;
+      --var-font-wght: 400;
+      --var-font-slnt: 0;
+    }
+    i,
+    em {
+      --var-font-slnt: -10;
+      font-synthesis: none;
+    }
+    b,
+    strong,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      --var-font-wght: 700;
+      font-synthesis: none;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    header nav,
+    hgroup p,
+    figcaption {
+      font-stretch: semi-expanded;
+      font-family: 'Hubot Sans', sans-serif;
+    }
+
+    .section-separator::before,
+    .footnotes::before {
+      content: '';
+      display: block;
+      border-top: var(--card-border);
+      margin: 2rem auto;
+      width: 70%;
+    }
+
+    .footnotes {
+      font-size: var(--fine-print-font-size);
+    }
+
+    :root {
+      --background-color: #f3f3f3;
+      --body-padding: 2rem;
+      --body-max-width: 45rem;
+      --card-background-color: #f6f6f6;
+      --card-border: var(--hairline-pixels) solid var(--card-border-color);
+      --card-border-color: #999;
+      --card-border-radius: 0.66666rem;
+      --card-box-shadow: 0 0 0.2rem var(--card-box-shadow-color);
+      --card-box-shadow-color: rgba(0, 0, 0, 0.2);
+      --card-padding: 0.75rem 1rem;
+      --chip-background-color: #e0e0e0;
+      --color: #333;
+      --fine-print-font-size: 0.85rem;
+      --hairline-pixels: 1px;
+      --inline-text-highlight-color: #e8e8e8;
+    }
+
+    html {
+      background-color: var(--background-color);
+      color: var(--color);
+      font-size: 20px;
+      line-height: 1.6;
+      overflow-y: scroll;
+    }
+    body {
+      margin: 0 auto;
+      max-width: var(--body-max-width);
+      padding: 0 var(--body-padding) var(--body-padding) var(--body-padding);
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      line-height: 1.3;
+    }
+
+    a {
+      color: #333;
+    }
+    a:visited {
+      color: inherit;
+    }
+    a:active {
+      color: #777;
+    }
+
+    /* https://www.a11yproject.com/posts/how-to-hide-content/ */
+    .visually-hidden:not(:focus):not(:active) {
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      height: 1px;
+      overflow: hidden;
+      position: absolute;
+      white-space: nowrap;
+      width: 1px;
+    }
+    .visually-hidden:focus {
+      position: absolute;
+    }
+
+    h1:first-of-type {
+      margin-top: 0;
+    }
+
+    code {
+      font-family: 'Monaspace Neon', monospace;
+      /**
+       * Need to put this here instead of @font-face due to a bug in Chromium:
+       * https://bugs.chromium.org/p/chromium/issues/detail?id=443467
+       */
+      font-feature-settings: 'calt', 'dlig', 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06',
+        'ss07', 'ss08';
+      font-size: 0.95em;
+    }
+
+    article code {
+      padding: 0.2rem 0.3rem;
+      margin: -0.2rem -0.1rem;
+      border-radius: 0.66666rem;
+      background-color: var(--inline-text-highlight-color);
+    }
+
+    pre > code {
+      display: block;
+      overflow-x: auto;
+      padding: var(--card-padding);
+      border: var(--card-border);
+      border-radius: var(--card-border-radius);
+      box-shadow: var(--card-box-shadow);
+      background-color: var(--card-background-color);
+      line-height: 1.5;
+      font-size: 0.8rem;
+    }
+
+    article p {
+      text-wrap-style: pretty;
+      margin-bottom: 1.5;
+    }
+
+    article blockquote {
+      margin: 0;
+      padding: 0rem 1rem;
+      border: var(--card-border);
+      border-radius: var(--card-border-radius);
+      box-shadow: var(--card-box-shadow);
+      background-color: var(--card-background-color);
+    }
+
+    figure {
+      margin: 0;
+    }
+
+    sphere-shadow::part(hud-label) {
+      font-family: 'Mona Sans', sans-serif;
+    }
+
+    sphere-shadow::part(hud-value) {
+      font-family: 'Monaspace Neon', monospace;
+      font-size: 0.9em;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --background-color: rgb(13, 17, 23);
+        --card-background-color: #20212c;
+        --card-border-color: #444;
+        --card-box-shadow-color: rgba(0, 0, 0, 0.7);
+        --chip-background-color: #20212c;
+        --color: rgb(201, 209, 217);
+        --inline-text-highlight-color: #20212c;
+      }
+
+      a {
+        color: rgb(201, 209, 217);
+      }
+      a:active {
+        color: #bbb;
+      }
+    }
+
+    @media (max-width: 599px) {
+      :root {
+        --card-padding: 0.5rem 0.75rem;
+      }
+
+      body {
+        --body-padding: 1rem;
+      }
+    }
+
+    @media (min-resolution: 2dppx) {
+      :root {
+        --hairline-pixels: 0.5px;
+      }
+    }
+  </lem-style>
+  <lem-style>
+    /*!
+      Theme: GitHub
+      Description: Light theme as seen on github.com
+      Author: github.com
+      Maintainer: @Hirse
+      Updated: 2021-05-15
+
+      Outdated base version: https://github.com/primer/github-syntax-light
+      Current colors taken from GitHub's CSS
+    */
+    .hljs {
+      color: #24292e;
+      background: #ffffff;
+    }
+    .hljs-doctag,
+    .hljs-keyword,
+    .hljs-meta .hljs-keyword,
+    .hljs-template-tag,
+    .hljs-template-variable,
+    .hljs-type,
+    .hljs-variable.language_ {
+      /* prettylights-syntax-keyword */
+      /* updated from #d73a49 to match GitHub's current keyword color for accessibility */
+      color: #cf222e;
+    }
+    .hljs-title,
+    .hljs-title.class_,
+    .hljs-title.class_.inherited__,
+    .hljs-title.function_ {
+      /* prettylights-syntax-entity */
+      color: #6f42c1;
+    }
+    .hljs-attr,
+    .hljs-attribute,
+    .hljs-literal,
+    .hljs-meta,
+    .hljs-number,
+    .hljs-operator,
+    .hljs-variable,
+    .hljs-selector-attr,
+    .hljs-selector-class,
+    .hljs-selector-id {
+      /* prettylights-syntax-constant */
+      color: #005cc5;
+    }
+    .hljs-regexp,
+    .hljs-string,
+    .hljs-meta .hljs-string {
+      /* prettylights-syntax-string */
+      color: #032f62;
+    }
+    .hljs-built_in,
+    .hljs-symbol {
+      /* prettylights-syntax-variable */
+      color: #e36209;
+    }
+    .hljs-comment,
+    .hljs-code,
+    .hljs-formula {
+      /* prettylights-syntax-comment */
+      color: #6a737d;
+    }
+    .hljs-name,
+    .hljs-quote,
+    .hljs-selector-tag,
+    .hljs-selector-pseudo {
+      /* prettylights-syntax-entity-tag */
+      color: #22863a;
+    }
+    .hljs-subst {
+      /* prettylights-syntax-storage-modifier-import */
+      color: #24292e;
+    }
+    .hljs-section {
+      /* prettylights-syntax-markup-heading */
+      color: #005cc5;
+      font-weight: bold;
+    }
+    .hljs-bullet {
+      /* prettylights-syntax-markup-list */
+      color: #735c0f;
+    }
+    .hljs-emphasis {
+      /* prettylights-syntax-markup-italic */
+      color: #24292e;
+      font-style: italic;
+    }
+    .hljs-strong {
+      /* prettylights-syntax-markup-bold */
+      color: #24292e;
+      font-weight: bold;
+    }
+    .hljs-addition {
+      /* prettylights-syntax-markup-inserted */
+      color: #22863a;
+      background-color: #f0fff4;
+    }
+    .hljs-deletion {
+      /* prettylights-syntax-markup-deleted */
+      color: #b31d28;
+      background-color: #ffeef0;
+    }
+    .hljs-char.escape_,
+    .hljs-link,
+    .hljs-params,
+    .hljs-property,
+    .hljs-punctuation,
+    .hljs-tag {
+      /* purposely ignored */
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .hljs {
+        color: #c9d1d9;
+        background: #0d1117;
+      }
+      .hljs-doctag,
+      .hljs-keyword,
+      .hljs-meta .hljs-keyword,
+      .hljs-template-tag,
+      .hljs-template-variable,
+      .hljs-type,
+      .hljs-variable.language_ {
+        /* prettylights-syntax-keyword */
+        color: #ff7b72;
+      }
+      .hljs-title,
+      .hljs-title.class_,
+      .hljs-title.class_.inherited__,
+      .hljs-title.function_ {
+        /* prettylights-syntax-entity */
+        color: #d2a8ff;
+      }
+      .hljs-attr,
+      .hljs-attribute,
+      .hljs-literal,
+      .hljs-meta,
+      .hljs-number,
+      .hljs-operator,
+      .hljs-variable,
+      .hljs-selector-attr,
+      .hljs-selector-class,
+      .hljs-selector-id {
+        /* prettylights-syntax-constant */
+        color: #79c0ff;
+      }
+      .hljs-regexp,
+      .hljs-string,
+      .hljs-meta .hljs-string {
+        /* prettylights-syntax-string */
+        color: #a5d6ff;
+      }
+      .hljs-built_in,
+      .hljs-symbol {
+        /* prettylights-syntax-variable */
+        color: #ffa657;
+      }
+      .hljs-comment,
+      .hljs-code,
+      .hljs-formula {
+        /* prettylights-syntax-comment */
+        color: #8b949e;
+      }
+      .hljs-name,
+      .hljs-quote,
+      .hljs-selector-tag,
+      .hljs-selector-pseudo {
+        /* prettylights-syntax-entity-tag */
+        color: #7ee787;
+      }
+      .hljs-subst {
+        /* prettylights-syntax-storage-modifier-import */
+        color: #c9d1d9;
+      }
+      .hljs-section {
+        /* prettylights-syntax-markup-heading */
+        color: #1f6feb;
+        font-weight: bold;
+      }
+      .hljs-bullet {
+        /* prettylights-syntax-markup-list */
+        color: #f2cc60;
+      }
+      .hljs-emphasis {
+        /* prettylights-syntax-markup-italic */
+        color: #c9d1d9;
+        font-style: italic;
+      }
+      .hljs-strong {
+        /* prettylights-syntax-markup-bold */
+        color: #c9d1d9;
+        font-weight: bold;
+      }
+      .hljs-addition {
+        /* prettylights-syntax-markup-inserted */
+        color: #aff5b4;
+        background-color: #033a16;
+      }
+      .hljs-deletion {
+        /* prettylights-syntax-markup-deleted */
+        color: #ffdcd7;
+        background-color: #67060c;
+      }
+      .hljs-char.escape_,
+      .hljs-link,
+      .hljs-params,
+      .hljs-property,
+      .hljs-punctuation,
+      .hljs-tag {
+        /* purposely ignored */
+      }
+    }
+  </lem-style>
+</lem-fn>

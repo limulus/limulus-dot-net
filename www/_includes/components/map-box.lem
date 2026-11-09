@@ -1,0 +1,85 @@
+<lem-fn mapBox(location: Location)>
+  <lem-let at>[<lem.location.longitude>, <lem.location.latitude>]</lem-let>
+  <map-box class="mapBox" marker="<lem.at>" center="<lem.at>" zoom="11">
+    <div class="placeholder">
+      <lem.svgUse("octicon-globe")>
+      <noscript>
+        <p>Enable JavaScript to view the location on the map.</p>
+      </noscript>
+    </div>
+
+    <script type="module">
+      const mapBoxElement = document.querySelector('map-box:last-of-type')
+
+      const loadMapBox = async () => {
+        mapBoxElement.classList.add('loading')
+        const loadHandler = () => {
+          mapBoxElement.classList.remove('loading')
+          mapBoxElement.removeEventListener('load', loadHandler)
+        }
+        mapBoxElement.addEventListener('load', loadHandler)
+        await import('<lem.asset("/lib/map-box/index.js")>')
+      }
+
+      const observer = new IntersectionObserver(
+        (entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              observer.unobserve(entry.target)
+              loadMapBox()
+            }
+          })
+        },
+        {
+          threshold: 0.666,
+        }
+      )
+
+      observer.observe(mapBoxElement)
+    </script>
+  </map-box>
+  <lem.mapboxGlStyles()>
+  <lem-style>
+    .mapBox {
+      & {
+        position: relative;
+        display: block;
+        height: 66.67vh;
+        margin: 4rem auto 1rem auto;
+        border-radius: var(--card-border-radius);
+        background-color: var(--chip-background-color);
+        overflow: hidden;
+      }
+
+      & .placeholder {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        fill: var(--color);
+      }
+
+      & .placeholder svg {
+        width: 8rem;
+        height: 8rem;
+      }
+
+      &.loading .placeholder {
+        animation: map-box-throbbing-fade 1.5s infinite;
+      }
+    }
+
+    @keyframes map-box-throbbing-fade {
+      0%,
+      100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.5;
+      }
+    }
+  </lem-style>
+</lem-fn>

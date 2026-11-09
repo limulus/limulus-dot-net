@@ -24,10 +24,9 @@
   },
   "include": [
     "*.ts",
-    "./11ty/",
     "./bin/",
+    "./lemmon/",
     "./www/**/*.ts",
-    "./infra/**/*.ts",
-    "./types/**/*.ts"
+    "./infra/**/*.ts"
   ]
 }

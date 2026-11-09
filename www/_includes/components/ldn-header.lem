@@ -1,0 +1,117 @@
+<lem-fn numeric(s: string): bool =
+  s.replace("0", "").replace("1", "").replace("2", "").replace("3", "").replace("4", "")
+    .replace("5", "").replace("6", "").replace("7", "").replace("8", "").replace("9", "")
+    == "" />
+
+<lem-fn ldnHeader(p: Page, nav: bool)>
+  <lem-let dirs = p.url.text().split("/").filter(|dir| dir != "" && !numeric(dir)) />
+  <lem-let source =
+    url("https://github.com/limulus/limulus-dot-net/blob/main/" + p.inputPath) />
+  <header class="ldnHeader">
+    <lem-if nav>
+      <nav>
+        <h2 class="visually-hidden">Top level navigation menu</h2>
+        <ul>
+          <li>
+            <a href="/"><lem.svgUse("ldn")></a>
+          </li>
+          <li>
+            <a href="/">limulus.net</a>
+          </li>
+          <lem-for dir, i in dirs.reverse().drop(1).reverse()>
+            <li><a href="/<lem.dirs.take(i + 1).join("/")>/"><lem.dir></a></li>
+          </lem-for>
+        </ul>
+      </nav>
+    </lem-if>
+    <section class="engagement">
+      <h2 class="visually-hidden">Please Engage</h2>
+      <ul>
+        <li>
+          <lem.pillButton(source, "code-solid", "Source", null, null)>
+        </li>
+        <li>
+          <share-button>
+            <lem.pillButton(p.url, "arrow-up-from-bracket-solid", "Share", null, null)>
+          </share-button>
+        </li>
+        <li>
+          <lem.pillButton(site.info.feedUrl, "bell-solid", "Subscribe", null, null)>
+        </li>
+      </ul>
+    </section>
+  </header>
+  <lem-style>
+    .ldnHeader {
+      & {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin: var(--body-padding) 0;
+        font-size: 1.2rem;
+        --var-font-wght: 700;
+        font-synthesis: none;
+      }
+
+      & nav {
+        flex: 1;
+        min-width: 0;
+      }
+
+      & section.engagement {
+        flex-shrink: 0;
+        align-self: flex-start;
+      }
+
+      & ul {
+        margin: 0;
+        padding: 0;
+      }
+
+      & nav ul {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      & li {
+        display: block;
+        text-wrap: nowrap;
+        white-space: nowrap;
+      }
+
+      & nav,
+      & section {
+        display: flex;
+        align-items: center;
+      }
+
+      & nav li + li::after {
+        content: '/';
+        margin: 0 0.5em;
+      }
+
+      & nav svg {
+        display: block;
+        width: 1.5em;
+        height: 1.5em;
+        margin-right: 0.8em;
+        margin-bottom: 0.4em;
+      }
+
+      & section.engagement {
+        margin-left: auto;
+      }
+
+      & section.engagement li + li {
+        margin-left: 0.5em;
+      }
+
+      & section.engagement ul {
+        display: flex;
+        flex-wrap: nowrap;
+      }
+    }
+  </lem-style>
+</lem-fn>

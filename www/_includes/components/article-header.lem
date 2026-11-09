@@ -1,0 +1,48 @@
+<lem-fn articleHeader(post: Post)>
+  <article-header class="articleHeader">
+    <lem-if post.hero>
+      <lem.articlePhoto(post.hero, .hero)>
+    </lem-if>
+    <hgroup>
+      <h1><lem.post.title></h1>
+      <lem-if post.subhead>
+        <p><lem.post.subhead></p>
+      </lem-if>
+    </hgroup>
+    <lem.chipList(null, null, articleChips(post, false))>
+  </article-header>
+  <lem-style>
+    .articleHeader {
+      & article-photo {
+        display: block;
+        margin: 1rem 0;
+      }
+
+      & hgroup {
+        margin: 0 0 1rem 0;
+      }
+
+      & hgroup h1 {
+        margin: 0 0 0.5rem 0;
+      }
+
+      & hgroup p {
+        margin: 0;
+        font-size: 1.25rem;
+        line-height: 1.5;
+        --var-font-wght: 400;
+        --var-font-slnt: -5;
+        font-synthesis: none;
+      }
+
+      & p.meta {
+        overflow: auto;
+        margin-left: 2px;
+      }
+
+      & time {
+        display: block;
+      }
+    }
+  </lem-style>
+</lem-fn>

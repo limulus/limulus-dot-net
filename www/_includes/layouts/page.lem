@@ -1,0 +1,73 @@
+<lem-fn pageLayout(p: Page, title: string, description: string?, nav: bool, body: html)>
+  <lem-let content>
+    <lem.mark("sprite")>
+
+    <a href="#main" class="visually-hidden">Skip to main content</a>
+
+    <lem.ldnHeader(p, nav)>
+
+    <main id="main">
+      <lem.body>
+    </main>
+
+    <footer>
+      <p class="copyright" xmlns:cc="http://creativecommons.org/ns#">
+        <span>
+          This work by
+          <a rel="cc:attributionURL dct:creator" property="cc:attributionName"
+            href="/eric/">Eric McCarthy</a>
+          is licensed under
+          <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"
+            rel="license noopener noreferrer">CC BY 4.0</a>.
+        </span>
+        <a class="cc-icons" href="https://creativecommons.org/licenses/by/4.0/">
+          <lem.svgUse("creative-commons")><lem.svgUse("creative-commons-by")>
+        </a>
+      </p>
+    </footer>
+
+    <lem-if p is Post>
+      <lem-if p.scripts>
+        <script type="module" src="<lem.p.scripts>" async></script>
+      </lem-if>
+    </lem-if>
+
+    <script type="module" async>
+      if (window.location.hostname.endsWith('limulus.net')) {
+        import('<lem.asset("/lib/rum/index.js")>')
+      }
+    </script>
+  </lem-let>
+  <lem-style>
+    a[href='#main'] {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+    }
+
+    footer p.copyright {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 3rem 0 2rem 0;
+      padding: 1rem;
+      text-align: center;
+      font-size: 0.9rem;
+      stroke: var(--color);
+      fill: var(--color);
+    }
+
+    footer p.copyright a.cc-icons {
+      margin: 0.5rem 0;
+    }
+
+    footer p.copyright svg {
+      display: inline-block;
+      vertical-align: text-bottom;
+      height: 2em;
+      width: 2em;
+      margin: 0 0.25em;
+    }
+  </lem-style>
+  <lem.base(p, title, description, content)>
+</lem-fn>

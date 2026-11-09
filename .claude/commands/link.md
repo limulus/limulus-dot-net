@@ -58,13 +58,13 @@ If no URL is provided, prompt the user for the URL interactively.
     ---
     ```
 
-    Note: `layout` is provided by the data cascade in `www/links/links.json`
+    Note: `layout` is `Post`'s default in `www/site.lem` (`article`)
     and should NOT be included in the frontmatter.
 
     Note: Only include the `viaUrl` field if the user provided a via URL.
 
     Note: Do NOT include a `title` field — it will be computed automatically
-    from `linkTitle` by the data cascade in `www/_data/eleventyComputed.js`.
+    from `linkTitle` by `Post.title`'s default in `www/site.lem`.
 
 11. After the frontmatter, add the post body:
 
@@ -84,7 +84,7 @@ If no URL is provided, prompt the user for the URL interactively.
 - The date MUST include the full timestamp with time, not just the date
 - Always use the `-07:00` timezone offset
 - Tags (`article` and `link`) MUST be included in the frontmatter
-- Do NOT include `layout` in the frontmatter — it is provided by the data cascade in `www/links/links.json`
-- Do NOT include `title` in the frontmatter — it is computed from `linkTitle` by `www/_data/eleventyComputed.js`
+- Do NOT include `layout` in the frontmatter — it is `Post`'s default in `www/site.lem`
+- Do NOT include `title` in the frontmatter — it is computed from `linkTitle` by `Post.title`'s default in `www/site.lem`
 - The `linkUrl` field is required and should be a full URL (e.g., `https://example.com/article`)
 - The `viaUrl` field is optional and should be a full URL if provided

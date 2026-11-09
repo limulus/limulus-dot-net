@@ -1,0 +1,56 @@
+---
+title: About Eric McCarthy
+teaser: >-
+  Eric McCarthy is a web-centric software engineer living in Tucson, Arizona.
+hero: eric-on-his-honeymoon-maui-hawaii
+---
+<header>
+  <lem-if page.hero>
+    <lem.articlePhoto(page.hero, .hero)>
+  </lem-if>
+  <h1><lem.page.title></h1>
+</header>
+
+<p>
+  I’m a web-centric software engineer living in Tucson, Arizona. This site,
+  <a href="https://limulus.net/">limulus.net</a>, is my personal website.
+</p>
+
+<p>In March 2018, <a href="https://reyes-mccarthy.wedding/">I got married</a>!</p>
+
+<!-- add more of a bio -->
+
+<h2 id="connect" tabindex="-1">Connect</h2>
+
+<ul>
+  <li>Email: <a href="mailto:eric@limulus.net" rel="me">eric@limulus.net</a></li>
+  <li>Mastodon/Fedi: <a href="https://limulus.net/@eric" rel="me">@eric@limulus.net</a></li>
+  <li>Bluesky: <a href="https://bsky.app/profile/limulus.net" rel="me">@limulus.net</a></li>
+</ul>
+
+<h3 id="tenancy-on-private-platforms" tabindex="-1">Tenancy on Private Platforms</h3>
+
+<p>
+  I am most active on fedi, but I also maintain accounts on privately-owned and
+  non-federated platforms:
+</p>
+
+<ul>
+  <li><a href="https://www.linkedin.com/in/limulus/" rel="me">LinkedIn</a></li>
+  <li><a href="https://github.com/limulus/" rel="me">GitHub</a></li>
+  <li><a href="https://www.npmjs.org/~limulus/" rel="me">npm</a></li>
+  <li><a href="https://www.facebook.com/theLimulus" rel="me">Facebook</a></li>
+</ul>
+
+<p>Note that on Facebook and LinkedIn I only connect with people I know in real life.</p>
+
+<p>I also have some inactive accounts here:</p>
+
+<ul>
+  <li><a href="https://twitter.com/limulus" rel="me">Twitter</a></li>
+  <li><a href="https://www.flickr.com/photos/limulus/" rel="me">Flickr</a></li>
+</ul>
+
+<h2>Recent Posts</h2>
+
+<lem.articleList(site.newest.filter(|post| post.author == site.authors["eric"]).take(4))>

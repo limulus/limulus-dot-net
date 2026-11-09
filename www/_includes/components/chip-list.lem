@@ -1,0 +1,65 @@
+<lem-fn chipList(size: string?, justify: string?, slot: html)>
+  <chip-list class="chipList"<lem-if size> size="<lem.size>"</lem-if><lem-if justify>
+    justify="<lem.justify>"</lem-if>>
+    <ul>
+      <lem.slot>
+    </ul>
+  </chip-list>
+  <lem-style>
+    .chipList {
+      & ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        list-style: none;
+        padding: 0;
+        margin: 0.5rem 0;
+      }
+
+      &[justify='center'] ul {
+        justify-content: center;
+      }
+
+      &[size='small'] ul {
+        font-size: 0.7rem;
+      }
+
+      & li {
+        display: flex;
+      }
+
+      & ul a,
+      & ul a:visited,
+      & ul a:hover {
+        text-decoration: none;
+        color: inherit;
+      }
+    }
+  </lem-style>
+</lem-fn>
+
+<lem-fn articleChips(post: Post, nolink: bool)>
+  <li>
+    <lem.authorChip(post.author, nolink)>
+  </li>
+  <li>
+    <lem.publishedChip(post.date)>
+  </li>
+  <lem-if post.linkUrl == null>
+    <li>
+      <lem.timeChip(post)>
+    </li>
+  </lem-if>
+  <lem-if post.tilTopic>
+    <li>
+      <lem.tilChip(post.tilTopic, nolink)>
+    </li>
+  </lem-if>
+  <lem-if post.linkUrl>
+    <lem-if post.linkDomain>
+      <li>
+        <lem.linkChip(post.linkUrl, post.linkDomain, nolink)>
+      </li>
+    </lem-if>
+  </lem-if>
+</lem-fn>

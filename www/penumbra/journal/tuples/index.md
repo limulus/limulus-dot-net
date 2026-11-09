@@ -10,7 +10,7 @@ image: projectile-cannon
 imageAlt: Screenshot of the projectile-cannon component demo.
 teaser: >-
   An interactive web component already!
-scripts: ./lib/index.js
+scripts: /penumbra/journal/tuples/lib/index.js
 ---
 
 The first chapter of the book focuses on setting up a foundational “tuple” library for
@@ -22,11 +22,7 @@ angles and velocities and have their trajectories effected by gravity and wind.
 I decided to take this a step further and create a web component that would animate the
 projectile on a canvas. Here it is in action:
 
-<div>
-  <projectile-cannon-demo>
-    {% include 'dynamic-content-fallback' %}
-  </projectile-cannon-demo>
-</div>
+<lem.demoWithFallback("projectile-cannon-demo")>
 
 I attempted to represent the <math display="inline"><mi>z</mi></math> axis by
 increasing/decreasing the size of the projectile. Something seems off with that though.

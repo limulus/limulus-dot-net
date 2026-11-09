@@ -1,0 +1,195 @@
+<lem-enum Placement = hero | left | right />
+
+<lem-type SiteInfo>
+  name: string
+  url: url
+  feedUrl: url
+</lem-type>
+
+<lem-type FeedSection>
+  feedUrl: url
+</lem-type>
+
+<lem-type Rendition>
+  name: string
+  format: string
+  url: url
+  file: string
+  width: int
+  height: int
+  size: int
+</lem-type>
+
+<lem-type Location>
+  latitude: float
+  longitude: float
+  altitude: float?
+</lem-type>
+
+<lem-type Photo>
+  id: string
+  alias: string
+  baseUrl: url
+  original: string
+  width: int
+  height: int
+  title: string
+  description: string
+  date: datetime
+  tags: [string]
+  make: string?
+  camera: string?
+  lens: string?
+  focalLength: string?
+  exposureTime: string?
+  fNumber: string?
+  iso: int?
+  flash: string?
+  exposureMode: string?
+  whiteBalance: string?
+  sourceExposureTimesOfCompositeImage: string?
+  blurhash: string?
+  location: Location?
+  renditions: [Rendition]
+  focalLengthMm: float?
+  fNumberValue: float?
+  compositeExposureSeconds: float?
+</lem-type>
+
+<lem-type Author>
+  name: string
+  fediverse: string?
+  photo: Photo by site.photos
+  url: url
+</lem-type>
+
+<lem-type Vod>
+  id: string
+  alt: string
+  duration: duration?
+</lem-type>
+
+<lem-type RevisionScheme>
+  algorithm: string
+  outputBytes: int
+  fields: [string]
+  separator: string
+</lem-type>
+
+<lem-type Revision>
+  v: int
+  hash: string
+  date: datetime
+  commit: string
+  message: string?
+  quiet: bool = false
+</lem-type>
+
+<lem-type RevisionLog>
+  revisions: [Revision]
+</lem-type>
+
+<lem-type Revisions>
+  versions: {string: RevisionScheme}
+  entries: {string: RevisionLog}
+</lem-type>
+
+<lem-type Post extends Page>
+  title: string = "Link: " + (self.linkTitle ?? "")
+  subhead: string?
+  teaser: string?
+  date: datetime
+  author: Author by site.authors
+  hero: Photo? by site.photos
+  image: Photo? by site.photos
+  imageAlt: string?
+  tags: [string] = []
+  scripts: asset?
+  linkUrl: url?
+  linkTitle: string?
+  linkDomain: string? = hostOf(self.linkUrl?.text())
+  viaUrl: url?
+  tilTopic: string? = tilTopicOf(path.split("/"))
+  readingTime: duration = body.readingTime()
+  layout: (Post, html): html = article
+</lem-type>
+
+<lem-type VideoPost extends Post>
+  vod: Vod
+  layout: (Post, html): html = video
+</lem-type>
+
+<lem-type SitePage extends Page>
+  title: string
+  subtitle: string?
+  teaser: string?
+  image: Photo? by site.photos
+  hero: Photo? by site.photos
+  nav: bool = true
+  layout: (SitePage, html): html = sitePage
+</lem-type>
+
+<lem-type PhotoPage extends SitePage>
+  photo: Photo
+  title: string = self.photo.title
+  image: Photo? = self.photo
+  url: url = photoUrl(self.photo)
+  prev: PhotoPage?
+  next: PhotoPage?
+</lem-type>
+
+<lem-type TilTopicPage extends SitePage>
+  topic: string
+  title: string = "TILs: " + self.topic
+  teaser: string? = "Things I've learned about " + self.topic + "."
+  url: url = tilTopicUrl(self.topic)
+</lem-type>
+
+<lem-type XmlFile extends Page>
+  encoding: string = "utf-8"
+  stylesheet: url?
+  layout: (XmlFile, html): html = xmlFile
+</lem-type>
+
+<lem-type Feed extends XmlFile>
+  title: string
+  subtitle: string
+  base: url
+  author: Author by site.authors
+  email: string?
+</lem-type>
+
+<lem-fn photoUrl(photo: Photo): url = url("/photos/" + photo.alias + "/") />
+
+<lem-fn tilTopicUrl(topic: string): url = url("/tils/" + topic + "/") />
+
+<lem-fn hostOf(u: string?): string? =
+  unprefixed(u?.split("/")?.drop(2)?.first()?.split("?")?.first()?.split("#")?.first()
+    ?.split("@")?.last()?.split(":")?.first()?.lower()) />
+
+<lem-fn unprefixed(host: string?): string? =
+  (host?.startsWith("www.") ?? false) ? host?.split(".")?.drop(1)?.join(".") : host />
+
+<lem-fn tilTopicOf(parts: [string]): string? =
+  parts.length() gte 3 && parts[0] == "tils" && parts[1] != "topics"
+    && parts[2] != "index" && parts[2] != "index.md"
+    ? parts[1]
+    : null />
+
+<lem-let info: SiteInfo from "_data/site.json" />
+<lem-let photos: {string: Photo} from "_data/photos.json" />
+<lem-let authors: {string: Author} from "_data/authors.json" />
+<lem-let revisions: Revisions from "_data/revisions.json" />
+<lem-let penumbra: FeedSection from "penumbra/penumbra.json" />
+<lem-let articles: [Post] from "{feed,links,penumbra,tils}/**/*.md" />
+<lem-let pages: [SitePage] from "**/index.lem" />
+<lem-let newest: [Post] = articles.sortBy(|p| p.date).reverse() />
+<lem-let linkPosts: [Post] = newest.filter(|p| p.tags.contains("link")) />
+<lem-let penumbraPosts: [Post] = newest.filter(|p| p.tags.contains("penumbra")) />
+<lem-let tilPosts: [Post] = newest.filter(|p| p.tilTopic != null) />
+<lem-let tilTopics: [string] =
+  tilPosts.groupBy(|p| p.tilTopic ?? "").keys().sortBy(|topic| topic) />
+<lem-let gallery: [Photo] = photos.values()
+  .filter(|photo| photo.tags.contains("limulus.net/photos"))
+  .sortBy(|photo| photo.date.rfc3339())
+  .reverse() />

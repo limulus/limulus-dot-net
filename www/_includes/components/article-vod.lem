@@ -1,0 +1,37 @@
+<lem-fn articleVod(vod: Vod)>
+  <article-vod class="articleVod">
+    <video-on-demand vod="<lem.vod.id>">
+      <img async crossorigin="anonymous" loading="lazy" decoding="async"
+        src="https://vod.limulus.net/<lem.vod.id>/poster.jpeg"
+        width="1280" height="720" alt="<lem.vod.alt>"
+        onload="this.classList.add('loadingAnimation')">
+      <noscript>
+        <p>Enable JavaScript to Watch</p>
+      </noscript>
+    </video-on-demand>
+
+    <script type="module" src="<lem.asset("/lib/video-on-demand/index.js")>" async></script>
+  </article-vod>
+  <lem-style>
+    .articleVod {
+      & noscript p {
+        text-align: center;
+      }
+
+      & img.loadingAnimation {
+        animation: throbbing-fade 1.5s infinite;
+        animation-delay: 0.5s;
+      }
+    }
+
+    @keyframes throbbing-fade {
+      0%,
+      100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.5;
+      }
+    }
+  </lem-style>
+</lem-fn>

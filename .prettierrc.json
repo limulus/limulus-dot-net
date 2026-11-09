@@ -3,13 +3,5 @@
   "semi": false,
   "singleQuote": true,
   "trailingComma": "es5",
-  "overrides": [
-    {
-      "files": "*.webc",
-      "options": {
-        "parser": "html"
-      }
-    }
-  ],
   "plugins": ["@prettier/plugin-xml"]
 }
