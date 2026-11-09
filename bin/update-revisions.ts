@@ -1,8 +1,10 @@
 import { listArticles } from './revisions/articles.ts'
 import {
   computeHash,
+  getCommitBody,
   getCommitMessage,
   getCurrentCommit,
+  isQuiet,
   loadRevisions,
   saveRevisions,
 } from './revisions/revisions.ts'
@@ -10,6 +12,8 @@ import {
 async function main() {
   const revisions = await loadRevisions()
   const commit = getCurrentCommit()
+  const message = getCommitMessage(commit)
+  const quiet = isQuiet(getCommitBody(commit))
 
   const articles = await listArticles()
   let revisionCount = 0
@@ -21,17 +25,17 @@ async function main() {
     const latestRevision = entry.revisions[entry.revisions.length - 1]
 
     if (!latestRevision || latestRevision.hash !== hash) {
-      const message = getCommitMessage(commit)
       entry.revisions.push({
         v: 1,
         hash,
         date: new Date().toISOString(),
         commit,
         ...(message && { message }),
+        ...(quiet && { quiet }),
       })
       revisions.entries[path] = entry
       revisionCount++
-      console.log(`${path}: ${hash}`)
+      console.log(`${path}: ${hash}${quiet ? ', quiet' : ''}`)
     }
   }
 

@@ -7,6 +7,7 @@ import { describe, it, expect } from 'vitest'
 import { readArticle } from './articles.ts'
 import {
   computeHash,
+  isQuiet,
   REVISIONS_PATH,
   type Revision,
   type RevisionsFile,
@@ -32,36 +33,47 @@ describe('computeHash', () => {
     expect(hashWithout).not.toBe(hashWith)
   })
 
-  it('hashes a post with a lem call as the same post with its WebC form', () => {
-    const lem = 'Prose.\n\n<lem.articlePhoto(site.photos["middle-falls"], .left)>\n'
-    const webc =
-      "Prose.\n\n{% renderTemplate 'webc' %}\n" +
-      '<article-photo id="middle-falls" placement="left"></article-photo>\n' +
-      '{% endrenderTemplate %}\n'
-    expect(computeHash('Title', 'Sub', lem)).toBe(computeHash('Title', 'Sub', webc))
-  })
-
-  it('hashes a demo call as the demo block with its fallback include', () => {
-    const lem = 'Prose.\n\n<lem.demoWithFallback("projectile-cannon-demo")>\n\nMore.\n'
-    const liquid =
-      'Prose.\n\n<div>\n  <projectile-cannon-demo>\n' +
-      "    {% include 'dynamic-content-fallback' %}\n" +
-      '  </projectile-cannon-demo>\n</div>\n\nMore.\n'
-    expect(computeHash('Title', 'Sub', lem)).toBe(computeHash('Title', 'Sub', liquid))
-  })
-
-  it('should hash a lem line with no Eleventy form as written, rather than fail', () => {
-    const content = 'Prose.\n\n<lem.chipList(null, raw(""))>\n'
+  it('should hash the fields joined by newlines, as shake128 to six bytes', () => {
     const asWritten = createHash('shake128', { outputLength: 6 })
-      .update(['Title', 'Sub', content].join('\n'))
+      .update(['Title', 'Sub', 'Prose.\n\n<lem.chipList(null, raw(""))>\n'].join('\n'))
       .digest('hex')
-    expect(computeHash('Title', 'Sub', content)).toBe(asWritten)
+    expect(computeHash('Title', 'Sub', 'Prose.\n\n<lem.chipList(null, raw(""))>\n')).toBe(
+      asWritten
+    )
   })
 
   it('is deterministic', () => {
     const hash1 = computeHash('Title', 'Sub', 'Body')
     const hash2 = computeHash('Title', 'Sub', 'Body')
     expect(hash1).toBe(hash2)
+  })
+})
+
+describe('isQuiet', () => {
+  it('should be false for a message with no Revision trailer', () => {
+    expect(isQuiet('fix: a typo in the-rebound\n\nThe second paragraph.\n')).toBe(false)
+  })
+
+  it('should be true for one whose Revision trailer reads quiet', () => {
+    expect(isQuiet('fix: reflow the-rebound\n\nRevision: quiet\n')).toBe(true)
+  })
+
+  it('should read the trailer beside others, its key in any case', () => {
+    const message = 'Merge branch lemmon-cutover\n\nSee-also: oAl\nrevision: quiet\n'
+    expect(isQuiet(message)).toBe(true)
+  })
+
+  it('should not take the words in a paragraph above the trailers as a trailer', () => {
+    const message =
+      'docs: say what a quiet revision is\n\nRevision: quiet\nkeeps one off the page.\n\n' +
+      'See-also: oAl\n'
+    expect(isQuiet(message)).toBe(false)
+  })
+
+  it('should refuse a Revision trailer reading anything else, naming the value', () => {
+    expect(() => isQuiet('fix: reflow the-rebound\n\nRevision: quite\n')).toThrow(
+      'a Revision trailer takes only "quiet", not "quite"'
+    )
   })
 })
 

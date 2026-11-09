@@ -141,8 +141,8 @@ anywhere), the plugins, and the dev server's headers.
   `origin`, which `lemmon.config.ts` reads from `www/_data/site.json`, the same url
   `site.info` gives the items' links. The feeds and the sitemap print every date in UTC,
   through `.utc()`, where a page prints it in the offset it was written in.
-  `www/sitemap.xml.lem` lists `site.pages`, every article (its lastmod the last revision's
-  date where it has more than one, else its own, and a `video:video` for a `VideoPost`),
+  `www/sitemap.xml.lem` lists `site.pages`, every article (its lastmod its last listed
+  revision's date, else its own, and a `video:video` for a `VideoPost`),
   every photo page and every TIL topic page, and no feed; `/feed/`, `/penumbra/` and
   `/penumbra/journal/` take their newest article's date as lastmod, and another page with no
   date of its own has none. It names its sources by hand, so a new generator or a page
@@ -187,12 +187,17 @@ anywhere), the plugins, and the dev server's headers.
   last revision did. `bin/revisions/articles.ts` lists the articles by site.lem's
   `articles` glob and titles each by its `Post.title` default, both written a second
   time; `npm test` fails if either copy moves without the other, or if a recorded hash
-  no longer reproduces from the article as its commit holds it.
-  `bin/revisions/lemmon-calls.ts` turns a lem call on its own line back into the lines it
-  replaced for the hash — an `articlePhoto` into its WebC, a `demoWithFallback` into the
-  penumbra demo's `<div>` around the `dynamic-content-fallback` Liquid include — so the
-  posts that made that change record no revision for it; the hash reads any other lem line
-  as written
+  no longer reproduces from the article as its commit holds it. A revision names the
+  commit CD built, the one a push left at its branch's tip, and takes that commit's subject
+  as its message. A `Revision: quiet` trailer on that commit (`git commit --trailer
+  'Revision: quiet'`) records every revision of the push as quiet: `listedRevisionsOf`
+  (`revision-history.lem`) leaves a quiet one out of the revision history,
+  `article:modified_time` and the sitemap's `lastmod`, and the next deploy still finds its
+  hash recorded. Any other value of that trailer stops the deploy. An article's first
+  revision, its publication, is never listed, quiet or not. A merge that should be quiet
+  carries the trailer on its merge commit, so it takes `--no-ff`, since a fast-forward
+  pushes the branch's own tip; a revision listed by mistake goes quiet by hand, with
+  `"quiet": true` added to it in `revisions.json`
 - `lemmon/` holds the site's own plugins, written against `@limulus/lemmon-shell`'s
   exports, with their specs. `svgSprite()` (`lemmon/svg-sprite.ts`) fills `page.lem`'s
   `mark("sprite")` with the inline sprite of `www/assets/svg/common`, so a new icon there

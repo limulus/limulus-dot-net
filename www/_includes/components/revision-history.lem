@@ -1,10 +1,10 @@
-<lem-fn revisionsOf(p: Page): [Revision] =
+<lem-fn listedRevisionsOf(p: Page): [Revision] =
   site.revisions.entries.has(p.inputPath)
-    ? site.revisions.entries[p.inputPath].revisions
+    ? site.revisions.entries[p.inputPath].revisions.drop(1).filter(|r| !r.quiet)
     : [] />
 
 <lem-fn revisionHistory(post: Post)>
-  <lem-let revisions = revisionsOf(post).drop(1).reverse() />
+  <lem-let revisions = listedRevisionsOf(post).reverse() />
   <lem-let label = revisions.length() == 1 ? "Revision" : "Revisions" />
   <revision-history class="revisionHistory">
     <lem-if revisions.length() gt 0>

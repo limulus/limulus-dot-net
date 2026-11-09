@@ -82,6 +82,7 @@
   date: datetime
   commit: string
   message: string?
+  quiet: bool = false
 </lem-type>
 
 <lem-type RevisionLog>

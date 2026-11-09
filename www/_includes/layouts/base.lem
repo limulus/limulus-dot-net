@@ -39,7 +39,7 @@
       <meta property="og:locale" content="en_US">
 
       <lem-if p is Post>
-        <lem-let modified = revisionsOf(p).drop(1).last() />
+        <lem-let modified = listedRevisionsOf(p).last() />
         <meta property="article:published_time" content="<lem.p.date>">
         <lem-if modified>
           <meta property="article:modified_time" content="<lem.modified.date>">

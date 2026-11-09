@@ -25,7 +25,7 @@ encoding: UTF-8
   <lem-for post in site.newest>
     <url>
       <loc><lem.site.info.url><lem.post.url></loc>
-      <lastmod><lem.(revisionsOf(post).drop(1).last()?.date ?? post.date).utc()></lastmod>
+      <lastmod><lem.(listedRevisionsOf(post).last()?.date ?? post.date).utc()></lastmod>
       <lem-if post is VideoPost>
         <video:video>
           <video:thumbnail_loc>https://vod.limulus.net/<lem.post.vod.id>/poster.jpeg</video:thumbnail_loc>
