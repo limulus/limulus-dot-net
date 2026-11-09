@@ -75,7 +75,7 @@
   },
   "devDependencies": {
     "@aws-sdk/client-cloudfront": "^3.859.0",
-    "@limulus/lemmon-shell": "file:../lemmon/packages/shell",
+    "@limulus/lemmon-shell": "^1.0.0",
     "@types/aws-cloudfront-function": "^1.0.5",
     "@types/raf": "^3.4.3",
     "@types/svg-sprite": "^0.0.39",

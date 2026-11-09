@@ -39,9 +39,6 @@ to understand this codebase.
 
 ### Running Locally
 
-The build runs [Lemmon] from a checkout of its repository beside this one, at
-`../lemmon`, with `npm install` and `npm run rust:wasm` run there. Then:
-
 ```sh
 npm install
 npm run dev
@@ -50,7 +47,8 @@ npm run dev
 `npm run dev` serves the site at http://127.0.0.1:8080/, rebuilding it and reloading the
 open pages on every change; `npm run build` writes it to `dist/www`. Both, and
 `npm run verify`, need a Mapbox public token in `MAPBOX_PUBLIC_TOKEN`, from the
-environment or a `.env` file here.
+environment or a `.env` file here. The build runs [Lemmon], installed from npm;
+`CLAUDE.md`’s Setup section says how to build with an unreleased one instead.
 
 ### Development
 

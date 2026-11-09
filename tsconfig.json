@@ -1,9 +1,5 @@
 {
   "compilerOptions": {
-    // @limulus/lemmon-shell is a file: link to the lemmon checkout, whose `source`
-    // export is its `src/`: typechecking against that, as `node --conditions=source`
-    // runs it, needs no `npm run build` there first.
-    "customConditions": ["source"],
     "esModuleInterop": true,
     "erasableSyntaxOnly": true,
     "forceConsistentCasingInFileNames": true,

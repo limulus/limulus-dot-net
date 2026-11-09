@@ -50,11 +50,14 @@
 
 ## Setup
 
-- Lemmon (`lem`, the `@limulus/lemmon-shell` devDependency) is a `file:` link to the lemmon
-  repo checked out at `../lemmon`, with `npm install` and `npm run rust:wasm` run there; how
-  CD and a fresh checkout get it instead is lemmon ∆FnH's to decide. Without it `npm ci`
-  here still succeeds, leaving a dangling link, and the failure shows only at `lem`. The
-  lemmon repo's `agents/skills/lemmon/SKILL.md` is the reference for writing `.lem`
+- Lemmon (`lem`) is the `@limulus/lemmon-shell` devDependency, installed from npm with the
+  `@limulus/lemmon-core` release it pins. To build with an unreleased Lemmon, run
+  `npm install --no-save <lemmon>/packages/shell` here against a lemmon checkout with
+  `npm install`, `npm run rust:wasm` and `npm run build` run there: `lem` then runs that
+  checkout's build, so rebuild it after each edit, and the pages' generator meta reads
+  `Lemmon 0.0.0`. `package.json` and the lockfile stay as they were, and `npm ci` puts the
+  release back. The lemmon repo's `agents/skills/lemmon/SKILL.md` is the reference for
+  writing `.lem`
 - `npm run build`, `npm run dev`, `npm run wwwc` and so `npm run verify` need
   `MAPBOX_PUBLIC_TOKEN`, which the client scripts' bundles embed: `lemmon.config.ts` reads
   it from the environment, after loading the `.env` beside it wherever `lem` starts.
