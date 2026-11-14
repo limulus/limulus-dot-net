@@ -289,6 +289,17 @@
         }
       ]
     },
+    "www/links/2026/11/14/justin-searls-is-meat-proxy/index.md": {
+      "revisions": [
+        {
+          "v": 1,
+          "hash": "3969f2c27326",
+          "date": "2026-11-14T19:59:43.654Z",
+          "commit": "d01e9d0",
+          "message": "feat: add new link 'Justin Searls Is a Meat Proxy'"
+        }
+      ]
+    },
     "www/penumbra/journal/canvas-and-matrices/index.md": {
       "revisions": [
         {
