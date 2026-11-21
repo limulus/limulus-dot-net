@@ -6,7 +6,7 @@ author: eric
 linkTitle: Surviving the AI Squeeze
 date: 2026-11-21 09:30:11 -07:00
 linkUrl: https://jonmagic.com/posts/surviving-the-ai-squeeze/
-viaUrl: https://jonmagic.com/posts/surviving-the-ai-squeeze/
+viaUrl: https://justin.searls.co/links/2026-11-20-surviving-the-ai-squeeze/
 teaser: >-
   It might be time I start working towards making a product again.
 ---
