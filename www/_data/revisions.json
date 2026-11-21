@@ -300,6 +300,17 @@
         }
       ]
     },
+    "www/links/2026/11/21/surviving-ai-squeeze/index.md": {
+      "revisions": [
+        {
+          "v": 1,
+          "hash": "2211cf025821",
+          "date": "2026-11-21T16:31:28.012Z",
+          "commit": "64de549",
+          "message": "feat: add new link 'Surviving the AI Squeeze'"
+        }
+      ]
+    },
     "www/penumbra/journal/canvas-and-matrices/index.md": {
       "revisions": [
         {
