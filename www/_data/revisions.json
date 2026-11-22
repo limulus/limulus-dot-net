@@ -550,6 +550,17 @@
         }
       ]
     },
+    "www/tils/macos/background-launchd-jobs-use-efficiency.md": {
+      "revisions": [
+        {
+          "v": 1,
+          "hash": "65276cd1a3c8",
+          "date": "2026-11-22T23:09:56.075Z",
+          "commit": "4e02d61",
+          "message": "feat: add new TIL '“Background” launchd Jobs Use Efficiency Cores'"
+        }
+      ]
+    },
     "www/tils/nodejs/type-stripping.md": {
       "revisions": [
         {
