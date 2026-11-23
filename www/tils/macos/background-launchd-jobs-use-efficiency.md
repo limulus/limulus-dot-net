@@ -1,5 +1,5 @@
 ---
-title: “Background” launchd Jobs Use Efficiency Cores
+title: “Background” launchd Jobs Only Use Efficiency Cores
 layout: article
 author: eric
 date: 2026-11-22 16:08:19 -07:00
